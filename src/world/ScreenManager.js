@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { makeRevealMaterial } from "../shaders/revealshader.js";
 
 
 /**
@@ -62,19 +63,23 @@ export class ScreenManager {
     const { texture, video } = isVideo
       ? this._makeVideoTexture(url)
       : this._makeImageTexture(url);
-
+/*
     const material = new THREE.MeshBasicMaterial({
       map: texture,
       side: THREE.FrontSide,
       toneMapped: false,
       transparent: true
     });
+    */
+    const material = makeRevealMaterial(texture);
+    material.userData = { uReveal: 1.0 }; // start hidden
 
     const geometry = new THREE.PlaneGeometry(width, height);
     const screenMesh = new THREE.Mesh(geometry, material);
     screenMesh.position.set(...position);
     screenMesh.rotation.set(...rotation);
     screenMesh.userData.isScreen = true;
+    screenMesh.userData.revealMaterial = material; // for easy access later
 
     this.scene.add(screenMesh);
 
@@ -96,6 +101,9 @@ export class ScreenManager {
       this.scene.add(podium);
       this.podiums.push(podium);
       this.clickables.push(podium);
+    }
+    if (podium) {
+      podium.userData.focusTarget = screenMesh;
     }
 
     // Text label under the screen

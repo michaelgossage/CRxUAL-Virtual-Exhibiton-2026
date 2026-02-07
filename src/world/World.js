@@ -5,6 +5,7 @@ import { ScreenManager } from "./ScreenManager.js";
 import { makeTextPlane } from "./makeTextPlane.js";
 import { ControlsFPS } from "./ControlsFPS.js";
 import { CameraFocus } from "./CameraFocus.js";
+import { makeTween01 } from "../utils/tween.js";
 
 export class World {
   constructor({ scene, camera, renderer, sizes }) {
@@ -13,7 +14,13 @@ export class World {
     this.renderer = renderer;
     this.sizes = sizes;
     this.controls = new ControlsFPS({ camera: this.camera, domElement: this.renderer.domElement, autoRotate: true, autoRotateSpeed: -0.05 });
+    // focus helper for smoothly moving camera to screens
     this.focus = new CameraFocus({ camera: this.camera });
+
+    //tween animations
+    this._tweens = [];
+    this._focusedScreen = null;
+    this._lastfocusedScreen = null;
 
     // initialise the screen manager for adding artworks
     this.screenManager = new ScreenManager({
@@ -28,6 +35,21 @@ export class World {
       // easiest: store a reference when you add screens (see below), or:
       const target = obj.userData.focusTarget || obj;
 
+     //console.log("Hit screen/podium", obj, "focusing", target);
+
+      // Hide previous focused screen
+      if (this._focusedScreen && this._focusedScreen !== target) {
+        this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.25);
+      }
+
+      this._focusedScreen = target;
+
+      if(this._focusedScreen!=this._lastfocusedScreen){
+      // REVEAL animation
+      this._animateReveal(target, 1.0, 0.0, 0.4);
+      this._lastfocusedScreen = this._focusedScreen;
+      }
+
       // if already focused, clicking another screen just refocuses
       this._enterFocusMode();
       this.focus.focusOn({ targetObject: target, distance: 2.6, heightOffset: 0.0, duration: 0.7 });
@@ -36,13 +58,20 @@ export class World {
     this.screenManager.onMiss = () => {
       // click empty space to return
       if (this._isInFocusMode()) {
+        
         this.focus.returnHome(0.7);
         this._exitFocusModeAfterMove = true;
+
+        // 🔥 HIDE animation
+        this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.3);
+        // clear focused screen immediately so you can click the same one again if you want
+        this._focusedScreen = null;
+        this._lastfocusedScreen = null;
       }
     };
 
     
-
+    
 
 
     addDefaultLights(this.scene);
@@ -99,6 +128,7 @@ export class World {
   }
 
   update(dt) {
+    //test rotation
     this.ball.rotation.y += dt * 0.6;
 
     // update controls only if not currently overriding rotation with focus
@@ -117,7 +147,14 @@ export class World {
       this.controls.resetDrag();
       this._exitFocusModeAfterMove = false;
     }
-    //this.controls.update(dt);
+    
+    // update tweens
+    // iterate backwards in case any get removed mid-loop
+    for (let i = this._tweens.length - 1; i >= 0; i--) {
+      const t = this._tweens[i];
+      t.update(dt);
+      if (t.done) this._tweens.splice(i, 1);
+    }
   }
 
   onResize() {
@@ -142,4 +179,32 @@ export class World {
     this.controls.autoRotate = this._controlsWasAutoRotate;
   }
 
+  _setReveal(mesh, v) {
+    const mat = mesh?.userData?.revealMaterial;
+    if (!mat) return;
+    mat.uniforms.uReveal.value = v;
+     console.log("Set reveal", v, "on", mesh, "material", mat);
+  }
+
+  _animateReveal(mesh, from, to, duration = 0.35) {
+    if (!mesh) return;
+   
+    // cancel existing reveal tweens on this mesh
+    this._tweens = this._tweens.filter(t => t.mesh !== mesh);
+
+    const tween = makeTween01({
+      from,
+      to,
+      duration,
+      onUpdate: (v) => this._setReveal(mesh, v)
+    });
+
+    tween.mesh = mesh;
+    this._tweens.push(tween);
+  }
+
+
+  
+
 }
+
