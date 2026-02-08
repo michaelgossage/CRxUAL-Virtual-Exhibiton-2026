@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-export function makeRevealMaterial(map) {
+export function makeRevealMaterial_(map) {
     
   return new THREE.ShaderMaterial({
     transparent: true,
@@ -44,3 +44,61 @@ export function makeRevealMaterial(map) {
     `,
   });
 }
+
+
+//import * as THREE from "three";
+
+export function makeRevealMaterial({
+  map,
+  revealMap,
+  revealSoftness = 0.15
+}) {
+  return new THREE.ShaderMaterial({
+    transparent: true,
+    depthWrite: false,
+    toneMapped: false,
+    uniforms: {
+      uMap:        { value: map },
+      uRevealMap:  { value: revealMap },
+      uReveal:     { value: 1.0 },   // 1 hidden → 0 visible
+      uSoft:       { value: revealSoftness }
+    },
+    vertexShader: /* glsl */ `
+      varying vec2 vUv;
+      void main() {
+        vUv = uv;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: /* glsl */ `
+      uniform sampler2D uMap;
+      uniform sampler2D uRevealMap;
+      uniform float uReveal;
+      uniform float uSoft;
+
+      varying vec2 vUv;
+
+      void main() {
+        vec4 color = texture2D(uMap, vUv);
+
+        
+
+        // reveal texture: assume grayscale in R channel
+        float maskValue = texture2D(uRevealMap, vUv).r;
+
+        // compare reveal threshold against mask
+        float alpha = smoothstep(
+          uReveal - uSoft,
+          uReveal + uSoft,
+          maskValue
+        );
+
+        float a = color.a * alpha;
+        if (a < 0.001) discard;
+
+        gl_FragColor = vec4(color.rgb, a);
+      }
+    `
+  });
+}
+

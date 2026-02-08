@@ -16,11 +16,15 @@ export class World {
     this.controls = new ControlsFPS({ camera: this.camera, domElement: this.renderer.domElement, autoRotate: true, autoRotateSpeed: -0.05 });
     // focus helper for smoothly moving camera to screens
     this.focus = new CameraFocus({ camera: this.camera });
+    this._controlsSaved = null;
+    this._focusState = "idle"; // idle | focusing | focused | returning
+    this._focusCooldown = 0;
+    this._focusedScreen = null;
+    this._lastfocusedScreen = null;
 
     //tween animations
     this._tweens = [];
-    this._focusedScreen = null;
-    this._lastfocusedScreen = null;
+    
 
     // initialise the screen manager for adding artworks
     this.screenManager = new ScreenManager({
@@ -31,43 +35,58 @@ export class World {
     });
 
     this.screenManager.onHit = (obj, hit) => {
-      // decide what object to focus: screen mesh if you clicked podium, or itself
+      if (this._focusCooldown > 0) return;
+      if (this.focus.isMoving) return; // ignore double clicks mid-transition
+
       // easiest: store a reference when you add screens (see below), or:
       const target = obj.userData.focusTarget || obj;
 
      //console.log("Hit screen/podium", obj, "focusing", target);
+     if (this._focusState === "idle") {
+        this.focus.setHomeFromCurrent?.(); // if your CameraFocus has it
+      }
+      this._enterFocusMode();
+      this._focusState = "focusing";
+      this._focusCooldown = 0.2;
 
       // Hide previous focused screen
       if (this._focusedScreen && this._focusedScreen !== target) {
         this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.25);
       }
 
+      // Show new focused screen
       this._focusedScreen = target;
 
       if(this._focusedScreen!=this._lastfocusedScreen){
-      // REVEAL animation
-      this._animateReveal(target, 1.0, 0.0, 0.4);
-      this._lastfocusedScreen = this._focusedScreen;
+        // REVEAL animation
+        this._animateReveal(target, 1.0, 0.0, 0.4);
+        this._lastfocusedScreen = this._focusedScreen;
       }
 
-      // if already focused, clicking another screen just refocuses
-      this._enterFocusMode();
-      this.focus.focusOn({ targetObject: target, distance: 2.6, heightOffset: 0.0, duration: 0.7 });
+
+
+      // sets how the focus control works on all artworks/screens
+      this.focus.focusOn({ targetObject: target, distance: "fit", heightOffset: 0.0, duration: 0.7 , padding: 1});
     };
 
     this.screenManager.onMiss = () => {
       // click empty space to return
-      if (this._isInFocusMode()) {
-        
-        this.focus.returnHome(0.7);
-        this._exitFocusModeAfterMove = true;
+      
+      if (this._focusCooldown > 0) return;
+      if (this.focus.isMoving) return;
+      if (this._focusState === "idle") return;
 
-        // 🔥 HIDE animation
-        this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.3);
-        // clear focused screen immediately so you can click the same one again if you want
-        this._focusedScreen = null;
-        this._lastfocusedScreen = null;
-      }
+      this._focusState = "returning";
+      this._focusCooldown = 0.2;
+
+      this.focus.returnHome(0.7);
+
+      // 🔥 HIDE animation
+      this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.3);
+      // clear focused screen immediately so you can click the same one again if you want
+      this._focusedScreen = null;
+      this._lastfocusedScreen = null;
+      
     };
 
     
@@ -76,6 +95,7 @@ export class World {
 
     addDefaultLights(this.scene);
 
+    //add geometry
     const room = new Mesh(
       new BoxGeometry(20, 1, 20),
       new MeshStandardMaterial({ color: 0x108080, side: 2 })
@@ -125,27 +145,91 @@ export class World {
       }
     });
 
+    this.screenManager.addScreen({
+      url: "https://picsum.photos/id/1011/900/900",
+      width: 2,
+      height: 4.25,
+      position: [7.0, 2.0, 0.0],   // e.g. on/near carousel A
+      rotation: [0, -90, 0],
+      clickable: true,
+      offsetClick: 0.0,
+      text: "Image Screen",
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    });
+
+    this.screenManager.addScreen({
+      url: "https://picsum.photos/id/1011/900/900",
+      width: 4,
+      height: 2.25,
+      position: [10.0, 2.0, 9.0],   // e.g. on/near carousel A
+      rotation: [0, -135, 0],
+      clickable: true,
+      offsetClick: 0.0,
+      text: "Image Screen",
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    });
+
+    this.screenManager.addContentScreen({
+    content: {
+      title: "Nick Knight",
+      bio: "Long bio goes here...",
+      images: [
+        "https://picsum.photos/id/1011/900/900",
+        "https://picsum.photos/id/1015/900/900",
+        "https://picsum.photos/id/1025/900/900"
+      ]
+    },
+    width: 2,
+      height: 2.25,
+    position: [-7, 2, -7],
+    rotation: [0, 30, 0],
+    clickable: true
+  });
+
   }
 
   update(dt) {
     //test rotation
     this.ball.rotation.y += dt * 0.6;
 
+    this._focusCooldown = Math.max(0, this._focusCooldown - dt);
+
+/*
     // update controls only if not currently overriding rotation with focus
     if (!this._isInFocusMode()) {
       this.controls.update(dt);
     } else {
       // optionally still allow wheel nudge etc; usually better off
     }
+      */
+    if (this._focusState === "idle") {
+      this.controls.update(dt);
+    }
+
 
     this.focus.update(dt);
 
+    /*
     // when return-home finishes, restore controls
     if (this._exitFocusModeAfterMove && !this.focus.isMoving) {
       this._exitFocusMode();
        // ✅ important: clear any stuck drag state
       this.controls.resetDrag();
       this._exitFocusModeAfterMove = false;
+    }
+      */
+
+    // state transitions after focus movement
+    if (this._focusState === "focusing" && !this.focus.isMoving) {
+      this._focusState = "focused";
+    }
+    if (this._focusState === "returning" && !this.focus.isMoving) {
+      this._focusState = "idle";
+      this._exitFocusMode();
     }
     
     // update tweens
@@ -166,18 +250,32 @@ export class World {
   }
 
   _enterFocusMode() {
-    // disable drag so the camera stays locked to the screen while moving/reading
-    this.controls.dragToLook = false;
+    if (this._controlsSaved) return; // already in focus mode
 
-    // pause autorotate while focused
-    this._controlsWasAutoRotate = this.controls.autoRotate;
+    // save controls state so we can restore later
+    this._controlsSaved = {
+      autoRotate: this.controls.autoRotate,
+      dragToLook: this.controls.dragToLook
+    };
+
+    // immediately stop any auto-rotation or dragging to prevent conflicts with focus movement
+    this.controls.resetDrag();
+    this.controls.dragToLook = false;
     this.controls.autoRotate = false;
   }
 
   _exitFocusMode() {
-    this.controls.dragToLook = true;
-    this.controls.autoRotate = this._controlsWasAutoRotate;
+    if (!this._controlsSaved) return;
+
+    // restore controls state
+    this.controls.dragToLook = this._controlsSaved.dragToLook;
+    this.controls.autoRotate = this._controlsSaved.autoRotate;
+
+      // ✅ important: clear any stuck drag state
+    this.controls.resetDrag();
+    this._controlsSaved = null;
   }
+
 
   _setReveal(mesh, v) {
     const mat = mesh?.userData?.revealMaterial;

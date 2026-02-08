@@ -21,6 +21,9 @@ export class Renderer {
     //shadows
     this.gl.shadowMap.enabled = true;
     this.gl.shadowMap.type = 2; //PCFSoftShadowMap
+
+    //color space
+    this.gl.outputColorSpace = "srgb";
   }
 
   onResize(sizes) {
