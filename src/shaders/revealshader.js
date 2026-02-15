@@ -79,6 +79,11 @@ export function makeRevealMaterial({
       varying vec2 vUv;
 
       void main() {
+        //invert uReveal so 1 → 0 and 0 → 1, s curve for sharper transition at the start and end
+        float r = 1.0 - uReveal;
+        r = r * r * (3.0 - 2.0 * r); //s-curve
+
+        
         vec4 color = texture2D(uMap, vUv);
 
         
@@ -88,15 +93,15 @@ export function makeRevealMaterial({
 
         // compare reveal threshold against mask
         float alpha = smoothstep(
-          uReveal - uSoft,
-          uReveal + uSoft,
+          r - uSoft,
+          r + uSoft,
           maskValue
         );
 
-        float a = color.a * alpha;
+        float a = color.a;// * alpha;
         if (a < 0.001) discard;
 
-        gl_FragColor = vec4(color.rgb, a);
+        gl_FragColor = vec4(color.rgb, 1.0);
       }
     `
   });

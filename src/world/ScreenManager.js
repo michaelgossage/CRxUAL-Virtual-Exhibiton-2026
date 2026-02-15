@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import { makeRevealMaterial } from "../shaders/revealshader.js";
+import { loadGLTFWithAnimations } from "../utils/gltfLoader.js"; // adjust path
+
 
 
 /**
@@ -23,6 +25,9 @@ export class ScreenManager {
     this.podiums = [];   // clickable meshes (invisible)
     this.clickables = []; // meshes to raycast against
 
+    this.models = [];   // { root, podium?, textMesh?, mixer?, clips?, url? }
+
+
     this._onClick = this._onClick.bind(this);
     this.domElement.addEventListener("pointerdown", this._onClick, { passive: true });
 
@@ -44,6 +49,10 @@ export class ScreenManager {
     this.screens.length = 0;
     this.podiums.length = 0;
     this.clickables.length = 0;
+
+    for (const m of this.models) this.removeModel(m.root);
+    this.models.length = 0;
+
   }
 
   // -------- public API --------
@@ -59,6 +68,8 @@ export class ScreenManager {
     clickable = false,
     text = "",
     fontSize = 30,
+    plinthVisible = true,
+    clickableSize = [width * 1.2, height * 1.2], // size of the clickable podium (if clickable)
     onClick = null, // optional callback(meshOrPodium, hit)
   }) {
 
@@ -96,12 +107,26 @@ export class ScreenManager {
 
     this.scene.add(screenMesh);
 
+    //add a box for the artwork to sit on
+    if(plinthVisible){
+      const boxGeoHeight = 2.0;
+      const boxGeo = new THREE.BoxGeometry(width * 0.9, boxGeoHeight, 1.0);
+      const boxMat = new THREE.MeshStandardMaterial({ color: 0x404040 });
+      const boxMesh = new THREE.Mesh(boxGeo, boxMat);
+      boxMesh.position.set(position[0], position[1] - (height / 2) - (boxGeoHeight / 2), position[2]);
+      boxMesh.rotation.set(...rotation);
+      boxMesh.receiveShadow = true;
+      boxMesh.castShadow = true;
+
+      this.scene.add(boxMesh);
+    }
+
     // Optional clickable podium
     let podium = null;
     if (clickable) {
       podium = new THREE.Mesh(
-        new THREE.BoxGeometry(width, height, 0.1),
-        new THREE.MeshBasicMaterial({ visible: false })
+        new THREE.BoxGeometry(...clickableSize, 0.5),
+        new THREE.MeshBasicMaterial({ visible: true, opacity: 0.3, transparent: true })
       );
       podium.position.set(position[0], position[1] - offsetClick, position[2]);
       podium.rotation.set(...rotation);
@@ -116,10 +141,13 @@ export class ScreenManager {
       this.clickables.push(podium);
     }
     if (podium) {
-      podium.userData.focusTarget = screenMesh;
+      //podium.userData.focusTarget = screenMesh;
+      podium.userData.focusTarget = podium;
+      screenMesh.userData.focusTarget = podium; // so clicking screen also focuses podium (which is where the video toggle is)
     }
 
-    // Text label under the screen
+    // Text label under the screen. the textMesh should sit on the front of the box the artwork is on, so we position it slightly in front of the box and use the same rotation.
+
     let textMesh = null;
     if (this.makeTextPlane && text) {
       textMesh = this.makeTextPlane(text, {
@@ -127,8 +155,29 @@ export class ScreenManager {
         textColor: { r: 200, g: 255, b: 200 },
         canvasWidth: 100 * width + 20
       });
-      textMesh.position.set(position[0]-(width/2)+0.5, position[1] - (height / 2) - 0.1, position[2]);
+
+      
+      //rotation and position is relative to screen rotation
       textMesh.rotation.set(...rotation);
+      const textOffsetY = -height / 2 -  0.2; // below the box
+      const textOffsetZ = 0.6; // in front of the box
+      const localOffset = new THREE.Vector3(0, textOffsetY, textOffsetZ);
+
+      // Apply the same rotation as the screen
+      const quaternion = new THREE.Quaternion().setFromEuler(
+        new THREE.Euler(...rotation)
+      );
+
+      localOffset.applyQuaternion(quaternion);
+
+      // Final world position
+      textMesh.position.set(
+        position[0] + localOffset.x,
+        position[1] + localOffset.y,
+        position[2] + localOffset.z
+      );
+
+      
       this.scene.add(textMesh);
     }
 
@@ -146,6 +195,7 @@ export class ScreenManager {
     return screenMesh;
   }
 
+  //content screen
   addContentScreen({
     content,                 // { title, bio, images: [] }
     width = 4,
@@ -155,6 +205,7 @@ export class ScreenManager {
     clickable = true,
     offsetClick = 0,
     fontSize = 30,
+    clickableSize = [width * 1.2, height * 1.2], // size of the clickable podium (if clickable)
 
     // layout
     infoPanel = true,
@@ -184,6 +235,7 @@ export class ScreenManager {
       offsetClick,
       text: content.title ?? "",
       fontSize,
+      clickableSize,
       onClick: onFocusClick
     });
 
@@ -209,7 +261,9 @@ export class ScreenManager {
 
       const infoTex = this._makeInfoPanelTexture({
         title: content.title ?? "",
-        body: content.bio ?? ""
+        body: content.bio ?? "",
+        width: width * 256, // increase for better text quality
+        height: height * 256
       });
 
       const infoMat = new THREE.MeshBasicMaterial({
@@ -258,7 +312,7 @@ export class ScreenManager {
       btn.userData.button = name;
 
       // IMPORTANT: clicking button should NOT refocus camera; focusTarget remains the screen
-      btn.userData.focusTarget = screenMesh;
+      btn.userData.focusTarget = screenMesh.userData.focusTarget;
 
       this.scene.add(btn);
       this.clickables.push(btn);
@@ -266,8 +320,8 @@ export class ScreenManager {
       return btn;
     };
 
-    const prevBtn = makeBtn("prev", -width * 0.35);
-    const nextBtn = makeBtn("next",  width * 0.35);
+    const prevBtn = makeBtn("prev", -width * 0.35- clickableSize[0] * 0.25);
+    const nextBtn = makeBtn("next",  width * 0.35+ clickableSize[0] * 0.25);
 
     // 4) Carousel state + functions
     const state = {
@@ -504,6 +558,227 @@ export class ScreenManager {
   tex.magFilter = THREE.LinearFilter;
   return tex;
 }
+
+/**
+ * addModel
+ * - addModel({ url, position, rotation, scale, clickable, hitboxSize, onClick, text... })
+ * - loads glb/gltf, adds to scene, optionally adds click proxy + text label
+ */
+async addModel({
+  url,
+  position = [0, 0, 0],
+  rotation = [0, 0, 0],     // degrees like your addScreen
+  scale = 1.0,              // scalar OR [x,y,z]
+  normalizeTo = null,       // e.g. 1.5 to auto-scale largest dimension to 1.5 units
+  center = true,
+
+  clickable = false,
+  offsetClick = 0,          // like your podium Y offset (optional)
+  hitboxSize = null,        // if null we compute from model bounds
+
+  text = "",
+  fontSize = 30,
+  textOffset = [0, -0.6, 0.6], // local [x,y,z] offset relative to model rotation
+  plinthVisible = true,
+
+  castShadow = true,
+  receiveShadow = true,
+
+  playAnimation = "first",  // "first" | null | "name"
+  onClick = null
+}) {
+  // Convert degrees to radians to match your convention
+  const rotRad = rotation.map(r => THREE.MathUtils.degToRad(r));
+
+  const { scene: modelRoot, animations } = await loadGLTFWithAnimations(url);
+
+  // Basic flags
+  modelRoot.traverse(o => {
+    if (!o.isMesh) return;
+    o.castShadow = castShadow;
+    //o.receiveShadow = receiveShadow;
+  });
+
+  // Apply user scale before normalize (so user can pre-scale imports)
+  if (Array.isArray(scale)) modelRoot.scale.set(scale[0], scale[1], scale[2]);
+  else modelRoot.scale.setScalar(scale);
+
+  // Optional normalize sizing
+  if (typeof normalizeTo === "number") {
+    this._normalizeModelToSize(modelRoot, normalizeTo, center);
+  }
+
+  // Place in world
+  modelRoot.position.set(...position);
+  modelRoot.rotation.set(...rotRad);
+  modelRoot.userData.isModel = true;
+  modelRoot.userData.onClick = onClick;
+
+  this.scene.add(modelRoot);
+
+  // Optional animation mixer
+  let mixer = null;
+  if (animations && animations.length && playAnimation) {
+    mixer = new THREE.AnimationMixer(modelRoot);
+
+    let clip = animations[0];
+    if (playAnimation !== "first") {
+      const byName = animations.find(a => a.name === playAnimation);
+      if (byName) clip = byName;
+    }
+    mixer.clipAction(clip).play();
+  }
+
+  // Optional clickable proxy (hitbox)
+  let podium = null;
+  if (clickable) {
+    // Use provided hitbox size OR compute from bounds
+    let w = 1, h = 1, d = 1;
+    if (hitboxSize) {
+      [w, h, d] = hitboxSize;
+    } else {
+      const box = new THREE.Box3().setFromObject(modelRoot);
+      const s = box.getSize(new THREE.Vector3());
+      w = Math.max(0.25, s.x);
+      h = Math.max(0.25, s.y);
+      d = Math.max(0.25, s.z);
+    }
+
+    podium = new THREE.Mesh(
+      new THREE.BoxGeometry(w, h, d),
+      new THREE.MeshBasicMaterial({ visible: true, opacity: 0.3, transparent: true })
+    );
+
+    podium.position.set(position[0], position[1] - offsetClick, position[2]);
+    podium.rotation.set(...rotRad);
+    podium.userData.onClick = onClick;
+    podium.userData.focusTarget = modelRoot; // so camera focus can target the model
+    podium.userData.focusTarget = podium; // focus on podium itself for better framing, but you can switch to modelRoot if you want to focus on the model directly
+    podium.userData.isModelHitbox = true;
+
+    this.scene.add(podium);
+    this.podiums.push(podium);
+    this.clickables.push(podium);
+  }
+
+  //add plinth for the model to sit on, we can use the same dimensions as the hitbox but make it a thin box under the model
+  if(plinthVisible){
+  const plinthHeight = 10.2;
+  const plinth = new THREE.Mesh(
+    new THREE.BoxGeometry( 1.2, plinthHeight, 1.2),
+    new THREE.MeshStandardMaterial({ color: 0x404040 }) // dark gray
+  );
+  plinth.position.set(position[0], position[1] - (plinthHeight / 2), position[2]);
+  plinth.rotation.set(...rotRad);
+  plinth.receiveShadow = true;
+  plinth.castShadow = true;
+  this.scene.add(plinth);
+  }
+
+  // Optional label (relative to model rotation, like you fixed for screens)
+  let textMesh = null;
+  if (this.makeTextPlane && text) {
+    textMesh = this.makeTextPlane(text, {
+      fontsize: fontSize,
+      textColor: { r: 200, g: 255, b: 200 },
+      canvasWidth: 640
+    });
+
+    textMesh.rotation.set(...rotRad);
+
+    const localOffset = new THREE.Vector3(...textOffset);
+    const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(...rotRad));
+    localOffset.applyQuaternion(q);
+
+    textMesh.position.set(
+      position[0] + localOffset.x,
+      position[1] + localOffset.y,
+      position[2] + localOffset.z
+    );
+
+    this.scene.add(textMesh);
+  }
+
+  // Make model root clickable too if you want (optional; can be heavy)
+  // If you DO want it, push meshes; if not, rely on hitbox.
+  // if (clickable) this.clickables.push(modelRoot);
+
+  const record = { root: modelRoot, podium, textMesh, mixer, clips: animations, url };
+  this.models.push(record);
+
+  return modelRoot;
+}
+
+
+// Remove model and all associated resources (meshes, materials, textures, videos, mixers)
+removeModel(modelRoot) {
+  const idx = this.models.findIndex(m => m.root === modelRoot);
+  if (idx === -1) return;
+
+  const m = this.models[idx];
+
+  if (m.textMesh) {
+    this.scene.remove(m.textMesh);
+    this._disposeMesh(m.textMesh);
+  }
+
+  if (m.podium) {
+    this.scene.remove(m.podium);
+    this._disposeMesh(m.podium);
+    this._removeFromArray(this.podiums, m.podium);
+    this._removeFromArray(this.clickables, m.podium);
+  }
+
+  // stop animations
+  if (m.mixer) {
+    try { m.mixer.stopAllAction(); } catch {}
+  }
+
+  // remove + dispose gltf meshes/materials/textures
+  this.scene.remove(m.root);
+  m.root.traverse(o => {
+    if (!o.isMesh) return;
+    o.geometry?.dispose?.();
+    if (o.material) {
+      const mats = Array.isArray(o.material) ? o.material : [o.material];
+      for (const mat of mats) {
+        mat.map?.dispose?.();
+        mat.normalMap?.dispose?.();
+        mat.roughnessMap?.dispose?.();
+        mat.metalnessMap?.dispose?.();
+        mat.emissiveMap?.dispose?.();
+        mat.aoMap?.dispose?.();
+        mat.dispose?.();
+      }
+    }
+  });
+
+  this.models.splice(idx, 1);
+}
+
+
+
+
+
+
+
+
+_normalizeModelToSize(model, targetSize = 1.0, center = true) {
+  // Optionally center pivot
+  const box = new THREE.Box3().setFromObject(model);
+  const size = box.getSize(new THREE.Vector3());
+  const maxAxis = Math.max(size.x, size.y, size.z) || 1;
+
+  if (center) {
+    const c = box.getCenter(new THREE.Vector3());
+    model.position.sub(c);
+  }
+
+  const s = targetSize / maxAxis;
+  model.scale.multiplyScalar(s);
+  model.updateMatrixWorld(true);
+}
+
 
 
 }

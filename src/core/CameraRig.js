@@ -2,9 +2,9 @@ import { PerspectiveCamera } from "three";
 
 export class CameraRig {
   constructor(sizes) {
-    this.camera = new PerspectiveCamera(60, sizes.width / sizes.height, 0.1, 800);
+    this.camera = new PerspectiveCamera(70, sizes.width / sizes.height, 0.1, 100);
     this.camera.rotation.order = "YXZ";
-    this.camera.position.set(0, 1.2, 0);
+    this.camera.position.set(0, .8, 0);
   }
 
   onResize(sizes) {

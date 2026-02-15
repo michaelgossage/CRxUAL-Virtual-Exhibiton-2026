@@ -19,7 +19,8 @@ export function addDefaultLights(scene) {
   light.shadow.camera.far = 500; // default 
   scene.add( light );
 
-  //const pointLight = new pointLight(0xffffff, 0.3);
-  //pointLight.position.set(-5, 5, 5);
-  //scene.add(pointLight);
+
+  const pointLight = new PointLight(0xffffff, 100.3);
+  pointLight.position.set(0, 5, 0);
+  scene.add(pointLight);
 }
