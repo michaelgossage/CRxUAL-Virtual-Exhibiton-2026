@@ -10,7 +10,7 @@ import { loadGLTFWithAnimations } from "../utils/gltfLoader.js"; // adjust path
  * - manages videos, clickable podiums, and clean disposal
  */
 export class ScreenManager {
-  constructor({ scene, camera, domElement, makeTextPlane }) {
+  constructor({ scene, camera, domElement, makeTextPlane, debugOn }) {
     this.scene = scene;
     this.camera = camera;
     this.domElement = domElement;
@@ -38,6 +38,9 @@ export class ScreenManager {
     // Optional callbacks for click hits/misses
     this.onHit = null;
     this.onMiss = null;
+
+    //debug flag to show clickable podiums
+    this.debugOn = debugOn;
 
   }
 
@@ -72,6 +75,10 @@ export class ScreenManager {
     clickableSize = [width * 1.2, height * 1.2], // size of the clickable podium (if clickable)
     onClick = null, // optional callback(meshOrPodium, hit)
   }) {
+
+    if (this.debugOn) {
+      console.log("Adding screen:", url, position, rotation);
+    }
 
     rotation = rotation.map(r => THREE.MathUtils.degToRad(r));
     const isVideo = /\.(mp4|webm|ogg)$/i.test(url);
@@ -124,10 +131,13 @@ export class ScreenManager {
     // Optional clickable podium
     let podium = null;
     if (clickable) {
+      //podium is invisible if no in debug, but it still receives clicks
+      
       podium = new THREE.Mesh(
         new THREE.BoxGeometry(...clickableSize, 0.5),
-        new THREE.MeshBasicMaterial({ visible: true, opacity: 0.3, transparent: true })
+        new THREE.MeshBasicMaterial({ visible: this.debugOn, opacity: 0.3, transparent: true })
       );
+
       podium.position.set(position[0], position[1] - offsetClick, position[2]);
       podium.rotation.set(...rotation);
       podium.userData.cameraScalar = _cameraScalar;
@@ -144,6 +154,7 @@ export class ScreenManager {
       //podium.userData.focusTarget = screenMesh;
       podium.userData.focusTarget = podium;
       screenMesh.userData.focusTarget = podium; // so clicking screen also focuses podium (which is where the video toggle is)
+      podium.userData.revealTarget = screenMesh; // so we can reveal the screen when podium is clicked
     }
 
     // Text label under the screen. the textMesh should sit on the front of the box the artwork is on, so we position it slightly in front of the box and use the same rotation.

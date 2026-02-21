@@ -28,6 +28,7 @@ export class App {
 
     this._bind();
     this._start();
+    this.bindUI();
   }
 
   _bind() {
@@ -53,4 +54,34 @@ export class App {
     this.renderer.destroy();
     this.sceneManager.disposeAll();
   }
+
+  bindUI() {
+    const menu = document.getElementById("menu");
+    if (!menu) return;
+
+    menu.querySelectorAll(".btn[data-loc]").forEach((btn) => {
+
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+
+        // unlock pointer if needed
+        if (document.pointerLockElement) {
+          document.exitPointerLock?.();
+        }
+
+        const id = btn.dataset.loc;
+
+        // ✅ correct reference
+        this.world.locations.goTo(id, { duration: 0.9 });
+
+        // update active styling
+        menu.querySelectorAll(".btn")
+          .forEach(b => b.classList.remove("active"));
+
+        btn.classList.add("active");
+      });
+
+    });
+  }
+
 }

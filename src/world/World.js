@@ -8,6 +8,10 @@ import { CameraFocus } from "./CameraFocus.js";
 import { makeTween01 } from "../utils/tween.js";
 
 import { loadGLTFWithAnimations } from "../utils/gltfLoader.js"; 
+import { LocationManager } from "./LocationManager.js";
+
+
+
 
 export class World {
   constructor({ scene, camera, renderer, sizes }) {
@@ -23,6 +27,7 @@ export class World {
     this._focusCooldown = 0;
     this._focusedScreen = null;
     this._lastfocusedScreen = null;
+    this._lastRevealedScreen = null;
 
     //tween animations
     this._tweens = [];
@@ -33,7 +38,8 @@ export class World {
       scene: this.scene,
       camera: this.camera,
       domElement: this.renderer.domElement,
-      makeTextPlane
+      makeTextPlane,
+      debugOn: false // set to true to show clickable podiums
     });
 
     this.screenManager.onHit = (obj, hit) => {
@@ -42,6 +48,7 @@ export class World {
 
       // easiest: store a reference when you add screens (see below), or:
       const target = obj.userData.focusTarget || obj;
+      const revealTarget = obj.userData.revealTarget || obj;
 
      //console.log("Hit screen/podium", obj, "focusing", target);
      if (this._focusState === "idle") {
@@ -54,14 +61,19 @@ export class World {
       // Hide previous focused screen
       if (this._focusedScreen && this._focusedScreen !== target) {
         this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.25);
+        this._animateReveal(this._lastRevealedScreen, 0.0, 1.0, 0.25);
       }
+
 
       // Show new focused screen
       this._focusedScreen = target;
+      this._lastRevealedScreen = revealTarget;
 
       if(this._focusedScreen!=this._lastfocusedScreen){
         // REVEAL animation
         this._animateReveal(target, 1.0, 0.0, 0.4);
+
+        this._animateReveal(revealTarget, 1.0, 0.0, 0.4);
         this._lastfocusedScreen = this._focusedScreen;
       }
 
@@ -85,11 +97,25 @@ export class World {
 
       // 🔥 HIDE animation
       this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.3);
+      this._animateReveal(this._lastRevealedScreen, 0.0, 1.0, 0.3);
       // clear focused screen immediately so you can click the same one again if you want
       this._focusedScreen = null;
-      this._lastfocusedScreen = null;
+      this._lastRevealedScreen = null;
       
     };
+
+  
+
+
+    this.locations = new LocationManager({ camera: this.camera });
+    this.locations.setLocations({
+      lobby:   { camera: { pos:[0,1.2,0], lookAt:[0,1.2,-1] } },
+      galleryA:{ camera: { pos:[-14,1.2,0], lookAt:[-14,1.2,-6] } },
+      galleryB:{ camera: { pos:[ 14,1.2,0], lookAt:[ 14,1.2,-6] } },
+    });
+
+    // start location
+    this.locations.goTo("lobby", { duration: 0.01 });
 
     
     
@@ -104,7 +130,7 @@ export class World {
     );
     room.position.set(0, -1.5, 0);
     room.receiveShadow = true;
-    this.scene.add(room);
+    //this.scene.add(room);
 
     //add walls to the room in a loop
     const wallMaterial = new MeshStandardMaterial({ color: 0x808080, side: 2 });
@@ -144,12 +170,12 @@ export class World {
 
     this.ball = ball;
 
-    //import environment gltf
-    const room01 = loadGLTFWithAnimations("art/test3d/Chancery Rosewood_V3.glb").then((gltf) => {
+    //import environment model
+    const room01 = loadGLTFWithAnimations("art/test3d/Chancery Rosewood_V3_E2.glb").then((gltf) => {
       const model = gltf.scene;
       model.traverse((child) => {
         if (child.isMesh) {
-          child.castShadow = true;
+          //child.castShadow = true;
           child.receiveShadow = true;
           //set shader to double-sided with basic material for testing
           child.material = new MeshStandardMaterial({ color: 0x808080, side: 2 });
@@ -169,9 +195,10 @@ export class World {
       position: [0.0, 1.0, -6.0],   // e.g. on/near carousel A
       rotation: [0, 0, 0],
       clickable: true,
-      offsetClick: 1.0,
-      clickableSize: [2.2, 3.25],
+      offsetClick: .6,
+      clickableSize: [2.2, 2.5],
       text: "Image Screen",
+      plinthVisible: false,
       
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
@@ -210,7 +237,7 @@ export class World {
       url: "https://picsum.photos/id/1011/900/900",
       width: 1,
       height: 2.25,
-      position: [10.5, 1.0, -3.0],   // e.g. on/near carousel A
+      position: [8.0, 1.0, -3.0],   // e.g. on/near carousel A
       rotation: [0, -90, 0],
       clickable: true,
       offsetClick: 1.0,
@@ -226,7 +253,7 @@ export class World {
       url: "https://picsum.photos/id/1011/900/900",
       width: 1.5,
       height: 1.5,
-      position: [10.5, 1.0, 0.0],   // e.g. on/near carousel A
+      position: [8.0, 1.0, 0.0],   // e.g. on/near carousel A
       rotation: [0, -90, 0],
       clickable: true,
       offsetClick: 0.5,
@@ -251,6 +278,35 @@ export class World {
       }
     });
 
+    this.screenManager.addScreen({
+      url: "https://picsum.photos/id/1011/900/900",
+      width: 6,
+      height: 3,
+      position: [0.0, 0.5, 13.8],   // e.g. on/near carousel A
+      rotation: [0, -180, 0],
+      clickable: true,
+      offsetClick: 0.0,
+      text: "Image Screen",
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    });
+
+    this.screenManager.addScreen({
+      url: "https://picsum.photos/id/1011/900/900",
+      width: 3,
+      height: 3,
+      position: [-7.5, 4.5, -1.0],   // e.g. on/near carousel A
+      rotation: [0, 90, 0],
+      clickable: true,
+      plinthVisible: false,
+      offsetClick: 0.0,
+      text: "Image Screen",
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    });
+
     this.screenManager.addContentScreen({
       content: {
         title: "Artist Name",
@@ -265,14 +321,15 @@ export class World {
       height: 2.25,
       position: [-6, 1.4, -7],
       rotation: [0, 30, 0],
-      offsetClick: 1.0,
+      offsetClick: .7,
       infoWidth: 1.6,
       infoHeight: 1.2,
-      infoOffset: [0, -2.0, 0.55],
-      clickableSize: [2.2, 4.25],
+      infoOffset: [0, -1.7, 0.55],
+      clickableSize: [2.2, 3.75],
       clickable: true
     });
 
+    //3d models
   this.screenManager.addModel({
     url: "art/test3d/8 Ultra High Quality Scan_low poly DRACO jpeg (1024).glb",
     position: [-6.7, 0, -3],
@@ -299,6 +356,7 @@ export class World {
     onClick: (obj, hit) => console.log("Model clicked:", obj),
     text: "STATUE_01",
     textOffset: [0, -0.1, 0.9],
+    offsetClick: -0.1,
     hitboxSize: [1.0, 3.0, 1.0],
     plinthVisible: true,
     playAnimation: "first"
@@ -328,36 +386,25 @@ export class World {
 
   }
 
+  
+
   update(dt) {
     //test rotation
     this.ball.rotation.y += dt * 0.6;
 
+    // update focus cooldown
     this._focusCooldown = Math.max(0, this._focusCooldown - dt);
 
-/*
-    // update controls only if not currently overriding rotation with focus
-    if (!this._isInFocusMode()) {
-      this.controls.update(dt);
-    } else {
-      // optionally still allow wheel nudge etc; usually better off
-    }
-      */
-    if (this._focusState === "idle") {
+    this.locations.update(dt);
+
+
+    // if notmoving between locations and in idle focus state, allow controls to update (e.g. for auto-rotate or user input)
+    if (!this.locations.isMoving && this._focusState === "idle") {
       this.controls.update(dt);
     }
 
-
+    // update camera focus movement
     this.focus.update(dt);
-
-    /*
-    // when return-home finishes, restore controls
-    if (this._exitFocusModeAfterMove && !this.focus.isMoving) {
-      this._exitFocusMode();
-       // ✅ important: clear any stuck drag state
-      this.controls.resetDrag();
-      this._exitFocusModeAfterMove = false;
-    }
-      */
 
     // state transitions after focus movement
     if (this._focusState === "focusing" && !this.focus.isMoving) {

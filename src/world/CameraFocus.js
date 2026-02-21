@@ -61,10 +61,10 @@ export class CameraFocus {
   focusOn({
     targetObject,
     distance = "fit",
-    padding = 1.15,       // >1 backs camera up to avoid cropping
-    minDistance = 0.6,
+    padding = 1.05,       // >1 backs camera up to avoid cropping
+    minDistance = 0.3,
     maxDistance = 100,
-    heightOffset = 0.0,   // extra Y offset of the camera viewpoint
+    heightOffset = 0.2,   // extra Y offset of the camera viewpoint
     duration = 0.75,
     useObjectNormal = true, // if true: approach from object's +Z direction
     fallbackDirection = new THREE.Vector3(0, 0, 1), // used if normal is degenerate

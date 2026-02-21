@@ -98,10 +98,11 @@ export function makeRevealMaterial({
           maskValue
         );
 
-        float a = color.a;// * alpha;
+        //float a = color.a;// * alpha;
+        float a = color.a * alpha;
         if (a < 0.001) discard;
 
-        gl_FragColor = vec4(color.rgb, 1.0);
+        gl_FragColor = vec4(color.rgb, a);
       }
     `
   });
