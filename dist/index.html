@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <title>Three Webapp Framework</title>
+    <script type="module" crossorigin src="/CRxUAL-Virtual-Exhibiton-2026/assets/index-BVcWaUJQ.js"></script>
+    <link rel="stylesheet" crossorigin href="/CRxUAL-Virtual-Exhibiton-2026/assets/index-D7aFKXIy.css">
+  </head>
+  <body>
+    <div id="app"></div>
+
+     <div class="hud" id="hud">
+      <b>Two Carousels (Selectable)</b><br/>
+      Use the selector to jump to a carousel. Only the active one updates sequentially (buffer method).<br/>
+      Click canvas to pointer-lock • Move mouse to look • Esc to unlock
+    </div>
+
+    <div class="menu" id="menu">
+      <div class="menu-title">Choose carousel</div>
+      <div class="menu-row">
+        <div class="btn" id="btnA" data-loc="lobby">Lobby</div>
+        <div class="btn" id="btnA" data-loc="galleryA">Carousel A</div>
+        <div class="btn" id="btnB" data-loc="galleryB">Carousel B</div>
+        <div class="btn" id="btnB" data-loc="winners">Winners</div>
+      </div>
+      <div class="small" id="menuNote">Tip: unlock pointer (Esc) to click buttons.</div>
+    </div>
+
+    <div class="hint">
+      <b>Controls</b><br/>
+      • Click canvas: pointer lock (FPS)<br/>
+      • Drag (no lock): look around<br/>
+      • Wheel: nudge yaw<br/>
+      • Selector buttons: camera moves to that carousel’s center
+    </div>
+
+    <!-- Main application script -->
+  </body>
+</html>

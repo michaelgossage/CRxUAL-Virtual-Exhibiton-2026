@@ -63,7 +63,7 @@ export class LocationManager {
     const a = easeInOut(clamp01(this.t));
 
     this.camera.position.lerpVectors(this.fromPos, this.toPos, a);
-    this.camera.quaternion.slerpQuaternions(this.fromQuat, this.toQuat, a);
+    //this.camera.quaternion.slerpQuaternions(this.fromQuat, this.toQuat, a);
 
     if (this.t >= 1) this.isMoving = false;
   }

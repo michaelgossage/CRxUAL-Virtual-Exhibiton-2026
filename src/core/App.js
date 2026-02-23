@@ -28,7 +28,13 @@ export class App {
 
     this._bind();
     this._start();
-    this.bindUI();
+
+    // UI interactions
+    if (document.readyState === "loading") {
+      window.addEventListener("DOMContentLoaded", () => this.bindUI());
+    } else {
+      this.bindUI();
+    }
   }
 
   _bind() {
