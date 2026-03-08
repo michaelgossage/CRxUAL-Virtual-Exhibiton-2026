@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-export function makeRevealMaterial_(map) {
+export function _makeRevealMaterial_(map) {
     
   return new THREE.ShaderMaterial({
     transparent: true,
@@ -80,7 +80,8 @@ export function makeRevealMaterial({
 
       void main() {
         //invert uReveal so 1 → 0 and 0 → 1, s curve for sharper transition at the start and end
-        float r = 1.0 - uReveal;
+        //float r = 1.0 - uReveal;
+        float r = uReveal;
         r = r * r * (3.0 - 2.0 * r); //s-curve
 
         

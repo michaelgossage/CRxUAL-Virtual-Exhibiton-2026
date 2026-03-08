@@ -89,7 +89,7 @@ export class ScreenManager {
 
     
 
-    const revealTex = this.textureLoader.load("src/art/textures/gradient.png");
+    const revealTex = this.textureLoader.load(import.meta.env.BASE_URL + "/art/textures/radial-512px.jpg");
     revealTex.wrapS = revealTex.wrapT = THREE.ClampToEdgeWrapping;
     revealTex.minFilter = THREE.LinearFilter;
     revealTex.magFilter = THREE.LinearFilter;

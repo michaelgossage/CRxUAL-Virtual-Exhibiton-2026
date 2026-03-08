@@ -8,7 +8,10 @@ import { CameraFocus } from "./CameraFocus.js";
 import { makeTween01 } from "../utils/tween.js";
 
 import { loadGLTFWithAnimations } from "../utils/gltfLoader.js"; 
+import { applyHDRI } from "./hdri.js";
+
 import { LocationManager } from "./LocationManager.js";
+import { makeArchGridMaterial } from "../shaders/gridShader.js";
 
 
 
@@ -111,7 +114,7 @@ export class World {
     this.locations.setLocations({
       lobby:   { camera: { pos:[0,0.8,0], lookAt:[0,1.2,-1] } },
       galleryA:{ camera: { pos:[-29,0.8,-20], lookAt:[-14,1.2,-6] } },
-      galleryB:{ camera: { pos:[ 0,22,16], lookAt:[ 14,1.2,-6] } },
+      galleryB:{ camera: { pos:[ 1,21,16], lookAt:[ 14,1.2,-6] } },
       winners: { camera: { pos:[0, 12, 24], lookAt:[0, 0, -1] } }
     });
 
@@ -123,6 +126,14 @@ export class World {
 
     // add lights
     addDefaultLights(this.scene);
+
+    applyHDRI({
+      renderer: this.renderer,
+      scene: this.scene,
+      url: import.meta.env.BASE_URL + "/art/hdri/qwantani_dusk_2_puresky_4k.hdr",
+      background: true,   // keep your room/fog background
+      envIntensity: 0.0
+    });
 
     //add geometry
     const room = new Mesh(
@@ -172,7 +183,7 @@ export class World {
     this.ball = ball;
 
     //import environment model
-    const room01 = loadGLTFWithAnimations("art/test3d/Chancery Rosewood_V3_E2.glb").then((gltf) => {
+    const room01 = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/Chancery Rosewood_V4.glb").then((gltf) => {
       const model = gltf.scene;
       model.traverse((child) => {
         if (child.isMesh) {
@@ -180,6 +191,7 @@ export class World {
           child.receiveShadow = true;
           //set shader to double-sided with basic material for testing
           child.material = new MeshStandardMaterial({ color: 0x808080, side: 2 });
+          //child.material = makeArchGridMaterial({ color: 0x808080, gridColor: 0x404040, gridScale: 0.5, gridThickness: 0.02, side: 2,baseOpacity: 1.0 });
         }
       });
       model.scale.set(1.0, 1.0, 1.0);
@@ -193,7 +205,7 @@ export class World {
       url: "https://picsum.photos/id/1011/900/900",
       width: 2,
       height: 1.25,
-      position: [0.0, 1.0, -6.0],   // e.g. on/near carousel A
+      position: [0.0, 1.4, -6.0],   // e.g. on/near carousel A
       rotation: [0, 0, 0],
       clickable: true,
       offsetClick: .6,
@@ -234,32 +246,36 @@ export class World {
       }
     });
 
+    /*
     this.screenManager.addScreen({
       url: "https://picsum.photos/id/1011/900/900",
       width: 1,
       height: 2.25,
-      position: [8.0, 1.0, -3.0],   // e.g. on/near carousel A
+      position: [8.4, 1.0, -2.5],   // e.g. on/near carousel A
       rotation: [0, -90, 0],
       clickable: true,
       offsetClick: 1.0,
       clickableSize: [2.2, 3.25],
       text: "Image Screen",
+      plinthVisible: false,
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
     });
+    */
 
 
     this.screenManager.addScreen({
       url: "https://picsum.photos/id/1011/900/900",
       width: 1.5,
       height: 1.5,
-      position: [8.0, 1.0, 0.0],   // e.g. on/near carousel A
+      position: [8.4, 0.8, -1.5],   // e.g. on/near carousel A
       rotation: [0, -90, 0],
       clickable: true,
       offsetClick: 0.5,
       clickableSize: [2.2, 2.5],
       text: "Image Screen",
+      plinthVisible: false,
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
@@ -267,13 +283,14 @@ export class World {
 
     this.screenManager.addScreen({
       url: "https://picsum.photos/id/1011/900/900",
-      width: 2,
-      height: 1.5,
-      position: [7.0, 1.0, 3.5],   // e.g. on/near carousel A
-      rotation: [0, -180, 0],
+      width: 1.5,
+      height: 2,
+      position: [7.2, 0.5, 1.55],   // e.g. on/near carousel A
+      rotation: [0, -135, 0],
       clickable: true,
       offsetClick: 0.0,
       text: "Image Screen",
+      plinthVisible: false,
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
@@ -281,13 +298,28 @@ export class World {
 
     this.screenManager.addScreen({
       url: "https://picsum.photos/id/1011/900/900",
-      width: 6,
+      width: 3,
       height: 3,
-      position: [0.0, 0.5, 13.8],   // e.g. on/near carousel A
+      position: [-2.0, 0.5, 13.8],   // e.g. on/near carousel A
       rotation: [0, -180, 0],
       clickable: true,
       offsetClick: 0.0,
       text: "Image Screen",
+      plinthVisible: false,
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    });
+     this.screenManager.addScreen({
+      url: "https://picsum.photos/id/1011/900/900",
+      width: 3,
+      height: 3,
+      position: [2.0, 0.5, 13.8],   // e.g. on/near carousel A
+      rotation: [0, -180, 0],
+      clickable: true,
+      offsetClick: 0.0,
+      text: "Image Screen",
+      plinthVisible: false,
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
@@ -320,7 +352,7 @@ export class World {
       },
       width: 2,
       height: 2.25,
-      position: [-6, 1.4, -7],
+      position: [-5, 1.4, -6],
       rotation: [0, 30, 0],
       offsetClick: .7,
       infoWidth: 1.6,
@@ -329,10 +361,11 @@ export class World {
       clickableSize: [2.2, 3.75],
       clickable: true
     });
-
+    //test model url
+    const a=import.meta.env.BASE_URL + "/art/test3d/8 Ultra High Quality Scan_low poly DRACO jpeg (1024).glb";
     //3d models
   this.screenManager.addModel({
-    url: "art/test3d/8 Ultra High Quality Scan_low poly DRACO jpeg (1024).glb",
+    url: a,
     position: [-6.7, 0, -3],
     rotation: [0, 90, 0],
     normalizeTo: 1.4,
@@ -347,9 +380,9 @@ export class World {
     // optional: store reference
     this.statue = modelRoot;
   }).catch(console.error);
-
+  
   this.screenManager.addModel({
-    url: "art/test3d/8 Ultra High Quality Scan_low poly DRACO jpeg (1024).glb",
+    url: a,
     position: [4.8, 0, 3.8],
     rotation: [0, 235, 0],
     normalizeTo: 1.4,
@@ -366,8 +399,9 @@ export class World {
     this.statue = modelRoot;
   }).catch(console.error);
 
+ 
   this.screenManager.addModel({
-    url: "art/test3d/8 Ultra High Quality Scan_low poly DRACO jpeg (1024).glb",
+    url: a,
     position: [-4.8, 0, 3.8],
     rotation: [0, 135, 0],
     normalizeTo: 1.4,

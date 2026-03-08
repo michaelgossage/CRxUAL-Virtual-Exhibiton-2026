@@ -30,5 +30,9 @@ export function addDefaultLights(scene) {
   pointLight2.castShadow = true;
   scene.add(pointLight2);
 
+  const pointLight3 = new PointLight(0xffffff, 100.3);
+  pointLight3.position.set(0,22,8);
+  pointLight3.castShadow = true;
+  scene.add(pointLight3);
 
 }
