@@ -48,8 +48,11 @@ export function _makeRevealMaterial_(map) {
 
 //import * as THREE from "three";
 
+//this shader can reveal using the alpha valuse controlled by uReveal and blende between 2 images using uBlend
+
 export function makeRevealMaterial({
   map,
+  mapNext,
   revealMap,
   revealSoftness = 0.15
 }) {
@@ -59,9 +62,11 @@ export function makeRevealMaterial({
     toneMapped: false,
     uniforms: {
       uMap:        { value: map },
+      uMapNext:    { value: mapNext },   // for blending to next texture (not implemented yet)
       uRevealMap:  { value: revealMap },
       uReveal:     { value: 1.0 },   // 1 hidden → 0 visible
-      uSoft:       { value: revealSoftness }
+      uSoft:       { value: revealSoftness },
+      uBlend:      { value: 0.0 },   // 0 hard reveal, 1 full blend (for debugging)
     },
     vertexShader: /* glsl */ `
       varying vec2 vUv;
@@ -72,9 +77,11 @@ export function makeRevealMaterial({
     `,
     fragmentShader: /* glsl */ `
       uniform sampler2D uMap;
+      uniform sampler2D uMapNext;
       uniform sampler2D uRevealMap;
       uniform float uReveal;
       uniform float uSoft;
+      uniform float uBlend;
 
       varying vec2 vUv;
 
@@ -86,11 +93,20 @@ export function makeRevealMaterial({
 
         
         vec4 color = texture2D(uMap, vUv);
+        vec4 colorNext = texture2D(uMapNext, vUv);
+
+        
 
         
 
         // reveal texture: assume grayscale in R channel
         float maskValue = texture2D(uRevealMap, vUv).r;
+
+        // blend threshold uses same painterly mask
+        float t = 1.0-smoothstep(uBlend - uSoft, uBlend + uSoft, maskValue);
+
+        //blend between current and next texture (not implemented yet)
+        color = mix(color, colorNext, t);
 
         // compare reveal threshold against mask
         float alpha = smoothstep(

@@ -7,7 +7,7 @@ import { loadGLTFWithAnimations } from "../utils/gltfLoader.js"; // adjust path
 /**
  * ScreenManager
  * - addScreen({ url, width, height, position, rotation, clickable, text... })
- * - manages videos, clickable podiums, and clean disposal
+ * - manages videos, clickable hitBoxes, and clean disposal
  */
 export class ScreenManager {
   constructor({ scene, camera, domElement, makeTextPlane, debugOn }) {
@@ -21,11 +21,11 @@ export class ScreenManager {
     this.raycaster = new THREE.Raycaster();
     this.pointerNDC = new THREE.Vector2();
 
-    this.screens = [];   // { mesh, material, texture, video?, textMesh?, podium? }
-    this.podiums = [];   // clickable meshes (invisible)
+    this.screens = [];   // { mesh, material, texture, video?, textMesh?, hitBox? }
+    this.hitBoxes = [];   // clickable meshes (invisible)
     this.clickables = []; // meshes to raycast against
 
-    this.models = [];   // { root, podium?, textMesh?, mixer?, clips?, url? }
+    this.models = [];   // { root, hitBox?, textMesh?, mixer?, clips?, url? }
 
 
     this._onClick = this._onClick.bind(this);
@@ -39,7 +39,7 @@ export class ScreenManager {
     this.onHit = null;
     this.onMiss = null;
 
-    //debug flag to show clickable podiums
+    //debug flag to show clickable hitBoxes
     this.debugOn = debugOn;
 
   }
@@ -50,7 +50,7 @@ export class ScreenManager {
     // dispose everything we created
     for (const s of this.screens) this.removeScreen(s.mesh);
     this.screens.length = 0;
-    this.podiums.length = 0;
+    this.hitBoxes.length = 0;
     this.clickables.length = 0;
 
     for (const m of this.models) this.removeModel(m.root);
@@ -72,7 +72,7 @@ export class ScreenManager {
     text = "",
     fontSize = 30,
     plinthVisible = true,
-    clickableSize = [width * 1.2, height * 1.2], // size of the clickable podium (if clickable)
+    clickableSize = [width * 1.2, height * 1.2], // size of the clickable hitBox (if clickable)
     onClick = null, // optional callback(meshOrPodium, hit)
   }) {
 
@@ -128,33 +128,33 @@ export class ScreenManager {
       this.scene.add(boxMesh);
     }
 
-    // Optional clickable podium
-    let podium = null;
+    // Optional clickable hitBox
+    let hitBox = null;
     if (clickable) {
-      //podium is invisible if no in debug, but it still receives clicks
+      //hitBox is invisible if no in debug, but it still receives clicks
       
-      podium = new THREE.Mesh(
+      hitBox = new THREE.Mesh(
         new THREE.BoxGeometry(...clickableSize, 0.5),
         new THREE.MeshBasicMaterial({ visible: this.debugOn, opacity: 0.3, transparent: true })
       );
 
-      podium.position.set(position[0], position[1] - offsetClick, position[2]);
-      podium.rotation.set(...rotation);
-      podium.userData.cameraScalar = _cameraScalar;
-      podium.userData.onClick = onClick;
-      podium.userData.focusTarget = screenMesh;
+      hitBox.position.set(position[0], position[1] - offsetClick, position[2]);
+      hitBox.rotation.set(...rotation);
+      hitBox.userData.cameraScalar = _cameraScalar;
+      hitBox.userData.onClick = onClick;
+      hitBox.userData.focusTarget = screenMesh;
 
-      if (isVideo) podium.userData.video = video;
+      if (isVideo) hitBox.userData.video = video;
 
-      this.scene.add(podium);
-      this.podiums.push(podium);
-      this.clickables.push(podium);
+      this.scene.add(hitBox);
+      this.hitBoxes.push(hitBox);
+      this.clickables.push(hitBox);
     }
-    if (podium) {
-      //podium.userData.focusTarget = screenMesh;
-      podium.userData.focusTarget = podium;
-      screenMesh.userData.focusTarget = podium; // so clicking screen also focuses podium (which is where the video toggle is)
-      podium.userData.revealTarget = screenMesh; // so we can reveal the screen when podium is clicked
+    if (hitBox) {
+      //hitBox.userData.focusTarget = screenMesh;
+      hitBox.userData.focusTarget = hitBox;
+      screenMesh.userData.focusTarget = hitBox; // so clicking screen also focuses hitBox (which is where the video toggle is)
+      hitBox.userData.revealTarget = screenMesh; // so we can reveal the screen when hitBox is clicked
     }
 
     // Text label under the screen. the textMesh should sit on the front of the box the artwork is on, so we position it slightly in front of the box and use the same rotation.
@@ -195,7 +195,7 @@ export class ScreenManager {
     // extra info text to be revealed on click
 
 
-    const record = { mesh: screenMesh, material, texture, video: video ?? null, podium, textMesh };
+    const record = { mesh: screenMesh, material, texture, video: video ?? null, hitBox, textMesh };
     // store record so we can dispose later
     this.screens.push(record);
 
@@ -216,7 +216,8 @@ export class ScreenManager {
     clickable = true,
     offsetClick = 0,
     fontSize = 30,
-    clickableSize = [width * 1.2, height * 1.2], // size of the clickable podium (if clickable)
+    clickableSize = [width * 1.2, height * 1.2], // size of the clickable hit box (if clickable)
+    plinthVisible = true,
 
     // layout
     infoPanel = true,
@@ -225,6 +226,9 @@ export class ScreenManager {
     infoOffset = [2.4, 0.0, 0.0], // local offset to the right of the screen
     buttonSize = 0.45,
     buttonOffsetY = -0.85,        // local Y offset for prev/next hit areas
+
+    //transition
+    transitionDuration = 1.2,
 
     onFocusClick = null
   }) {
@@ -247,7 +251,8 @@ export class ScreenManager {
       text: content.title ?? "",
       fontSize,
       clickableSize,
-      onClick: onFocusClick
+      onClick: onFocusClick,
+      plinthVisible
     });
 
     // Find its record (so we can swap its texture later)
@@ -338,6 +343,45 @@ export class ScreenManager {
     const state = {
       index: 0,
       images: content.images.slice(),
+
+      setIndex: (i) => {
+        if (state._transitioning) return; // prevent overlap
+
+        const n = state.images.length;
+        state.index = ((i % n) + n) % n;
+        const url = state.images[state.index];
+        const tex = this._getCachedTexture(url);
+        const uniforms = record.material?.uniforms;
+        if (!uniforms) return;
+
+        state._transitioning = true;
+
+        // Set the incoming texture into uMapNext
+        uniforms.uMapNext.value = tex;
+
+        // Tween uBlend 0 → 1
+        const duration = transitionDuration; // seconds
+        const start = performance.now();
+
+        const animate = () => {
+          const elapsed = (performance.now() - start) / 1000;
+          const p = Math.min(elapsed / duration, 1.0);
+          uniforms.uBlend.value = p;
+
+          if (p < 1.0) {
+            requestAnimationFrame(animate);
+          } else {
+            // Commit: move next into current, reset blend
+            uniforms.uMap.value = tex;
+            uniforms.uMapNext.value = tex; // avoid stale ref
+            uniforms.uBlend.value = 0.0;
+            state._transitioning = false;
+          }
+        };
+        requestAnimationFrame(animate);
+      },
+
+      /*
       setIndex: (i) => {
         const n = state.images.length;
         state.index = ((i % n) + n) % n;
@@ -361,6 +405,7 @@ export class ScreenManager {
 
         // If you want to change info panel per image, you can also update record.infoMesh here.
       },
+      */
       next: () => state.setIndex(state.index + 1),
       prev: () => state.setIndex(state.index - 1),
     };
@@ -400,11 +445,11 @@ export class ScreenManager {
       this._disposeMesh(s.textMesh);
     }
 
-    if (s.podium) {
-      this.scene.remove(s.podium);
-      this._disposeMesh(s.podium);
-      this._removeFromArray(this.podiums, s.podium);
-      this._removeFromArray(this.clickables, s.podium);
+    if (s.hitBox) {
+      this.scene.remove(s.hitBox);
+      this._disposeMesh(s.hitBox);
+      this._removeFromArray(this.hitBoxes, s.hitBox);
+      this._removeFromArray(this.clickables, s.hitBox);
     }
 
     this.scene.remove(s.mesh);
@@ -481,7 +526,7 @@ export class ScreenManager {
 
     if (typeof this.onHit === "function") this.onHit(obj, hit);
 
-    // If it’s a podium with a video, you might want to toggle play/pause
+    // If it’s a hitBox with a video, you might want to toggle play/pause
     const v = obj.userData.video;
     if (v) {
       if (v.paused) v.play().catch(() => {});
@@ -584,7 +629,7 @@ async addModel({
   center = true,
 
   clickable = false,
-  offsetClick = 0,          // like your podium Y offset (optional)
+  offsetClick = 0,          // like your hitBox Y offset (optional)
   hitboxSize = null,        // if null we compute from model bounds
 
   text = "",
@@ -641,7 +686,7 @@ async addModel({
   }
 
   // Optional clickable proxy (hitbox)
-  let podium = null;
+  let hitBox = null;
   if (clickable) {
     // Use provided hitbox size OR compute from bounds
     let w = 1, h = 1, d = 1;
@@ -655,21 +700,21 @@ async addModel({
       d = Math.max(0.25, s.z);
     }
 
-    podium = new THREE.Mesh(
+    hitBox = new THREE.Mesh(
       new THREE.BoxGeometry(w, h, d),
       new THREE.MeshBasicMaterial({ visible: true, opacity: 0.3, transparent: true })
     );
 
-    podium.position.set(position[0], position[1] - offsetClick, position[2]);
-    podium.rotation.set(...rotRad);
-    podium.userData.onClick = onClick;
-    podium.userData.focusTarget = modelRoot; // so camera focus can target the model
-    podium.userData.focusTarget = podium; // focus on podium itself for better framing, but you can switch to modelRoot if you want to focus on the model directly
-    podium.userData.isModelHitbox = true;
+    hitBox.position.set(position[0], position[1] - offsetClick, position[2]);
+    hitBox.rotation.set(...rotRad);
+    hitBox.userData.onClick = onClick;
+    hitBox.userData.focusTarget = modelRoot; // so camera focus can target the model
+    hitBox.userData.focusTarget = hitBox; // focus on hitBox itself for better framing, but you can switch to modelRoot if you want to focus on the model directly
+    hitBox.userData.isModelHitbox = true;
 
-    this.scene.add(podium);
-    this.podiums.push(podium);
-    this.clickables.push(podium);
+    this.scene.add(hitBox);
+    this.hitBoxes.push(hitBox);
+    this.clickables.push(hitBox);
   }
 
   //add plinth for the model to sit on, we can use the same dimensions as the hitbox but make it a thin box under the model
@@ -714,7 +759,7 @@ async addModel({
   // If you DO want it, push meshes; if not, rely on hitbox.
   // if (clickable) this.clickables.push(modelRoot);
 
-  const record = { root: modelRoot, podium, textMesh, mixer, clips: animations, url };
+  const record = { root: modelRoot, hitBox, textMesh, mixer, clips: animations, url };
   this.models.push(record);
 
   return modelRoot;
@@ -733,11 +778,11 @@ removeModel(modelRoot) {
     this._disposeMesh(m.textMesh);
   }
 
-  if (m.podium) {
-    this.scene.remove(m.podium);
-    this._disposeMesh(m.podium);
-    this._removeFromArray(this.podiums, m.podium);
-    this._removeFromArray(this.clickables, m.podium);
+  if (m.hitBox) {
+    this.scene.remove(m.hitBox);
+    this._disposeMesh(m.hitBox);
+    this._removeFromArray(this.hitBoxes, m.hitBox);
+    this._removeFromArray(this.clickables, m.hitBox);
   }
 
   // stop animations

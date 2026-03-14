@@ -359,7 +359,11 @@ export class World {
       infoHeight: 1.2,
       infoOffset: [0, -1.7, 0.55],
       clickableSize: [2.2, 3.75],
-      clickable: true
+      clickable: true,
+      plinthVisible: false,
+
+      //transition
+      transitionDuration: 0.35,
     });
     //test model url
     const a=import.meta.env.BASE_URL + "/art/test3d/8 Ultra High Quality Scan_low poly DRACO jpeg (1024).glb";
