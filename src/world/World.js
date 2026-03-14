@@ -26,8 +26,12 @@ export class World {
     this.controls = new ControlsFPS({ camera: this.camera, domElement: this.renderer.domElement, autoRotate: true, autoRotateSpeed: -0.05 });
     // focus helper for smoothly moving camera to screens
     this.focus = new CameraFocus({ camera: this.camera });
+    this._artworkRegistry = [];
+    this._currentArtworkIndex = -1;
     this.infoPanel = new InfoPanel({
-      onClose: () => this.screenManager.onMiss?.()
+      onClose: () => this.screenManager.onMiss?.(),
+      onNav: (dir) => this._navigateArtwork(dir),
+      onJumpTo: (idx) => this._navigateToIndex(idx)
     });
     this._controlsSaved = null;
     this._focusState = "idle"; // idle | focusing | focused | returning
@@ -49,49 +53,8 @@ export class World {
       debugOn: true // set to true to show clickable podiums
     });
 
-    this.screenManager.onHit = (obj, hit) => {
-      if (this._focusCooldown > 0) return;
-      if (this.focus.isMoving) return; // ignore double clicks mid-transition
-
-      // easiest: store a reference when you add screens (see below), or:
-      const target = obj.userData.focusTarget || obj;
-      const revealTarget = obj.userData.revealTarget || obj;
-
-     //console.log("Hit screen/podium", obj, "focusing", target);
-     if (this._focusState === "idle") {
-        this.focus.setHomeFromCurrent?.(); // if your CameraFocus has it
-      }
-      this._enterFocusMode();
-      this._focusState = "focusing";
-      this._focusCooldown = 0.2;
-
-      // Hide previous focused screen
-      if (this._focusedScreen && this._focusedScreen !== target) {
-        this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.25);
-        this._animateReveal(this._lastRevealedScreen, 0.0, 1.0, 0.25);
-      }
-
-
-      // Show new focused screen
-      this._focusedScreen = target;
-      this._lastRevealedScreen = revealTarget;
-
-      if(this._focusedScreen!=this._lastfocusedScreen){
-        // REVEAL animation
-        this._animateReveal(target, 1.0, 0.0, 0.4);
-
-        this._animateReveal(revealTarget, 1.0, 0.0, 0.4);
-        this._lastfocusedScreen = this._focusedScreen;
-      }
-
-
-
-      // sets how the focus control works on all artworks/screens
-      this.focus.focusOn({ targetObject: target, distance: "fit", heightOffset: 0.0, duration: 0.7 , padding: 1});
-
-      // Show info panel for this artwork
-      const info = obj.userData.artworkInfo;
-      if (info) this.infoPanel.show(info);
+    this.screenManager.onHit = (obj) => {
+      this._focusOnObj(obj);
     };
 
     this.screenManager.onMiss = () => {
@@ -131,6 +94,12 @@ export class World {
 
     // start location
     this.locations.goTo("lobby", { duration: 0.01 });
+
+    // Arrow key navigation
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft")  this._navigateArtwork(-1);
+      if (e.key === "ArrowRight") this._navigateArtwork(1);
+    });
 
     
     
@@ -212,7 +181,7 @@ export class World {
 
 
     //screens
-    this.screenManager.addScreen({
+    this._registerArtwork(this.screenManager.addScreen({
       url: "https://picsum.photos/id/1011/900/900",
       width: 2,
       height: 1.25,
@@ -231,9 +200,9 @@ export class World {
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
-    });
+    }));
 
-    this.screenManager.addScreen({
+    this._registerArtwork(this.screenManager.addScreen({
       url: "https://picsum.photos/id/1011/900/900",
       width: 2,
       height: 1.25,
@@ -250,9 +219,9 @@ export class World {
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
-    });
+    }));
 
-    this.screenManager.addScreen({
+    this._registerArtwork(this.screenManager.addScreen({
       url: "https://picsum.photos/id/1011/900/900",
       width: 2,
       height: 1.25,
@@ -261,10 +230,15 @@ export class World {
       clickable: true,
       offsetClick: 0.0,
       text: "Image Screen",
+      artworkInfo: {
+        title: "Untitled III",
+        artist: "Placeholder Artist 2",
+        description: "A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility."
+      },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
-    });
+    }));
 
     /*
     this.screenManager.addScreen({
@@ -285,7 +259,7 @@ export class World {
     */
 
 
-    this.screenManager.addScreen({
+    this._registerArtwork(this.screenManager.addScreen({
       url: "https://picsum.photos/id/1011/900/900",
       width: 1.5,
       height: 1.5,
@@ -296,12 +270,17 @@ export class World {
       clickableSize: [2.2, 2.5],
       text: "Image Screen",
       plinthVisible: false,
+      artworkInfo: {
+        title: "Untitled II",
+        artist: "Placeholder Artist 2",
+        description: "A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility."
+      },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
-    });
+    }));
 
-    this.screenManager.addScreen({
+    this._registerArtwork(this.screenManager.addScreen({
       url: "https://picsum.photos/id/1011/900/900",
       width: 1.5,
       height: 2,
@@ -310,13 +289,18 @@ export class World {
       clickable: true,
       offsetClick: 0.0,
       text: "Image Screen",
+      artworkInfo: {
+        title: "Untitled II",
+        artist: "Placeholder Artist 2",
+        description: "A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility."
+      },
       plinthVisible: false,
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
-    });
+    }));
 
-    this.screenManager.addScreen({
+    this._registerArtwork(this.screenManager.addScreen({
       url: "https://picsum.photos/id/1011/900/900",
       width: 3,
       height: 3,
@@ -326,11 +310,17 @@ export class World {
       offsetClick: 0.0,
       text: "Image Screen",
       plinthVisible: false,
+      artworkInfo: {
+        title: "Untitled II",
+        artist: "Placeholder Artist 2",
+        description: "A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility."
+      },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
-    });
-     this.screenManager.addScreen({
+    }));
+
+    this._registerArtwork(this.screenManager.addScreen({
       url: "https://picsum.photos/id/1011/900/900",
       width: 3,
       height: 3,
@@ -340,12 +330,17 @@ export class World {
       offsetClick: 0.0,
       text: "Image Screen",
       plinthVisible: false,
+      artworkInfo: {
+        title: "Untitled II",
+        artist: "Placeholder Artist 2",
+        description: "A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility."
+      },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
-    });
+    }));
 
-    this.screenManager.addScreen({
+    this._registerArtwork(this.screenManager.addScreen({
       url: "https://picsum.photos/id/1011/900/900",
       width: 3,
       height: 3,
@@ -355,12 +350,17 @@ export class World {
       plinthVisible: false,
       offsetClick: 0.0,
       text: "Image Screen",
+      artworkInfo: {
+        title: "Untitled II",
+        artist: "Placeholder Artist 2",
+        description: "A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility."
+      },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
-    });
+    }));
 
-    this.screenManager.addContentScreen({
+    this._registerArtwork(this.screenManager.addContentScreen({
       content: {
         title: "Artist Name",
         artist: "Chancery Rosewood",
@@ -375,17 +375,17 @@ export class World {
       height: 2.25,
       position: [-5, 1.4, -6],
       rotation: [0, 30, 0],
-      offsetClick: .7,
+      offsetClick: .2,
       infoWidth: 1.6,
       infoHeight: 1.2,
       infoOffset: [0, -1.7, 0.55],
-      clickableSize: [2.2, 3.75],
+      clickableSize: [2.2, 2.2],
       clickable: true,
       plinthVisible: false,
 
       //transition
       transitionDuration: 0.35,
-    });
+    }).screenMesh);
     //test model url
     const a=import.meta.env.BASE_URL + "/art/test3d/8 Ultra High Quality Scan_low poly DRACO jpeg (1024).glb";
     //3d models
@@ -398,7 +398,8 @@ export class World {
     onClick: (obj, hit) => console.log("Model clicked:", obj),
     text: "STATUE_01",
     textOffset: [0, -0.1, 0.9],
-    hitboxSize: [1.0, 3.0, 1.0],
+    hitboxSize: [1.0, 2.0, 1.0],
+    offsetClick: -0.4,
     plinthVisible: false,
     playAnimation: "first",
     artworkInfo: {
@@ -407,10 +408,10 @@ export class World {
       description: "A 3D sculptural work rendered in real-time. Rotate and explore the form from any angle."
     }
   }).then((modelRoot) => {
-    // optional: store reference
     this.statue = modelRoot;
+    this._registerArtwork(modelRoot);
   }).catch(console.error);
-  
+
   this.screenManager.addModel({
     url: a,
     position: [4.8, 0, 3.8],
@@ -524,6 +525,68 @@ export class World {
     this._controlsSaved = null;
   }
 
+
+  _focusOnObj(obj) {
+    if (this._focusCooldown > 0) return;
+    if (this.focus.isMoving) return;
+
+    const target = obj.userData.focusTarget || obj;
+    const revealTarget = obj.userData.revealTarget || obj;
+
+    if (this._focusState === "idle") {
+      this.focus.setHomeFromCurrent?.();
+    }
+    this._enterFocusMode();
+    this._focusState = "focusing";
+    this._focusCooldown = 0.2;
+
+    if (this._focusedScreen && this._focusedScreen !== target) {
+      this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.25);
+      this._animateReveal(this._lastRevealedScreen, 0.0, 1.0, 0.25);
+    }
+
+    this._focusedScreen = target;
+    this._lastRevealedScreen = revealTarget;
+
+    if (this._focusedScreen !== this._lastfocusedScreen) {
+      this._animateReveal(target, 1.0, 0.0, 0.4);
+      this._animateReveal(revealTarget, 1.0, 0.0, 0.4);
+      this._lastfocusedScreen = this._focusedScreen;
+    }
+
+    this.focus.focusOn({ targetObject: target, distance: "fit", heightOffset: 0.0, duration: 0.7, padding: 1 });
+
+    const info = obj.userData.artworkInfo;
+    if (info) this.infoPanel.show(info);
+
+    const idx = this._artworkRegistry.findIndex(r => r.obj === obj);
+    if (idx !== -1) {
+      this._currentArtworkIndex = idx;
+      this.infoPanel.setActiveIndex(idx, this._artworkRegistry.length);
+    }
+  }
+
+  _registerArtwork(mesh) {
+    // For screens: focusTarget is the hitBox; for models: userData.hitBox is set
+    const clickable = mesh.userData?.hitBox || mesh.userData?.focusTarget || mesh;
+    const info = clickable.userData?.artworkInfo || mesh.userData?.artworkInfo;
+    if (!info) return;
+    this._artworkRegistry.push({ info, obj: clickable });
+    this.infoPanel.setRegistry(this._artworkRegistry);
+  }
+
+  _navigateArtwork(dir) {
+    const len = this._artworkRegistry.length;
+    if (!len) return;
+    const next = ((this._currentArtworkIndex + dir) % len + len) % len;
+    this._navigateToIndex(next);
+  }
+
+  _navigateToIndex(idx) {
+    const entry = this._artworkRegistry[idx];
+    if (!entry) return;
+    this._focusOnObj(entry.obj);
+  }
 
   _setReveal(mesh, v) {
     const mat = mesh?.userData?.revealMaterial;

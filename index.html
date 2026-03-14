@@ -8,36 +8,36 @@
   <body>
     <div id="app"></div>
 
-     <div class="hud" id="hud">
-      <b>Two Carousels (Selectable)</b><br/>
-      Use the selector to jump to a carousel. Only the active one updates sequentially (buffer method).<br/>
-      Click canvas to pointer-lock • Move mouse to look • Esc to unlock
-    </div>
-
     <div class="menu" id="menu">
-      <div class="menu-title">Choose carousel</div>
       <div class="menu-row">
-        <div class="btn" id="btnA" data-loc="lobby">Lobby</div>
-        <div class="btn" id="btnA" data-loc="galleryA">Carousel A</div>
-        <div class="btn" id="btnB" data-loc="galleryB">Carousel B</div>
-        <div class="btn" id="btnB" data-loc="winners">Winners</div>
+        <div class="btn artwork-nav__prev" aria-label="Previous artwork">&#8592;</div>
+        <div class="btn artwork-nav__list-btn" aria-label="All artworks">All works</div>
+        <div class="btn artwork-nav__next" aria-label="Next artwork">&#8594;</div>
       </div>
-      <div class="small" id="menuNote">Tip: unlock pointer (Esc) to click buttons.</div>
-    </div>
-
-    <div class="hint">
-      <b>Controls</b><br/>
-      • Click canvas: pointer lock (FPS)<br/>
-      • Drag (no lock): look around<br/>
-      • Wheel: nudge yaw<br/>
-      • Selector buttons: camera moves to that carousel’s center
+      <div class="menu-divider"></div>
+      <div class="menu-row">
+        <div class="btn" data-loc="lobby">Lobby</div>
+        <div class="btn" data-loc="galleryA">Gallery A</div>
+        <div class="btn" data-loc="galleryB">Gallery B</div>
+        <div class="btn" data-loc="winners">Winners</div>
+      </div>
     </div>
 
     <div id="info-panel" class="info-panel">
-      <button class="info-panel__close" aria-label="Close">✕</button>
-      <div class="info-panel__title"></div>
+      <div class="info-panel__header">
+        <div class="info-panel__title"></div>
+        <button class="info-panel__close" aria-label="Close">&#10005;</button>
+      </div>
       <div class="info-panel__artist"></div>
       <div class="info-panel__description"></div>
+    </div>
+
+    <div id="artwork-list" class="artwork-list">
+      <div class="artwork-list__header">
+        <span class="artwork-list__heading">All Artworks</span>
+        <button class="artwork-list__close" aria-label="Close list">&#10005;</button>
+      </div>
+      <div class="artwork-list__items"></div>
     </div>
 
     <!-- Main application script -->

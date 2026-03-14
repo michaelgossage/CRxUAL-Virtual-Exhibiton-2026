@@ -8,5 +8,9 @@ node_modules/.cache/
 # build output
 dist/
 
+
 # system
 .DS_Store
+
+#local data
+public/art/
