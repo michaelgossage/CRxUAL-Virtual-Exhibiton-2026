@@ -74,6 +74,7 @@ export class ScreenManager {
     plinthVisible = true,
     clickableSize = [width * 1.2, height * 1.2], // size of the clickable hitBox (if clickable)
     onClick = null, // optional callback(meshOrPodium, hit)
+    artworkInfo = null, // { title, artist, description }
   }) {
 
     if (this.debugOn) {
@@ -143,6 +144,7 @@ export class ScreenManager {
       hitBox.userData.cameraScalar = _cameraScalar;
       hitBox.userData.onClick = onClick;
       hitBox.userData.focusTarget = screenMesh;
+      hitBox.userData.artworkInfo = artworkInfo;
 
       if (isVideo) hitBox.userData.video = video;
 
@@ -201,6 +203,7 @@ export class ScreenManager {
 
     // make screen itself clickable too (optional)
     screenMesh.userData.onClick = onClick;
+    screenMesh.userData.artworkInfo = artworkInfo;
     if (clickable) this.clickables.push(screenMesh);
 
     return screenMesh;
@@ -252,7 +255,12 @@ export class ScreenManager {
       fontSize,
       clickableSize,
       onClick: onFocusClick,
-      plinthVisible
+      plinthVisible,
+      artworkInfo: {
+        title: content.title ?? "",
+        artist: content.artist ?? "",
+        description: content.bio ?? ""
+      }
     });
 
     // Find its record (so we can swap its texture later)
@@ -641,7 +649,8 @@ async addModel({
   receiveShadow = true,
 
   playAnimation = "first",  // "first" | null | "name"
-  onClick = null
+  onClick = null,
+  artworkInfo = null, // { title, artist, description }
 }) {
   // Convert degrees to radians to match your convention
   const rotRad = rotation.map(r => THREE.MathUtils.degToRad(r));
@@ -711,6 +720,8 @@ async addModel({
     hitBox.userData.focusTarget = modelRoot; // so camera focus can target the model
     hitBox.userData.focusTarget = hitBox; // focus on hitBox itself for better framing, but you can switch to modelRoot if you want to focus on the model directly
     hitBox.userData.isModelHitbox = true;
+    hitBox.userData.artworkInfo = artworkInfo;
+    modelRoot.userData.hitBox = hitBox; // expose for external registry access
 
     this.scene.add(hitBox);
     this.hitBoxes.push(hitBox);

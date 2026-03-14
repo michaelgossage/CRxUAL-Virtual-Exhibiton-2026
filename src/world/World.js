@@ -12,6 +12,7 @@ import { applyHDRI } from "./hdri.js";
 
 import { LocationManager } from "./LocationManager.js";
 import { makeArchGridMaterial } from "../shaders/gridShader.js";
+import { InfoPanel } from "../ui/InfoPanel.js";
 
 
 
@@ -25,6 +26,9 @@ export class World {
     this.controls = new ControlsFPS({ camera: this.camera, domElement: this.renderer.domElement, autoRotate: true, autoRotateSpeed: -0.05 });
     // focus helper for smoothly moving camera to screens
     this.focus = new CameraFocus({ camera: this.camera });
+    this.infoPanel = new InfoPanel({
+      onClose: () => this.screenManager.onMiss?.()
+    });
     this._controlsSaved = null;
     this._focusState = "idle"; // idle | focusing | focused | returning
     this._focusCooldown = 0;
@@ -42,7 +46,7 @@ export class World {
       camera: this.camera,
       domElement: this.renderer.domElement,
       makeTextPlane,
-      debugOn: false // set to true to show clickable podiums
+      debugOn: true // set to true to show clickable podiums
     });
 
     this.screenManager.onHit = (obj, hit) => {
@@ -84,6 +88,10 @@ export class World {
 
       // sets how the focus control works on all artworks/screens
       this.focus.focusOn({ targetObject: target, distance: "fit", heightOffset: 0.0, duration: 0.7 , padding: 1});
+
+      // Show info panel for this artwork
+      const info = obj.userData.artworkInfo;
+      if (info) this.infoPanel.show(info);
     };
 
     this.screenManager.onMiss = () => {
@@ -97,6 +105,9 @@ export class World {
       this._focusCooldown = 0.2;
 
       this.focus.returnHome(0.7);
+
+      // Hide info panel
+      this.infoPanel.hide();
 
       // 🔥 HIDE animation
       this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.3);
@@ -208,11 +219,15 @@ export class World {
       position: [0.0, 1.4, -6.0],   // e.g. on/near carousel A
       rotation: [0, 0, 0],
       clickable: true,
-      offsetClick: .6,
-      clickableSize: [2.2, 2.5],
+      offsetClick: .1,
+      clickableSize: [2.0, 2.0], // make click area bigger than screen size to include podium
       text: "Image Screen",
       plinthVisible: false,
-      
+      artworkInfo: {
+        title: "Untitled I",
+        artist: "Placeholder Artist",
+        description: "A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility. A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility.A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility.A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility."
+      },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
@@ -227,6 +242,11 @@ export class World {
       clickable: true,
       offsetClick: 0.0,
       text: "Image Screen",
+      artworkInfo: {
+        title: "Untitled II",
+        artist: "Placeholder Artist 2",
+        description: "A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility."
+      },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
@@ -343,6 +363,7 @@ export class World {
     this.screenManager.addContentScreen({
       content: {
         title: "Artist Name",
+        artist: "Chancery Rosewood",
         bio: "Long bio goes here...lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
         images: [
           "https://picsum.photos/id/1011/900/900",
@@ -379,7 +400,12 @@ export class World {
     textOffset: [0, -0.1, 0.9],
     hitboxSize: [1.0, 3.0, 1.0],
     plinthVisible: false,
-    playAnimation: "first"
+    playAnimation: "first",
+    artworkInfo: {
+      title: "Statue 01",
+      artist: "Placeholder Sculptor",
+      description: "A 3D sculptural work rendered in real-time. Rotate and explore the form from any angle."
+    }
   }).then((modelRoot) => {
     // optional: store reference
     this.statue = modelRoot;
