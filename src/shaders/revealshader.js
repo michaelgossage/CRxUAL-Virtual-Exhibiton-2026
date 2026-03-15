@@ -61,12 +61,13 @@ export function makeRevealMaterial({
     depthWrite: false,
     toneMapped: false,
     uniforms: {
-      uMap:        { value: map },
-      uMapNext:    { value: mapNext },   // for blending to next texture (not implemented yet)
-      uRevealMap:  { value: revealMap },
-      uReveal:     { value: 1.0 },   // 1 hidden → 0 visible
-      uSoft:       { value: revealSoftness },
-      uBlend:      { value: 0.0 },   // 0 hard reveal, 1 full blend (for debugging)
+      uMap:          { value: map },
+      uMapNext:      { value: mapNext },
+      uRevealMap:    { value: revealMap },
+      uReveal:       { value: 1.0 },
+      uSoft:         { value: revealSoftness },
+      uBlend:        { value: 0.0 },
+      uContainScale: { value: new THREE.Vector2(1, 1) }, // (1,1) = fill (no bars)
     },
     vertexShader: /* glsl */ `
       varying vec2 vUv;
@@ -82,40 +83,32 @@ export function makeRevealMaterial({
       uniform float uReveal;
       uniform float uSoft;
       uniform float uBlend;
+      uniform vec2  uContainScale;
 
       varying vec2 vUv;
 
       void main() {
-        //invert uReveal so 1 → 0 and 0 → 1, s curve for sharper transition at the start and end
-        //float r = 1.0 - uReveal;
         float r = uReveal;
-        r = r * r * (3.0 - 2.0 * r); //s-curve
+        r = r * r * (3.0 - 2.0 * r); // s-curve
 
-        
-        vec4 color = texture2D(uMap, vUv);
-        vec4 colorNext = texture2D(uMapNext, vUv);
+        // contain UV mapping: centres the media and adds black bars for the remainder
+        vec2 uv = (vUv - 0.5) * uContainScale + 0.5;
+        bool inBounds = uv.x >= 0.0 && uv.x <= 1.0 && uv.y >= 0.0 && uv.y <= 1.0;
 
-        
+        vec4 color;
+        if (inBounds) {
+          vec4 colorNext = texture2D(uMapNext, uv);
+          color = texture2D(uMap, uv);
+          float t = 1.0 - smoothstep(uBlend - uSoft, uBlend + uSoft, texture2D(uRevealMap, vUv).r);
+          color = mix(color, colorNext, t);
+        } else {
+          color = vec4(0.0, 0.0, 0.0, 1.0); // black letterbox / pillarbox bars
+        }
 
-        
-
-        // reveal texture: assume grayscale in R channel
+        // reveal mask always uses the full-plane vUv so the radial wipe covers everything
         float maskValue = texture2D(uRevealMap, vUv).r;
+        float alpha = smoothstep(r - uSoft, r + uSoft, maskValue);
 
-        // blend threshold uses same painterly mask
-        float t = 1.0-smoothstep(uBlend - uSoft, uBlend + uSoft, maskValue);
-
-        //blend between current and next texture (not implemented yet)
-        color = mix(color, colorNext, t);
-
-        // compare reveal threshold against mask
-        float alpha = smoothstep(
-          r - uSoft,
-          r + uSoft,
-          maskValue
-        );
-
-        //float a = color.a;// * alpha;
         float a = color.a * alpha;
         if (a < 0.001) discard;
 

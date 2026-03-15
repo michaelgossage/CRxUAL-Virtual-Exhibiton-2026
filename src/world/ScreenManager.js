@@ -24,6 +24,7 @@ export class ScreenManager {
     this.screens = [];   // { mesh, material, texture, video?, textMesh?, hitBox? }
     this.hitBoxes = [];   // clickable meshes (invisible)
     this.clickables = []; // meshes to raycast against
+    this._activeVideo = null; // only one video plays at a time
 
     this.models = [];   // { root, hitBox?, textMesh?, mixer?, clips?, url? }
 
@@ -75,6 +76,7 @@ export class ScreenManager {
     clickableSize = [width * 1.2, height * 1.2], // size of the clickable hitBox (if clickable)
     onClick = null, // optional callback(meshOrPodium, hit)
     artworkInfo = null, // { title, artist, description }
+    poster = null,    // still image URL shown when not focused (video screens only)
   }) {
 
     if (this.debugOn) {
@@ -84,9 +86,35 @@ export class ScreenManager {
     rotation = rotation.map(r => THREE.MathUtils.degToRad(r));
     const isVideo = /\.(mp4|webm|ogg)$/i.test(url);
 
-    const { texture, video } = isVideo
-      ? this._makeVideoTexture(url)
-      : this._makeImageTexture(url);
+    let texture, video, videoTexture, posterTexture;
+
+    const screenAspect = width / height;
+
+    // Async onLoad callbacks below close over `setContainScale` which is defined after
+    // material creation — safe because THREE.TextureLoader always fires onLoad async.
+    if (isVideo) {
+      const vr = this._makeVideoTexture(url);
+      video = vr.video;
+      videoTexture = vr.texture;
+
+      if (poster) {
+        posterTexture = this._makeImageTexture(poster, (loadedTex) => {
+          const img = loadedTex.image;
+          if (img?.naturalWidth > 0) setContainScale(img.naturalWidth / img.naturalHeight);
+        }).texture;
+        texture = posterTexture; // show still until focused
+      } else {
+        texture = videoTexture;
+      }
+
+      if (artworkInfo) artworkInfo.isVideo = true;
+    } else {
+      texture = this._makeImageTexture(url, (loadedTex) => {
+        const img = loadedTex.image;
+        if (img?.naturalWidth > 0) setContainScale(img.naturalWidth / img.naturalHeight);
+      }).texture;
+      video = null; videoTexture = null; posterTexture = null;
+    }
 
     
 
@@ -105,6 +133,21 @@ export class ScreenManager {
     
     const material = makeRevealMaterial({ map: texture, revealMap: revealTex });
     material.userData = { uReveal: 1.0 }; // start hidden
+
+    // Auto-detect media aspect ratio and set contain scale on material
+    const setContainScale = (mediaAspect) => {
+      const [sx, sy] = this._computeContainScale(mediaAspect, screenAspect);
+      material.uniforms.uContainScale.value.set(sx, sy);
+    };
+
+    if (isVideo) {
+      const applyVideoScale = () => {
+        if (video.videoWidth > 0) setContainScale(video.videoWidth / video.videoHeight);
+      };
+      if (video.videoWidth > 0) applyVideoScale();
+      else video.addEventListener("loadedmetadata", applyVideoScale, { once: true });
+    }
+    // Images: contain scale set via onLoad callbacks in _makeImageTexture calls above
 
     const geometry = new THREE.PlaneGeometry(width, height);
     const screenMesh = new THREE.Mesh(geometry, material);
@@ -146,7 +189,36 @@ export class ScreenManager {
       hitBox.userData.focusTarget = screenMesh;
       hitBox.userData.artworkInfo = artworkInfo;
 
-      if (isVideo) hitBox.userData.video = video;
+      if (isVideo) {
+        hitBox.userData.video = video;
+        hitBox.userData.videoTexture = videoTexture;
+        hitBox.userData.posterTexture = posterTexture; // null if no poster
+
+        // Contain scales — populated async once dimensions are known
+        hitBox.userData.videoContainScale = [1, 1];
+        hitBox.userData.posterContainScale = [1, 1];
+
+        const applyVideoScale = () => {
+          if (video.videoWidth > 0) {
+            hitBox.userData.videoContainScale = this._computeContainScale(
+              video.videoWidth / video.videoHeight, screenAspect
+            );
+          }
+        };
+        if (video.videoWidth > 0) applyVideoScale();
+        else video.addEventListener("loadedmetadata", applyVideoScale, { once: true });
+
+        if (poster) {
+          this.textureLoader.load(poster, (loadedTex) => {
+            const img = loadedTex.image;
+            if (img && img.naturalWidth > 0) {
+              hitBox.userData.posterContainScale = this._computeContainScale(
+                img.naturalWidth / img.naturalHeight, screenAspect
+              );
+            }
+          });
+        }
+      }
 
       this.scene.add(hitBox);
       this.hitBoxes.push(hitBox);
@@ -197,7 +269,7 @@ export class ScreenManager {
     // extra info text to be revealed on click
 
 
-    const record = { mesh: screenMesh, material, texture, video: video ?? null, hitBox, textMesh };
+    const record = { mesh: screenMesh, material, texture, video: video ?? null, videoTexture, posterTexture, hitBox, textMesh };
     // store record so we can dispose later
     this.screens.push(record);
 
@@ -482,12 +554,17 @@ export class ScreenManager {
 
   // -------- internal helpers --------
 
-  _makeImageTexture(url) {
-    const tex = this.textureLoader.load(url);
+  _makeImageTexture(url, onLoad = null) {
+    const tex = this.textureLoader.load(url, onLoad);
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.minFilter = THREE.LinearFilter;
     tex.magFilter = THREE.LinearFilter;
     return { texture: tex, video: null };
+  }
+
+  _computeContainScale(mediaAspect, screenAspect) {
+    if (mediaAspect >= screenAspect) return [1.0, mediaAspect / screenAspect];
+    return [screenAspect / mediaAspect, 1.0];
   }
 
   _makeVideoTexture(url) {
@@ -495,14 +572,10 @@ export class ScreenManager {
     video.src = url;
     video.crossOrigin = "anonymous";
     video.loop = true;
-    video.muted = true;
-    video.playsInline = true;     // iOS
-    video.autoplay = true;
-
-    // attempt autoplay (may fail until user gesture)
-    video.play().catch(() => {
-      // leave it paused; you can play it on first user click if you want
-    });
+    video.muted = false;
+    video.playsInline = true; // required for iOS
+    video.preload = "auto";   // start buffering in background so play is snappy on focus
+    // No autoplay — started explicitly on focus via activateVideo()
 
     const tex = new THREE.VideoTexture(video);
     tex.colorSpace = THREE.SRGBColorSpace;
@@ -510,6 +583,70 @@ export class ScreenManager {
     tex.magFilter = THREE.LinearFilter;
 
     return { texture: tex, video };
+  }
+
+  // -------- video management --------
+
+  activateVideo(hitBox) {
+    // Always stop any currently playing video first
+    if (this._activeVideo) {
+      this._activeVideo.pause();
+      const prevHitBox = this.hitBoxes.find(h => h.userData.video === this._activeVideo);
+      if (prevHitBox?.userData.posterTexture) {
+        this._swapScreenTexture(prevHitBox, prevHitBox.userData.posterTexture, prevHitBox.userData.posterContainScale);
+      }
+      this._activeVideo = null;
+    }
+
+    const video = hitBox?.userData?.video;
+    if (!video) return null;
+
+    this._activeVideo = video;
+
+    // Swap screen to video texture (with its contain scale)
+    if (hitBox.userData.videoTexture) {
+      this._swapScreenTexture(hitBox, hitBox.userData.videoTexture, hitBox.userData.videoContainScale);
+    }
+
+    // Play — called within a user-gesture chain so audio is allowed.
+    // readyState >= 3 (HAVE_FUTURE_DATA) means enough is buffered to start.
+    // If not there yet, wait for the first canplay event then try again.
+    const tryPlay = () => video.play().catch(() => {});
+
+    if (video.readyState >= 3) {
+      tryPlay();
+    } else {
+      const onCanPlay = () => {
+        tryPlay();
+        video.removeEventListener("canplay", onCanPlay);
+      };
+      video.addEventListener("canplay", onCanPlay);
+    }
+    return video;
+  }
+
+  deactivateVideo(hitBox) {
+    const video = hitBox?.userData?.video;
+    if (!video) return;
+
+    video.pause();
+    if (this._activeVideo === video) this._activeVideo = null;
+
+    // Restore poster if one was provided (with its contain scale)
+    if (hitBox.userData.posterTexture) {
+      this._swapScreenTexture(hitBox, hitBox.userData.posterTexture, hitBox.userData.posterContainScale);
+    }
+  }
+
+  _swapScreenTexture(hitBox, tex, containScale) {
+    if (!tex) return;
+    const screenMesh = hitBox.userData.revealTarget;
+    if (!screenMesh) return;
+    const mat = screenMesh.userData.revealMaterial;
+    if (mat?.uniforms?.uMap) mat.uniforms.uMap.value = tex;
+    if (containScale && mat?.uniforms?.uContainScale) {
+      mat.uniforms.uContainScale.value.set(...containScale);
+    }
   }
 
   _onClick(e) {
@@ -533,13 +670,6 @@ export class ScreenManager {
     const obj = hit.object;
 
     if (typeof this.onHit === "function") this.onHit(obj, hit);
-
-    // If it’s a hitBox with a video, you might want to toggle play/pause
-    const v = obj.userData.video;
-    if (v) {
-      if (v.paused) v.play().catch(() => {});
-      else v.pause();
-    }
 
     const cb = obj.userData.onClick;
     if (typeof cb === "function") cb(obj, hit);
@@ -646,7 +776,6 @@ async addModel({
   plinthVisible = true,
 
   castShadow = true,
-  receiveShadow = true,
 
   playAnimation = "first",  // "first" | null | "name"
   onClick = null,

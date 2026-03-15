@@ -54,6 +54,16 @@ export class World {
     });
 
     this.screenManager.onHit = (obj) => {
+      const target = obj.userData.focusTarget || obj;
+      // If already focused on this artwork, tap toggles video play/pause
+      if (this._focusState === "focused" && this._focusedScreen === target) {
+        const video = obj.userData.video;
+        if (video) {
+          if (video.paused) video.play().catch(() => {});
+          else video.pause();
+        }
+        return;
+      }
       this._focusOnObj(obj);
     };
 
@@ -69,8 +79,10 @@ export class World {
 
       this.focus.returnHome(0.7);
 
-      // Hide info panel
+      // Pause any playing video and restore poster
+      this.screenManager.deactivateVideo(this._focusedScreen);
       this.infoPanel.hide();
+      this.infoPanel.hideVideoControls();
 
       // 🔥 HIDE animation
       this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.3);
@@ -321,7 +333,8 @@ export class World {
     }));
 
     this._registerArtwork(this.screenManager.addScreen({
-      url: "https://picsum.photos/id/1011/900/900",
+      url: "public/art/film/-46631048878830026754dgs_social_v5.MP4",
+      poster: "https://picsum.photos/id/1011/900/900",
       width: 3,
       height: 3,
       position: [2.0, 0.5, 13.8],   // e.g. on/near carousel A
@@ -558,6 +571,11 @@ export class World {
 
     const info = obj.userData.artworkInfo;
     if (info) this.infoPanel.show(info);
+
+    // Activate video if this is a film screen (stops any previously playing video)
+    const video = this.screenManager.activateVideo(obj);
+    if (video) this.infoPanel.showVideoControls(video);
+    else       this.infoPanel.hideVideoControls();
 
     const idx = this._artworkRegistry.findIndex(r => r.obj === obj);
     if (idx !== -1) {

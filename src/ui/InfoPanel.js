@@ -15,9 +15,20 @@ export class InfoPanel {
     this.listItemsEl = this.listEl.querySelector(".artwork-list__items");
     this.listCloseBtn = this.listEl.querySelector(".artwork-list__close");
 
+    // Video controls
+    this.videoEl     = this.el.querySelector(".info-panel__video");
+    this.playPauseBtn = this.el.querySelector(".video-ctrl__playpause");
+    this.timeEl       = this.el.querySelector(".video-ctrl__time");
+    this.scrubberEl   = this.el.querySelector(".video-ctrl__scrubber");
+    this.durationEl   = this.el.querySelector(".video-ctrl__duration");
+    this._activeVideo = null;
+    this._rafId = null;
+    this.videoEl.hidden = false; // let CSS class control visibility
+
     this._onJumpTo = onJumpTo;
     this._registry = [];
 
+    // Scrollable description mask
     this.descEl.addEventListener("scroll", () => this._updateMask(), { passive: true });
 
     this.closeBtn.addEventListener("click", () => {
@@ -35,6 +46,23 @@ export class InfoPanel {
 
     this.listBtn.addEventListener("click", () => this._toggleList());
     this.listCloseBtn.addEventListener("click", () => this._closeList());
+
+    // Video control events
+    this.playPauseBtn.addEventListener("click", () => {
+      const v = this._activeVideo;
+      if (!v) return;
+      if (v.paused) v.play().catch(() => {});
+      else          v.pause();
+    });
+
+    this.scrubberEl.addEventListener("input", () => {
+      const v = this._activeVideo;
+      if (!v || isNaN(v.duration)) return;
+      v.currentTime = parseFloat(this.scrubberEl.value) * v.duration;
+    });
+
+    // Keep scrubber from triggering 3D scene clicks
+    this.scrubberEl.addEventListener("pointerdown", e => e.stopPropagation());
   }
 
   show({ title = "", artist = "", description = "" } = {}) {
@@ -53,6 +81,31 @@ export class InfoPanel {
   hide() {
     this.el.classList.remove("info-panel--visible");
     this._closeList();
+  }
+
+  showVideoControls(video) {
+    this._activeVideo = video;
+    this.videoEl.classList.add("info-panel__video--visible");
+
+    // Update duration once metadata is ready
+    const setDuration = () => {
+      if (!isNaN(video.duration)) {
+        this.durationEl.textContent = this._formatTime(video.duration);
+      }
+    };
+    if (!isNaN(video.duration)) setDuration();
+    else video.addEventListener("loadedmetadata", setDuration, { once: true });
+
+    this._startVideoLoop();
+  }
+
+  hideVideoControls() {
+    this._stopVideoLoop();
+    this._activeVideo = null;
+    this.videoEl.classList.remove("info-panel__video--visible");
+    this.scrubberEl.value = 0;
+    this.timeEl.textContent = "0:00";
+    this.durationEl.textContent = "0:00";
   }
 
   setRegistry(registry) {
@@ -93,21 +146,50 @@ export class InfoPanel {
     this.listEl.classList.remove("artwork-list--visible");
   }
 
+  // ── Video loop ────────────────────────────────────────────
+
+  _startVideoLoop() {
+    this._stopVideoLoop();
+    const tick = () => {
+      this._tickVideo();
+      this._rafId = requestAnimationFrame(tick);
+    };
+    this._rafId = requestAnimationFrame(tick);
+  }
+
+  _stopVideoLoop() {
+    if (this._rafId !== null) cancelAnimationFrame(this._rafId);
+    this._rafId = null;
+  }
+
+  _tickVideo() {
+    const v = this._activeVideo;
+    if (!v || isNaN(v.duration)) return;
+
+    this.scrubberEl.value = v.currentTime / v.duration;
+    this.timeEl.textContent = this._formatTime(v.currentTime);
+    this.playPauseBtn.innerHTML = v.paused ? "&#9654;" : "&#9646;&#9646;";
+  }
+
+  _formatTime(s) {
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60).toString().padStart(2, "0");
+    return `${m}:${sec}`;
+  }
+
+  // ── Scroll mask ───────────────────────────────────────────
+
   _updateMask() {
     const el = this.descEl;
-    const atTop = el.scrollTop <= 2;
+    const atTop    = el.scrollTop <= 2;
     const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 2;
     const overflows = el.scrollHeight > el.clientHeight + 4;
 
     let mask = "none";
     if (overflows) {
-      if (atTop) {
-        mask = "linear-gradient(to bottom, black 70%, transparent 100%)";
-      } else if (atBottom) {
-        mask = "linear-gradient(to bottom, transparent 0%, black 30%)";
-      } else {
-        mask = "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)";
-      }
+      if (atTop)         mask = "linear-gradient(to bottom, black 70%, transparent 100%)";
+      else if (atBottom) mask = "linear-gradient(to bottom, transparent 0%, black 30%)";
+      else               mask = "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)";
     }
 
     el.style.maskImage = mask;
