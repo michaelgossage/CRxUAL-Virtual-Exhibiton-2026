@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Liquid Image Transition</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; }
+  body { background: #000; overflow: hidden; }
+  canvas {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    cursor: crosshair;
+    touch-action: none;
+  }
+
+  #ui {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+    z-index: 10;
+    pointer-events: none;
+    font-family: 'Courier New', monospace;
+  }
+
+  .pill {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.7);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    backdrop-filter: blur(10px);
+  }
+
+  #hint {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.25);
+    text-transform: uppercase;
+    pointer-events: none;
+    transition: opacity 1s;
+  }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<div id="ui">
+  <div class="pill">LIQUID SIM</div>
+  <div class="pill" id="modeLabel">IMAGE 1</div>
+</div>
+
+<div id="hint">drag to disturb · lift to reveal next</div>
+
+<script>
+const canvas = document.getElementById('c');
+const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
+
+if (!gl) {
+  document.body.innerHTML = '<p style="color:white;padding:2rem">WebGL not supported</p>';
+  throw new Error('WebGL not supported');
+}
+
+function resizeCanvas() {
+  const dpr = Math.max(1, window.devicePixelRatio || 1);
+  canvas.width = Math.round(window.innerWidth * dpr);
+  canvas.height = Math.round(window.innerHeight * dpr);
+  gl.viewport(0, 0, canvas.width, canvas.height);
+}
+
+const vertSrc = `
+attribute vec2 a_pos;
+varying vec2 v_uv;
+void main() {
+  v_uv = a_pos * 0.5 + 0.5;
+  gl_Position = vec4(a_pos, 0.0, 1.0);
+}
+`;
+
+const simSrc = `
+precision highp float;
+varying vec2 v_uv;
+
+uniform sampler2D u_vel;
+uniform vec2      u_res;
+uniform vec2      u_mouse;
+uniform vec2      u_mouseDelta;
+uniform float     u_dt;
+uniform float     u_active;
+
+void main() {
+  vec2 uv = gl_FragCoord.xy / u_res;
+  vec2 px = 1.0 / u_res;
+
+  vec4 cur  = texture2D(u_vel, uv);
+  vec2 vel  = cur.rg;
+  float dye = cur.b;
+
+  vec2 prevUV = clamp(uv - vel * u_dt * 0.4, px, 1.0 - px);
+  vec4 prev   = texture2D(u_vel, prevUV);
+  vel = prev.rg * 0.992;
+  dye = prev.b  * 0.988;
+
+  vec2 vN = texture2D(u_vel, uv + vec2(0.0, px.y)).rg;
+  vec2 vS = texture2D(u_vel, uv - vec2(0.0, px.y)).rg;
+  vec2 vE = texture2D(u_vel, uv + vec2(px.x, 0.0)).rg;
+  vec2 vW = texture2D(u_vel, uv - vec2(px.x, 0.0)).rg;
+  vel = mix(vel, (vN + vS + vE + vW) * 0.25, 0.10);
+
+  if (u_active > 0.5) {
+    vec2 mUV = u_mouse * 0.5 + 0.5;
+    float ar = u_res.x / u_res.y;
+    vec2 diff = uv - mUV;
+    diff.x *= ar;
+
+    float splat = exp(-dot(diff, diff) * 1800.0);
+    vel += u_mouseDelta * splat * 5.0;
+    dye += splat * 1.7;
+  }
+
+  gl_FragColor = vec4(vel, clamp(dye, 0.0, 1.0), 1.0);
+}
+`;
+
+const renderSrc = `
+precision highp float;
+varying vec2 v_uv;
+
+uniform sampler2D u_sim;
+uniform sampler2D u_texFrom;
+uniform sampler2D u_texTo;
+
+uniform vec2  u_res;
+uniform float u_blend;
+uniform vec2  u_wipeOrigin;
+uniform vec2  u_fromSize;
+uniform vec2  u_toSize;
+uniform float u_isTransitioning;
+uniform float u_dragReveal;
+uniform float u_time;
+
+float hash(vec2 p) {
+  return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+}
+
+float noise(vec2 p) {
+  vec2 i = floor(p);
+  vec2 f = fract(p);
+  vec2 u = f * f * (3.0 - 2.0 * f);
+  return mix(
+    mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x),
+    mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x),
+    u.y
+  );
+}
+
+float fbm(vec2 p) {
+  float v = 0.0;
+  float a = 0.5;
+  for (int i = 0; i < 5; i++) {
+    v += noise(p) * a;
+    p = p * 2.0 + vec2(17.3, 9.1);
+    a *= 0.5;
+  }
+  return v;
+}
+
+vec2 fitCoverUV(vec2 uv, vec2 imgSize, vec2 viewportSize) {
+  float scale = max(viewportSize.x / imgSize.x, viewportSize.y / imgSize.y);
+  vec2 scaledImageSize = imgSize * scale;
+  vec2 visibleFrac = viewportSize / scaledImageSize;
+  vec2 offset = (1.0 - visibleFrac) * 0.5;
+  return offset + uv * visibleFrac;
+}
+
+vec3 sampleImageCover(
+  sampler2D tex,
+  vec2 screenUV,
+  vec2 imgSize,
+  vec2 viewportSize,
+  vec2 warp
+) {
+  vec2 uv = screenUV + warp;
+  vec2 cuv = fitCoverUV(uv, imgSize, viewportSize);
+  cuv = clamp(cuv, 0.001, 0.999);
+  return texture2D(tex, cuv).rgb;
+}
+
+void main() {
+  vec2 uv = gl_FragCoord.xy / u_res;
+  float ar = u_res.x / u_res.y;
+
+  vec4 sim = texture2D(u_sim, uv);
+  vec2 vel = sim.rg;
+  float dye = sim.b;
+
+  // Increased image dispersion.
+  vec2 imageWarp =
+      vel * 0.090 +
+      normalize(vel + vec2(0.0001)) * dye * 0.018;
+
+  vec3 colFrom = sampleImageCover(u_texFrom, uv, u_fromSize, u_res, imageWarp);
+  vec3 colTo   = sampleImageCover(u_texTo,   uv, u_toSize,   u_res, imageWarp);
+
+  float dragRevealMask = smoothstep(0.02, 0.30, dye) * u_dragReveal;
+  vec3 baseCol = mix(colFrom, colTo, dragRevealMask);
+
+  vec2 originUV = u_wipeOrigin * 0.5 + 0.5;
+  vec2 d = uv - originUV;
+  d.x *= ar;
+
+  float distFromOrigin = length(d);
+
+  vec2 flow1 = uv * 3.0 + vel * 2.2 + vec2(u_time * 0.08, -u_time * 0.05);
+  vec2 flow2 = uv * 7.0 + vec2(-u_time * 0.03, u_time * 0.06);
+
+  float painterA = fbm(flow1);
+  float painterB = fbm(flow2 + painterA * 1.5);
+  float painterC = noise(uv * 20.0 + painterB * 3.0);
+
+  float painterlyNoise =
+      (painterA - 0.5) * 0.22 +
+      (painterB - 0.5) * 0.15 +
+      (painterC - 0.5) * 0.06 +
+      dye * 0.12;
+
+  float maxRadius = length(vec2(ar, 1.0));
+  float progressRadius = u_blend * maxRadius * 1.18;
+
+  float edge = distFromOrigin + painterlyNoise;
+
+  float feather = 0.12;
+  float transitionReveal = 1.0 - smoothstep(progressRadius - feather, progressRadius + feather, edge);
+  transitionReveal *= u_isTransitioning;
+
+  float paintBreakup = smoothstep(0.25, 0.85, painterA * 0.7 + painterB * 0.5 + dye * 0.35);
+  transitionReveal = clamp(
+    transitionReveal + paintBreakup * 0.18 * u_isTransitioning,
+    0.0,
+    1.0
+  );
+
+  vec3 col = mix(baseCol, colTo, transitionReveal);
+
+  float rim = smoothstep(0.35, 0.95, transitionReveal) - smoothstep(0.80, 1.0, transitionReveal);
+  col += vec3(0.06, 0.05, 0.04) * rim * (0.5 + painterB * 0.5);
+
+  float speed = length(vel);
+  col += vec3(speed * dye * 0.14);
+
+  vec2 vig = uv * 2.0 - 1.0;
+  vig.x *= ar;
+  col *= 1.0 - dot(vig, vig) * 0.22;
+
+  gl_FragColor = vec4(col, 1.0);
+}
+`;
+
+function makeShader(type, src) {
+  const s = gl.createShader(type);
+  gl.shaderSource(s, src);
+  gl.compileShader(s);
+  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+    console.error(gl.getShaderInfoLog(s));
+  }
+  return s;
+}
+
+function makeProgram(vs, fs) {
+  const p = gl.createProgram();
+  gl.attachShader(p, makeShader(gl.VERTEX_SHADER, vs));
+  gl.attachShader(p, makeShader(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) {
+    console.error(gl.getProgramInfoLog(p));
+  }
+  return p;
+}
+
+function makeFBO(w, h) {
+  const tex = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+  const fb = gl.createFramebuffer();
+  gl.bindFramebuffer(gl.FRAMEBUFFER, fb);
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+
+  return { tex, fb };
+}
+
+function createTextureFromImage(img) {
+  const tex = gl.createTexture();
+  gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  return tex;
+}
+
+function loadImage(url) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+
+const quadBuf = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, quadBuf);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+  -1, -1,
+   1, -1,
+  -1,  1,
+   1,  1
+]), gl.STATIC_DRAW);
+
+function bindQuad(prog) {
+  gl.bindBuffer(gl.ARRAY_BUFFER, quadBuf);
+  const loc = gl.getAttribLocation(prog, 'a_pos');
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+}
+
+const simProg = makeProgram(vertSrc, simSrc);
+const renderProg = makeProgram(vertSrc, renderSrc);
+
+const SIM_SCALE = 0.35;
+let simW = 0, simH = 0, fboA = null, fboB = null;
+
+function initFBOs() {
+  simW = Math.max(2, Math.floor(canvas.width * SIM_SCALE));
+  simH = Math.max(2, Math.floor(canvas.height * SIM_SCALE));
+  fboA = makeFBO(simW, simH);
+  fboB = makeFBO(simW, simH);
+}
+
+function clearFramebuffer(fbo, w, h) {
+  gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
+  gl.viewport(0, 0, w, h);
+  gl.disable(gl.BLEND);
+  gl.clearColor(0, 0, 0, 0);
+  gl.clear(gl.COLOR_BUFFER_BIT);
+}
+
+function clearSim() {
+  if (!fboA || !fboB) return;
+  clearFramebuffer(fboA.fb, simW, simH);
+  clearFramebuffer(fboB.fb, simW, simH);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  gl.viewport(0, 0, canvas.width, canvas.height);
+}
+
+resizeCanvas();
+initFBOs();
+clearSim();
+
+window.addEventListener('resize', () => {
+  resizeCanvas();
+  initFBOs();
+  clearSim();
+});
+
+const IMAGE_URLS = [
+  'https://picsum.photos/id/1015/1600/1000',
+  'https://picsum.photos/id/1016/1600/1000',
+  'https://picsum.photos/id/1025/1600/1000',
+  'https://picsum.photos/id/1035/1600/1000',
+  'https://picsum.photos/id/1043/1600/1000'
+];
+
+let images = [];
+let currentIndex = 0;
+let nextIndex = 1;
+
+let blend = 0;
+let transitioning = false;
+let transitionStart = 0;
+const TRANSITION_DURATION = 0.85;
+
+let wipeOrigin = { x: 0.0, y: 0.0 };
+
+let mouse = {
+  x: 0, y: 0,
+  px: 0, py: 0,
+  active: false,
+  lastX: 0, lastY: 0
+};
+
+const modeLabel = document.getElementById('modeLabel');
+const hint = document.getElementById('hint');
+setTimeout(() => { hint.style.opacity = '0'; }, 5000);
+
+function updateLabel() {
+  modeLabel.textContent = `IMAGE ${currentIndex + 1}`;
+}
+
+function ndcPos(clientX, clientY) {
+  const r = canvas.getBoundingClientRect();
+  return {
+    x: ((clientX - r.left) / r.width) * 2 - 1,
+    y: -((clientY - r.top) / r.height) * 2 + 1
+  };
+}
+
+function getPreviewIndex() {
+  return (currentIndex + 1) % images.length;
+}
+
+function startTransition(ox, oy) {
+  if (transitioning || images.length < 2) return;
+  wipeOrigin.x = ox;
+  wipeOrigin.y = oy;
+  nextIndex = getPreviewIndex();
+  blend = 0;
+  transitioning = true;
+  transitionStart = performance.now() * 0.001;
+}
+
+function pointerDown(e) {
+  const src = e.touches ? e.touches[0] : e;
+  const p = ndcPos(src.clientX, src.clientY);
+  mouse.x = mouse.px = p.x;
+  mouse.y = mouse.py = p.y;
+  mouse.lastX = p.x;
+  mouse.lastY = p.y;
+  mouse.active = true;
+  e.preventDefault();
+}
+
+function pointerMove(e) {
+  if (!mouse.active) return;
+  const src = e.touches ? e.touches[0] : e;
+  const p = ndcPos(src.clientX, src.clientY);
+  mouse.px = mouse.x;
+  mouse.py = mouse.y;
+  mouse.x = p.x;
+  mouse.y = p.y;
+  mouse.lastX = p.x;
+  mouse.lastY = p.y;
+  e.preventDefault();
+}
+
+function pointerUp(e) {
+  if (!mouse.active) return;
+  mouse.active = false;
+  mouse.px = mouse.x;
+  mouse.py = mouse.y;
+  startTransition(mouse.lastX, mouse.lastY);
+  e.preventDefault();
+}
+
+canvas.addEventListener('mousedown', pointerDown, { passive: false });
+canvas.addEventListener('mousemove', pointerMove, { passive: false });
+canvas.addEventListener('mouseup', pointerUp, { passive: false });
+canvas.addEventListener('mouseleave', pointerUp, { passive: false });
+
+canvas.addEventListener('touchstart', pointerDown, { passive: false });
+canvas.addEventListener('touchmove', pointerMove, { passive: false });
+canvas.addEventListener('touchend', pointerUp, { passive: false });
+canvas.addEventListener('touchcancel', pointerUp, { passive: false });
+
+async function initImages() {
+  const loaded = await Promise.all(IMAGE_URLS.map(loadImage));
+  images = loaded.map((img, i) => ({
+    tex: createTextureFromImage(img),
+    width: img.naturalWidth || img.width,
+    height: img.naturalHeight || img.height,
+    name: `IMAGE ${i + 1}`
+  }));
+  nextIndex = getPreviewIndex();
+  updateLabel();
+}
+
+let lastT = 0;
+
+function frame(now) {
+  requestAnimationFrame(frame);
+  if (images.length === 0) return;
+
+  const t = now * 0.001;
+  const dt = Math.min(Math.max(t - lastT, 0.0), 0.033);
+  lastT = t;
+
+  if (transitioning) {
+    blend = Math.min(1.0, (t - transitionStart) / TRANSITION_DURATION);
+    if (blend >= 1.0) {
+      currentIndex = nextIndex;
+      nextIndex = getPreviewIndex();
+      transitioning = false;
+      blend = 0;
+      updateLabel();
+      clearSim();
+    }
+  }
+
+  const previewIndex = transitioning ? nextIndex : getPreviewIndex();
+  const dx = mouse.x - mouse.px;
+  const dy = mouse.y - mouse.py;
+
+  gl.bindFramebuffer(gl.FRAMEBUFFER, fboB.fb);
+  gl.viewport(0, 0, simW, simH);
+  gl.useProgram(simProg);
+  bindQuad(simProg);
+
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, fboA.tex);
+  gl.uniform1i(gl.getUniformLocation(simProg, 'u_vel'), 0);
+  gl.uniform2f(gl.getUniformLocation(simProg, 'u_res'), simW, simH);
+  gl.uniform2f(gl.getUniformLocation(simProg, 'u_mouse'), mouse.x, mouse.y);
+  gl.uniform2f(gl.getUniformLocation(simProg, 'u_mouseDelta'), dx * 60.0, dy * 60.0);
+  gl.uniform1f(gl.getUniformLocation(simProg, 'u_dt'), dt);
+  gl.uniform1f(gl.getUniformLocation(simProg, 'u_active'), mouse.active ? 1.0 : 0.0);
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  [fboA, fboB] = [fboB, fboA];
+
+  const fromImg = images[currentIndex];
+  const toImg = images[previewIndex];
+
+  gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  gl.viewport(0, 0, canvas.width, canvas.height);
+  gl.useProgram(renderProg);
+  bindQuad(renderProg);
+
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, fboA.tex);
+  gl.uniform1i(gl.getUniformLocation(renderProg, 'u_sim'), 0);
+
+  gl.activeTexture(gl.TEXTURE1);
+  gl.bindTexture(gl.TEXTURE_2D, fromImg.tex);
+  gl.uniform1i(gl.getUniformLocation(renderProg, 'u_texFrom'), 1);
+
+  gl.activeTexture(gl.TEXTURE2);
+  gl.bindTexture(gl.TEXTURE_2D, toImg.tex);
+  gl.uniform1i(gl.getUniformLocation(renderProg, 'u_texTo'), 2);
+
+  gl.uniform2f(gl.getUniformLocation(renderProg, 'u_res'), canvas.width, canvas.height);
+  gl.uniform1f(gl.getUniformLocation(renderProg, 'u_blend'), blend);
+  gl.uniform2f(gl.getUniformLocation(renderProg, 'u_wipeOrigin'), wipeOrigin.x, wipeOrigin.y);
+  gl.uniform2f(gl.getUniformLocation(renderProg, 'u_fromSize'), fromImg.width, fromImg.height);
+  gl.uniform2f(gl.getUniformLocation(renderProg, 'u_toSize'), toImg.width, toImg.height);
+  gl.uniform1f(gl.getUniformLocation(renderProg, 'u_isTransitioning'), transitioning ? 1.0 : 0.0);
+  gl.uniform1f(gl.getUniformLocation(renderProg, 'u_dragReveal'), mouse.active ? 1.0 : 0.0);
+  gl.uniform1f(gl.getUniformLocation(renderProg, 'u_time'), t);
+
+  gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+
+  mouse.px = mouse.x;
+  mouse.py = mouse.y;
+}
+
+initImages().then(() => {
+  requestAnimationFrame(ts => {
+    lastT = ts * 0.001;
+    requestAnimationFrame(frame);
+  });
+}).catch(err => {
+  console.error(err);
+  document.body.innerHTML = '<p style="color:white;padding:2rem">Failed to load placeholder images</p>';
+});
+</script>
+</body>
+</html>
