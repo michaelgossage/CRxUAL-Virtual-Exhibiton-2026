@@ -1,6 +1,7 @@
 import * as THREE from "three";
-import { makeRevealMaterial } from "../shaders/revealshader.js";
+import { makeRevealMaterial, makeCarouselMaterial } from "../shaders/revealshader.js";
 import { loadGLTFWithAnimations } from "../utils/gltfLoader.js"; // adjust path
+import { CarouselFluidSim } from "./CarouselFluidSim.js";
 
 
 
@@ -10,9 +11,10 @@ import { loadGLTFWithAnimations } from "../utils/gltfLoader.js"; // adjust path
  * - manages videos, clickable hitBoxes, and clean disposal
  */
 export class ScreenManager {
-  constructor({ scene, camera, domElement, makeTextPlane, debugOn }) {
+  constructor({ scene, camera, renderer, domElement, makeTextPlane, debugOn }) {
     this.scene = scene;
     this.camera = camera;
+    this.renderer = renderer ?? null;
     this.domElement = domElement;
     this.makeTextPlane = makeTextPlane; // function(text, opts) => Mesh
 
@@ -28,6 +30,18 @@ export class ScreenManager {
 
     this.models = [];   // { root, hitBox?, textMesh?, mixer?, clips?, url? }
 
+
+    // fluid carousel tracking
+    this._fluidRecords = [];   // { record, fluidSim, hitBox, state }
+    this._fluidMouse      = new THREE.Vector2(0, 0);
+    this._fluidMousePrev  = new THREE.Vector2(0, 0);
+    this._fluidMouseActive = false;
+    this._fluidActiveRecord = null;
+    this._fluidDragStartX = 0;
+    this._fluidDragStartY = 0;
+
+    this._onPointerMove  = this._onPointerMove.bind(this);
+    this._onPointerUpFluid = this._onPointerUpFluid.bind(this);
 
     this._onClick = this._onClick.bind(this);
     this.domElement.addEventListener("pointerdown", this._onClick, { passive: true });
@@ -513,6 +527,221 @@ export class ScreenManager {
     };
   }
 
+
+  // -------- fluid carousel --------
+
+  addFluidContentScreen(params) {
+    // identical params to addContentScreen — delegates to it then swaps the material
+    const {
+      content,
+      width = 4,
+      height = 2.25,
+      position = [0, 0, 0],
+      rotation = [0, 0, 0],
+      clickable = true,
+      offsetClick = 0,
+      fontSize = 30,
+      clickableSize = [width * 1.2, height * 1.2],
+      plinthVisible = true,
+      infoPanel = true,
+      infoWidth = 3.2,
+      infoHeight = 2.25,
+      infoOffset = [2.4, 0.0, 0.0],
+      buttonSize = 0.45,
+      buttonOffsetY = -0.85,
+      transitionDuration = 1.2,
+      onFocusClick = null,
+    } = params;
+
+    // 1) Build via addContentScreen (creates mesh, hitbox, buttons, info panel, carousel state)
+    const result = this.addContentScreen({
+      content, width, height, position, rotation, clickable, offsetClick,
+      fontSize, clickableSize, plinthVisible, infoPanel, infoWidth, infoHeight,
+      infoOffset, buttonSize, buttonOffsetY,
+      transitionDuration,
+      onFocusClick,
+    });
+
+    const { screenMesh, prevBtn, nextBtn, carousel } = result;
+    const record = this.screens.find(s => s.mesh === screenMesh);
+    if (!record) return result;
+
+    // 2) Replace material with fluid carousel material
+    const revealTex = record.material?.uniforms?.uRevealMap?.value;
+    const currentMap = record.material?.uniforms?.uMap?.value;
+    const oldMat = record.material;
+
+    const fluidMat = makeCarouselMaterial({ map: currentMap, revealMap: revealTex });
+
+    screenMesh.material = fluidMat;
+    screenMesh.userData.revealMaterial = fluidMat;
+    record.material = fluidMat;
+
+    oldMat?.dispose?.();
+
+    // Propagate contain scale to fluidMat — the addScreen callback fires async
+    // (after image load) and updates the now-disposed oldMat, so we re-derive it here.
+    const screenAspect = width / height;
+    const applyContainScale = (img) => {
+      if (!img?.naturalWidth) return;
+      const [sx, sy] = this._computeContainScale(img.naturalWidth / img.naturalHeight, screenAspect);
+      fluidMat.uniforms.uContainScale.value.set(sx, sy);
+    };
+    if (currentMap?.image?.naturalWidth > 0) {
+      applyContainScale(currentMap.image);
+    } else if (currentMap) {
+      // Poll each RAF until the image element has dimensions
+      const pollContain = () => {
+        if (currentMap.image?.naturalWidth > 0) applyContainScale(currentMap.image);
+        else requestAnimationFrame(pollContain);
+      };
+      requestAnimationFrame(pollContain);
+    }
+
+    // 3) Create fluid sim
+    const fluidSim = new CarouselFluidSim();
+
+    // 4) Override carousel setIndex to use fluid transition
+    carousel.setIndex = (i, wipeOriginNDC = null) => {
+      if (carousel._transitioning) return;
+      const n = carousel.images.length;
+      carousel.index = ((i % n) + n) % n;
+      const url = carousel.images[carousel.index];
+      const tex = this._getCachedTexture(url);
+      const uniforms = fluidMat.uniforms;
+
+      carousel._transitioning = true;
+      uniforms.uMapNext.value = tex;
+      if (wipeOriginNDC) uniforms.uWipeOrigin.value.copy(wipeOriginNDC);
+      else uniforms.uWipeOrigin.value.set(0, 0);
+      uniforms.uIsTransitioning.value = 1.0;
+      uniforms.uDragReveal.value = 0.0;
+
+      const duration = transitionDuration;
+      const start = performance.now();
+      const animate = () => {
+        const p = Math.min((performance.now() - start) / 1000 / duration, 1.0);
+        uniforms.uBlend.value = p;
+        if (p < 1.0) {
+          requestAnimationFrame(animate);
+        } else {
+          uniforms.uMap.value = tex;
+          uniforms.uMapNext.value = tex;
+          uniforms.uBlend.value = 0.0;
+          uniforms.uIsTransitioning.value = 0.0;
+          carousel._transitioning = false;
+          if (this.renderer) fluidSim.clearSim(this.renderer);
+        }
+      };
+      requestAnimationFrame(animate);
+    };
+
+    // Wire prev/next buttons with wipe origin from button NDC position
+    prevBtn.userData.onClick = () => {
+      const origin = prevBtn.position.clone().project(this.camera);
+      carousel.setIndex(carousel.index - 1, origin);
+    };
+    nextBtn.userData.onClick = () => {
+      const origin = nextBtn.position.clone().project(this.camera);
+      carousel.setIndex(carousel.index + 1, origin);
+    };
+
+    // 5) Register fluid record for update loop
+    const fr = { record, fluidSim, hitBox: record.hitBox, state: carousel, screenMesh };
+    this._fluidRecords.push(fr);
+
+    // 6) Add pointer listeners for fluid drag + swipe
+    this.domElement.addEventListener("pointermove",  this._onPointerMove,   { passive: true });
+    this.domElement.addEventListener("pointerup",    this._onPointerUpFluid, { passive: true });
+    this.domElement.addEventListener("pointercancel",this._onPointerUpFluid, { passive: true });
+
+    // Override pointerdown to also track fluid drag start
+    const domEl = this.domElement;
+    const fluidOnDown = (e) => {
+      if (document.pointerLockElement === domEl) return;
+      const rect = domEl.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
+      const ndc = new THREE.Vector2(x, y);
+      this.raycaster.setFromCamera(ndc, this.camera);
+      if (fr.hitBox) {
+        const hits = this.raycaster.intersectObject(fr.hitBox, false);
+        if (hits.length > 0) {
+          this._fluidMouseActive = true;
+          this._fluidActiveRecord = fr;
+          this._fluidDragStartX = e.clientX;
+          this._fluidDragStartY = e.clientY;
+          const uv = hits[0].uv;
+          const simUV = new THREE.Vector2(uv.x * 2 - 1, uv.y * 2 - 1);
+          this._fluidMouse.copy(simUV);
+          this._fluidMousePrev.copy(simUV);
+          fluidMat.uniforms.uDragReveal.value = 1.0;
+        }
+      }
+    };
+    domEl.addEventListener("pointerdown", fluidOnDown, { passive: true });
+
+    return result;
+  }
+
+  // Per-frame update: steps fluid sims, updates uSim + uTime uniforms
+  update(dt) {
+    if (!this.renderer || !this._fluidRecords.length) return;
+    const mouseDelta = new THREE.Vector2();
+    for (const fr of this._fluidRecords) {
+      const { fluidSim, record } = fr;
+      const uniforms = record.material?.uniforms;
+      if (!uniforms) continue;
+
+      const isActive = this._fluidMouseActive && this._fluidActiveRecord === fr;
+      mouseDelta.subVectors(this._fluidMouse, this._fluidMousePrev).multiplyScalar(120);
+
+      fluidSim.update(dt, this.renderer, this._fluidMouse, mouseDelta, isActive);
+
+      if (fluidSim.texture) uniforms.uSim.value = fluidSim.texture;
+      uniforms.uTime.value += dt;
+    }
+    this._fluidMousePrev.copy(this._fluidMouse);
+  }
+
+  _onPointerMove(e) {
+    if (!this._fluidMouseActive || !this._fluidActiveRecord) return;
+    const fr = this._fluidActiveRecord;
+    if (!fr.hitBox) return;
+    const rect = this.domElement.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
+    this.raycaster.setFromCamera(new THREE.Vector2(x, y), this.camera);
+    const hits = this.raycaster.intersectObject(fr.hitBox, false);
+    if (hits.length > 0) {
+      const uv = hits[0].uv;
+      this._fluidMouse.set(uv.x * 2 - 1, uv.y * 2 - 1);
+    }
+  }
+
+  _onPointerUpFluid(e) {
+    if (!this._fluidMouseActive) return;
+    const fr = this._fluidActiveRecord;
+    this._fluidMouseActive = false;
+
+    if (fr) {
+      const uniforms = fr.record.material?.uniforms;
+      if (uniforms) uniforms.uDragReveal.value = 0.0;
+
+      // swipe detection
+      const dx = e.clientX - this._fluidDragStartX;
+      if (Math.abs(dx) > 40) {
+        const rect = this.domElement.getBoundingClientRect();
+        const ox = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        const oy = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
+        const wipeOrigin = new THREE.Vector2(ox, oy);
+        if (dx < 0) fr.state.setIndex(fr.state.index + 1, wipeOrigin);
+        else        fr.state.setIndex(fr.state.index - 1, wipeOrigin);
+      }
+    }
+
+    this._fluidActiveRecord = null;
+  }
 
   removeScreen(screenMesh) {
     const idx = this.screens.findIndex(s => s.mesh === screenMesh);

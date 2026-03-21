@@ -48,9 +48,10 @@ export class World {
     this.screenManager = new ScreenManager({
       scene: this.scene,
       camera: this.camera,
+      renderer: this.renderer,
       domElement: this.renderer.domElement,
       makeTextPlane,
-      debugOn: true // set to true to show clickable podiums
+      debugOn: false // set to true to show clickable podiums
     });
 
     this.screenManager.onHit = (obj) => {
@@ -461,9 +462,36 @@ export class World {
     this.statue = modelRoot;
   }).catch(console.error);
 
+this._registerArtwork(this.screenManager.addFluidContentScreen({
+      content: {
+        title: "Artist Name",
+        artist: "Chancery Rosewood",
+        bio: "Long bio goes here...lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        images: [
+          "https://picsum.photos/id/1011/900/900",
+          "https://picsum.photos/id/1015/900/900",
+          "https://picsum.photos/id/1025/900/900"
+        ]
+      },
+      width: 2,
+      height: 2.25,
+      position: [-3, 1.4, -6],
+      rotation: [0, 30, 0],
+      offsetClick: .2,
+      infoWidth: 1.6,
+      infoHeight: 1.2,
+      infoOffset: [0, -1.7, 0.55],
+      clickableSize: [2.2, 2.2],
+      clickable: true,
+      plinthVisible: false,
 
+      //transition
+      transitionDuration: 0.35,
+    }).screenMesh);
 
   }
+
+
 
   
 
@@ -501,6 +529,9 @@ export class World {
       t.update(dt);
       if (t.done) this._tweens.splice(i, 1);
     }
+
+    // update fluid carousel sims
+    this.screenManager.update(dt);
   }
 
   onResize() {
