@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3D Room Reveal Painting with Shadows</title>
+<style>
+  body { margin:0; overflow:hidden; font-family:Arial,sans-serif; }
+  canvas { display:block; }
+  #info{
+    position:absolute; top:10px; left:10px; color:white;
+    background: rgba(0,0,0,0.7); padding:15px; border-radius:5px;
+    font-size:14px; line-height:1.6;
+  }
+  #controls{
+    position:absolute; bottom:10px; left:10px; color:white;
+    background: rgba(0,0,0,0.7); padding:15px; border-radius:5px;
+  }
+  button{
+    background:#4CAF50; color:white; border:none;
+    padding:10px 20px; border-radius:5px;
+    cursor:pointer; font-size:14px;
+  }
+</style>
+</head>
+<body>
+
+<div id="info">
+<strong>Controls:</strong><br>
+W/A/S/D – Move<br>
+Mouse – Look<br>
+Space – Up<br>
+Shift – Down<br><br>
+Walk to paint the room.
+</div>
+
+<div id="controls">
+<button id="resetBtn">Reset Fog</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
+<script>
+let scene, camera, renderer;
+let keys = {};
+//let isPointerLocked = false;
+let euler = new THREE.Euler(0,0,0,'YXZ');
+  
+  //interaction variables
+  let isDragging = false;
+let lastX = 0, lastY = 0;
+let yaw = 0, pitch = 0;
+const dragLookSpeed = 0.005;
+  
+  
+  const raycaster = new THREE.Raycaster();
+const mouse = new THREE.Vector2();
+
+let moveTarget = null;
+let moveVelocity = new THREE.Vector3();
+const moveDamping = 0.5;
+
+const moveSpeed = 0.05;
+const lookSpeed = 0.002;
+const fadeTime = 4.0;
+const MAX_REVEALS = 500;
+
+  
+  //arrays
+  let revealData = [];
+  let materials = [];
+  let boxes = [];
+  let artworks = [];
+  let navColliders = [];
+  let targetDot;
+
+  
+  
+
+init();
+
+function init(){
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x000000);
+
+  camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 500);
+  camera.position.set(0,1.6,6);
+  yaw = camera.rotation.y;
+  pitch = camera.rotation.x;
+
+  renderer = new THREE.WebGLRenderer({ antialias:true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  document.body.appendChild(renderer.domElement);
+
+  // LIGHTS
+  scene.add(new THREE.AmbientLight(0xffffff,0.35));
+  const sun = new THREE.DirectionalLight(0xffffff,1.2);
+  sun.position.set(10,20,10);
+  sun.castShadow = true;
+  sun.shadow.mapSize.set(2048,2048);
+  sun.shadow.camera.near = 1;
+  sun.shadow.camera.far = 50;
+  sun.shadow.camera.left = -20;
+  sun.shadow.camera.right = 20;
+  sun.shadow.camera.top = 20;
+  sun.shadow.camera.bottom = -20;
+  scene.add(sun);
+
+  createRoom();
+
+  // Controls
+  document.addEventListener('keydown', e=>keys[e.key.toLowerCase()] = true);
+  document.addEventListener('keyup', e=>keys[e.key.toLowerCase()] = false);
+  //document.addEventListener('click', ()=>renderer.domElement.requestPointerLock());
+  //document.addEventListener('pointerlockchange', ()=>isPointerLocked =  document.pointerLockElement===renderer.domElement);
+  document.addEventListener('mousemove', onMouseMove);
+  window.addEventListener('resize', onResize);
+  document.getElementById('resetBtn').onclick = resetFog;
+  
+  renderer.domElement.addEventListener('mousedown', e => {
+  isDragging = true;
+  lastX = e.clientX;
+  lastY = e.clientY;
+});
+
+
+
+  /*
+window.addEventListener('mousemove', e => {
+  if (!isDragging) return;
+
+  const dx = e.clientX - lastX;
+  const dy = e.clientY - lastY;
+  lastX = e.clientX;
+  lastY = e.clientY;
+
+  yaw   -= dx * dragLookSpeed;
+  pitch -= dy * dragLookSpeed;
+  //pitch = Math.max(-Math.PI/2, Math.min(Math.PI/2, pitch));
+
+  camera.rotation.set(pitch, yaw, 0);
+});*/
+  
+  //click to move
+  renderer.domElement.addEventListener('click', e => {
+  if (isDragging) return; // prevent drag click
+
+  mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+
+  const hits = raycaster.intersectObjects(navColliders, true);
+    
+  if (!hits.length) return;
+
+  moveTarget = hits[0].point.clone();
+  moveTarget.y = camera.position.y; // keep eye height
+    
+    //move the target dot
+      targetDot.position.copy(hits[0].point);
+  targetDot.position.y += 0.05; // lift slightly off surface
+  targetDot.visible = true;
+    console.log(hits);
+});
+  
+  window.addEventListener('mouseup', () => {
+  isDragging = false;
+});
+
+
+  // Force compile materials so uniforms exist
+  renderer.compile(scene, camera);
+
+  animate();
+}
+
+function makeRevealMaterial(){
+  const mat = new THREE.MeshStandardMaterial({ color: 0xffffff });
+  materials.push(mat);
+
+  mat.onBeforeCompile = shader => {
+    shader.uniforms.revealPositions = { value: Array(MAX_REVEALS).fill(new THREE.Vector3()) };
+    shader.uniforms.revealRadius = { value: 4.5 };
+    shader.uniforms.currentTime = { value: 0 };
+    shader.uniforms.fogColor = { value: new THREE.Color(0xbdbdbd) };
+    mat.userData.shader = shader;
+
+    // Varying for world position
+    shader.vertexShader = 'varying vec3 vWorld;\n' + shader.vertexShader;
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <begin_vertex>',
+      `
+      #include <begin_vertex>
+      vWorld = (modelMatrix * vec4(position,1.0)).xyz;
+      `
+    );
+
+    // Fragment: inject uniforms + reveal logic
+    shader.fragmentShader = 'uniform vec3 revealPositions['+MAX_REVEALS+'];\n' +
+      'uniform float revealRadius;\n' +
+                            'uniform vec3 fogColor;\n' +
+                            'uniform float currentTime;\n' +
+                            'varying vec3 vWorld;\n' +
+      `
+float hash(vec3 p){
+    p = fract(p * 0.3183099 + 0.1);
+    p *= 17.0;
+    return fract(p.x*p.y*p.z*(p.x+p.y+p.z));
+}
+
+// Smooth noise
+float smoothNoise(vec3 p){
+    vec3 i = floor(p);
+    vec3 f = fract(p);
+
+    // smoothstep interpolation
+    f = f*f*(3.0 - 2.0*f);
+
+    float n000 = hash(i + vec3(0.0,0.0,0.0));
+    float n100 = hash(i + vec3(1.0,0.0,0.0));
+    float n010 = hash(i + vec3(0.0,1.0,0.0));
+    float n110 = hash(i + vec3(1.0,1.0,0.0));
+    float n001 = hash(i + vec3(0.0,0.0,1.0));
+    float n101 = hash(i + vec3(1.0,0.0,1.0));
+    float n011 = hash(i + vec3(0.0,1.0,1.0));
+    float n111 = hash(i + vec3(1.0,1.0,1.0));
+
+    float nx00 = mix(n000, n100, f.x);
+    float nx10 = mix(n010, n110, f.x);
+    float nx01 = mix(n001, n101, f.x);
+    float nx11 = mix(n011, n111, f.x);
+
+    float nxy0 = mix(nx00, nx10, f.y);
+    float nxy1 = mix(nx01, nx11, f.y);
+
+    return mix(nxy0, nxy1, f.z);
+}\n`+
+                            shader.fragmentShader;
+
+    shader.fragmentShader = shader.fragmentShader.replace(
+      '#include <color_fragment>',
+      `
+      #include <color_fragment>
+      
+      
+
+      float reveal = 0.0;
+      for(int i=0;i<${MAX_REVEALS};i++){
+      vec3 pos = revealPositions[i];
+      if(length(pos)<0.0001) break;
+
+      float dist = distance(vWorld,pos);
+
+     float flow = smoothNoise(vWorld*1.1 + vec3(currentTime*0.1, currentTime*0.7, currentTime*0.9));
+      float edge = smoothNoise(vWorld*0.2 + vec3(currentTime*0.1, currentTime*0.7, currentTime*0.9));
+
+      float radius = revealRadius + flow*1.1 + edge*1.1;
+      float r = smoothstep(radius, radius*0.55, dist);
+      reveal = max(reveal,r);
+    }
+      /*
+      for(int i=0;i<${MAX_REVEALS};i++){
+        vec3 p = revealPositions[i];
+        if(p == vec3(0.0)) break;
+        if(length(p) < 0.0001) break;
+        float d = distance(vWorld,p);
+        float r = 4.5 + fract(sin(dot(vWorld*0.1, vec3(12.9898,78.233,37.719)))*43758.5453)*1.2;
+        reveal = max(reveal,smoothstep(r,r*0.55,d));
+      }
+      */
+      vec3 paintA = vec3(0.95,0.0,0.0);
+      vec3 paintB = vec3(0.0,0.0,1.0);
+      vec3 paintC = vec3(1.0,0.9,0.2);
+
+      float pigment = fract(sin(dot(vWorld*0.6, vec3(12.9898,78.233,37.719)))*43758.5453);
+      vec3 paint = mix(paintA,paintB,pigment);
+      paint = mix(paint,paintC,fract(sin(dot(vWorld*0.25, vec3(12.9898,78.233,37.719)))*43758.5453));
+
+      float wet = fract(sin(dot(vWorld*1.5, vec3(12.9898,78.233,37.719)))*43758.5453);
+      paint *= mix(0.85,1.25,wet);
+      
+      vec3 a = vec3(1.0, 0.0, 0.0);
+      diffuseColor.rgb = mix(fogColor, a, reveal);
+      
+      /*
+
+      vec3 paint = mix(vec3(0.9,0.2,0.6), vec3(0.2,0.7,1.0),
+                       fract(sin(dot(vWorld*0.01, vec3(12.9898,78.233,37.719)))*43758.5453));
+      paint *= mix(0.85,1.25,fract(sin(dot(vWorld*1.3, vec3(12.9898,78.233,37.719)))*43758.5453));
+      vec3 a = vec3(1.0, 0.0, 0.0);
+      diffuseColor.rgb = mix(fogColor, paint, reveal);
+      */
+      `
+    );
+  };
+
+  return mat;
+}
+
+  function createPaintRevealMaterial() {
+
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    transparent:true,
+    roughness: 0.6,
+    metalness: 0.05
+  });
+  materials.push(mat);
+  mat.userData.revealStart = 0;
+
+  mat.onBeforeCompile = shader => {
+
+    shader.uniforms.currentTime = { value: 0 };
+    shader.uniforms.uRevealStart = { value: -1.0};
+    shader.uniforms.uRevealDuration = { value: 5.0 };
+    shader.uniforms.uFogColor = { value: new THREE.Color(0xffffff) };
+
+    mat.userData.shader = shader;
+
+    /* ---------- WORLD POSITION ---------- */
+    shader.vertexShader =
+      `varying vec3 vWorld;\n` + shader.vertexShader;
+
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <begin_vertex>',
+      `
+      #include <begin_vertex>
+      vWorld = (modelMatrix * vec4(position,1.0)).xyz;
+      `
+    );
+
+    /* ---------- FRAGMENT HELPERS ---------- */
+    shader.fragmentShader =
+      `
+      uniform float currentTime;
+      uniform float uRevealStart;
+      uniform float uRevealDuration;
+      uniform vec3 uFogColor;
+
+      varying vec3 vWorld;
+
+      float hash(vec3 p){
+        p = fract(p * 0.3183099 + 0.1);
+        p *= 17.0;
+        return fract(p.x*p.y*p.z*(p.x+p.y+p.z));
+      }
+
+      float noise(vec3 p){
+        vec3 i = floor(p);
+        vec3 f = fract(p);
+        f = f*f*(3.0 - 2.0*f);
+
+        return mix(
+          mix(mix(hash(i), hash(i+vec3(1,0,0)), f.x),
+              mix(hash(i+vec3(0,1,0)), hash(i+vec3(1,1,0)), f.x), f.y),
+          mix(mix(hash(i+vec3(0,0,1)), hash(i+vec3(1,0,1)), f.x),
+              mix(hash(i+vec3(0,1,1)), hash(i+vec3(1,1,1)), f.x), f.y),
+          f.z
+        );
+      }
+      ` + shader.fragmentShader;
+
+    /* ---------- FINAL COLOR INJECTION ---------- */
+    shader.fragmentShader = shader.fragmentShader.replace(
+      '#include <color_fragment>',
+      `
+      #include <color_fragment>
+      float t = 0.0;
+      if(uRevealStart != -1.0){
+        t = clamp(
+          (currentTime - uRevealStart) / uRevealDuration,
+          0.0, 1.0
+        );
+      }
+
+      /* Animated reveal wave */
+      float wave =
+        noise(vWorld * 1.0 + vec3(t * 2.5)) * 0.35;
+
+      float reveal = smoothstep(
+        t + wave,
+        t - 0.25 + wave,
+        length(vWorld) * 0.02
+      );
+
+      /* Paint look */
+      vec3 paintA = vec3(0.95,0.2,0.6);
+      vec3 paintB = vec3(0.2,0.7,1.0);
+      vec3 paintC = vec3(1.0,0.9,0.25);
+
+      float pigment = noise(vWorld * 0.15);
+      vec3 paint = mix(paintA, paintB, pigment);
+      paint = mix(paint, paintC, noise(vWorld * 0.08));
+
+      float wet = noise(vWorld * 0.3);
+      paint *= mix(0.85, 1.25, wet);
+      vec3 a = vec3(1.0, 0.0, 0.0);
+      diffuseColor.rgb = mix(uFogColor, paint, reveal);
+      diffuseColor.a *= smoothstep(0.0, 1.0, reveal);
+
+      
+      `
+    );
+  };
+
+  return mat;
+}
+
+  
+
+function createRoom(){
+  const size=200, h=8;
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(size,size), makeRevealMaterial());
+  floor.rotation.x=-Math.PI/2;
+  floor.receiveShadow = true;
+  scene.add(floor);
+  navColliders.push(floor);
+
+  const wallGeo = new THREE.PlaneGeometry(size,h);
+  [[0,h/2,-size/2,0],
+   [0,h/2,size/2,Math.PI],
+   [-size/2,h/2,0,Math.PI/2],
+   [size/2,h/2,0,-Math.PI/2]].forEach(v=>{
+     const w = new THREE.Mesh(wallGeo, makeRevealMaterial());
+     w.position.set(v[0],v[1],v[2]);
+     w.rotation.y = v[3];
+     w.receiveShadow = true;
+     scene.add(w);
+   });
+
+  const boxGeo = new THREE.BoxGeometry(2,2,2);
+  [-5,5].forEach(x=>{
+    [-5,5].forEach(z=>{
+      const b = new THREE.Mesh(boxGeo, makeRevealMaterial());
+      b.position.set(x,1,z);
+      b.castShadow = true;
+      b.receiveShadow = true;
+      scene.add(b);
+      boxes.push(b);
+    });
+  });
+  
+  //add artworks
+  const artwork = new THREE.SphereGeometry(4,8,8);
+  const art = new THREE.Mesh(artwork,createPaintRevealMaterial()); 
+  art.position.set(16,1,8);
+  art.castShadow = true;
+      art.receiveShadow = true;
+  scene.add(art);
+  artworks.push(art);
+  
+  //add target dot
+  targetDot = new THREE.Mesh(
+  new THREE.RingGeometry(0.5,0.7, 32,1),
+  new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    transparent: true,
+    opacity: 0.9,
+    depthWrite: false
+  })
+);
+  targetDot.rotation.x = -Math.PI / 2;
+
+//targetDot.visible = false;
+scene.add(targetDot);
+}
+  //force compile
+renderer.compile(scene, camera);
+  
+  
+  //interaction 
+ 
+function onMouseMove(e){
+  console.log(isDragging);
+  if(!isDragging) return;
+  euler.setFromQuaternion(camera.quaternion);
+  euler.y -= e.movementX*lookSpeed;
+  euler.x -= e.movementY*lookSpeed;
+  euler.x = Math.max(-Math.PI/2, Math.min(Math.PI/2, euler.x));
+  camera.quaternion.setFromEuler(euler);
+}
+
+
+function updateMovement(){
+  const dir = new THREE.Vector3();
+  const right = new THREE.Vector3();
+  camera.getWorldDirection(dir);
+  right.crossVectors(camera.up, dir).normalize();
+/*
+  if(keys.w) camera.position.addScaledVector(dir, moveSpeed);
+  if(keys.s) camera.position.addScaledVector(dir, -moveSpeed);
+  if(keys.a) camera.position.addScaledVector(right, moveSpeed);
+  if(keys.d) camera.position.addScaledVector(right, -moveSpeed);
+  if(keys[" "]) camera.position.y += moveSpeed;
+  if(keys.shift) camera.position.y -= moveSpeed;
+  */
+  
+  if (moveTarget) {
+    const toTarget = moveTarget.clone().sub(camera.position);
+    const dist = toTarget.length();
+
+    if (dist < 0.05) {
+      moveTarget = null;
+      moveVelocity.set(0,0,0);
+      targetDot.visible = false;
+    } else {
+      toTarget.normalize();
+      moveVelocity.lerp(toTarget.multiplyScalar(moveSpeed * 4), moveDamping);
+      camera.position.add(moveVelocity);
+    }
+  }
+
+  //drag points to reveal
+  addReveal(camera.position,false,3);
+
+  boxes.forEach(b=>{
+    if(camera.position.distanceTo(b.position)<5)
+      addReveal(b.position,true,6);
+  });
+  
+  artworks.forEach(art=>{
+    if(camera.position.distanceTo(art.position)<4)
+      triggerReveal(art.material);
+      //return;
+  });
+}
+
+function addReveal(pos,permanent,radius){
+  const t = performance.now()/1000;
+  if(permanent && revealData.some(r=>r.permanent && r.pos.equals(pos))) return;
+  revealData.push({pos: pos.clone(), time: t, permanent, radius});
+}
+
+function syncShader(){
+  const now = performance.now()/1000;
+  revealData = revealData.filter(r=>r.permanent || (now-r.time)<fadeTime);
+  const arr = revealData.slice(-MAX_REVEALS).map(r=>r.pos);
+  while(arr.length < MAX_REVEALS) arr.push(new THREE.Vector3());
+
+  materials.forEach(mat=>{
+    const shader = mat.userData.shader;
+    if(!shader) return;
+    if (shader.uniforms && shader.uniforms.revealPositions) {
+    shader.uniforms.revealPositions.value = arr;
+    }
+    shader.uniforms.currentTime.value = now;
+  });
+}
+
+function resetFog(){ revealData.length = 0; }
+
+function onResize(){
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+  function triggerReveal(material) {
+  // Get current time in seconds
+  const t = performance.now() * 0.001;
+
+  // Make sure shader exists
+  if (!material.userData.shader) return;
+
+  // Set the reveal start time
+    if(material.userData.shader.uniforms.uRevealStart.value == -1.0)
+      material.userData.shader.uniforms.uRevealStart.value = t;
+    console.log(t);
+}
+  //Trigger all reveal animations instantly
+  //artworks.forEach(art => triggerReveal(art.material));
+  
+  
+function animate(){
+  requestAnimationFrame(animate);
+  updateMovement();
+  syncShader();
+  renderer.render(scene,camera);
+}
+</script>
+</body>
+</html>
