@@ -68,6 +68,7 @@ export function makeRevealMaterial({
       uSoft:         { value: revealSoftness },
       uBlend:        { value: 0.0 },
       uContainScale: { value: new THREE.Vector2(1, 1) }, // (1,1) = fill (no bars)
+      uColorReveal:  { value: 0.0 },  // 0 = grayscale, 1 = full colour
     },
     vertexShader: /* glsl */ `
       varying vec2 vUv;
@@ -84,6 +85,7 @@ export function makeRevealMaterial({
       uniform float uSoft;
       uniform float uBlend;
       uniform vec2  uContainScale;
+      uniform float uColorReveal;
 
       varying vec2 vUv;
 
@@ -111,6 +113,11 @@ export function makeRevealMaterial({
 
         float a = color.a * alpha;
         if (a < 0.001) discard;
+
+        // Colour reveal: sweeps from grayscale to full colour driven by the reveal map
+        float colorAmt = 1.0 - smoothstep(uColorReveal - uSoft, uColorReveal + uSoft, maskValue);
+        float luma = dot(color.rgb, vec3(0.2126, 0.7152, 0.0722));
+        color.rgb = mix(vec3(luma), color.rgb, colorAmt);
 
         gl_FragColor = vec4(color.rgb, a);
       }

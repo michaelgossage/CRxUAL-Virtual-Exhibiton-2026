@@ -26,8 +26,13 @@ export class App {
       sizes: this.sizes
     });
 
+    this._fpsEl = null;
+    this._fpsAccum = 0;
+    this._fpsFrames = 0;
+
     this._bind();
     this._start();
+    this._initFPS();
 
     // UI interactions
     if (document.readyState === "loading") {
@@ -48,6 +53,7 @@ export class App {
       this.world.update(dt);
       this.cameraRig.update(dt);
       this.renderer.render(this.scene, this.cameraRig.camera);
+      this._tickFPS(dt);
     });
   }
 
@@ -59,6 +65,26 @@ export class App {
     this.time.stop();
     this.renderer.destroy();
     this.sceneManager.disposeAll();
+  }
+
+  _initFPS() {
+    if (!this.world.screenManager?.debugOn) return;
+    const el = document.createElement("div");
+    el.style.cssText = "position:fixed;top:8px;left:8px;color:#0f0;background:rgba(0,0,0,0.55);font:bold 13px/1 monospace;padding:4px 7px;border-radius:4px;z-index:9999;pointer-events:none";
+    document.body.appendChild(el);
+    this._fpsEl = el;
+  }
+
+  _tickFPS(dt) {
+    if (!this._fpsEl) return;
+    this._fpsAccum  += dt;
+    this._fpsFrames += 1;
+    if (this._fpsAccum >= 0.5) {
+      const fps = Math.round(this._fpsFrames / this._fpsAccum);
+      this._fpsEl.textContent = `${fps} fps`;
+      this._fpsAccum  = 0;
+      this._fpsFrames = 0;
+    }
   }
 
   bindUI() {

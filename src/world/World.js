@@ -1,4 +1,5 @@
-import { Mesh, MeshStandardMaterial, SphereGeometry } from "three";
+import { Mesh, MeshStandardMaterial, SphereGeometry, Vector3 } from "three";
+import { makeProximityRevealMaterial, ProximityRevealSystem } from "../shaders/proximityRevealMaterial.js";
 import { addDefaultLights } from "./lights.js";
 import { BoxGeometry } from "three";
 import { ScreenManager } from "./ScreenManager.js";
@@ -42,6 +43,9 @@ export class World {
 
     //tween animations
     this._tweens = [];
+
+    // proximity reveal system for environment geometry
+    this.proximityReveal = new ProximityRevealSystem();
     
 
     // initialise the screen manager for adding artworks
@@ -120,6 +124,7 @@ export class World {
     // add lights
     addDefaultLights(this.scene);
 
+    // add environment (a simple room for now, but could be more complex later)
     applyHDRI({
       renderer: this.renderer,
       scene: this.scene,
@@ -127,6 +132,7 @@ export class World {
       background: true,   // keep your room/fog background
       envIntensity: 0.0
     });
+    /**/
 
     //add geometry
     const room = new Mesh(
@@ -135,6 +141,9 @@ export class World {
     );
     room.position.set(0, -1.5, 0);
     room.receiveShadow = true;
+    const envMat1 = makeProximityRevealMaterial({ color: 0x808080, fogColor: 0x000000, side: 2 });
+          this.proximityReveal.registerMaterial(envMat1);
+          room.material = envMat1;
     //this.scene.add(room);
 
     //add walls to the room in a loop
@@ -176,15 +185,20 @@ export class World {
     this.ball = ball;
 
     //import environment model
+    const envMat = makeProximityRevealMaterial({ color: 0x808080, fogColor: 0x000000, side: 2 });
+    this.proximityReveal.registerMaterial(envMat);
+    const gridMat = makeArchGridMaterial({ });
+
     const room01 = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/Chancery Rosewood_V4.glb").then((gltf) => {
       const model = gltf.scene;
       model.traverse((child) => {
         if (child.isMesh) {
           //child.castShadow = true;
           child.receiveShadow = true;
-          //set shader to double-sided with basic material for testing
-          child.material = new MeshStandardMaterial({ color: 0x808080, side: 2 });
-          //child.material = makeArchGridMaterial({ color: 0x808080, gridColor: 0x404040, gridScale: 0.5, gridThickness: 0.02, side: 2,baseOpacity: 1.0 });
+          child.material = envMat;
+          child.material = new MeshStandardMaterial({ color: 0x808080, side: 2 });  
+          
+          //child.material = gridMat;
         }
       });
       model.scale.set(1.0, 1.0, 1.0);
@@ -194,27 +208,52 @@ export class World {
 
 
     //screens
+
+    //above the fireplace
     this._registerArtwork(this.screenManager.addScreen({
-      url: "https://picsum.photos/id/1011/900/900",
+      url: "public/art/birdcage_jichu zhang/IMG_1571-1.jpeg",
       width: 2,
-      height: 1.25,
+      height: 1.85,
       position: [0.0, 1.4, -6.0],   // e.g. on/near carousel A
       rotation: [0, 0, 0],
       clickable: true,
       offsetClick: .1,
       clickableSize: [2.0, 2.0], // make click area bigger than screen size to include podium
-      text: "Image Screen",
+      text: "",
       plinthVisible: false,
       artworkInfo: {
-        title: "Untitled I",
-        artist: "Placeholder Artist",
-        description: "A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility. A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility.A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility.A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility."
+        title: "birdcage",
+        artist: "Jichu Zhang",
+        description: "My paintings are spaces of suspended narration, where the relationship between people and their surroundings is never fixed, but constantly shifting — between intimacy and distance, memory and control. Inspired by familial experiences, everyday interpersonal patterns, and the lingering structures of myth, I seek to construct visual environments that do not illustrate stories, but evoke atmospheres — spaces where something is felt before it is understood. Visually, my compositions follow drifting, current-like rhythms — inspired by the unseen movement of oceanic flows, as a way to mirror the subtle undercurrents of perception and emotional experience."
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
     }));
 
+      //Right of fireplace
+    this._registerArtwork(this.screenManager.addScreen({
+      url: "public/art/EMBODIED_VeepraMishra/20251114_Veepra0132-1-1.webp",
+      width: 1.3,
+      height: 1.74,
+      position: [4.65, 0.9, -6.0],   // e.g. on/near carousel A
+      rotation: [0, -35, 0],
+      clickable: true,
+      offsetClick: .1,
+      clickableSize: [2.0, 2.0], // make click area bigger than screen size to include podium
+      text: "",
+      plinthVisible: true,
+      artworkInfo: {
+        title: "EMBODIED: Reclaiming Assistive Devices as Culturally Expressive Fashion",
+        artist: "Veepra Mishra",
+        description: "It began with the slightest gesture: my mother hiding her cane behind her back every time a camera appeared, as if the object were never meant to speak for her. This project turns toward that silence and wonders how assistive devices might become sites of cultural expression rather than symbols of concealment. In the realm of assistive design and fashion, such moments reveal how deeply aesthetics and embodiment intertwine, particularly for disabled people of colour whose identities are shaped through layered histories of visibility and belonging. Guided by co-design conversations with two South Asian participants and informed by critical disabilities, material culture, and cultural symbolism, I developed usable prototypes that merge function with cultural resonance. These artefacts, rooted in traditions, memory, agency, and empowerment, ask what happens when assistive devices are culturally expressive artefacts that hold beauty, heritage, and emotional truth. The work demonstrates that when disabled people of colour shape the instruments that support them, assistive devices shift from clinical symbols into objects of affirmation and pride. The process illuminated both the challenges and possibilities of designing across distance, culture, and lived experience. It reveals how identity and functionality are inseparable. Ultimately, the project suggests that inclusive futures emerge when design listens closely, honours complexity, and treats assistive devices not as objects that should be hidden, but as sites of beauty, cultural identity, and empowerment.  "
+      },
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+
+    /*
     this._registerArtwork(this.screenManager.addScreen({
       url: "https://picsum.photos/id/1011/900/900",
       width: 2,
@@ -233,20 +272,24 @@ export class World {
         console.log("Clicked screen/podium", obj);
       }
     }));
+    */
 
+    //right side, left front desk
     this._registerArtwork(this.screenManager.addScreen({
-      url: "https://picsum.photos/id/1011/900/900",
-      width: 2,
-      height: 1.25,
-      position: [5.0, 1.0, -5.0],   // e.g. on/near carousel A
+      url: "public/art/BlackSwan-JieunSung/IMG_5414-2.png.avif",
+      width: 1.5,
+      height: 2,
+      position: [7.2, .5, -4.35],   // e.g. on/near carousel A
       rotation: [0, -45, 0],
       clickable: true,
+      clickableSize: [2.0, 2.0], // make click area bigger than screen size to include podium
       offsetClick: 0.0,
       text: "Image Screen",
+      plinthVisible: false,
       artworkInfo: {
-        title: "Untitled III",
-        artist: "Placeholder Artist 2",
-        description: "A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility."
+        title: "Black Swan",
+        artist: "Jieun Sung",
+        description: "This project is about the black swan. Of all animals, I’ve always been particularly afraid of birds, but swans are the only ones that have ever helped me overcome that fear. So, I was intrigued to research them. I didn’t even know that black swans existed before, and I was fascinated to discover this species of swan. The black swan, with its dark mood and colour, really appealed to me, so I decided to make it the focus of my project."
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
@@ -271,41 +314,43 @@ export class World {
     });
     */
 
-
+    //right side, right front desk
     this._registerArtwork(this.screenManager.addScreen({
-      url: "https://picsum.photos/id/1011/900/900",
+      url: "public/art/Nailed_Genevieve Carr/nailed.webp",
       width: 1.5,
-      height: 1.5,
-      position: [8.4, 0.8, -1.5],   // e.g. on/near carousel A
-      rotation: [0, -90, 0],
+      height: 2.0,
+      position: [7.2, 0.5, 1.55],
+      rotation: [0, -135, 0],
       clickable: true,
       offsetClick: 0.5,
       clickableSize: [2.2, 2.5],
       text: "Image Screen",
       plinthVisible: false,
       artworkInfo: {
-        title: "Untitled II",
-        artist: "Placeholder Artist 2",
-        description: "A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility."
+        title: "Nailed",
+        artist: "Genevieve Carr",
+        description: "\"Nailed\" transforms nail salon waste into a 3D printing filament, used to create sculptural nails inspired by botanical drawings. The project explores beauty, waste, and material reuse—reimagining synthetic leftovers as future design materials."
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
     }));
 
+      
+      //right side, middle front desk
     this._registerArtwork(this.screenManager.addScreen({
-      url: "https://picsum.photos/id/1011/900/900",
-      width: 1.5,
-      height: 2,
-      position: [7.2, 0.5, 1.55],   // e.g. on/near carousel A
-      rotation: [0, -135, 0],
+      url: "public/art/Dehumanized_ChiAnChou/IMG_7018-Large.jpeg.avif",
+      width: 1.8,
+      height: 1.3,
+      position: [8.4, 0.8, -1.5],
+      rotation: [0, -90, 0],
       clickable: true,
       offsetClick: 0.0,
       text: "Image Screen",
       artworkInfo: {
-        title: "Untitled II",
-        artist: "Placeholder Artist 2",
-        description: "A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility."
+        title: "Dehumanized",
+        artist: "Chi An Chou",
+        description: "In this era of artificial intelligence, automation and highly mature technology, the definition of human is gradually disintegrating, and machines and technology are infiltrating and dominating our daily lives. Dehumanized is a conceptual exploration of a future world in which technology no longer centers on human nature, but instead gradually controls, holds power, and eventually replaces humanity. When digital systems take over judgment, aesthetics become algorithmically defined, and the body is transformed into a tool that prioritizes efficiency, emotions and individual consciousness begin to be seen as redundant residues. This project want to use visual language to present a imaginary future worldview: redesigned organisms, individuality erased, and a void beneath the human shell. Is Dehumanized a dystopian fantasy world, or is it a mirror held up to our present? In the wave of rapid innovation, what may ultimately be sacrificed is the very essence of what makes us human."
       },
       plinthVisible: false,
       onClick: (obj) => {
@@ -313,26 +358,29 @@ export class World {
       }
     }));
 
+    //above front door
     this._registerArtwork(this.screenManager.addScreen({
-      url: "https://picsum.photos/id/1011/900/900",
-      width: 3,
-      height: 3,
-      position: [-2.0, 0.5, 13.8],   // e.g. on/near carousel A
+      url: "public/art/Pseudosynthesis_LeonLin/Vertical_comp-1.png.avif",
+      width: 5,
+      height: 2.25,
+      position: [0.0, 0.8, 13.8],   // e.g. on/near carousel A
       rotation: [0, -180, 0],
       clickable: true,
       offsetClick: 0.0,
       text: "Image Screen",
       plinthVisible: false,
       artworkInfo: {
-        title: "Untitled II",
-        artist: "Placeholder Artist 2",
-        description: "A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility."
+        title: "Pseudosynthesis",
+        artist: "Leon Lin",
+        description: "This project investigates whether AI-generated performers can authentically replicate human emotional expression in dance and performance. Through interviews with dancers and motion-capture experiments, it identifies three stages of human emotion (raw, mechanical, controlled) and argues that AI is limited to mimicry due to its lack of consciousness, embodiment, and lived experience. Drawing on Judith Butler’s theories, it contrasts human performativity (fluid, culturally embedded) with AI’s programmed rigidity. The work also explores queering digital avatars, critiques the commodification of bodies, and uses a 3D fashion film to visualize the human-machine divide."
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
     }));
 
+    
+    /*
     this._registerArtwork(this.screenManager.addScreen({
       url: "public/art/film/-46631048878830026754dgs_social_v5.MP4",
       poster: "https://picsum.photos/id/1011/900/900",
@@ -353,17 +401,20 @@ export class World {
         console.log("Clicked screen/podium", obj);
       }
     }));
+    */
 
+    //right side hallway next to stairs
     this._registerArtwork(this.screenManager.addScreen({
-      url: "https://picsum.photos/id/1011/900/900",
-      width: 3,
-      height: 3,
-      position: [-7.5, 4.5, -1.0],   // e.g. on/near carousel A
-      rotation: [0, 90, 0],
+      url: "public/art/film/-46631048878830026754dgs_social_v5.MP4",
+      poster: "https://picsum.photos/id/1011/900/900",
+      width: 1.4,
+      height: 2.4,
+      position: [7.0, 0.6, 4.0],   // e.g. on/near carousel A
+      rotation: [0, -135, 0],
       clickable: true,
-      plinthVisible: false,
       offsetClick: 0.0,
       text: "Image Screen",
+      plinthVisible: false,
       artworkInfo: {
         title: "Untitled II",
         artist: "Placeholder Artist 2",
@@ -374,6 +425,90 @@ export class World {
       }
     }));
 
+      //atrium left wall, above front desk
+    this._registerArtwork(this.screenManager.addScreen({
+      url: "public/art/EmbodiedMemories_YoonJuChung/B0009341-1-1.webp",
+      width: 4,
+      height: 2.1,
+      position: [-7.5, 3.6, -1.5],   
+      rotation: [0, 90, 0],
+      clickable: true,
+      plinthVisible: false,
+      offsetClick: 0.0,
+      text: "Image Screen",
+      artworkInfo: {
+        title: "Embodied Memories",
+        artist: "Yoon Ju Chung",
+        description: "Embodied Memories explores Hangul, the Korean alphabet, as an embodied and relational language through modular wearable artefacts. Originating from experiences of non-verbal communication with the artist’s hearing-impaired aunt, the project approaches gesture and movement as fundamental forms of language. Drawing on Hangul’s geometric structure, linguistic principles are translated into a modular system that functions as words, sculptural forms, or wearable objects. Grounded in Korean emotional philosophies—Jeong (connection), Han (endurance), and Heung (vitality)—the work informs processes of alignment, tension, play, and repair. Rather than treating language as a fixed visual system, meaning emerges through bodily movement, touch, and reconfiguration. The final artefacts are constructed using Korean textiles such as Mosi (ramie) and Oksa (silk), combined with transparent acrylic structures, magnetic connections, and traditional techniques including Gamchimgil hand-stitching and Pusae (rice starch stiffening).  Language is not only spoken or written; it is sensed, worn, and remembered. "
+      },
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+
+    this._registerArtwork(this.screenManager.addScreen({
+      url: "public/art/SynestheticSkin_JianingDing/Screenshot 2026-03-22 at 17.33.20.png",
+      width: 3,
+      height: 1.5,
+      position: [7.5, 3.5, -1.0],   
+      rotation: [0, -90, 0],
+      clickable: true,
+      plinthVisible: false,
+      offsetClick: 0.0,
+      text: "Image Screen",
+      artworkInfo: {
+        title: "Synesthetic Skin：A Posthuman Visual Narrative",
+        artist: "Jianing Ding",
+        description: "A conceptual and experimental platform—an art-philosophy construct designed to utilize digital space as a medium for examining the interplay between reality and virtuality, embodied and digital identities"
+      },
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+
+    //left side, left front desk
+    this._registerArtwork(this.screenManager.addScreen({
+      url: "public/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-2-1.jpg.avif",
+      width: 1.4,
+      height: 1.8,
+      position: [-7.15, 0.7, 1.6],   // e.g. on/near carousel A
+      rotation: [0, 135, 0],
+      clickable: true,
+      plinthVisible: false,
+      offsetClick: 0.0,
+      text: "Image Screen",
+      artworkInfo: {
+        title: "Unrendered",
+        artist: "Marie-Lisette Cropp",
+        description: "A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility."
+      },
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+
+      //right side, middle front desk
+    this._registerArtwork(this.screenManager.addScreen({
+      url: "public/art/SelfFinish_BeatriceElAsmar/SF_02.jpg.avif",
+      width: 1.8,
+      height: 1.3,
+      position: [-8.4, 0.8, -1.5],
+      rotation: [0, 90, 0],
+      clickable: true,
+      offsetClick: 0.0,
+      text: "Image Screen",
+      artworkInfo: {
+        title: "Self-Finish",
+        artist: "Beatrice El Asmar",
+        description: "This series of self-portraits was created using slit scan technology, mostly known for its use for photo-finish in racing sports, thus reclaiming a patriarchal automation which judges, measures and commodifies linear speed and \‘progress\'. Subverting our expectations of how time and space occupy the photographic image, the work highlights how the supposedly linear progression of human rights, especially for cis and trans women, is being eroded to the extent that it is actually moving backwards. A fragmented portrait of one of the two female photo-finish operators in the UK, this work invites a different kind of embodied photographic seeing."
+      },
+      plinthVisible: false,
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+
+    /*
     this._registerArtwork(this.screenManager.addContentScreen({
       content: {
         title: "Artist Name",
@@ -401,18 +536,48 @@ export class World {
       transitionDuration: 0.35,
     }).screenMesh);
     //test model url
-    const a=import.meta.env.BASE_URL + "/art/test3d/8 Ultra High Quality Scan_low poly DRACO jpeg (1024).glb";
+    */
+    
     //3d models
-  this.screenManager.addModel({
+
+    //entrance way
+    const Experiment58 = import.meta.env.BASE_URL + "/art/Experimentn58-2PositioninSpace_MarieSaintYves/Eperiment58.glb";
+
+    this.screenManager.addModel({
+      url: Experiment58,
+      position: [0, -1.0, 8.5],
+      rotation: [0, -35, 0],
+      normalizeTo: 2.0,
+      clickable: true,
+      onClick: (obj, hit) => console.log("Model clicked:", obj),
+      text: "STATUE_01",
+      textOffset: [0, -0.1, 0.9],
+      hitboxSize: [2.0, 2.0, 2.0],
+      offsetClick: -0.4,
+      plinthVisible: false,
+      playAnimation: "first",
+      artworkInfo: {
+        title: "Experiment n°58-2: Position in Space",
+        artist: "Marie Saint-Yves",
+        description: "An exploration of space, physical forces of the Earth and the theory of material agency. Binding air and helium with low materials (surival blankets, salvaged sack trolley, nylon thread), I aimed to challenge our perception of the World via a contrasting piece, engaging viewers' personal sensory experience while inviting them to take a step back from their daily lives. Interested in leaving work open to individual interpretations, I wonder: What's yours?"
+      }
+    }).then((modelRoot) => {
+      this.statue = modelRoot;
+      this._registerArtwork(modelRoot);
+    }).catch(console.error);
+
+    const a=import.meta.env.BASE_URL + "/art/test3d/8 Ultra High Quality Scan_low poly DRACO jpeg (1024).glb";
+    //central coffee table
+    this.screenManager.addModel({
     url: a,
-    position: [-6.7, 0, -3],
-    rotation: [0, 90, 0],
-    normalizeTo: 1.4,
+    position: [.7, -.5, -4.5],
+    rotation: [0, 35, 0],
+    normalizeTo: 1.0,
     clickable: true,
     onClick: (obj, hit) => console.log("Model clicked:", obj),
     text: "STATUE_01",
     textOffset: [0, -0.1, 0.9],
-    hitboxSize: [1.0, 2.0, 1.0],
+    hitboxSize: [.5, 1.0, .5],
     offsetClick: -0.4,
     plinthVisible: false,
     playAnimation: "first",
@@ -425,6 +590,35 @@ export class World {
     this.statue = modelRoot;
     this._registerArtwork(modelRoot);
   }).catch(console.error);
+
+
+    //left front desk
+    const b=import.meta.env.BASE_URL + "public/art/LetMeEatCake_SuzannaTeal/LetMeEatCake01.glb";
+    
+  this.screenManager.addModel({
+    url: b,
+    position: [-6.7, .5, -3],
+    rotation: [0, -90, 0],
+    normalizeTo: 0.8,
+    clickable: true,
+    onClick: (obj, hit) => console.log("Model clicked:", obj),
+    text: "STATUE_01",
+    textOffset: [0, -0.5, 0.9],
+    hitboxSize: [0.6, 1.4, 0.6],
+    offsetClick: -0.0,
+    plinthVisible: false,
+    playAnimation: "first",
+    artworkInfo: {
+      title: "Statue 01",
+      artist: "Placeholder Sculptor",
+      description: "A 3D sculptural work rendered in real-time. Rotate and explore the form from any angle."
+    }
+  }).then((modelRoot) => {
+    this.statue = modelRoot;
+    this._registerArtwork(modelRoot);
+  }).catch(console.error);
+
+
 
   this.screenManager.addModel({
     url: a,
@@ -462,20 +656,21 @@ export class World {
     this.statue = modelRoot;
   }).catch(console.error);
 
+  //left of fireplace
 this._registerArtwork(this.screenManager.addFluidContentScreen({
       content: {
-        title: "Artist Name",
-        artist: "Chancery Rosewood",
-        bio: "Long bio goes here...lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+        title: "No Longer Us",
+        artist: "Jun Shya",
+        bio: "By putting a mask on, we begin to play different versions of ourselves. Intrigued by the process of unbalancing composition through distinct colours, crackled textures, and seemingly incongruous references, this series of paintings explores the theme of reality versus illusion in relation to the coexistence of present and past. By capturing the intimate gesture of push and pull in a ballet performance, each dancer becomes a version of another. It reflects the idea that a different version of you exists in the mind of everyone who knows you. Curious images emerge through a process of patient layering and excavation. Parts of the human body and face are either left blank or slightly concealed, yet we, as viewers, are still able to make sense of them. ",
         images: [
-          "https://picsum.photos/id/1011/900/900",
+          "public/art/NoLongerUs_JunShya/Jun-Shya-1-1.jpg",
           "https://picsum.photos/id/1015/900/900",
           "https://picsum.photos/id/1025/900/900"
         ]
       },
       width: 2,
       height: 2.25,
-      position: [-3, 1.4, -6],
+      position: [-4.6, 1.4, -6],
       rotation: [0, 30, 0],
       offsetClick: .2,
       infoWidth: 1.6,
@@ -592,10 +787,22 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     this._focusedScreen = target;
     this._lastRevealedScreen = revealTarget;
 
+    // Permanently reveal colour around this artwork in the environment
+    const artworkWorldPos = new Vector3();
+    target.getWorldPosition(artworkWorldPos);
+    this.proximityReveal.addPermanentReveal(artworkWorldPos);
+
     if (this._focusedScreen !== this._lastfocusedScreen) {
       this._animateReveal(target, 1.0, 0.0, 0.4);
       this._animateReveal(revealTarget, 1.0, 0.0, 0.4);
       this._lastfocusedScreen = this._focusedScreen;
+    }
+
+    // Animate grayscale → colour — only if not already colourised
+    const revealMat = revealTarget?.userData?.revealMaterial;
+    const currentColor = revealMat?.uniforms?.uColorReveal?.value ?? 0;
+    if (currentColor < 1.0) {
+      this._animateColorReveal(revealTarget, currentColor, 1.0, 1.5);
     }
 
     this.focus.focusOn({ targetObject: target, distance: "fit", heightOffset: 0.0, duration: 0.7, padding: 1 });
@@ -646,7 +853,8 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
 
   _animateReveal(mesh, from, to, duration = 0.35) {
     if (!mesh) return;
-   
+    if (mesh.userData.skipReveal) return;
+
     // cancel existing reveal tweens on this mesh
     this._tweens = this._tweens.filter(t => t.mesh !== mesh);
 
@@ -658,6 +866,25 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     });
 
     tween.mesh = mesh;
+    this._tweens.push(tween);
+  }
+
+  _setColorReveal(mesh, v) {
+    const mat = mesh?.userData?.revealMaterial;
+    if (!mat?.uniforms?.uColorReveal) return;
+    mat.uniforms.uColorReveal.value = v;
+  }
+
+  _animateColorReveal(mesh, from, to, duration = 1.2) {
+    if (!mesh) return;
+    this._tweens = this._tweens.filter(t => t.colorMesh !== mesh);
+    const tween = makeTween01({
+      from,
+      to,
+      duration,
+      onUpdate: (v) => this._setColorReveal(mesh, v)
+    });
+    tween.colorMesh = mesh;
     this._tweens.push(tween);
   }
 

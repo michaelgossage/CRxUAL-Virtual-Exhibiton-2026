@@ -91,6 +91,7 @@ export class ScreenManager {
     onClick = null, // optional callback(meshOrPodium, hit)
     artworkInfo = null, // { title, artist, description }
     poster = null,    // still image URL shown when not focused (video screens only)
+    skipReveal = true, // true = always fully visible, no radial wipe animation
   }) {
 
     if (this.debugOn) {
@@ -146,7 +147,8 @@ export class ScreenManager {
     });*/
     
     const material = makeRevealMaterial({ map: texture, revealMap: revealTex });
-    material.userData = { uReveal: 1.0 }; // start hidden
+    material.userData = { uReveal: skipReveal ? 0.0 : 1.0 };
+    if (skipReveal) material.uniforms.uReveal.value = 0.0;
 
     // Auto-detect media aspect ratio and set contain scale on material
     const setContainScale = (mediaAspect) => {
@@ -169,8 +171,26 @@ export class ScreenManager {
     screenMesh.rotation.set(...rotation);
     screenMesh.userData.isScreen = true;
     screenMesh.userData.revealMaterial = material; // for easy access later
+    screenMesh.userData.skipReveal = skipReveal;
 
     this.scene.add(screenMesh);
+
+    // --- Frame / backing ---
+    const frameThickness = 0.08;
+    const frameMat = new THREE.MeshStandardMaterial({ color: 0x111111 });
+    const frameGeo = new THREE.PlaneGeometry(width + frameThickness * 2, height + frameThickness * 2);
+    const frameMesh = new THREE.Mesh(frameGeo, frameMat);
+
+    const frameLocalOffset = new THREE.Vector3(0, 0, -0.02);
+    const frameQuat = new THREE.Quaternion().setFromEuler(new THREE.Euler(...rotation));
+    frameLocalOffset.applyQuaternion(frameQuat);
+    frameMesh.position.set(
+      position[0] + frameLocalOffset.x,
+      position[1] + frameLocalOffset.y,
+      position[2] + frameLocalOffset.z
+    );
+    frameMesh.rotation.set(...rotation);
+    this.scene.add(frameMesh);
 
     //add a box for the artwork to sit on
     if(plinthVisible){
@@ -283,7 +303,7 @@ export class ScreenManager {
     // extra info text to be revealed on click
 
 
-    const record = { mesh: screenMesh, material, texture, video: video ?? null, videoTexture, posterTexture, hitBox, textMesh };
+    const record = { mesh: screenMesh, material, texture, video: video ?? null, videoTexture, posterTexture, hitBox, textMesh, frameMesh };
     // store record so we can dispose later
     this.screens.push(record);
 
@@ -319,6 +339,7 @@ export class ScreenManager {
     //transition
     transitionDuration = 1.2,
 
+    skipReveal = true,
     onFocusClick = null
   }) {
     if (!content || !Array.isArray(content.images) || content.images.length === 0) {
@@ -342,6 +363,7 @@ export class ScreenManager {
       clickableSize,
       onClick: onFocusClick,
       plinthVisible,
+      skipReveal,
       artworkInfo: {
         title: content.title ?? "",
         artist: content.artist ?? "",
@@ -550,6 +572,7 @@ export class ScreenManager {
       buttonSize = 0.45,
       buttonOffsetY = -0.85,
       transitionDuration = 1.2,
+      skipReveal = true,
       onFocusClick = null,
     } = params;
 
@@ -559,6 +582,7 @@ export class ScreenManager {
       fontSize, clickableSize, plinthVisible, infoPanel, infoWidth, infoHeight,
       infoOffset, buttonSize, buttonOffsetY,
       transitionDuration,
+      skipReveal,
       onFocusClick,
     });
 
@@ -575,6 +599,8 @@ export class ScreenManager {
 
     screenMesh.material = fluidMat;
     screenMesh.userData.revealMaterial = fluidMat;
+    screenMesh.userData.skipReveal = skipReveal;
+    if (skipReveal) fluidMat.uniforms.uReveal.value = 0.0;
     record.material = fluidMat;
 
     oldMat?.dispose?.();
@@ -752,6 +778,11 @@ export class ScreenManager {
     if (s.textMesh) {
       this.scene.remove(s.textMesh);
       this._disposeMesh(s.textMesh);
+    }
+
+    if (s.frameMesh) {
+      this.scene.remove(s.frameMesh);
+      this._disposeMesh(s.frameMesh);
     }
 
     if (s.hitBox) {
@@ -1069,7 +1100,7 @@ async addModel({
 
     hitBox = new THREE.Mesh(
       new THREE.BoxGeometry(w, h, d),
-      new THREE.MeshBasicMaterial({ visible: true, opacity: 0.3, transparent: true })
+      new THREE.MeshBasicMaterial({ visible: this.debugOn, opacity: 0.3, transparent: true })
     );
 
     hitBox.position.set(position[0], position[1] - offsetClick, position[2]);

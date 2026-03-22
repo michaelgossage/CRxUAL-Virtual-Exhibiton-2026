@@ -10,8 +10,8 @@ export function makeArchGridMaterial({
   fadeEnd   = 80.0,
 
   // NEW
-  baseColor = new THREE.Color(0x0b0c10),
-  baseOpacity = 0.20,     // fill opacity
+  baseColor = new THREE.Color(0x555555),
+  baseOpacity = 1.20,     // fill opacity
   gridOpacity = 1.0,      // grid alpha multiplier
 
   plane = "XZ",
@@ -21,7 +21,7 @@ export function makeArchGridMaterial({
 
   const mat = new THREE.ShaderMaterial({
     transparent: true,    // needed for baseOpacity
-    depthWrite: false,
+    depthWrite: true,
     toneMapped: false,
     uniforms: {
       uMinorSize:   { value: minorSize },
