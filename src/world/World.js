@@ -103,14 +103,22 @@ export class World {
 
     this.locations = new LocationManager({ camera: this.camera });
     this.locations.setLocations({
-      lobby:   { camera: { pos:[0,0.8,0], lookAt:[0,1.2,-1] } },
+      lobby:   { camera: { pos:[0,0.8,0], lookAt:[0,0.8,-1] } },
       galleryA:{ camera: { pos:[-29,0.8,-20], lookAt:[-14,1.2,-6] } },
-      galleryB:{ camera: { pos:[ 1,21,16], lookAt:[ 14,1.2,-6] } },
+      galleryB:{ camera: { pos:[ 1,21,16], lookAt:[ 1,21,17] } },
       winners: { camera: { pos:[0, 12, 24], lookAt:[0, 0, -1] } }
     });
 
     // start location
     this.locations.goTo("lobby", { duration: 0.01 });
+
+      // One-directional path
+  this.locations.setPathBidirectional("lobby", "galleryB", [                                                                                                                                                         
+    { pos: [0, 21, 0], lookAt: [10, 21, 0] },
+    { pos: [10, 21, 0], lookAt: [10, 21, 8] },
+    { pos: [10, 21, 8], lookAt: [7, 21, 8] },
+    { pos: [7, 21, 8], lookAt: [ 1,21,16] },                                                                                                                                                             
+  ]); 
 
     // Arrow key navigation
     document.addEventListener("keydown", (e) => {

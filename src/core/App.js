@@ -104,7 +104,7 @@ export class App {
         const id = btn.dataset.loc;
 
         // ✅ correct reference
-        this.world.locations.goTo(id, { duration: 0.9 });
+        this.world.locations.goTo(id, { duration: 3.0 });
 
         // update active styling
         menu.querySelectorAll(".btn")
