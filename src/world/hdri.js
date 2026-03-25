@@ -31,13 +31,25 @@ export async function applyHDRI({
 
 export async function applyHDRI({ renderer, scene, url, background=false, envIntensity=1.0 }) {
   const pmrem = new THREE.PMREMGenerator(renderer);
-  const hdr = await new RGBELoader().loadAsync(url);
-  const envMap = pmrem.fromEquirectangular(hdr).texture;
+
+  const isHDR = /\.(hdr|exr)$/i.test(url);
+  let srcTex;
+  if (isHDR) {
+    srcTex = await new RGBELoader().loadAsync(url);
+  } else {
+    // JPEG / PNG equirectangular
+    srcTex = await new THREE.TextureLoader().loadAsync(url);
+    srcTex.mapping = THREE.EquirectangularReflectionMapping;
+    srcTex.colorSpace = THREE.SRGBColorSpace;
+    pmrem.compileEquirectangularShader();
+  }
+
+  const envMap = pmrem.fromEquirectangular(srcTex).texture;
 
   scene.environment = envMap;
   if (background) scene.background = envMap;
 
-  hdr.dispose();
+  srcTex.dispose();
   pmrem.dispose();
 
   // r160-safe "intensity":

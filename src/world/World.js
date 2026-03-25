@@ -136,7 +136,7 @@ export class World {
     applyHDRI({
       renderer: this.renderer,
       scene: this.scene,
-      url: import.meta.env.BASE_URL + "/art/hdri/qwantani_dusk_2_puresky_4k.hdr",
+      url: import.meta.env.BASE_URL + "art/hdri/qwantani_dusk_2_puresky_4k Medium.jpeg",
       background: true,   // keep your room/fog background
       envIntensity: 0.0
     });
@@ -215,11 +215,13 @@ export class World {
     }).catch(console.error);
 
 
+      //base URL
+      const baseURL = import.meta.env.BASE_URL;
     //screens
 
     //above the fireplace
     this._registerArtwork(this.screenManager.addScreen({
-      url: "public/art/birdcage_jichu zhang/IMG_1571-1.jpeg",
+      url: `${baseURL}art/birdcage_jichu zhang/IMG_1571-1.jpeg`,
       width: 2,
       height: 1.85,
       position: [0.0, 1.4, -6.0],   // e.g. on/near carousel A
@@ -241,7 +243,7 @@ export class World {
 
       //Right of fireplace
     this._registerArtwork(this.screenManager.addScreen({
-      url: "public/art/EMBODIED_VeepraMishra/20251114_Veepra0132-1-1.webp",
+      url: `${baseURL}art/EMBODIED_VeepraMishra/20251114_Veepra0132-1-1.webp`,
       width: 1.3,
       height: 1.74,
       position: [4.65, 0.9, -6.0],   // e.g. on/near carousel A
@@ -284,7 +286,7 @@ export class World {
 
     //right side, left front desk
     this._registerArtwork(this.screenManager.addScreen({
-      url: "public/art/BlackSwan-JieunSung/IMG_5414-2.png.avif",
+      url: `${baseURL}art/BlackSwan-JieunSung/IMG_5414-2.png.avif`,
       width: 1.5,
       height: 2,
       position: [7.2, .5, -4.35],   // e.g. on/near carousel A
@@ -324,7 +326,7 @@ export class World {
 
     //right side, right front desk
     this._registerArtwork(this.screenManager.addScreen({
-      url: "public/art/Nailed_Genevieve Carr/nailed.webp",
+      url: `${baseURL}art/Nailed_Genevieve Carr/nailed.webp`,
       width: 1.5,
       height: 2.0,
       position: [7.2, 0.5, 1.55],
@@ -347,7 +349,7 @@ export class World {
       
       //right side, middle front desk
     this._registerArtwork(this.screenManager.addScreen({
-      url: "public/art/Dehumanized_ChiAnChou/IMG_7018-Large.jpeg.avif",
+      url: `${baseURL}art/Dehumanized_ChiAnChou/IMG_7018-Large.jpeg.avif`,
       width: 1.8,
       height: 1.3,
       position: [8.4, 0.8, -1.5],
@@ -368,7 +370,7 @@ export class World {
 
     //above front door
     this._registerArtwork(this.screenManager.addScreen({
-      url: "public/art/Pseudosynthesis_LeonLin/Vertical_comp-1.png.avif",
+      url: `${baseURL}art/Pseudosynthesis_LeonLin/Vertical_comp-1.png.avif`,
       width: 5,
       height: 2.25,
       position: [0.0, 0.8, 13.8],   // e.g. on/near carousel A
@@ -413,7 +415,7 @@ export class World {
 
     //right side hallway next to stairs
     this._registerArtwork(this.screenManager.addScreen({
-      url: "public/art/film/-46631048878830026754dgs_social_v5.MP4",
+      url: `${baseURL}art/film/-46631048878830026754dgs_social_v5.MP4`,
       poster: "https://picsum.photos/id/1011/900/900",
       width: 1.4,
       height: 2.4,
@@ -435,7 +437,7 @@ export class World {
 
       //atrium left wall, above front desk
     this._registerArtwork(this.screenManager.addScreen({
-      url: "public/art/EmbodiedMemories_YoonJuChung/B0009341-1-1.webp",
+      url: `${baseURL}art/EmbodiedMemories_YoonJuChung/B0009341-1-1.webp`,
       width: 4,
       height: 2.1,
       position: [-7.5, 3.6, -1.5],   
@@ -455,7 +457,7 @@ export class World {
     }));
 
     this._registerArtwork(this.screenManager.addScreen({
-      url: "public/art/SynestheticSkin_JianingDing/Screenshot 2026-03-22 at 17.33.20.png",
+      url: `${baseURL}art/SynestheticSkin_JianingDing/Screenshot 2026-03-22 at 17.33.20.png`,
       width: 3,
       height: 1.5,
       position: [7.5, 3.5, -1.0],   
@@ -476,7 +478,7 @@ export class World {
 
     //left side, left front desk
     this._registerArtwork(this.screenManager.addScreen({
-      url: "public/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-2-1.jpg.avif",
+      url: `${baseURL}art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-2-1.jpg.avif`,
       width: 1.4,
       height: 1.8,
       position: [-7.15, 0.7, 1.6],   // e.g. on/near carousel A
@@ -497,7 +499,7 @@ export class World {
 
       //right side, middle front desk
     this._registerArtwork(this.screenManager.addScreen({
-      url: "public/art/SelfFinish_BeatriceElAsmar/SF_02.jpg.avif",
+      url: `${baseURL}art/SelfFinish_BeatriceElAsmar/SF_02.jpg.avif`,
       width: 1.8,
       height: 1.3,
       position: [-8.4, 0.8, -1.5],
