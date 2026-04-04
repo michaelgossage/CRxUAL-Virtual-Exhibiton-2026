@@ -47,6 +47,7 @@ export class World {
     // location-based visibility
     this._currentLocation = 'lobby';
     this._pendingLocation = null;
+    this._pendingFocusIndex = null; // set when cross-location jump is triggered from list
 
     // proximity reveal system for environment geometry
     this.proximityReveal = new ProximityRevealSystem();
@@ -220,7 +221,7 @@ export class World {
           //child.castShadow = true;
           child.receiveShadow = true;
           child.material = envMat;
-          child.material = new MeshStandardMaterial({ color: 0x808080, side: 2 });  
+          //child.material = new MeshStandardMaterial({ color: 0x808080, side: 2 });  
           
           //child.material = gridMat;
         }
@@ -787,6 +788,16 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       this._pendingLocation = null;
     }
 
+    if (justArrived && this._pendingFocusIndex !== null) {
+      const pidx = this._pendingFocusIndex;
+      this._pendingFocusIndex = null;
+      const pending = this._artworkRegistry[pidx];
+      // Only focus if we actually arrived at the correct location
+      if (pending && pending.obj.userData.location === this._currentLocation) {
+        this._focusOnObj(pending.obj);
+      }
+    }
+
     // Sync controls orientation when a location transition finishes,
     // otherwise controls.update() would snap the camera back to the old direction.
     if (justArrived) {
@@ -943,15 +954,50 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
   }
 
   _navigateArtwork(dir) {
-    const len = this._artworkRegistry.length;
-    if (!len) return;
-    const next = ((this._currentArtworkIndex + dir) % len + len) % len;
-    this._navigateToIndex(next);
+    // Only cycle through artworks in the current location (or always-visible null-location ones)
+    const activeIndices = this._artworkRegistry
+      .map((entry, i) => ({ entry, i }))
+      .filter(({ entry }) => {
+        const loc = entry.obj.userData.location;
+        return loc === this._currentLocation || loc === null;
+      })
+      .map(({ i }) => i);
+
+    if (!activeIndices.length) return;
+
+    const posInActive = activeIndices.indexOf(this._currentArtworkIndex);
+    const nextPos = posInActive === -1
+      ? 0
+      : ((posInActive + dir) % activeIndices.length + activeIndices.length) % activeIndices.length;
+
+    this._navigateToIndex(activeIndices[nextPos]);
   }
 
   _navigateToIndex(idx) {
     const entry = this._artworkRegistry[idx];
     if (!entry) return;
+
+    const targetLocation = entry.obj.userData.location;
+    const needsTravel = targetLocation && targetLocation !== this._currentLocation;
+
+    if (needsTravel) {
+      // Exit focus mode immediately — location transition takes over the camera
+      if (this._focusState !== "idle") {
+        this.screenManager.deactivateVideo(this._focusedScreen);
+        this.infoPanel.hide();
+        this.infoPanel.hideVideoControls();
+        this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.15);
+        this._animateReveal(this._lastRevealedScreen, 0.0, 1.0, 0.15);
+        this._focusedScreen = null;
+        this._lastRevealedScreen = null;
+        this._exitFocusMode();
+        this._focusState = "idle";
+      }
+      this.locations.goTo(targetLocation, { duration: 3.0 });
+      this._pendingFocusIndex = idx;
+      return;
+    }
+
     this._focusOnObj(entry.obj);
   }
 
