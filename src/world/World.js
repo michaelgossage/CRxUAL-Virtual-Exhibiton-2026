@@ -55,7 +55,7 @@ export class World {
       renderer: this.renderer,
       domElement: this.renderer.domElement,
       makeTextPlane,
-      debugOn: false // set to true to show clickable podiums
+      debugOn: true // set to true to show clickable podiums
     });
 
     this.screenManager.onHit = (obj) => {
@@ -100,25 +100,36 @@ export class World {
 
   
 
-
+    //set camera locaitons
     this.locations = new LocationManager({ camera: this.camera });
     this.locations.setLocations({
       lobby:   { camera: { pos:[0,0.8,0], lookAt:[0,0.8,-1] } },
-      galleryA:{ camera: { pos:[-29,0.8,-20], lookAt:[-14,1.2,-6] } },
-      galleryB:{ camera: { pos:[ 1,21,16], lookAt:[ 1,21,17] } },
+      WestPavillion:{ camera: { pos:[-29,0.8,-20], lookAt:[-14,1.2,-6] } },
+      EagleBar:{ camera: { pos:[ 1,21,16], lookAt:[ 1,21,17] } },
       winners: { camera: { pos:[0, 12, 24], lookAt:[0, 0, -1] } }
     });
 
     // start location
     this.locations.goTo("lobby", { duration: 0.01 });
 
-      // One-directional path
-  this.locations.setPathBidirectional("lobby", "galleryB", [                                                                                                                                                         
+      // make a path between 2 lodcations
+  this.locations.setPathBidirectional("lobby", "EagleBar", [   
+    { pos: [0, 10, 0], lookAt: [0, 21, 0] },                                                                                                                                                      
     { pos: [0, 21, 0], lookAt: [10, 21, 0] },
     { pos: [10, 21, 0], lookAt: [10, 21, 8] },
     { pos: [10, 21, 8], lookAt: [7, 21, 8] },
     { pos: [7, 21, 8], lookAt: [ 1,21,16] },                                                                                                                                                             
-  ]); 
+  ],
+{duration: 5.0, distanceWeighted: true}); 
+
+      // make a path between 2 lodcations
+  this.locations.setPathBidirectional("lobby", "WestPavillion", [
+    { pos: [3, 0.8, -8], lookAt: [-10, 0.8,-15] },                                                                                                                                                      
+    { pos: [-10, 0.8, -15], lookAt: [-12, 0.8, -18] },
+    { pos: [-12, 0.8, -18], lookAt: [-28, 0.8, -18] },
+    { pos: [-28, 0.8, -18], lookAt: [-15, 0.8, -15] }
+  ],
+{duration: 5.0, distanceWeighted: true}); 
 
     // Arrow key navigation
     document.addEventListener("keydown", (e) => {
@@ -197,7 +208,7 @@ export class World {
     this.proximityReveal.registerMaterial(envMat);
     const gridMat = makeArchGridMaterial({ });
 
-    const room01 = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/Chancery Rosewood_V4.glb").then((gltf) => {
+    const room01 = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/Chancery Rosewood_V4_Reduce.glb").then((gltf) => {
       const model = gltf.scene;
       model.traverse((child) => {
         if (child.isMesh) {
@@ -212,6 +223,23 @@ export class World {
       model.scale.set(1.0, 1.0, 1.0);
       model.position.set(0.0, -4.0, 16.0);
       this.scene.add(model);
+    }).catch(console.error);
+
+    const WestPavillion = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/WestPavillion_V1.glb").then((gltf) => {
+      const model1 = gltf.scene;
+      model1.traverse((child) => {
+        if (child.isMesh) {
+          //child.castShadow = true;
+          child.receiveShadow = true;
+          child.material = envMat;
+          child.material = new MeshStandardMaterial({ color: 0x808080, side: 2 });  
+          
+          //child.material = gridMat;
+        }
+      });
+      model1.scale.set(1.0, 1.0, 1.0);
+      model1.position.set(0.0, -4.0, 16.0);
+      this.scene.add(model1);
     }).catch(console.error);
 
 
@@ -707,10 +735,20 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     // update focus cooldown
     this._focusCooldown = Math.max(0, this._focusCooldown - dt);
 
+    const wasLocMoving = this.locations.isMoving;
     this.locations.update(dt);
 
+    // Sync controls orientation when a location transition finishes,
+    // otherwise controls.update() would snap the camera back to the old direction.
+    if (wasLocMoving && !this.locations.isMoving) {
+      this.camera.rotation.order = "YXZ";
+      this.controls.yawTotal = this.camera.rotation.y;
+      this.controls.pitch = this.camera.rotation.x;
+      this.controls.yawVel = 0;
+      this.controls.pitchVel = 0;
+    }
 
-    // if notmoving between locations and in idle focus state, allow controls to update (e.g. for auto-rotate or user input)
+    // if not moving between locations and in idle focus state, allow controls to update (e.g. for auto-rotate or user input)
     if (!this.locations.isMoving && this._focusState === "idle") {
       this.controls.update(dt);
     }

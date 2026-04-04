@@ -136,6 +136,7 @@ export class LocationManager {
   _startPath(toId, { waypoints, options }) {
     const loc = this.locations[toId];
     const distanceWeighted = options?.distanceWeighted ?? false;
+    if (options?.duration) this.duration = Math.max(0.05, options.duration);
 
     // Build full point list: [current, ...intermediates, destination]
     const allWaypoints = [
