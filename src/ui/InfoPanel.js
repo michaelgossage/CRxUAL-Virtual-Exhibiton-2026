@@ -16,14 +16,23 @@ export class InfoPanel {
     this.listCloseBtn = this.listEl.querySelector(".artwork-list__close");
 
     // Video controls
-    this.videoEl     = this.el.querySelector(".info-panel__video");
-    this.playPauseBtn = this.el.querySelector(".video-ctrl__playpause");
-    this.timeEl       = this.el.querySelector(".video-ctrl__time");
-    this.scrubberEl   = this.el.querySelector(".video-ctrl__scrubber");
-    this.durationEl   = this.el.querySelector(".video-ctrl__duration");
+    this.videoEl      = this.el.querySelector(".info-panel__video");
+    this.playPauseBtn = this.videoEl.querySelector(".video-ctrl__playpause");
+    this.timeEl       = this.videoEl.querySelector(".video-ctrl__time");
+    this.scrubberEl   = this.videoEl.querySelector(".video-ctrl__scrubber");
+    this.durationEl   = this.videoEl.querySelector(".video-ctrl__duration");
     this._activeVideo = null;
     this._rafId = null;
     this.videoEl.hidden = false; // let CSS class control visibility
+
+    // Audio narration controls
+    this.audioEl          = this.el.querySelector(".info-panel__audio");
+    this.audioPlayPauseBtn = this.audioEl.querySelector(".video-ctrl__playpause");
+    this.audioTimeEl       = this.audioEl.querySelector(".video-ctrl__time");
+    this.audioScrubberEl   = this.audioEl.querySelector(".video-ctrl__scrubber");
+    this.audioDurationEl   = this.audioEl.querySelector(".video-ctrl__duration");
+    this._activeAudio = null;
+    this._audioRafId = null;
 
     this._onJumpTo = onJumpTo;
     this._registry = [];
@@ -63,6 +72,22 @@ export class InfoPanel {
 
     // Keep scrubber from triggering 3D scene clicks
     this.scrubberEl.addEventListener("pointerdown", e => e.stopPropagation());
+
+    // Audio narration control events
+    this.audioPlayPauseBtn.addEventListener("click", () => {
+      const a = this._activeAudio;
+      if (!a) return;
+      if (a.paused) a.play().catch(() => {});
+      else          a.pause();
+    });
+
+    this.audioScrubberEl.addEventListener("input", () => {
+      const a = this._activeAudio;
+      if (!a || isNaN(a.duration)) return;
+      a.currentTime = parseFloat(this.audioScrubberEl.value) * a.duration;
+    });
+
+    this.audioScrubberEl.addEventListener("pointerdown", e => e.stopPropagation());
   }
 
   show({ title = "", artist = "", description = "" } = {}) {
@@ -106,6 +131,30 @@ export class InfoPanel {
     this.scrubberEl.value = 0;
     this.timeEl.textContent = "0:00";
     this.durationEl.textContent = "0:00";
+  }
+
+  showAudioControls(audio) {
+    this._activeAudio = audio;
+    this.audioEl.classList.add("info-panel__audio--visible");
+
+    const setDuration = () => {
+      if (!isNaN(audio.duration)) {
+        this.audioDurationEl.textContent = this._formatTime(audio.duration);
+      }
+    };
+    if (!isNaN(audio.duration)) setDuration();
+    else audio.addEventListener("loadedmetadata", setDuration, { once: true });
+
+    this._startAudioLoop();
+  }
+
+  hideAudioControls() {
+    this._stopAudioLoop();
+    this._activeAudio = null;
+    this.audioEl.classList.remove("info-panel__audio--visible");
+    this.audioScrubberEl.value = 0;
+    this.audioTimeEl.textContent = "0:00";
+    this.audioDurationEl.textContent = "0:00";
   }
 
   setRegistry(registry) {
@@ -160,6 +209,31 @@ export class InfoPanel {
   _stopVideoLoop() {
     if (this._rafId !== null) cancelAnimationFrame(this._rafId);
     this._rafId = null;
+  }
+
+  // ── Audio loop ────────────────────────────────────────────
+
+  _startAudioLoop() {
+    this._stopAudioLoop();
+    const tick = () => {
+      this._tickAudio();
+      this._audioRafId = requestAnimationFrame(tick);
+    };
+    this._audioRafId = requestAnimationFrame(tick);
+  }
+
+  _stopAudioLoop() {
+    if (this._audioRafId !== null) cancelAnimationFrame(this._audioRafId);
+    this._audioRafId = null;
+  }
+
+  _tickAudio() {
+    const a = this._activeAudio;
+    if (!a || isNaN(a.duration)) return;
+
+    this.audioScrubberEl.value = a.currentTime / a.duration;
+    this.audioTimeEl.textContent = this._formatTime(a.currentTime);
+    this.audioPlayPauseBtn.innerHTML = a.paused ? "&#9654;" : "&#9646;&#9646;";
   }
 
   _tickVideo() {

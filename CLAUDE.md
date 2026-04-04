@@ -40,7 +40,7 @@ src/
     gltfLoader.js      # loadGLTFWithAnimations(url) — Draco-enabled GLTF loader
     dispose.js         # disposeObject3D(root) — recursive geometry/material/texture cleanup
   ui/
-    InfoPanel.js       # DOM info panel, video controls, artwork list
+    InfoPanel.js       # DOM info panel, video + audio narration controls, artwork list
     overlay.css        # All UI styles
 ```
 
@@ -56,7 +56,7 @@ idle → focusing → focused → returning → idle
 - `_focusCooldown` (seconds) prevents re-clicks immediately after transitions
 - `_focusedScreen` holds the active hitBox/model root
 - Click on already-focused video artwork → toggles play/pause (no re-focus)
-- Click on empty space → `onMiss` → `returnHome()`
+- Click on empty space → `onMiss` → `returnHome()` → stops video + narration, hides controls
 
 ### Adding an Artwork Screen
 
@@ -76,12 +76,35 @@ this._registerArtwork(this.screenManager.addScreen({
   artworkInfo: {
     title: "Work Title",
     artist: "Artist Name",
-    description: "Description text shown in info panel."
+    description: "Description text shown in info panel.",
+    narration: "/art/audio/work-title.m4a"  // optional — triggers audio player on focus
   }
 }));
 ```
 
 **Aspect ratio** is auto-detected from the loaded media (image `naturalWidth/Height`, video `videoWidth/videoHeight`) and applied to the shader as `uContainScale`. No manual step needed.
+
+### Adding Audio Narration to an Artwork
+
+Add `narration` to `artworkInfo` on any non-video artwork (image, model, or carousel):
+
+```js
+artworkInfo: {
+  title: "Work Title",
+  artist: "Artist Name",
+  description: "Sentence one. Sentence two. Sentence three.",
+  narration: "/art/audio/work-title.m4a"
+}
+```
+
+On focus: `World._activateNarration(obj)` creates (or reuses) an `HTMLAudioElement` stored on `obj.userData.audioEl`, plays it, and `InfoPanel.showAudioControls(audio)` shows the scrubber. On unfocus: `_deactivateNarration()` pauses and `hideAudioControls()` hides the controls.
+
+**Rules:**
+- Video and narration are mutually exclusive — a video screen never shows audio controls
+- The audio element is cached on `userData.audioEl` so re-focusing resumes from the paused position
+- Only one narration plays at a time (`_activeNarration` in `World.js`)
+- Recommended format: AAC `.m4a`, mono, 64 kbps (~1 MB / 2 min)
+- Optional `narrationCues: "/art/audio/work-title.cues.json"` — sentence-boundary timestamps for Phase 3 text sync. One `{ start, end }` object per sentence, matching sentence order in `description`. Place alongside the `.m4a`.
 
 ### Adding a Video Screen
 
@@ -126,7 +149,7 @@ this.screenManager.addModel({
   offsetClick: 0,
   plinthVisible: true,
   playAnimation: "first", // "first" | null | animation name
-  artworkInfo: { title: "…", artist: "…", description: "…" }
+  artworkInfo: { title: "…", artist: "…", description: "…", narration: "/art/audio/…" }
 }).then(modelRoot => {
   this._registerArtwork(modelRoot); // models load async
 });
@@ -198,12 +221,15 @@ All static assets live in `/public/` and are referenced via `import.meta.env.BAS
 public/
   art/
     hdri/     qwantani_dusk_2_puresky_4k.hdr
-    textures/ radial-512px.jpg   ← reveal mask (required)
-    test3d/   *.glb
+    textures/ radial-512px.jpg   ← reveal mask (required, do not remove)
+    models/   *.glb
     film/     *.mp4
+    audio/    *.m4a              ← narration files
+              *.cues.json       ← optional sentence timestamps for text sync
+    images/   *.jpg / *.png
 ```
 
-For images served from external URLs or a CDN, pass the full URL directly.
+For assets hosted on a CDN, pass the full URL directly — `import.meta.env.BASE_URL` is only needed for files in `/public/`.
 
 ## UI (`InfoPanel.js`)
 
@@ -213,26 +239,33 @@ Key methods:
 ```js
 infoPanel.show({ title, artist, description }) // slide up + populate
 infoPanel.hide()                                // slide down
-infoPanel.showVideoControls(videoElement)       // show play bar
+infoPanel.showVideoControls(videoElement)       // show video play bar
 infoPanel.hideVideoControls()
+infoPanel.showAudioControls(audioElement)       // show narration play bar
+infoPanel.hideAudioControls()
 infoPanel.setRegistry(artworkRegistry)          // populate "All works" list
 infoPanel.setActiveIndex(idx, total)            // highlight current item in list
 ```
 
 Nav buttons (prev/next/list) live in `#menu` in `index.html`. Close button triggers `onClose` → `screenManager.onMiss?.()`.
 
+Video and audio controls share identical CSS classes (`.video-ctrl__*`) but are scoped inside separate containers (`.info-panel__video` and `.info-panel__audio`). Never query `.video-ctrl__playpause` from the panel root — always scope to the parent container.
+
 ## HTML Structure
 
 ```html
-<div id="app">         <!-- Three.js canvas mounts here -->
-<div id="menu">        <!-- Bottom-centre nav: artwork prev/next + location buttons -->
-<div id="info-panel">  <!-- Bottom-left artwork info (slides up on focus) -->
+<div id="app">          <!-- Three.js canvas mounts here -->
+<div id="menu">         <!-- Bottom-centre nav: artwork prev/next + location buttons -->
+<div id="info-panel">   <!-- Bottom-left artwork info (slides up on focus) -->
+  .info-panel__video    <!-- video scrubber — visible only for video artworks -->
+  .info-panel__audio    <!-- narration scrubber — visible only for non-video artworks with narration -->
 <div id="artwork-list"> <!-- Artwork list overlay (slides up from bottom-left) -->
 ```
 
 CSS classes toggle visibility:
 - `.info-panel--visible` — info panel shown
 - `.info-panel__video--visible` — video controls shown
+- `.info-panel__audio--visible` — audio narration controls shown
 - `.artwork-list--visible` — list shown
 
 ## Environment

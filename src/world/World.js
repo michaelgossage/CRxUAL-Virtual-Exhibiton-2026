@@ -40,6 +40,7 @@ export class World {
     this._focusedScreen = null;
     this._lastfocusedScreen = null;
     this._lastRevealedScreen = null;
+    this._activeNarration = null; // { audio: HTMLAudioElement, obj }
 
     //tween animations
     this._tweens = [];
@@ -89,10 +90,12 @@ export class World {
 
       this.focus.returnHome(0.7);
 
-      // Pause any playing video and restore poster
+      // Pause any playing video/audio and restore poster
       this.screenManager.deactivateVideo(this._focusedScreen);
+      this._deactivateNarration();
       this.infoPanel.hide();
       this.infoPanel.hideVideoControls();
+      this.infoPanel.hideAudioControls();
 
       // 🔥 HIDE animation
       this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.3);
@@ -194,6 +197,7 @@ export class World {
       wall.receiveShadow = true;
       //this.scene.add(wall);
     }
+      
 
 
 
@@ -208,13 +212,14 @@ export class World {
     //this.scene.add(ball);
 
     this.ball = ball;
+    
 
-    //import environment model
+    //import environment models
     const envMat = makeProximityRevealMaterial({ color: 0x808080, fogColor: 0x000000, side: 2 });
     this.proximityReveal.registerMaterial(envMat);
     const gridMat = makeArchGridMaterial({ });
 
-    const room01 = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/Chancery Rosewood_V4_Reduce.glb").then((gltf) => {
+    const room01 = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/Chancery Rosewood_V8_.glb").then((gltf) => {
       const model = gltf.scene;
       model.traverse((child) => {
         if (child.isMesh) {
@@ -231,14 +236,16 @@ export class World {
       this.scene.add(model);
     }).catch(console.error);
 
-    const WestPavillion = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/WestPavillion_V2.glb").then((gltf) => {
+    const WestPavillion = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/WestPavillion_V2_Baked.glb").then((gltf) => {
       const model1 = gltf.scene;
       model1.traverse((child) => {
         if (child.isMesh) {
           //child.castShadow = true;
           child.receiveShadow = true;
-          child.material = envMat;
-          child.material = new MeshStandardMaterial({ color: 0x808080, side: 2 });  
+          //child.material = envMat;
+          //child.material = new MeshStandardMaterial({ color: 0x808080, side: 2 }); 
+          //show glbs texture
+          child.material = child.material.clone();
           
           //child.material = gridMat;
         }
@@ -923,14 +930,43 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
 
     // Activate video if this is a film screen (stops any previously playing video)
     const video = this.screenManager.activateVideo(obj);
-    if (video) this.infoPanel.showVideoControls(video);
-    else       this.infoPanel.hideVideoControls();
+    if (video) {
+      this.infoPanel.showVideoControls(video);
+      this._deactivateNarration();
+    } else {
+      this.infoPanel.hideVideoControls();
+      const audio = this._activateNarration(obj);
+      if (audio) this.infoPanel.showAudioControls(audio);
+      else       this.infoPanel.hideAudioControls();
+    }
 
     const idx = this._artworkRegistry.findIndex(r => r.obj === obj);
     if (idx !== -1) {
       this._currentArtworkIndex = idx;
       this.infoPanel.setActiveIndex(idx, this._artworkRegistry.length);
     }
+  }
+
+  _activateNarration(obj) {
+    this._deactivateNarration();
+    const url = obj.userData.artworkInfo?.narration;
+    if (!url) return null;
+
+    if (!obj.userData.audioEl) {
+      obj.userData.audioEl = new Audio(url);
+      obj.userData.audioEl.preload = "metadata";
+    }
+
+    const audio = obj.userData.audioEl;
+    this._activeNarration = { audio, obj };
+    audio.play().catch(() => {});
+    return audio;
+  }
+
+  _deactivateNarration() {
+    if (!this._activeNarration) return;
+    this._activeNarration.audio.pause();
+    this._activeNarration = null;
   }
 
   _setLocationVisibility(locationId, visible) {
@@ -987,8 +1023,10 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       // Exit focus mode immediately — location transition takes over the camera
       if (this._focusState !== "idle") {
         this.screenManager.deactivateVideo(this._focusedScreen);
+        this._deactivateNarration();
         this.infoPanel.hide();
         this.infoPanel.hideVideoControls();
+        this.infoPanel.hideAudioControls();
         this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.15);
         this._animateReveal(this._lastRevealedScreen, 0.0, 1.0, 0.15);
         this._focusedScreen = null;
@@ -1008,8 +1046,10 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     // If currently focused on an artwork, clean up focus state before travelling
     if (this._focusState !== "idle") {
       this.screenManager.deactivateVideo(this._focusedScreen);
+      this._deactivateNarration();
       this.infoPanel.hide();
       this.infoPanel.hideVideoControls();
+      this.infoPanel.hideAudioControls();
       this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.15);
       this._animateReveal(this._lastRevealedScreen, 0.0, 1.0, 0.15);
       this._focusedScreen = null;
