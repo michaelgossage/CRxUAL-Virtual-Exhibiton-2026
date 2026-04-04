@@ -1,5 +1,5 @@
 import { Mesh, MeshStandardMaterial, SphereGeometry, Vector3 } from "three";
-import { makeProximityRevealMaterial, ProximityRevealSystem } from "../shaders/proximityRevealMaterial.js";
+import { makeProximityRevealMaterial, applyProximityRevealToMaterial, ProximityRevealSystem } from "../shaders/proximityRevealMaterial.js";
 import { addDefaultLights } from "./lights.js";
 import { BoxGeometry } from "three";
 import { ScreenManager } from "./ScreenManager.js";
@@ -169,8 +169,7 @@ export class World {
     );
     room.position.set(0, -1.5, 0);
     room.receiveShadow = true;
-    const envMat1 = makeProximityRevealMaterial({ color: 0x808080, fogColor: 0x000000, side: 2 });
-          this.proximityReveal.registerMaterial(envMat1);
+    const envMat1 = makeProximityRevealMaterial(this.proximityReveal, { color: 0x808080, fogColor: 0x000000, side: 2 });
           room.material = envMat1;
     //this.scene.add(room);
 
@@ -215,18 +214,20 @@ export class World {
     
 
     //import environment models
-    const envMat = makeProximityRevealMaterial({ color: 0x808080, fogColor: 0x000000, side: 2 });
-    this.proximityReveal.registerMaterial(envMat);
     const gridMat = makeArchGridMaterial({ });
 
     const room01 = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/Chancery Rosewood_V8_.glb").then((gltf) => {
       const model = gltf.scene;
       model.traverse((child) => {
         if (child.isMesh) {
-          //child.castShadow = true;
           child.receiveShadow = true;
-          child.material = envMat;
-          child.material = new MeshStandardMaterial({ color: 0x808080, side: 2 });  
+          applyProximityRevealToMaterial(child.material, this.proximityReveal,{fogColor: 0x808080});
+
+          //child.material = envMat;
+          //child.material = new MeshStandardMaterial({ color: 0x808080, side: 2 }); 
+          //show glbs texture
+          //child.material = child.material.clone();
+          //child.material = envMat;
           
           //child.material = gridMat;
         }
@@ -240,12 +241,15 @@ export class World {
       const model1 = gltf.scene;
       model1.traverse((child) => {
         if (child.isMesh) {
-          //child.castShadow = true;
           child.receiveShadow = true;
+          applyProximityRevealToMaterial(child.material, this.proximityReveal);
+          //child.castShadow = true;
+          
           //child.material = envMat;
           //child.material = new MeshStandardMaterial({ color: 0x808080, side: 2 }); 
           //show glbs texture
           child.material = child.material.clone();
+          //child.material = envMat;
           
           //child.material = gridMat;
         }
@@ -845,6 +849,9 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
 
     // update fluid carousel sims
     this.screenManager.update(dt);
+
+    // sample camera position into environment proximity reveal trail
+    this.proximityReveal.update(this.camera.position);
   }
 
   onResize() {
@@ -1069,7 +1076,6 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     const mat = mesh?.userData?.revealMaterial;
     if (!mat) return;
     mat.uniforms.uReveal.value = v;
-     console.log("Set reveal", v, "on", mesh, "material", mat);
   }
 
   _animateReveal(mesh, from, to, duration = 0.35) {
