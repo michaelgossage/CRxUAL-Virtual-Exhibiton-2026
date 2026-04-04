@@ -221,7 +221,7 @@ export class World {
           //child.castShadow = true;
           child.receiveShadow = true;
           child.material = envMat;
-          //child.material = new MeshStandardMaterial({ color: 0x808080, side: 2 });  
+          child.material = new MeshStandardMaterial({ color: 0x808080, side: 2 });  
           
           //child.material = gridMat;
         }
@@ -783,7 +783,10 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
 
     if (justArrived && this._pendingLocation) {
       // Hide previous location artworks — camera has left
-      this._setLocationVisibility(this._currentLocation, false);
+      // Skip if travelling to the same location (e.g. initial goTo on load)
+      if (this._currentLocation !== this._pendingLocation) {
+        this._setLocationVisibility(this._currentLocation, false);
+      }
       this._currentLocation = this._pendingLocation;
       this._pendingLocation = null;
     }
@@ -999,6 +1002,27 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     }
 
     this._focusOnObj(entry.obj);
+  }
+
+  goToLocation(id, options = {}) {
+    // If currently focused on an artwork, clean up focus state before travelling
+    if (this._focusState !== "idle") {
+      this.screenManager.deactivateVideo(this._focusedScreen);
+      this.infoPanel.hide();
+      this.infoPanel.hideVideoControls();
+      this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.15);
+      this._animateReveal(this._lastRevealedScreen, 0.0, 1.0, 0.15);
+      this._focusedScreen = null;
+      this._lastRevealedScreen = null;
+      this._exitFocusMode();
+      this._focusState = "idle";
+      // Stop any in-progress focus tween and clear saved home so returnHome
+      // won't snap back to the old location after travelling
+      this.focus.isMoving = false;
+      this.focus.isFocused = false;
+      this.focus._hasHome = false;
+    }
+    this.locations.goTo(id, options);
   }
 
   _setReveal(mesh, v) {
