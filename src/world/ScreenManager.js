@@ -92,6 +92,7 @@ export class ScreenManager {
     artworkInfo = null, // { title, artist, description }
     poster = null,    // still image URL shown when not focused (video screens only)
     skipReveal = true, // true = always fully visible, no radial wipe animation
+    location = null,  // location ID this artwork belongs to (null = always visible)
   }) {
 
     if (this.debugOn) {
@@ -193,11 +194,12 @@ export class ScreenManager {
     this.scene.add(frameMesh);
 
     //add a box for the artwork to sit on
+    let boxMesh = null;
     if(plinthVisible){
       const boxGeoHeight = 2.0;
       const boxGeo = new THREE.BoxGeometry(width * 0.9, boxGeoHeight, 1.0);
       const boxMat = new THREE.MeshStandardMaterial({ color: 0x404040 });
-      const boxMesh = new THREE.Mesh(boxGeo, boxMat);
+      boxMesh = new THREE.Mesh(boxGeo, boxMat);
       boxMesh.position.set(position[0], position[1] - (height / 2) - (boxGeoHeight / 2), position[2]);
       boxMesh.rotation.set(...rotation);
       boxMesh.receiveShadow = true;
@@ -303,6 +305,10 @@ export class ScreenManager {
     // extra info text to be revealed on click
 
 
+    screenMesh.userData.location = location;
+    // screenMesh itself is included so toggling via hitBox (the registered obj) also hides the screen
+    screenMesh.userData.associatedMeshes = [screenMesh, frameMesh, hitBox, boxMesh, textMesh].filter(Boolean);
+
     const record = { mesh: screenMesh, material, texture, video: video ?? null, videoTexture, posterTexture, hitBox, textMesh, frameMesh };
     // store record so we can dispose later
     this.screens.push(record);
@@ -340,7 +346,8 @@ export class ScreenManager {
     transitionDuration = 1.2,
 
     skipReveal = true,
-    onFocusClick = null
+    onFocusClick = null,
+    location = null,
   }) {
     if (!content || !Array.isArray(content.images) || content.images.length === 0) {
       throw new Error("addContentScreen: content.images[] is required.");
@@ -364,6 +371,7 @@ export class ScreenManager {
       onClick: onFocusClick,
       plinthVisible,
       skipReveal,
+      location,
       artworkInfo: {
         title: content.title ?? "",
         artist: content.artist ?? "",
@@ -540,6 +548,12 @@ export class ScreenManager {
     record.prevBtn = prevBtn;
     record.nextBtn = nextBtn;
 
+    // Append carousel-specific meshes to associatedMeshes so location visibility works
+    const extra = [infoMesh, prevBtn, nextBtn].filter(Boolean);
+    if (extra.length) {
+      screenMesh.userData.associatedMeshes = (screenMesh.userData.associatedMeshes ?? []).concat(extra);
+    }
+
     return {
       screenMesh,
       infoMesh,
@@ -574,6 +588,7 @@ export class ScreenManager {
       transitionDuration = 1.2,
       skipReveal = true,
       onFocusClick = null,
+      location = null,
     } = params;
 
     // 1) Build via addContentScreen (creates mesh, hitbox, buttons, info panel, carousel state)
@@ -584,6 +599,7 @@ export class ScreenManager {
       transitionDuration,
       skipReveal,
       onFocusClick,
+      location,
     });
 
     const { screenMesh, prevBtn, nextBtn, carousel } = result;
@@ -1040,6 +1056,7 @@ async addModel({
   playAnimation = "first",  // "first" | null | "name"
   onClick = null,
   artworkInfo = null, // { title, artist, description }
+  location = null,   // location ID this artwork belongs to (null = always visible)
 }) {
   // Convert degrees to radians to match your convention
   const rotRad = rotation.map(r => THREE.MathUtils.degToRad(r));
@@ -1118,9 +1135,10 @@ async addModel({
   }
 
   //add plinth for the model to sit on, we can use the same dimensions as the hitbox but make it a thin box under the model
+  let plinth = null;
   if(plinthVisible){
   const plinthHeight = 10.2;
-  const plinth = new THREE.Mesh(
+  plinth = new THREE.Mesh(
     new THREE.BoxGeometry( 1.2, plinthHeight, 1.2),
     new THREE.MeshStandardMaterial({ color: 0x404040 }) // dark gray
   );
@@ -1158,6 +1176,10 @@ async addModel({
   // Make model root clickable too if you want (optional; can be heavy)
   // If you DO want it, push meshes; if not, rely on hitbox.
   // if (clickable) this.clickables.push(modelRoot);
+
+  modelRoot.userData.location = location;
+  // modelRoot itself is included so visibility toggling via hitBox (the registered obj) also hides the model
+  modelRoot.userData.associatedMeshes = [modelRoot, textMesh, plinth].filter(Boolean);
 
   const record = { root: modelRoot, hitBox, textMesh, mixer, clips: animations, url };
   this.models.push(record);

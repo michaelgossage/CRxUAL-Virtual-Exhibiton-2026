@@ -44,6 +44,10 @@ export class World {
     //tween animations
     this._tweens = [];
 
+    // location-based visibility
+    this._currentLocation = 'lobby';
+    this._pendingLocation = null;
+
     // proximity reveal system for environment geometry
     this.proximityReveal = new ProximityRevealSystem();
     
@@ -106,7 +110,8 @@ export class World {
       lobby:   { camera: { pos:[0,0.8,0], lookAt:[0,0.8,-1] } },
       WestPavillion:{ camera: { pos:[-29,0.8,-20], lookAt:[-14,1.2,-6] } },
       EagleBar:{ camera: { pos:[ 1,21,16], lookAt:[ 1,21,17] } },
-      winners: { camera: { pos:[0, 12, 24], lookAt:[0, 0, -1] } }
+      //winners: { camera: { pos:[0, 12, 24], lookAt:[0, 0, -1] } }
+      winners: { camera: { pos:[0, 0.8, 0], lookAt:[0, 0, -1] } }
     });
 
     // start location
@@ -225,7 +230,7 @@ export class World {
       this.scene.add(model);
     }).catch(console.error);
 
-    const WestPavillion = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/WestPavillion_V1.glb").then((gltf) => {
+    const WestPavillion = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/WestPavillion_V2.glb").then((gltf) => {
       const model1 = gltf.scene;
       model1.traverse((child) => {
         if (child.isMesh) {
@@ -259,6 +264,7 @@ export class World {
       clickableSize: [2.0, 2.0], // make click area bigger than screen size to include podium
       text: "",
       plinthVisible: false,
+      location: 'lobby',
       artworkInfo: {
         title: "birdcage",
         artist: "Jichu Zhang",
@@ -281,6 +287,7 @@ export class World {
       clickableSize: [2.0, 2.0], // make click area bigger than screen size to include podium
       text: "",
       plinthVisible: true,
+      location: 'lobby',
       artworkInfo: {
         title: "EMBODIED: Reclaiming Assistive Devices as Culturally Expressive Fashion",
         artist: "Veepra Mishra",
@@ -324,6 +331,7 @@ export class World {
       offsetClick: 0.0,
       text: "Image Screen",
       plinthVisible: false,
+      location: 'lobby',
       artworkInfo: {
         title: "Black Swan",
         artist: "Jieun Sung",
@@ -364,6 +372,7 @@ export class World {
       clickableSize: [2.2, 2.5],
       text: "Image Screen",
       plinthVisible: false,
+      location: 'lobby',
       artworkInfo: {
         title: "Nailed",
         artist: "Genevieve Carr",
@@ -385,6 +394,7 @@ export class World {
       clickable: true,
       offsetClick: 0.0,
       text: "Image Screen",
+      location: 'lobby',
       artworkInfo: {
         title: "Dehumanized",
         artist: "Chi An Chou",
@@ -407,6 +417,7 @@ export class World {
       offsetClick: 0.0,
       text: "Image Screen",
       plinthVisible: false,
+      location: 'lobby',
       artworkInfo: {
         title: "Pseudosynthesis",
         artist: "Leon Lin",
@@ -453,6 +464,7 @@ export class World {
       offsetClick: 0.0,
       text: "Image Screen",
       plinthVisible: false,
+      location: 'lobby',
       artworkInfo: {
         title: "Untitled II",
         artist: "Placeholder Artist 2",
@@ -468,12 +480,13 @@ export class World {
       url: `${baseURL}art/EmbodiedMemories_YoonJuChung/B0009341-1-1.webp`,
       width: 4,
       height: 2.1,
-      position: [-7.5, 3.6, -1.5],   
+      position: [-7.5, 3.6, -1.5],
       rotation: [0, 90, 0],
       clickable: true,
       plinthVisible: false,
       offsetClick: 0.0,
       text: "Image Screen",
+      location: 'lobby',
       artworkInfo: {
         title: "Embodied Memories",
         artist: "Yoon Ju Chung",
@@ -488,12 +501,13 @@ export class World {
       url: `${baseURL}art/SynestheticSkin_JianingDing/Screenshot 2026-03-22 at 17.33.20.png`,
       width: 3,
       height: 1.5,
-      position: [7.5, 3.5, -1.0],   
+      position: [7.5, 3.5, -1.0],
       rotation: [0, -90, 0],
       clickable: true,
       plinthVisible: false,
       offsetClick: 0.0,
       text: "Image Screen",
+      location: 'lobby',
       artworkInfo: {
         title: "Synesthetic Skin：A Posthuman Visual Narrative",
         artist: "Jianing Ding",
@@ -515,6 +529,7 @@ export class World {
       plinthVisible: false,
       offsetClick: 0.0,
       text: "Image Screen",
+      location: 'lobby',
       artworkInfo: {
         title: "Unrendered",
         artist: "Marie-Lisette Cropp",
@@ -535,6 +550,7 @@ export class World {
       clickable: true,
       offsetClick: 0.0,
       text: "Image Screen",
+      location: 'lobby',
       artworkInfo: {
         title: "Self-Finish",
         artist: "Beatrice El Asmar",
@@ -594,6 +610,7 @@ export class World {
       offsetClick: -0.4,
       plinthVisible: false,
       playAnimation: "first",
+      location: 'lobby',
       artworkInfo: {
         title: "Experiment n°58-2: Position in Space",
         artist: "Marie Saint-Yves",
@@ -619,6 +636,7 @@ export class World {
     offsetClick: -0.4,
     plinthVisible: false,
     playAnimation: "first",
+    location: 'lobby',
     artworkInfo: {
       title: "Statue 01",
       artist: "Placeholder Sculptor",
@@ -632,7 +650,7 @@ export class World {
 
     //left front desk
     const b=import.meta.env.BASE_URL + "public/art/LetMeEatCake_SuzannaTeal/LetMeEatCake01.glb";
-    
+
   this.screenManager.addModel({
     url: b,
     position: [-6.7, .5, -3],
@@ -646,6 +664,7 @@ export class World {
     offsetClick: -0.0,
     plinthVisible: false,
     playAnimation: "first",
+    location: 'lobby',
     artworkInfo: {
       title: "Statue 01",
       artist: "Placeholder Sculptor",
@@ -696,6 +715,7 @@ export class World {
 
   //left of fireplace
 this._registerArtwork(this.screenManager.addFluidContentScreen({
+      location: 'lobby',
       content: {
         title: "No Longer Us",
         artist: "Jun Shya",
@@ -722,6 +742,16 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       transitionDuration: 0.35,
     }).screenMesh);
 
+    // Hide artworks that don't belong to the starting location
+    // (runs after sync artworks; async models hide themselves on first transition)
+    for (const entry of this._artworkRegistry) {
+      const loc = entry.obj.userData.location;
+      if (loc && loc !== this._currentLocation) {
+        entry.obj.visible = false;
+        (entry.obj.userData.associatedMeshes ?? []).forEach(m => { m.visible = false; });
+      }
+    }
+
   }
 
 
@@ -738,9 +768,28 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     const wasLocMoving = this.locations.isMoving;
     this.locations.update(dt);
 
+    // goTo() may be called between frames (click handler), so isMoving can be true
+    // before update() sees the false→true edge. Instead, detect a new transition by
+    // checking whether _pendingLocation is out-of-sync with the current activeId.
+    const justStarted = this.locations.isMoving && this._pendingLocation !== this.locations.activeId;
+    const justArrived = wasLocMoving && !this.locations.isMoving;
+
+    if (justStarted) {
+      // Show destination artworks — camera hasn't arrived yet
+      this._pendingLocation = this.locations.activeId;
+      this._setLocationVisibility(this._pendingLocation, true);
+    }
+
+    if (justArrived && this._pendingLocation) {
+      // Hide previous location artworks — camera has left
+      this._setLocationVisibility(this._currentLocation, false);
+      this._currentLocation = this._pendingLocation;
+      this._pendingLocation = null;
+    }
+
     // Sync controls orientation when a location transition finishes,
     // otherwise controls.update() would snap the camera back to the old direction.
-    if (wasLocMoving && !this.locations.isMoving) {
+    if (justArrived) {
       this.camera.rotation.order = "YXZ";
       this.controls.yawTotal = this.camera.rotation.y;
       this.controls.pitch = this.camera.rotation.x;
@@ -870,11 +919,25 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     }
   }
 
+  _setLocationVisibility(locationId, visible) {
+    for (const entry of this._artworkRegistry) {
+      if (entry.obj.userData.location !== locationId) continue;
+      if (!visible && entry.obj === this._focusedScreen) continue;
+      entry.obj.visible = visible;
+      (entry.obj.userData.associatedMeshes ?? []).forEach(m => { m.visible = visible; });
+    }
+  }
+
   _registerArtwork(mesh) {
     // For screens: focusTarget is the hitBox; for models: userData.hitBox is set
     const clickable = mesh.userData?.hitBox || mesh.userData?.focusTarget || mesh;
     const info = clickable.userData?.artworkInfo || mesh.userData?.artworkInfo;
     if (!info) return;
+    // Propagate location and associatedMeshes from source mesh to the registered object
+    if (clickable !== mesh) {
+      if (clickable.userData.location === undefined) clickable.userData.location = mesh.userData.location ?? null;
+      if (!clickable.userData.associatedMeshes) clickable.userData.associatedMeshes = mesh.userData.associatedMeshes ?? [];
+    }
     this._artworkRegistry.push({ info, obj: clickable });
     this.infoPanel.setRegistry(this._artworkRegistry);
   }
