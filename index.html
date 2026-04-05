@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
     <title>Three Webapp Framework</title>
+    <!-- Inline style hides UI elements synchronously before any JS/CSS loads,
+         preventing a flash of unstyled content. overlay.css will take over
+         once the module bundle is evaluated. -->
+    <style>
+      html, body { margin: 0; height: 100%; overflow: hidden; background: #f5f3ef; }
+    </style>
   </head>
   <body>
     <div id="app"></div>

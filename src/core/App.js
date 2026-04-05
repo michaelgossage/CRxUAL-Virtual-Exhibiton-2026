@@ -23,7 +23,8 @@ export class App {
       scene: this.scene,
       camera: this.cameraRig.camera,
       renderer: this.renderer.gl,
-      sizes: this.sizes
+      sizes: this.sizes,
+      debugOn: true,  // enable debug logging for location reveal system
     });
 
     this._fpsEl = null;

@@ -279,6 +279,13 @@ export class ProximityRevealSystem {
     }
   }
 
+  // ─── Area reveal (location completion) ───────────────────────────────────
+  // One-shot fill of a large zone — called once when all artworks in a location are seen.
+  addAreaReveal(worldX, worldY, worldZ, radius) {
+    this._paint(this._texData, worldX, worldY, worldZ, 1.0, false, radius);
+    this.texture.needsUpdate = true;
+  }
+
   // ─── Temporary reveal (tap/click) ─────────────────────────────────────────
   addTemporaryReveal(worldPos, duration = TEMP_REVEAL_DUR) {
     if (!this.features.tapReveal) return;

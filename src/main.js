@@ -21,25 +21,25 @@ DefaultLoadingManager.onLoad = () => {
   titleScreen.setReady();
 };
 
-// ─── App (loads behind title screen) ──────────────────────────────────────
-const app = new App({ mount: document.querySelector("#app") });
+// ─── App — deferred until after first paint ───────────────────────────────
+// requestAnimationFrame guarantees the browser has painted the title screen
+// (solid white background) before the Three.js canvas is even created.
+requestAnimationFrame(() => {
+  const app = new App({ mount: document.querySelector("#app") });
+  window.__APP__ = app;
 
-// Debug handle (optional)
-window.__APP__ = app;
+  titleScreen.onStart = () => {
+    app.world.autoplayNarration = titleScreen.autoplayNarration;
 
-// ─── Start button ─────────────────────────────────────────────────────────
-titleScreen.onStart = () => {
-  // Apply toggle preferences to the running world
-  app.world.autoplayNarration = titleScreen.autoplayNarration;
-
-  if (!titleScreen.extraInteractions) {
-    const f = app.world.proximityReveal?.features;
-    if (f) {
-      f.tapReveal = false;
-      f.edgeNoise  = false;
-      f.goldRing   = false;
+    if (!titleScreen.extraInteractions) {
+      const f = app.world.proximityReveal?.features;
+      if (f) {
+        f.tapReveal = false;
+        f.edgeNoise  = false;
+        f.goldRing   = false;
+      }
     }
-  }
 
-  titleScreen.hide();
-};
+    titleScreen.hide();
+  };
+});

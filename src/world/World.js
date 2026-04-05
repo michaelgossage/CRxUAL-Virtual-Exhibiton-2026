@@ -19,11 +19,12 @@ import { InfoPanel } from "../ui/InfoPanel.js";
 
 
 export class World {
-  constructor({ scene, camera, renderer, sizes }) {
+  constructor({ scene, camera, renderer, sizes, debugOn = false }) {
     this.scene = scene;
     this.camera = camera;
     this.renderer = renderer;
     this.sizes = sizes;
+    this._debug = debugOn;
     this.controls = new ControlsFPS({ camera: this.camera, domElement: this.renderer.domElement, autoRotate: true, autoRotateSpeed: -0.05 });
     // focus helper for smoothly moving camera to screens
     this.focus = new CameraFocus({ camera: this.camera });
@@ -56,6 +57,11 @@ export class World {
     // proximity reveal system for environment geometry
     this.proximityReveal = new ProximityRevealSystem();
 
+    // Location completion reveal — tracks which artworks have been seen
+    this._seenArtworkIndices  = new Set();  // Set<number> — registry indices focused this session
+    this._locationRevealZones = {};         // { [locationName]: { center:[x,y,z], radius:number } }
+    this._completedLocations  = new Set();  // prevents re-triggering after first completion
+
     // env meshes collected from GLB traversal — used for tap + mouse-trail raycasts
     this._envMeshes          = [];
     this._envRay             = new Raycaster();
@@ -84,7 +90,7 @@ export class World {
       renderer: this.renderer,
       domElement: this.renderer.domElement,
       makeTextPlane,
-      debugOn: true // set to true to show clickable podiums
+      debugOn: this._debug  // set to true to show clickable podiums
     });
 
     this.screenManager.onHit = (obj) => {
@@ -140,7 +146,7 @@ export class World {
     this.locations.setLocations({
       lobby:   { camera: { pos:[0,0.8,0], lookAt:[0,0.8,-1] } },
       WestPavillion:{ camera: { pos:[-29,0.8,-20], lookAt:[-14,1.2,-6] } },
-      EagleBar:{ camera: { pos:[ 1,21,16], lookAt:[ 1,21,17] } },
+      EagleBar:{ camera: { pos:[ 1,23,12.8], lookAt:[ 1,23,12] } },
       //winners: { camera: { pos:[0, 12, 24], lookAt:[0, 0, -1] } }
       winners: { camera: { pos:[0, 0.8, 0], lookAt:[0, 0, -1] } }
     });
@@ -150,11 +156,11 @@ export class World {
 
       // make a path between 2 lodcations
   this.locations.setPathBidirectional("lobby", "EagleBar", [   
-    { pos: [0, 10, 0], lookAt: [0, 21, 0] },                                                                                                                                                      
-    { pos: [0, 21, 0], lookAt: [10, 21, 0] },
-    { pos: [10, 21, 0], lookAt: [10, 21, 8] },
-    { pos: [10, 21, 8], lookAt: [7, 21, 8] },
-    { pos: [7, 21, 8], lookAt: [ 1,21,16] },                                                                                                                                                             
+    { pos: [0, 10, 0], lookAt: [0, 23, 0] },                                                                                                                                                      
+    { pos: [0, 23, 0], lookAt: [10, 23, 0] },
+    { pos: [10, 23, 0], lookAt: [10, 23, 3.2] },
+    { pos: [10, 23, 3.2], lookAt: [1,23,12.8] },
+    { pos: [7, 23, 4], lookAt: [ 1,23,12.8] },                                                                                                                                                             
   ],
 {duration: 5.0, distanceWeighted: true}); 
 
@@ -166,6 +172,8 @@ export class World {
     { pos: [-28, 0.8, -18], lookAt: [-15, 0.8, -15] }
   ],
 {duration: 5.0, distanceWeighted: true}); 
+
+this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
 
     // Arrow key navigation
     document.addEventListener("keydown", (e) => {
@@ -285,6 +293,34 @@ export class World {
       this.scene.add(model1);
     }).catch(console.error);
 
+
+    const EagleBar = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/EagleBar_V1.glb").then((gltf) => {
+      const model1 = gltf.scene;
+      model1.traverse((child) => {
+        if (child.isMesh) {
+          // Baked GLBs export MeshBasicMaterial which ignores scene.environment.
+          // Swap to MeshStandardMaterial, preserving the baked texture map.
+          if (child.material.isMeshBasicMaterial) {
+            const prev = child.material;
+            child.material = new MeshStandardMaterial({
+              map: prev.map,
+              side: prev.side,
+              roughness: 1.0,
+              metalness: 0.0,
+            });
+            prev.dispose();
+          }
+          child.material.envMapIntensity = 1.0;
+          child.receiveShadow = true;
+          applyProximityRevealToMaterial(child.material, this.proximityReveal, { fogColor: 0x800000 });
+          this._envMeshes.push(child);
+        }
+      });
+      model1.scale.set(1.0, 1.0, 1.0);
+      model1.position.set(0, 21.3, 19.2);
+      this.scene.add(model1);
+    }).catch(console.error);
+
     // add environment (a simple room for now, but could be more complex later)
     applyHDRI({
       renderer: this.renderer,
@@ -323,6 +359,8 @@ export class World {
     }));
 
       //Right of fireplace
+     
+      /*
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/EMBODIED_VeepraMishra/20251114_Veepra0132-1-1.webp`,
       width: 1.3,
@@ -344,6 +382,7 @@ export class World {
         console.log("Clicked screen/podium", obj);
       }
     }));
+    */
 
     /*
     this._registerArtwork(this.screenManager.addScreen({
@@ -367,6 +406,8 @@ export class World {
     */
 
     //right side, left front desk
+
+    /*
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/BlackSwan-JieunSung/IMG_5414-2.png.avif`,
       width: 1.5,
@@ -388,6 +429,7 @@ export class World {
         console.log("Clicked screen/podium", obj);
       }
     }));
+    */
 
     /*
     this.screenManager.addScreen({
@@ -408,6 +450,8 @@ export class World {
     */
 
     //right side, right front desk
+
+    /*
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/Nailed_Genevieve Carr/nailed.webp`,
       width: 1.5,
@@ -429,9 +473,12 @@ export class World {
         console.log("Clicked screen/podium", obj);
       }
     }));
+    */
 
       
       //right side, middle front desk
+
+      /*
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/Dehumanized_ChiAnChou/IMG_7018-Large.jpeg.avif`,
       width: 1.8,
@@ -452,8 +499,10 @@ export class World {
         console.log("Clicked screen/podium", obj);
       }
     }));
+    */
 
     //above front door
+    /*
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/Pseudosynthesis_LeonLin/Vertical_comp-1.png.avif`,
       width: 5,
@@ -474,6 +523,7 @@ export class World {
         console.log("Clicked screen/podium", obj);
       }
     }));
+    */
 
     
     /*
@@ -523,6 +573,8 @@ export class World {
     }));
 
       //atrium left wall, above front desk
+
+      /*
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/EmbodiedMemories_YoonJuChung/B0009341-1-1.webp`,
       width: 4,
@@ -543,7 +595,9 @@ export class World {
         console.log("Clicked screen/podium", obj);
       }
     }));
-
+    */
+  
+    /*
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/SynestheticSkin_JianingDing/Screenshot 2026-03-22 at 17.33.20.png`,
       width: 3,
@@ -564,6 +618,7 @@ export class World {
         console.log("Clicked screen/podium", obj);
       }
     }));
+    */
 
     //left side, left front desk
     this._registerArtwork(this.screenManager.addScreen({
@@ -799,9 +854,171 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       }
     }
 
+  
+
+  //lobby - Fine Art, Photography, 
+  //birdcage, No Longer Us, Experiment n58, Whimsy Through the Window
+  //Self-Finish, Unrendered, Let Me Eat Cake
+
+  
+
+  //West Pavilion - Technology, Fashion and body
+  //Pseudosynthesis, Synesthetic Skin, EMBODIED, Embodied Memories, Dehumanized, Black Swan
+
+  this._registerArtwork(this.screenManager.addScreen({
+      url: `${baseURL}art/EMBODIED_VeepraMishra/20251114_Veepra0132-1-1.webp`,
+      width: 1.3,
+      height: 1.74,
+      position: [-32.0, 0.9, -22.0],   // e.g. on/near carousel A
+      rotation: [0, -35, 0],
+      clickable: true,
+      offsetClick: .1,
+      clickableSize: [2.0, 2.0], // make click area bigger than screen size to include podium
+      text: "",
+      plinthVisible: true,
+      location: 'WestPavillion',
+      artworkInfo: {
+        title: "EMBODIED: Reclaiming Assistive Devices as Culturally Expressive Fashion",
+        artist: "Veepra Mishra",
+        description: "It began with the slightest gesture: my mother hiding her cane behind her back every time a camera appeared, as if the object were never meant to speak for her. This project turns toward that silence and wonders how assistive devices might become sites of cultural expression rather than symbols of concealment. In the realm of assistive design and fashion, such moments reveal how deeply aesthetics and embodiment intertwine, particularly for disabled people of colour whose identities are shaped through layered histories of visibility and belonging. Guided by co-design conversations with two South Asian participants and informed by critical disabilities, material culture, and cultural symbolism, I developed usable prototypes that merge function with cultural resonance. These artefacts, rooted in traditions, memory, agency, and empowerment, ask what happens when assistive devices are culturally expressive artefacts that hold beauty, heritage, and emotional truth. The work demonstrates that when disabled people of colour shape the instruments that support them, assistive devices shift from clinical symbols into objects of affirmation and pride. The process illuminated both the challenges and possibilities of designing across distance, culture, and lived experience. It reveals how identity and functionality are inseparable. Ultimately, the project suggests that inclusive futures emerge when design listens closely, honours complexity, and treats assistive devices not as objects that should be hidden, but as sites of beauty, cultural identity, and empowerment.  "
+      },
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+
+    this._registerArtwork(this.screenManager.addScreen({
+      url: `${baseURL}art/BlackSwan-JieunSung/IMG_5414-2.png.avif`,
+      width: 1.5,
+      height: 2,
+      position: [-33.0, .5, -24.0],   // e.g. on/near carousel A
+      rotation: [0, -45, 0],
+      clickable: true,
+      clickableSize: [2.0, 2.0], // make click area bigger than screen size to include podium
+      offsetClick: 0.0,
+      text: "Image Screen",
+      plinthVisible: false,
+      location: 'WestPavillion',
+      artworkInfo: {
+        title: "Black Swan",
+        artist: "Jieun Sung",
+        description: "This project is about the black swan. Of all animals, I’ve always been particularly afraid of birds, but swans are the only ones that have ever helped me overcome that fear. So, I was intrigued to research them. I didn’t even know that black swans existed before, and I was fascinated to discover this species of swan. The black swan, with its dark mood and colour, really appealed to me, so I decided to make it the focus of my project."
+      },
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+
+    this._registerArtwork(this.screenManager.addScreen({
+      url: `${baseURL}art/Dehumanized_ChiAnChou/IMG_7018-Large.jpeg.avif`,
+      width: 1.8,
+      height: 1.3,
+      position: [8.4, 0.8, -1.5],
+      rotation: [0, -90, 0],
+      clickable: true,
+      offsetClick: 0.0,
+      text: "Image Screen",
+      location: 'lobby',
+      artworkInfo: {
+        title: "Dehumanized",
+        artist: "Chi An Chou",
+        description: "In this era of artificial intelligence, automation and highly mature technology, the definition of human is gradually disintegrating, and machines and technology are infiltrating and dominating our daily lives. Dehumanized is a conceptual exploration of a future world in which technology no longer centers on human nature, but instead gradually controls, holds power, and eventually replaces humanity. When digital systems take over judgment, aesthetics become algorithmically defined, and the body is transformed into a tool that prioritizes efficiency, emotions and individual consciousness begin to be seen as redundant residues. This project want to use visual language to present a imaginary future worldview: redesigned organisms, individuality erased, and a void beneath the human shell. Is Dehumanized a dystopian fantasy world, or is it a mirror held up to our present? In the wave of rapid innovation, what may ultimately be sacrificed is the very essence of what makes us human."
+      },
+      plinthVisible: false,
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+
+    this._registerArtwork(this.screenManager.addScreen({
+      url: `${baseURL}art/Pseudosynthesis_LeonLin/Vertical_comp-1.png.avif`,
+      width: 5,
+      height: 2.25,
+      position: [-26.0, 0.8, -23.0],   // e.g. on/near carousel A
+      rotation: [0, -90, 0],
+      clickable: true,
+      offsetClick: 0.0,
+      text: "Image Screen",
+      plinthVisible: false,
+      location: 'WestPavillion',
+      artworkInfo: {
+        title: "Pseudosynthesis",
+        artist: "Leon Lin",
+        description: "This project investigates whether AI-generated performers can authentically replicate human emotional expression in dance and performance. Through interviews with dancers and motion-capture experiments, it identifies three stages of human emotion (raw, mechanical, controlled) and argues that AI is limited to mimicry due to its lack of consciousness, embodiment, and lived experience. Drawing on Judith Butler’s theories, it contrasts human performativity (fluid, culturally embedded) with AI’s programmed rigidity. The work also explores queering digital avatars, critiques the commodification of bodies, and uses a 3D fashion film to visualize the human-machine divide."
+      },
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+
+    this._registerArtwork(this.screenManager.addScreen({
+      url: `${baseURL}art/EmbodiedMemories_YoonJuChung/B0009341-1-1.webp`,
+      width: 4,
+      height: 2.1,
+      position: [-34.0, 3.6, -22.0],
+      rotation: [0, 90, 0],
+      clickable: true,
+      plinthVisible: false,
+      offsetClick: 0.0,
+      text: "Image Screen",
+      location: 'WestPavillion',
+      artworkInfo: {
+        title: "Embodied Memories",
+        artist: "Yoon Ju Chung",
+        description: "Embodied Memories explores Hangul, the Korean alphabet, as an embodied and relational language through modular wearable artefacts. Originating from experiences of non-verbal communication with the artist’s hearing-impaired aunt, the project approaches gesture and movement as fundamental forms of language. Drawing on Hangul’s geometric structure, linguistic principles are translated into a modular system that functions as words, sculptural forms, or wearable objects. Grounded in Korean emotional philosophies—Jeong (connection), Han (endurance), and Heung (vitality)—the work informs processes of alignment, tension, play, and repair. Rather than treating language as a fixed visual system, meaning emerges through bodily movement, touch, and reconfiguration. The final artefacts are constructed using Korean textiles such as Mosi (ramie) and Oksa (silk), combined with transparent acrylic structures, magnetic connections, and traditional techniques including Gamchimgil hand-stitching and Pusae (rice starch stiffening).  Language is not only spoken or written; it is sensed, worn, and remembered. "
+      },
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+
+    this._registerArtwork(this.screenManager.addScreen({
+      url: `${baseURL}art/SynestheticSkin_JianingDing/Screenshot 2026-03-22 at 17.33.20.png`,
+      width: 3,
+      height: 1.5,
+      position: [-36, 3.5, -20.0],
+      rotation: [0, 90, 0],
+      clickable: true,
+      plinthVisible: false,
+      offsetClick: 0.0,
+      text: "Image Screen",
+      location: 'WestPavillion',
+      artworkInfo: {
+        title: "Synesthetic Skin：A Posthuman Visual Narrative",
+        artist: "Jianing Ding",
+        description: "A conceptual and experimental platform—an art-philosophy construct designed to utilize digital space as a medium for examining the interplay between reality and virtuality, embodied and digital identities"
+      },
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+
+    //bar Sound art, 
+  //Be Not Afraid, Lust Feels Like Bad Luck, 
+
+    this._registerArtwork(this.screenManager.addScreen({
+      url: `${baseURL}art/Nailed_Genevieve Carr/nailed.webp`,
+      width: 1.5,
+      height: 2.0,
+      position: [-4.0, 23, 6.0],
+      rotation: [0, -135, 0],
+      clickable: true,
+      offsetClick: 0.5,
+      clickableSize: [2.2, 2.5],
+      text: "Image Screen",
+      plinthVisible: false,
+      location: 'EagleBar',
+      artworkInfo: {
+        title: "Nailed",
+        artist: "Genevieve Carr",
+        description: "\"Nailed\" transforms nail salon waste into a 3D printing filament, used to create sculptural nails inspired by botanical drawings. The project explores beauty, waste, and material reuse—reimagining synthetic leftovers as future design materials."
+      },
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+
   }
-
-
 
   
 
@@ -989,6 +1206,18 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     if (idx !== -1) {
       this._currentArtworkIndex = idx;
       this.infoPanel.setActiveIndex(idx, this._artworkRegistry.length);
+      this._seenArtworkIndices.add(idx);
+      const loc = this._artworkRegistry[idx].obj.userData.location;
+      if (this._debug) {
+        const seenInLoc = loc
+          ? this._artworkRegistry.filter((r, i) => r.obj.userData.location === loc && this._seenArtworkIndices.has(i)).length
+          : 0;
+        const totalInLoc = loc
+          ? this._artworkRegistry.filter(r => r.obj.userData.location === loc).length
+          : 0;
+        console.log(`[LocationReveal] seen artwork #${idx} "${this._artworkRegistry[idx].info.title}" (location: "${loc}" — ${seenInLoc}/${totalInLoc} seen)`);
+      }
+      if (loc) this._checkLocationCompletion(loc);
     }
   }
 
@@ -1067,8 +1296,49 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       if (clickable.userData.location === undefined) clickable.userData.location = mesh.userData.location ?? null;
       if (!clickable.userData.associatedMeshes) clickable.userData.associatedMeshes = mesh.userData.associatedMeshes ?? [];
     }
+    // Auto-tag with current location if not explicitly set by the developer
+    if (clickable.userData.location === undefined || clickable.userData.location === null) {
+      clickable.userData.location = this._currentLocation;
+    }
     this._artworkRegistry.push({ info, obj: clickable });
+    if (this._debug) {
+      const idx = this._artworkRegistry.length - 1;
+      console.log(`[LocationReveal] registered artwork #${idx} "${info.title}" → location: "${clickable.userData.location}"`);
+    }
     this.infoPanel.setRegistry(this._artworkRegistry);
+  }
+
+  // ─── Location reveal zone registration ───────────────────────────────────
+  // Call after setLocations() in scene setup. When all artworks tagged with
+  // `name` have been seen, floods the zone permanently.
+  // Usage: world.setLocationRevealZone('lobby', { center: [0, 1, 0], radius: 20 });
+  setLocationRevealZone(name, { center, radius }) {
+    this._locationRevealZones[name] = { center, radius };
+  }
+
+  _checkLocationCompletion(locationName) {
+    if (this._completedLocations.has(locationName)) return;
+    const zone = this._locationRevealZones[locationName];
+    if (!zone) {
+      if (this._debug) console.log(`[LocationReveal] no zone registered for "${locationName}" — call setLocationRevealZone() to enable completion reveal`);
+      return;
+    }
+
+    const inZone = this._artworkRegistry
+      .map((r, i) => ({ r, i }))
+      .filter(({ r }) => r.obj.userData.location === locationName);
+
+    if (inZone.length === 0) return;
+    if (!inZone.every(({ i }) => this._seenArtworkIndices.has(i))) return;
+
+    this._completedLocations.add(locationName);
+    if (!zone.center || !zone.radius) {
+      if (this._debug) console.warn(`[LocationReveal] zone "${locationName}" is missing center or radius`);
+      return;
+    }
+    if (this._debug) console.log(`[LocationReveal] ✓ location "${locationName}" complete — flooding area at`, zone.center, 'r =', zone.radius);
+    const [cx, cy, cz] = zone.center;
+    this.proximityReveal.addAreaReveal(cx, cy, cz, zone.radius);
   }
 
   _navigateArtwork(dir) {
