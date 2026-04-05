@@ -1,4 +1,4 @@
-import { Mesh, MeshStandardMaterial, SphereGeometry, Vector3 } from "three";
+import { Mesh, MeshStandardMaterial, SphereGeometry, Vector3, Raycaster, Vector2 } from "three";
 import { makeProximityRevealMaterial, applyProximityRevealToMaterial, ProximityRevealSystem } from "../shaders/proximityRevealMaterial.js";
 import { addDefaultLights } from "./lights.js";
 import { BoxGeometry } from "three";
@@ -52,6 +52,17 @@ export class World {
 
     // proximity reveal system for environment geometry
     this.proximityReveal = new ProximityRevealSystem();
+
+    // env meshes collected from GLB traversal — used for tap raycast
+    this._envMeshes  = [];
+    this._envRay     = new Raycaster();
+    this._lastNDC    = new Vector2();
+    this.renderer.domElement.addEventListener('pointerdown', (e) => {
+      this._lastNDC.set(
+        (e.clientX / this.sizes.width)  * 2 - 1,
+       -(e.clientY / this.sizes.height) * 2 + 1
+      );
+    });
     
 
     // initialise the screen manager for adding artworks
@@ -79,8 +90,12 @@ export class World {
     };
 
     this.screenManager.onMiss = () => {
-      // click empty space to return
-      
+      // Tap on empty environment — paint a temporary reveal at the hit point
+      if (this._focusState === "idle") {
+        this._doEnvTapReveal();
+        return;
+      }
+
       if (this._focusCooldown > 0) return;
       if (this.focus.isMoving) return;
       if (this._focusState === "idle") return;
@@ -221,7 +236,8 @@ export class World {
       model.traverse((child) => {
         if (child.isMesh) {
           child.receiveShadow = true;
-          applyProximityRevealToMaterial(child.material, this.proximityReveal,{fogColor: 0x808080});
+          applyProximityRevealToMaterial(child.material, this.proximityReveal, { fogColor: 0x800000 });
+          this._envMeshes.push(child);
 
           //child.material = envMat;
           //child.material = new MeshStandardMaterial({ color: 0x808080, side: 2 }); 
@@ -243,6 +259,7 @@ export class World {
         if (child.isMesh) {
           child.receiveShadow = true;
           applyProximityRevealToMaterial(child.material, this.proximityReveal);
+          this._envMeshes.push(child);
           //child.castShadow = true;
           
           //child.material = envMat;
@@ -982,6 +999,17 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       if (!visible && entry.obj === this._focusedScreen) continue;
       entry.obj.visible = visible;
       (entry.obj.userData.associatedMeshes ?? []).forEach(m => { m.visible = visible; });
+    }
+  }
+
+  // Raycast the last pointer position against env meshes and paint a temporary reveal.
+  // Only fires when in idle state (clicking empty space, not an artwork).
+  _doEnvTapReveal() {
+    if (!this._envMeshes.length) return;
+    this._envRay.setFromCamera(this._lastNDC, this.camera);
+    const hits = this._envRay.intersectObjects(this._envMeshes, false);
+    if (hits.length > 0) {
+      this.proximityReveal.addTemporaryReveal(hits[0].point);
     }
   }
 

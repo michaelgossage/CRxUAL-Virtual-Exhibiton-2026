@@ -213,6 +213,69 @@ Add a button to `index.html`:
 
 ---
 
+## Proximity Reveal System
+
+As visitors walk through the gallery, the environment geometry reveals its colour in a persistent trail behind the camera. Clicking or tapping the environment floor/walls paints a temporary circle that fades out. Focusing an artwork triggers a permanent reveal at that location.
+
+The GPU cost is a fixed **2 texture samples per fragment** regardless of how many reveals exist — safe on mobile and Safari.
+
+### Applying to environment GLBs
+
+In `World.js`, inside the GLB `traverse` callback, call `applyProximityRevealToMaterial` instead of replacing the material. This preserves the model's existing textures and PBR properties:
+
+```js
+model.traverse((child) => {
+  if (child.isMesh) {
+    applyProximityRevealToMaterial(child.material, this.proximityReveal, { fogColor: 0x000000 });
+    this._envMeshes.push(child); // needed for tap/click raycasting
+  }
+});
+```
+
+`fogColor` is the hidden (unrevealed) colour — `0x000000` is black, `0xffffff` is white.
+
+### Tuning
+
+All constants are at the top of `src/shaders/proximityRevealMaterial.js`:
+
+| Constant | Default | What it controls |
+|---|---|---|
+| `REVEAL_RADIUS` | `5.0` | World-unit radius of camera trail / permanent circles |
+| `TEMP_REVEAL_RADIUS` | `2.5` | World-unit radius of tap/click circles |
+| `SAMPLE_DIST` | `0.1` | How far the camera must move before a new trail point is painted |
+| `TEX_SIZE` | `256` | Texture resolution — `512` gives smoother edges, uses more memory |
+| `FADE_IN_DUR_MS` | `900` | How long permanent reveals take to fade in (ms) |
+| `TEMP_FADE_IN_MS` | `300` | How long tap reveals take to fade in (ms) |
+| `TEMP_REVEAL_DUR` | `4.0` | How long tap reveals stay visible before fully fading out (seconds) |
+
+### Feature flags
+
+Each behaviour can be toggled at runtime — useful for a settings/quality page, or to test performance on device:
+
+```js
+// Access from anywhere via the debug handle:
+const f = window.__APP__.world.proximityReveal.features;
+
+f.cameraTrail     = true;  // persistent colour trail as camera moves
+f.permanentFadeIn = true;  // permanent reveals fade in smoothly (vs. instant pop)
+f.edgeNoise       = true;  // organic noise texture on reveal edges
+f.tapReveal       = true;  // tap/click on environment paints a temporary reveal
+```
+
+Turning off `edgeNoise` reduces CPU cost per paint call. Turning off `tapReveal` skips the temporary texture entirely.
+
+### Edge noise texture
+
+Drop any tileable greyscale PNG at:
+
+```
+public/art/textures/noise.png
+```
+
+It is loaded once at startup and used to add variation to reveal edges. Any resolution works — 128×128 or 256×256 is plenty. If the file is missing, a deterministic hash is used as a fallback (a warning is logged to the console).
+
+Good sources: ambientCG, Poly Haven (greyscale noise / Perlin / Voronoi packs).
+
 ## Asset Folder Reference
 
 ```
@@ -221,9 +284,10 @@ public/
     images/     *.jpg / *.png / *.webp   — image artworks
     film/       *.mp4 / *.webm           — video artworks
     audio/      *.m4a / *.mp3            — narrations
-    models/     *.glb                    — 3D models
+    models/     *.glb                    — 3D models + environment geometry
     hdri/       *.hdr                    — environment lighting
-    textures/   radial-512px.jpg         — reveal mask (required, do not remove)
+    textures/   radial-512px.jpg         — artwork reveal mask (required, do not remove)
+                noise.png               — optional tileable noise for proximity reveal edges
 ```
 
 For images or audio hosted on a CDN, pass the full URL directly — e.g. `"https://cdn.example.com/art/work.jpg"`.

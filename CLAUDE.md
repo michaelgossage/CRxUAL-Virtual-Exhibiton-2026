@@ -33,8 +33,9 @@ src/
     lights.js          # addDefaultLights(scene)
     hdri.js            # applyHDRI({ renderer, scene, url, background, envIntensity })
   shaders/
-    revealshader.js    # makeRevealMaterial() — radial wipe reveal + texture blend + contain scale
-    gridShader.js      # makeArchGridMaterial() — architectural grid pattern (unused in demo)
+    revealshader.js           # makeRevealMaterial() — radial wipe reveal + texture blend + contain scale
+    gridShader.js             # makeArchGridMaterial() — architectural grid pattern (unused in demo)
+    proximityRevealMaterial.js # ProximityRevealSystem + makeProximityRevealMaterial + applyProximityRevealToMaterial
   utils/
     tween.js           # makeTween01({ from, to, duration, onUpdate, onDone })
     gltfLoader.js      # loadGLTFWithAnimations(url) — Draco-enabled GLTF loader
@@ -267,6 +268,75 @@ CSS classes toggle visibility:
 - `.info-panel__video--visible` — video controls shown
 - `.info-panel__audio--visible` — audio narration controls shown
 - `.artwork-list--visible` — list shown
+
+## Proximity Reveal System (`src/shaders/proximityRevealMaterial.js`)
+
+A fog-of-war style environment reveal. GPU cost is a flat **2 texture samples per fragment** regardless of reveal count — O(1), safe on mobile/Safari.
+
+### How it works
+
+- Two `256×256` single-channel `DataTexture`s are painted on the CPU and sampled in the fragment shader:
+  - `texture` — permanent reveals (camera trail + artwork focuses). Never decreases.
+  - `tempTexture` — tap/click reveals that fade in then fade out.
+- Fragment shader mixes `uFogColor` → model's own diffuse colour based on `max(settled, temp)`.
+- `WORLD_MIN` / `WORLD_SIZE` in the file define the XZ world-space bounds the textures cover — adjust to match scene extents.
+
+### Applying to GLB environment meshes
+
+```js
+// In World.js GLB traversal — preserves existing material textures/PBR
+model.traverse((child) => {
+  if (child.isMesh) {
+    applyProximityRevealToMaterial(child.material, this.proximityReveal, { fogColor: 0x000000 });
+    this._envMeshes.push(child); // needed for tap raycast
+  }
+});
+```
+
+`makeProximityRevealMaterial(system, { color, fogColor, side })` creates a new `MeshLambertMaterial` with the shader already injected (used for simple coloured geometry).
+
+### Feature flags
+
+Toggle at runtime — e.g. from a settings page or `window.__APP__.world.proximityReveal.features`:
+
+```js
+world.proximityReveal.features.cameraTrail     = true;  // permanent trail left by camera movement
+world.proximityReveal.features.permanentFadeIn = true;  // permanent reveals fade in (900ms)
+world.proximityReveal.features.edgeNoise       = true;  // organic noise on reveal edges
+world.proximityReveal.features.tapReveal       = true;  // tap/click paints a temporary reveal
+```
+
+Disabling `edgeNoise` reduces CPU cost of `_paint()`. Disabling `tapReveal` skips the temp texture entirely.
+
+### Tunable constants (top of file)
+
+| Constant | Default | Effect |
+|---|---|---|
+| `REVEAL_RADIUS` | `5.0` | World-unit radius of camera/permanent circles |
+| `TEMP_REVEAL_RADIUS` | `2.5` | World-unit radius of tap circles |
+| `SAMPLE_DIST` | `0.1` | Camera must move this far before a new trail point is sampled |
+| `TEX_SIZE` | `256` | Texture resolution — `512` gives smoother edges, costs more VRAM |
+| `FADE_IN_DUR_MS` | `900` | Permanent reveal fade-in duration (ms) |
+| `TEMP_FADE_IN_MS` | `300` | Tap reveal fade-in duration (ms) |
+| `TEMP_REVEAL_DUR` | `4.0` | Tap reveal fade-out duration (seconds) |
+
+### Edge noise texture
+
+Drop a tileable greyscale PNG at `public/art/textures/noise.png`. Loaded once on construction, sampled in `_paint()` for organic reveal edges. Falls back to a deterministic hash if missing (warning logged).
+
+### Tap reveal wiring (World.js)
+
+```js
+// _doEnvTapReveal() — called from screenManager.onMiss when focusState === "idle"
+this._envRay.setFromCamera(this._lastNDC, this.camera);
+const hits = this._envRay.intersectObjects(this._envMeshes, false);
+if (hits.length > 0) this.proximityReveal.addTemporaryReveal(hits[0].point);
+```
+
+`this._lastNDC` is updated on every `pointerdown` event on the canvas.
+
+### Step 4 (not yet implemented)
+Gold expansion + persistent edge ring — third `goldTexture` DataTexture, fires on `addPermanentReveal`, fades out over ~3s. Will add `uRevealTexGold`, `uGoldColor`, `uGoldEdgeMult` uniforms and a `features.goldRing` flag.
 
 ## Environment
 
