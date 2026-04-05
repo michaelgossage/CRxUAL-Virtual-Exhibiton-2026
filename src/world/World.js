@@ -53,15 +53,24 @@ export class World {
     // proximity reveal system for environment geometry
     this.proximityReveal = new ProximityRevealSystem();
 
-    // env meshes collected from GLB traversal — used for tap raycast
-    this._envMeshes  = [];
-    this._envRay     = new Raycaster();
-    this._lastNDC    = new Vector2();
+    // env meshes collected from GLB traversal — used for tap + mouse-trail raycasts
+    this._envMeshes          = [];
+    this._envRay             = new Raycaster();
+    this._lastNDC            = new Vector2();
+    this._mouseRevealDirty   = false;   // true when pointermove fired since last update
+    this._lastMouseRevealPos = null;    // Vector3 — world pos of last mouse trail reveal
     this.renderer.domElement.addEventListener('pointerdown', (e) => {
       this._lastNDC.set(
         (e.clientX / this.sizes.width)  * 2 - 1,
        -(e.clientY / this.sizes.height) * 2 + 1
       );
+    });
+    this.renderer.domElement.addEventListener('pointermove', (e) => {
+      this._lastNDC.set(
+        (e.clientX / this.sizes.width)  * 2 - 1,
+       -(e.clientY / this.sizes.height) * 2 + 1
+      );
+      this._mouseRevealDirty = true;
     });
     
 
@@ -167,14 +176,7 @@ export class World {
     // add lights
     addDefaultLights(this.scene);
 
-    // add environment (a simple room for now, but could be more complex later)
-    applyHDRI({
-      renderer: this.renderer,
-      scene: this.scene,
-      url: import.meta.env.BASE_URL + "art/hdri/qwantani_dusk_2_puresky_4k Medium.jpeg",
-      background: true,   // keep your room/fog background
-      envIntensity: 0.0
-    });
+    
     /**/
 
     //add geometry
@@ -257,24 +259,37 @@ export class World {
       const model1 = gltf.scene;
       model1.traverse((child) => {
         if (child.isMesh) {
+          // Baked GLBs export MeshBasicMaterial which ignores scene.environment.
+          // Swap to MeshStandardMaterial, preserving the baked texture map.
+          if (child.material.isMeshBasicMaterial) {
+            const prev = child.material;
+            child.material = new MeshStandardMaterial({
+              map: prev.map,
+              side: prev.side,
+              roughness: 1.0,
+              metalness: 0.0,
+            });
+            prev.dispose();
+          }
+          child.material.envMapIntensity = 1.0;
           child.receiveShadow = true;
-          applyProximityRevealToMaterial(child.material, this.proximityReveal);
+          applyProximityRevealToMaterial(child.material, this.proximityReveal, { fogColor: 0x800000 });
           this._envMeshes.push(child);
-          //child.castShadow = true;
-          
-          //child.material = envMat;
-          //child.material = new MeshStandardMaterial({ color: 0x808080, side: 2 }); 
-          //show glbs texture
-          child.material = child.material.clone();
-          //child.material = envMat;
-          
-          //child.material = gridMat;
         }
       });
       model1.scale.set(1.0, 1.0, 1.0);
       model1.position.set(0.0, -4.0, 16.0);
       this.scene.add(model1);
     }).catch(console.error);
+
+    // add environment (a simple room for now, but could be more complex later)
+    applyHDRI({
+      renderer: this.renderer,
+      scene: this.scene,
+      url: import.meta.env.BASE_URL + "art/hdri/qwantani_dusk_2_puresky_4k Medium.jpeg",
+      background: true,   // keep your room/fog background
+      envIntensity: 1.0
+    });
 
 
       //base URL
@@ -867,6 +882,9 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     // update fluid carousel sims
     this.screenManager.update(dt);
 
+    // mouse-trail temporary reveal — one raycast per frame at most
+    this._tryMouseTrailReveal();
+
     // sample camera position into environment proximity reveal trail
     this.proximityReveal.update(this.camera.position);
   }
@@ -1010,7 +1028,30 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     const hits = this._envRay.intersectObjects(this._envMeshes, false);
     if (hits.length > 0) {
       this.proximityReveal.addTemporaryReveal(hits[0].point);
+      this._lastMouseRevealPos = hits[0].point.clone();
     }
+  }
+
+  // Mouse-trail reveal — called once per frame, raycasts only if pointermove fired.
+  // Throttled by world-space distance so fast drags don't flood _activeTemp.
+  _tryMouseTrailReveal() {
+    if (!this._mouseRevealDirty) return;
+    this._mouseRevealDirty = false;
+
+    if (!this.proximityReveal.features.mouseTrail) return;
+    if (this._focusState !== "idle") return;
+    if (!this._envMeshes.length) return;
+
+    this._envRay.setFromCamera(this._lastNDC, this.camera);
+    const hits = this._envRay.intersectObjects(this._envMeshes, false);
+    if (!hits.length) return;
+
+    const pt = hits[0].point;
+    const MIN_DIST = 1.5; // world units — prevent flooding _activeTemp on slow hover
+    if (this._lastMouseRevealPos && this._lastMouseRevealPos.distanceTo(pt) < MIN_DIST) return;
+
+    this._lastMouseRevealPos = pt.clone();
+    this.proximityReveal.addTemporaryReveal(pt);
   }
 
   _registerArtwork(mesh) {
