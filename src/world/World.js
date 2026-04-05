@@ -42,6 +42,9 @@ export class World {
     this._lastRevealedScreen = null;
     this._activeNarration = null; // { audio: HTMLAudioElement, obj }
 
+    // Narration autoplay — set to false from TitleScreen toggle before Start
+    this.autoplayNarration = true;
+
     //tween animations
     this._tweens = [];
 
@@ -1001,7 +1004,7 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
 
     const audio = obj.userData.audioEl;
     this._activeNarration = { audio, obj };
-    audio.play().catch(() => {});
+    if (this.autoplayNarration) audio.play().catch(() => {});
     return audio;
   }
 

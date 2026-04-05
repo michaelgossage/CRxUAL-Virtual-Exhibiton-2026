@@ -304,9 +304,10 @@ world.proximityReveal.features.cameraTrail     = true;  // permanent trail left 
 world.proximityReveal.features.permanentFadeIn = true;  // permanent reveals fade in (900ms)
 world.proximityReveal.features.edgeNoise       = true;  // organic noise on reveal edges
 world.proximityReveal.features.tapReveal       = true;  // tap/click paints a temporary reveal
+world.proximityReveal.features.mouseTrail      = true;  // mouse movement paints temporary reveals while idle
 ```
 
-Disabling `edgeNoise` reduces CPU cost of `_paint()`. Disabling `tapReveal` skips the temp texture entirely.
+Disabling `edgeNoise` reduces CPU cost of `_paint()`. Disabling `tapReveal` or `mouseTrail` skips temporary reveal painting for those input modes.
 
 ### Tunable constants (top of file)
 
@@ -314,8 +315,9 @@ Disabling `edgeNoise` reduces CPU cost of `_paint()`. Disabling `tapReveal` skip
 |---|---|---|
 | `REVEAL_RADIUS` | `5.0` | World-unit radius of camera/permanent circles |
 | `TEMP_REVEAL_RADIUS` | `2.5` | World-unit radius of tap circles |
-| `SAMPLE_DIST` | `0.1` | Camera must move this far before a new trail point is sampled |
-| `TEX_SIZE` | `256` | Texture resolution — `512` gives smoother edges, costs more VRAM |
+| `SAMPLE_DIST` | `0.2` | Camera must move this far before a new trail point is sampled |
+| `TEX_W` / `TEX_D` | `192` | Horizontal voxel resolution (X and Z axes) |
+| `TEX_H` | `64` | Vertical voxel resolution (Y axis — gallery is not very tall) |
 | `FADE_IN_DUR_MS` | `900` | Permanent reveal fade-in duration (ms) |
 | `TEMP_FADE_IN_MS` | `300` | Tap reveal fade-in duration (ms) |
 | `TEMP_REVEAL_DUR` | `4.0` | Tap reveal fade-out duration (seconds) |
@@ -330,13 +332,23 @@ Drop a tileable greyscale PNG at `public/art/textures/noise.png`. Loaded once on
 // _doEnvTapReveal() — called from screenManager.onMiss when focusState === "idle"
 this._envRay.setFromCamera(this._lastNDC, this.camera);
 const hits = this._envRay.intersectObjects(this._envMeshes, false);
-if (hits.length > 0) this.proximityReveal.addTemporaryReveal(hits[0].point);
+if (hits.length > 0) {
+  this.proximityReveal.addTemporaryReveal(hits[0].point);
+  this._lastMouseRevealPos = hits[0].point.clone(); // reset mouse-trail distance guard
+}
 ```
 
-`this._lastNDC` is updated on every `pointerdown` event on the canvas.
+`this._lastNDC` is updated on every `pointerdown` and `pointermove` event on the canvas.
 
-### Step 4 (not yet implemented)
-Gold expansion + persistent edge ring — third `goldTexture` DataTexture, fires on `addPermanentReveal`, fades out over ~3s. Will add `uRevealTexGold`, `uGoldColor`, `uGoldEdgeMult` uniforms and a `features.goldRing` flag.
+### Mouse trail wiring (`World.js`)
+
+`_tryMouseTrailReveal()` is called once per frame from `update()`. It consumes a dirty flag set by the `pointermove` listener, then raycasts against `_envMeshes` and calls `addTemporaryReveal` only if the hit point is more than **1.5 world units** from `_lastMouseRevealPos`. This prevents flooding `_activeTemp` during slow hover.
+
+Mouse trail reveals only fire when `_focusState === "idle"` (not while focused on artwork or transitioning).
+
+### Gold ring (implemented)
+
+Third `goldTexture` Data3DTexture is painted on `addPermanentReveal` and fades out over `GOLD_DUR_MS` (3 s). Uniforms: `uRevealTexGold`, `uGoldColor`, `uGoldEdgeWidth`, `uGoldEdgeMult`. Controlled by `features.goldRing`.
 
 ## Environment
 

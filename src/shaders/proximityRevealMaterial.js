@@ -4,9 +4,9 @@ import * as THREE from "three";
 const REVEAL_RADIUS      = 5.0;  // world units — radius of permanent/camera reveal spheres
 const TEMP_REVEAL_RADIUS = 2.5;  // world units — radius of tap reveal spheres (smaller)
 const SAMPLE_DIST        = 0.2;  // world units the camera must move before a new sample
-const TEX_W              = 256;  // voxel volume width  (X) — matches 2D resolution for smooth trail
-const TEX_H              = 32;   // voxel volume height (Y) — gallery is not very tall
-const TEX_D              = 256;  // voxel volume depth  (Z) — matches 2D resolution for smooth trail
+const TEX_W              = 192;  // voxel volume width  (X) — matches 2D resolution for smooth trail
+const TEX_H              = 64;   // voxel volume height (Y) — gallery is not very tall
+const TEX_D              = 192;  // voxel volume depth  (Z) — matches 2D resolution for smooth trail
 const FADE_IN_DUR_MS     = 900;  // ms for permanent reveals to fade in
 const TEMP_FADE_IN_MS    = 300;  // ms for tap reveals to fade in
 const TEMP_REVEAL_DUR    = 4.0;  // seconds for tap reveals to fade out (default)
@@ -16,10 +16,10 @@ const GOLD_EDGE_MULT     = 0.7;  // 0..1 — brightness of the persistent gold e
 // ─────────────────────────────────────────────────────────────────────────────
 // World-space bounds the voxel volume covers. Adjust to match your scene extents.
 // XZ covers the horizontal footprint; Y covers vertical (height) range.
-const WORLD_MIN_X  = -60;   // ──┐
-const WORLD_SIZE_X =  120;  //   ├─ horizontal XZ bounds (world units)
-const WORLD_MIN_Z  = -60;   //   │
-const WORLD_SIZE_Z =  120;  // ──┘
+const WORLD_MIN_X  = -50;   // ──┐
+const WORLD_SIZE_X =  100;  //   ├─ horizontal XZ bounds (world units)
+const WORLD_MIN_Z  = -50;   //   │
+const WORLD_SIZE_Z =  100;  // ──┘
 const WORLD_MIN_Y  = 0;    // ──┐ vertical Y bounds
 const WORLD_SIZE_Y =  30;   // ──┘ covers -6 → +14 world units
 

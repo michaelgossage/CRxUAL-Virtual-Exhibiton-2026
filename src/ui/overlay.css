@@ -348,3 +348,264 @@ canvas { width: 100%; height: 100%; display:block; }
     border-right: 1px solid rgba(255, 255, 255, 0.10);
   }
 }
+
+/* ─── Title / Loading Screen ─────────────────────────────────────────────── */
+#title-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #f5f3ef; /* warm white */
+  overflow: hidden;
+  font: 14px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color: #1a1a1a;
+  opacity: 1;
+  transition: opacity 0.7s ease;
+}
+#title-screen.ts--hiding {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── Multi-row infinite carousel — fills full screen height ── */
+.ts-carousel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column; /* lanes stack vertically */
+  overflow: hidden;
+  pointer-events: none;
+  gap: 6px;
+  padding: 6px 0;
+  box-sizing: border-box;
+}
+
+/* Each lane is an equal-height horizontal row */
+.ts-lane {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* Two identical strips sit side-by-side for seamless looping */
+.ts-lane-inner {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  will-change: transform;
+}
+.ts-strip {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  padding: 0 3px;
+  flex-shrink: 0;
+  height: 100%;
+}
+.ts-strip img {
+  height: 88%; /* fill lane, keep natural aspect ratio */
+  width: auto;
+  display: block;
+  flex-shrink: 0;
+  border-radius: 4px;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.10);
+}
+.ts-strip img.ts-img--visible { opacity: 1; }
+
+/* ── Vignette — fades edges to warm white so panel sits cleanly ── */
+.ts-vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right,  #f5f3ef 0%, transparent 18%, transparent 82%, #f5f3ef 100%),
+    linear-gradient(to bottom, rgba(245, 243, 239, 0.55) 0%, transparent 22%,
+                               transparent 78%, rgba(245, 243, 239, 0.55) 100%);
+  pointer-events: none;
+}
+
+/* ── Centred content layer ── */
+.ts-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  pointer-events: none;
+}
+
+/* Editorial card */
+.ts-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  background: rgba(245, 243, 239, 0.88);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: 16px;
+  padding: 40px 44px 34px;
+  max-width: 420px;
+  width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.09);
+  pointer-events: auto;
+}
+
+/* Branding */
+.ts-logo {
+  max-height: 56px;
+  max-width: 200px;
+  object-fit: contain;
+}
+.ts-title {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #111;
+  line-height: 1.05;
+}
+.ts-subtitle {
+  margin: -6px 0 0;
+  font-size: 0.72em;
+  color: rgba(0, 0, 0, 0.38);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+.ts-divider {
+  width: 32px;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.12);
+  margin: 2px 0;
+}
+
+/* Toggles */
+.ts-toggles {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.ts-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+.ts-toggle input { display: none; }
+.ts-toggle__track {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  transition: background 200ms ease;
+  flex-shrink: 0;
+}
+.ts-toggle__track::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.30);
+  transition: transform 200ms ease, background 200ms ease;
+}
+.ts-toggle input:checked + .ts-toggle__track {
+  background: #1a1a1a;
+  border-color: #1a1a1a;
+}
+.ts-toggle input:checked + .ts-toggle__track::after {
+  transform: translateX(16px);
+  background: #f5f3ef;
+}
+.ts-toggle__label {
+  font-size: 0.80em;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+/* Loading bar */
+.ts-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  width: 100%;
+}
+.ts-bar-track {
+  width: 100%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.10);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.ts-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: #1a1a1a;
+  border-radius: 1px;
+  transition: width 0.3s ease;
+}
+.ts-bar-label {
+  font-size: 0.68em;
+  color: rgba(0, 0, 0, 0.30);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+/* Start button — full-width, strong CTA when ready */
+.ts-start-btn {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  background: transparent;
+  color: rgba(0, 0, 0, 0.22);
+  padding: 13px 0;
+  border-radius: 9px;
+  font: 600 0.9em system-ui, sans-serif;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: not-allowed;
+  transition: transform 130ms ease, background 130ms ease,
+              border-color 130ms ease, color 130ms ease;
+}
+.ts-start-btn--ready {
+  background: #1a1a1a;
+  border-color: #1a1a1a;
+  color: #f5f3ef;
+  cursor: pointer;
+}
+.ts-start-btn--ready:hover {
+  background: #333;
+  transform: translateY(-1px);
+}
+
+/* Small text below button */
+.ts-instructions {
+  font-size: 0.76em;
+  color: rgba(0, 0, 0, 0.42);
+  margin: 0;
+  line-height: 1.6;
+}
+.ts-disclaimer {
+  font-size: 0.65em;
+  color: rgba(0, 0, 0, 0.20);
+  margin: 0;
+  line-height: 1.6;
+}
+
+@media (max-width: 500px) {
+  .ts-panel { padding: 28px 22px 24px; gap: 12px; }
+}

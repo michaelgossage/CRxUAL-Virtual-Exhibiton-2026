@@ -215,9 +215,9 @@ Add a button to `index.html`:
 
 ## Proximity Reveal System
 
-As visitors walk through the gallery, the environment geometry reveals its colour in a persistent trail behind the camera. Clicking or tapping the environment floor/walls paints a temporary circle that fades out. Focusing an artwork triggers a permanent reveal at that location.
+As visitors walk through the gallery, the environment geometry reveals its colour in a persistent trail behind the camera. Moving the mouse over the environment paints temporary circles that fade out after a few seconds. Clicking or tapping also paints a temporary reveal at that point. Focusing an artwork triggers a permanent reveal at that location, with a brief gold burst on the surrounding geometry.
 
-The GPU cost is a fixed **2 texture samples per fragment** regardless of how many reveals exist — safe on mobile and Safari.
+The GPU cost is a fixed **3 texture samples per fragment** regardless of how many reveals exist — safe on mobile and Safari.
 
 ### Applying to environment GLBs
 
@@ -241,12 +241,14 @@ All constants are at the top of `src/shaders/proximityRevealMaterial.js`:
 | Constant | Default | What it controls |
 |---|---|---|
 | `REVEAL_RADIUS` | `5.0` | World-unit radius of camera trail / permanent circles |
-| `TEMP_REVEAL_RADIUS` | `2.5` | World-unit radius of tap/click circles |
-| `SAMPLE_DIST` | `0.1` | How far the camera must move before a new trail point is painted |
-| `TEX_SIZE` | `256` | Texture resolution — `512` gives smoother edges, uses more memory |
+| `TEMP_REVEAL_RADIUS` | `2.5` | World-unit radius of tap/click/mouse-trail circles |
+| `SAMPLE_DIST` | `0.2` | How far the camera must move before a new trail point is painted |
+| `TEX_W` / `TEX_D` | `192` | Horizontal voxel resolution (X and Z axes) |
+| `TEX_H` | `64` | Vertical voxel resolution (Y axis) |
 | `FADE_IN_DUR_MS` | `900` | How long permanent reveals take to fade in (ms) |
-| `TEMP_FADE_IN_MS` | `300` | How long tap reveals take to fade in (ms) |
-| `TEMP_REVEAL_DUR` | `4.0` | How long tap reveals stay visible before fully fading out (seconds) |
+| `TEMP_FADE_IN_MS` | `300` | How long tap/mouse reveals take to fade in (ms) |
+| `TEMP_REVEAL_DUR` | `4.0` | How long temporary reveals stay visible before fading out (seconds) |
+| `GOLD_DUR_MS` | `3000` | How long the gold burst lasts after a permanent reveal (ms) |
 
 ### Feature flags
 
@@ -260,9 +262,11 @@ f.cameraTrail     = true;  // persistent colour trail as camera moves
 f.permanentFadeIn = true;  // permanent reveals fade in smoothly (vs. instant pop)
 f.edgeNoise       = true;  // organic noise texture on reveal edges
 f.tapReveal       = true;  // tap/click on environment paints a temporary reveal
+f.mouseTrail      = true;  // mouse movement paints temporary reveals while idle
+f.goldRing        = true;  // gold burst + persistent edge ring on permanent reveals
 ```
 
-Turning off `edgeNoise` reduces CPU cost per paint call. Turning off `tapReveal` skips the temporary texture entirely.
+Turning off `edgeNoise` reduces CPU cost per paint call. Turning off `tapReveal` or `mouseTrail` skips temporary reveal painting for those input modes.
 
 ### Edge noise texture
 
