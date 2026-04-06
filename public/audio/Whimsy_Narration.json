@@ -1,0 +1,909 @@
+{
+  "language_code": null,
+  "segments": [
+    {
+      "text": "My final collection centers around whimsy",
+      "start_time": 0.14,
+      "end_time": 2.98,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "My",
+          "start_time": 0.14,
+          "end_time": 0.219
+        },
+        {
+          "text": " ",
+          "start_time": 0.219,
+          "end_time": 0.339
+        },
+        {
+          "text": "final",
+          "start_time": 0.34,
+          "end_time": 0.62
+        },
+        {
+          "text": " ",
+          "start_time": 0.62,
+          "end_time": 0.719
+        },
+        {
+          "text": "collection",
+          "start_time": 0.719,
+          "end_time": 1.279
+        },
+        {
+          "text": " ",
+          "start_time": 1.279,
+          "end_time": 1.539
+        },
+        {
+          "text": "centers",
+          "start_time": 1.539,
+          "end_time": 1.839
+        },
+        {
+          "text": " ",
+          "start_time": 1.839,
+          "end_time": 1.919
+        },
+        {
+          "text": "around",
+          "start_time": 1.919,
+          "end_time": 2.2
+        },
+        {
+          "text": " ",
+          "start_time": 2.2,
+          "end_time": 2.299
+        },
+        {
+          "text": "whimsy",
+          "start_time": 2.299,
+          "end_time": 2.98
+        }
+      ]
+    },
+    {
+      "text": "from nostalgic childhood media.",
+      "start_time": 3.039,
+      "end_time": 4.919,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "from",
+          "start_time": 3.039,
+          "end_time": 3.139
+        },
+        {
+          "text": " ",
+          "start_time": 3.139,
+          "end_time": 3.219
+        },
+        {
+          "text": "nostalgic",
+          "start_time": 3.22,
+          "end_time": 3.879
+        },
+        {
+          "text": " ",
+          "start_time": 3.879,
+          "end_time": 4.019
+        },
+        {
+          "text": "childhood",
+          "start_time": 4.019,
+          "end_time": 4.4
+        },
+        {
+          "text": " ",
+          "start_time": 4.4,
+          "end_time": 4.5
+        },
+        {
+          "text": "media.",
+          "start_time": 4.5,
+          "end_time": 4.919
+        }
+      ]
+    },
+    {
+      "text": "I chose this theme as I believe small",
+      "start_time": 6.059,
+      "end_time": 8.319,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "I",
+          "start_time": 6.059,
+          "end_time": 6.099
+        },
+        {
+          "text": " ",
+          "start_time": 6.099,
+          "end_time": 6.159
+        },
+        {
+          "text": "chose",
+          "start_time": 6.159,
+          "end_time": 6.399
+        },
+        {
+          "text": " ",
+          "start_time": 6.399,
+          "end_time": 6.459
+        },
+        {
+          "text": "this",
+          "start_time": 6.46,
+          "end_time": 6.599
+        },
+        {
+          "text": " ",
+          "start_time": 6.599,
+          "end_time": 6.679
+        },
+        {
+          "text": "theme",
+          "start_time": 6.679,
+          "end_time": 7.0
+        },
+        {
+          "text": " ",
+          "start_time": 7.0,
+          "end_time": 7.379
+        },
+        {
+          "text": "as",
+          "start_time": 7.379,
+          "end_time": 7.46
+        },
+        {
+          "text": " ",
+          "start_time": 7.46,
+          "end_time": 7.559
+        },
+        {
+          "text": "I",
+          "start_time": 7.559,
+          "end_time": 7.619
+        },
+        {
+          "text": " ",
+          "start_time": 7.619,
+          "end_time": 7.659
+        },
+        {
+          "text": "believe",
+          "start_time": 7.659,
+          "end_time": 7.999
+        },
+        {
+          "text": " ",
+          "start_time": 7.999,
+          "end_time": 8.059
+        },
+        {
+          "text": "small",
+          "start_time": 8.059,
+          "end_time": 8.319
+        }
+      ]
+    },
+    {
+      "text": "forms of escapism is essential, especially",
+      "start_time": 8.479,
+      "end_time": 11.36,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "forms",
+          "start_time": 8.479,
+          "end_time": 8.72
+        },
+        {
+          "text": " ",
+          "start_time": 8.72,
+          "end_time": 8.76
+        },
+        {
+          "text": "of",
+          "start_time": 8.76,
+          "end_time": 8.819
+        },
+        {
+          "text": " ",
+          "start_time": 8.819,
+          "end_time": 8.92
+        },
+        {
+          "text": "escapism",
+          "start_time": 8.92,
+          "end_time": 9.599
+        },
+        {
+          "text": " ",
+          "start_time": 9.599,
+          "end_time": 9.639
+        },
+        {
+          "text": "is",
+          "start_time": 9.639,
+          "end_time": 9.719
+        },
+        {
+          "text": " ",
+          "start_time": 9.719,
+          "end_time": 9.839
+        },
+        {
+          "text": "essential,",
+          "start_time": 9.84,
+          "end_time": 10.359
+        },
+        {
+          "text": " ",
+          "start_time": 10.359,
+          "end_time": 10.8
+        },
+        {
+          "text": "especially",
+          "start_time": 10.8,
+          "end_time": 11.36
+        }
+      ]
+    },
+    {
+      "text": "when we live in such unstable times.",
+      "start_time": 11.38,
+      "end_time": 13.639,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "when",
+          "start_time": 11.38,
+          "end_time": 11.5
+        },
+        {
+          "text": " ",
+          "start_time": 11.5,
+          "end_time": 11.539
+        },
+        {
+          "text": "we",
+          "start_time": 11.539,
+          "end_time": 11.639
+        },
+        {
+          "text": " ",
+          "start_time": 11.639,
+          "end_time": 11.699
+        },
+        {
+          "text": "live",
+          "start_time": 11.699,
+          "end_time": 11.92
+        },
+        {
+          "text": " ",
+          "start_time": 11.92,
+          "end_time": 11.96
+        },
+        {
+          "text": "in",
+          "start_time": 11.96,
+          "end_time": 12.119
+        },
+        {
+          "text": " ",
+          "start_time": 12.119,
+          "end_time": 12.159
+        },
+        {
+          "text": "such",
+          "start_time": 12.159,
+          "end_time": 12.38
+        },
+        {
+          "text": " ",
+          "start_time": 12.38,
+          "end_time": 12.46
+        },
+        {
+          "text": "unstable",
+          "start_time": 12.46,
+          "end_time": 13.039
+        },
+        {
+          "text": " ",
+          "start_time": 13.039,
+          "end_time": 13.119
+        },
+        {
+          "text": "times.",
+          "start_time": 13.119,
+          "end_time": 13.639
+        }
+      ]
+    },
+    {
+      "text": "From the rise of fascism to feeling the",
+      "start_time": 14.579,
+      "end_time": 16.739,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "From",
+          "start_time": 14.579,
+          "end_time": 14.699
+        },
+        {
+          "text": " ",
+          "start_time": 14.699,
+          "end_time": 14.719
+        },
+        {
+          "text": "the",
+          "start_time": 14.719,
+          "end_time": 14.799
+        },
+        {
+          "text": " ",
+          "start_time": 14.799,
+          "end_time": 14.859
+        },
+        {
+          "text": "rise",
+          "start_time": 14.859,
+          "end_time": 15.159
+        },
+        {
+          "text": " ",
+          "start_time": 15.159,
+          "end_time": 15.179
+        },
+        {
+          "text": "of",
+          "start_time": 15.179,
+          "end_time": 15.299
+        },
+        {
+          "text": " ",
+          "start_time": 15.299,
+          "end_time": 15.359
+        },
+        {
+          "text": "fascism",
+          "start_time": 15.359,
+          "end_time": 16.159
+        },
+        {
+          "text": " ",
+          "start_time": 16.159,
+          "end_time": 16.199
+        },
+        {
+          "text": "to",
+          "start_time": 16.199,
+          "end_time": 16.319
+        },
+        {
+          "text": " ",
+          "start_time": 16.319,
+          "end_time": 16.379
+        },
+        {
+          "text": "feeling",
+          "start_time": 16.379,
+          "end_time": 16.639
+        },
+        {
+          "text": " ",
+          "start_time": 16.639,
+          "end_time": 16.679
+        },
+        {
+          "text": "the",
+          "start_time": 16.68,
+          "end_time": 16.739
+        }
+      ]
+    },
+    {
+      "text": "effects of climate change,",
+      "start_time": 16.859,
+      "end_time": 18.199,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "effects",
+          "start_time": 16.859,
+          "end_time": 17.18
+        },
+        {
+          "text": " ",
+          "start_time": 17.18,
+          "end_time": 17.219
+        },
+        {
+          "text": "of",
+          "start_time": 17.219,
+          "end_time": 17.319
+        },
+        {
+          "text": " ",
+          "start_time": 17.319,
+          "end_time": 17.359
+        },
+        {
+          "text": "climate",
+          "start_time": 17.359,
+          "end_time": 17.719
+        },
+        {
+          "text": " ",
+          "start_time": 17.719,
+          "end_time": 17.779
+        },
+        {
+          "text": "change,",
+          "start_time": 17.779,
+          "end_time": 18.199
+        }
+      ]
+    },
+    {
+      "text": "it's important to maintain a balance to",
+      "start_time": 18.879,
+      "end_time": 21.059,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "it's",
+          "start_time": 18.879,
+          "end_time": 19.04
+        },
+        {
+          "text": " ",
+          "start_time": 19.04,
+          "end_time": 19.059
+        },
+        {
+          "text": "important",
+          "start_time": 19.059,
+          "end_time": 19.579
+        },
+        {
+          "text": " ",
+          "start_time": 19.579,
+          "end_time": 19.639
+        },
+        {
+          "text": "to",
+          "start_time": 19.639,
+          "end_time": 19.719
+        },
+        {
+          "text": " ",
+          "start_time": 19.719,
+          "end_time": 19.759
+        },
+        {
+          "text": "maintain",
+          "start_time": 19.76,
+          "end_time": 20.159
+        },
+        {
+          "text": " ",
+          "start_time": 20.159,
+          "end_time": 20.26
+        },
+        {
+          "text": "a",
+          "start_time": 20.26,
+          "end_time": 20.28
+        },
+        {
+          "text": " ",
+          "start_time": 20.28,
+          "end_time": 20.319
+        },
+        {
+          "text": "balance",
+          "start_time": 20.319,
+          "end_time": 20.92
+        },
+        {
+          "text": " ",
+          "start_time": 20.92,
+          "end_time": 20.979
+        },
+        {
+          "text": "to",
+          "start_time": 20.979,
+          "end_time": 21.059
+        }
+      ]
+    },
+    {
+      "text": "avoid burnout and actually be able to help",
+      "start_time": 21.139,
+      "end_time": 24.1,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "avoid",
+          "start_time": 21.139,
+          "end_time": 21.42
+        },
+        {
+          "text": " ",
+          "start_time": 21.42,
+          "end_time": 21.539
+        },
+        {
+          "text": "burnout",
+          "start_time": 21.539,
+          "end_time": 22.399
+        },
+        {
+          "text": " ",
+          "start_time": 22.399,
+          "end_time": 22.439
+        },
+        {
+          "text": "and",
+          "start_time": 22.439,
+          "end_time": 22.62
+        },
+        {
+          "text": " ",
+          "start_time": 22.62,
+          "end_time": 22.699
+        },
+        {
+          "text": "actually",
+          "start_time": 22.699,
+          "end_time": 23.1
+        },
+        {
+          "text": " ",
+          "start_time": 23.1,
+          "end_time": 23.18
+        },
+        {
+          "text": "be",
+          "start_time": 23.18,
+          "end_time": 23.299
+        },
+        {
+          "text": " ",
+          "start_time": 23.299,
+          "end_time": 23.439
+        },
+        {
+          "text": "able",
+          "start_time": 23.439,
+          "end_time": 23.7
+        },
+        {
+          "text": " ",
+          "start_time": 23.7,
+          "end_time": 23.719
+        },
+        {
+          "text": "to",
+          "start_time": 23.719,
+          "end_time": 23.819
+        },
+        {
+          "text": " ",
+          "start_time": 23.819,
+          "end_time": 23.84
+        },
+        {
+          "text": "help",
+          "start_time": 23.84,
+          "end_time": 24.1
+        }
+      ]
+    },
+    {
+      "text": "others.",
+      "start_time": 24.18,
+      "end_time": 24.639,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "others.",
+          "start_time": 24.18,
+          "end_time": 24.639
+        }
+      ]
+    },
+    {
+      "text": "I created woven samples intended as",
+      "start_time": 26.18,
+      "end_time": 28.639,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "I",
+          "start_time": 26.18,
+          "end_time": 26.2
+        },
+        {
+          "text": " ",
+          "start_time": 26.2,
+          "end_time": 26.239
+        },
+        {
+          "text": "created",
+          "start_time": 26.239,
+          "end_time": 26.699
+        },
+        {
+          "text": " ",
+          "start_time": 26.699,
+          "end_time": 26.819
+        },
+        {
+          "text": "woven",
+          "start_time": 26.819,
+          "end_time": 27.219
+        },
+        {
+          "text": " ",
+          "start_time": 27.219,
+          "end_time": 27.299
+        },
+        {
+          "text": "samples",
+          "start_time": 27.299,
+          "end_time": 27.939
+        },
+        {
+          "text": " ",
+          "start_time": 27.939,
+          "end_time": 27.979
+        },
+        {
+          "text": "intended",
+          "start_time": 27.979,
+          "end_time": 28.479
+        },
+        {
+          "text": " ",
+          "start_time": 28.479,
+          "end_time": 28.5
+        },
+        {
+          "text": "as",
+          "start_time": 28.5,
+          "end_time": 28.639
+        }
+      ]
+    },
+    {
+      "text": "curtains/drapes to block out the gray and",
+      "start_time": 28.699,
+      "end_time": 31.859,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "curtains/drapes",
+          "start_time": 28.699,
+          "end_time": 30.34
+        },
+        {
+          "text": " ",
+          "start_time": 30.34,
+          "end_time": 30.399
+        },
+        {
+          "text": "to",
+          "start_time": 30.399,
+          "end_time": 30.5
+        },
+        {
+          "text": " ",
+          "start_time": 30.5,
+          "end_time": 30.519
+        },
+        {
+          "text": "block",
+          "start_time": 30.519,
+          "end_time": 30.739
+        },
+        {
+          "text": " ",
+          "start_time": 30.739,
+          "end_time": 30.84
+        },
+        {
+          "text": "out",
+          "start_time": 30.84,
+          "end_time": 31.059
+        },
+        {
+          "text": " ",
+          "start_time": 31.059,
+          "end_time": 31.099
+        },
+        {
+          "text": "the",
+          "start_time": 31.099,
+          "end_time": 31.199
+        },
+        {
+          "text": " ",
+          "start_time": 31.199,
+          "end_time": 31.259
+        },
+        {
+          "text": "gray",
+          "start_time": 31.26,
+          "end_time": 31.579
+        },
+        {
+          "text": " ",
+          "start_time": 31.579,
+          "end_time": 31.639
+        },
+        {
+          "text": "and",
+          "start_time": 31.639,
+          "end_time": 31.859
+        }
+      ]
+    },
+    {
+      "text": "dreary London landscape made from waste",
+      "start_time": 31.92,
+      "end_time": 34.68,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "dreary",
+          "start_time": 31.92,
+          "end_time": 32.34
+        },
+        {
+          "text": " ",
+          "start_time": 32.34,
+          "end_time": 32.399
+        },
+        {
+          "text": "London",
+          "start_time": 32.399,
+          "end_time": 32.739
+        },
+        {
+          "text": " ",
+          "start_time": 32.739,
+          "end_time": 32.759
+        },
+        {
+          "text": "landscape",
+          "start_time": 32.759,
+          "end_time": 33.38
+        },
+        {
+          "text": " ",
+          "start_time": 33.38,
+          "end_time": 33.819
+        },
+        {
+          "text": "made",
+          "start_time": 33.819,
+          "end_time": 34.0
+        },
+        {
+          "text": " ",
+          "start_time": 34.0,
+          "end_time": 34.04
+        },
+        {
+          "text": "from",
+          "start_time": 34.04,
+          "end_time": 34.239
+        },
+        {
+          "text": " ",
+          "start_time": 34.239,
+          "end_time": 34.259
+        },
+        {
+          "text": "waste",
+          "start_time": 34.259,
+          "end_time": 34.68
+        }
+      ]
+    },
+    {
+      "text": "and dead stock materials.",
+      "start_time": 34.719,
+      "end_time": 36.119,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "and",
+          "start_time": 34.719,
+          "end_time": 34.84
+        },
+        {
+          "text": " ",
+          "start_time": 34.84,
+          "end_time": 34.899
+        },
+        {
+          "text": "dead",
+          "start_time": 34.899,
+          "end_time": 35.059
+        },
+        {
+          "text": " ",
+          "start_time": 35.059,
+          "end_time": 35.099
+        },
+        {
+          "text": "stock",
+          "start_time": 35.099,
+          "end_time": 35.38
+        },
+        {
+          "text": " ",
+          "start_time": 35.38,
+          "end_time": 35.419
+        },
+        {
+          "text": "materials.",
+          "start_time": 35.419,
+          "end_time": 36.119
+        }
+      ]
+    }
+  ]
+}

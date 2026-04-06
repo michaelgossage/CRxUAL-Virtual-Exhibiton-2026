@@ -375,7 +375,9 @@ export class ScreenManager {
       artworkInfo: {
         title: content.title ?? "",
         artist: content.artist ?? "",
-        description: content.bio ?? ""
+        description: content.bio ?? "",
+        narration: content.narration,
+        narrationCues: content.narrationCues
       }
     });
 
@@ -866,7 +868,7 @@ export class ScreenManager {
     video.loop = true;
     video.muted = false;
     video.playsInline = true; // required for iOS
-    video.preload = "auto";   // start buffering in background so play is snappy on focus
+    video.preload = "metadata"; // fetch headers only (dimensions for containScale); buffer starts on focus
     // No autoplay — started explicitly on focus via activateVideo()
 
     const tex = new THREE.VideoTexture(video);
@@ -892,6 +894,12 @@ export class ScreenManager {
 
     const video = hitBox?.userData?.video;
     if (!video) return null;
+
+    // Upgrade preload so the browser starts buffering now that the user is watching.
+    // Only call load() if readyState is 0 (never loaded) — calling it when data is
+    // already buffered resets currentTime to 0, causing a restart on re-focus.
+    video.preload = "auto";
+    if (video.readyState === 0) video.load();
 
     this._activeVideo = video;
 
@@ -922,6 +930,9 @@ export class ScreenManager {
     if (!video) return;
 
     video.pause();
+    // Drop back to metadata-only so the browser can free the video buffer
+    video.preload = "metadata";
+    video.load();
     if (this._activeVideo === video) this._activeVideo = null;
 
     // Restore poster if one was provided (with its contain scale)

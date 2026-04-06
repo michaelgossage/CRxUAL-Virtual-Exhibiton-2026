@@ -366,7 +366,9 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
       artworkInfo: {
         title: "birdcage",
         artist: "Jichu Zhang",
-        description: "My paintings are spaces of suspended narration, where the relationship between people and their surroundings is never fixed, but constantly shifting — between intimacy and distance, memory and control. Inspired by familial experiences, everyday interpersonal patterns, and the lingering structures of myth, I seek to construct visual environments that do not illustrate stories, but evoke atmospheres — spaces where something is felt before it is understood. Visually, my compositions follow drifting, current-like rhythms — inspired by the unseen movement of oceanic flows, as a way to mirror the subtle undercurrents of perception and emotional experience."
+        description: "My paintings are spaces of suspended narration, where the relationship between people and their surroundings is never fixed, but constantly shifting — between intimacy and distance, memory and control. Inspired by familial experiences, everyday interpersonal patterns, and the lingering structures of myth, I seek to construct visual environments that do not illustrate stories, but evoke atmospheres — spaces where something is felt before it is understood. Visually, my compositions follow drifting, current-like rhythms — inspired by the unseen movement of oceanic flows, as a way to mirror the subtle undercurrents of perception and emotional experience.",
+        narration: `${baseURL}audio/birdcage_Narration.mp3`,
+        narrationCues: `${baseURL}audio/birdcage_Narration.json`
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
@@ -650,7 +652,9 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
       artworkInfo: {
         title: "Unrendered",
         artist: "Marie-Lisette Cropp",
-        description: "Unrendered explores how the female body is represented and reshaped through technology and Western cultural expectations. The project examines the tension between the physical and the digital, and how images shape our understanding of identity and beauty. Using photogrammetry, the body is scanned into digital form, fragmenting in the process and celebrating these glitches and distortions. By reworking these scans by hand and through darkroom printing, the work restores a raw, physical presence. Inspired by Rosi Braidotti’s Posthuman theory, Unrendered views the body as part of a wider ecosystem, continuously shaped by machines, nature, and technology."
+        description: "Unrendered explores how the female body is represented and reshaped through technology and Western cultural expectations. The project examines the tension between the physical and the digital, and how images shape our understanding of identity and beauty. Using photogrammetry, the body is scanned into digital form, fragmenting in the process and celebrating these glitches and distortions. By reworking these scans by hand and through darkroom printing, the work restores a raw, physical presence. Inspired by Rosi Braidotti’s Posthuman theory, Unrendered views the body as part of a wider ecosystem, continuously shaped by machines, nature, and technology.",
+        narration: `${baseURL}audio/Unrendered_Narration.mp3`,
+        narrationCues: `${baseURL}audio/Unrendered_Narration.json`
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
@@ -671,7 +675,9 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
       artworkInfo: {
         title: "Self-Finish",
         artist: "Beatrice El Asmar",
-        description: "This series of self-portraits was created using slit scan technology, mostly known for its use for photo-finish in racing sports, thus reclaiming a patriarchal automation which judges, measures and commodifies linear speed and \‘progress\'. Subverting our expectations of how time and space occupy the photographic image, the work highlights how the supposedly linear progression of human rights, especially for cis and trans women, is being eroded to the extent that it is actually moving backwards. A fragmented portrait of one of the two female photo-finish operators in the UK, this work invites a different kind of embodied photographic seeing."
+        description: "This series of self-portraits was created using slit scan technology, mostly known for its use for photo-finish in racing sports, thus reclaiming a patriarchal automation which judges, measures and commodifies linear speed and \‘progress\'. Subverting our expectations of how time and space occupy the photographic image, the work highlights how the supposedly linear progression of human rights, especially for cis and trans women, is being eroded to the extent that it is actually moving backwards. A fragmented portrait of one of the two female photo-finish operators in the UK, this work invites a different kind of embodied photographic seeing.",
+        narration: `${baseURL}audio/Self-Finish_Narration.mp3`,
+        narrationCues: `${baseURL}audio/Self-Finish_Narration.json`
       },
       plinthVisible: false,
       onClick: (obj) => {
@@ -693,7 +699,9 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
       artworkInfo: {
         title: "Whimsy Through The Window",
         artist: "Sarah Abdi",
-        description: "My final collection centres around whimsy from nostalgic childhood media. I chose this theme as I believe small forms of escapism is essential, especially when we live in such unstable times; from the rise of fascism to feeling the effects of climate change. Its important maintain a balance to avoid burnout and actually be able to help others. I created woven samples intended as curtains/drapes to block out the grey and dreary London landscape, made from waste and deadstock materials."
+        description: "My final collection centres around whimsy from nostalgic childhood media. I chose this theme as I believe small forms of escapism is essential, especially when we live in such unstable times; from the rise of fascism to feeling the effects of climate change. Its important maintain a balance to avoid burnout and actually be able to help others. I created woven samples intended as curtains/drapes to block out the grey and dreary London landscape, made from waste and deadstock materials.",
+        narration: `${baseURL}audio/Whimsy_Narration.mp3`,
+        narrationCues: `${baseURL}audio/Whimsy_Narration.json`
       },
       plinthVisible: false,
       onClick: (obj) => {
@@ -808,9 +816,11 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
     playAnimation: "first",
     location: 'lobby',
     artworkInfo: {
-      title: "Statue 01",
-      artist: "Placeholder Sculptor",
-      description: "A 3D sculptural work rendered in real-time. Rotate and explore the form from any angle."
+      title: "Let Me Eat Cake",
+      artist: "Suzanna Teal",
+      description: "Let Me Eat Cake is a multi-disciplinary project comprising clay sculptures resembling slices of cake alongside a series of studio-based, still-life images showing them tightly clenched in angry fists. In taking cake beyond its characteristic material form, I’m interested in problematising diet culture by disrupting dominant perceptions related to how cake should act, look and feel. The clay creates a cold, hard, heavy tactile experience, that contrasts with our experience of cake as soft and light; a material that ‘gives’.  The strained fists reveal the difficulty and awkwardness of holding them, evoking the strained relationship many women have with food due to diet culture. The act of interacting with the sculptures alters the meaning. There's a thin facade of something positive and shiny under which is sinister, hard and potentially dangerous. They become weapon-like objects, subverting the soft, spongy characteristics we associate with cake and creating an exaggerated disturbance of accepted norms. The fist connotes anger, frustration, and resistance, which are key themes in this series. The sculptures parody indulgence and exaggerate the ridiculousness of diet culture. They are inedible; deliberately cold and heavy. By physically resisting the grasp of the viewer's hand, they resist traditional ideas of femininity.",
+      narration: `${baseURL}audio/LetMeEatCake_Narration.mp3`,
+      narrationCues: `${baseURL}audio/LetMeEatCake_Narration.json`
     }
   }).then((modelRoot) => {
     this.statue = modelRoot;
@@ -862,12 +872,14 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       content: {
         title: "No Longer Us",
         artist: "Jun Shya",
-        bio: "By putting a mask on, we begin to play different versions of ourselves. Intrigued by the process of unbalancing composition through distinct colours, crackled textures, and seemingly incongruous references, this series of paintings explores the theme of reality versus illusion in relation to the coexistence of present and past. By capturing the intimate gesture of push and pull in a ballet performance, each dancer becomes a version of another. It reflects the idea that a different version of you exists in the mind of everyone who knows you. Curious images emerge through a process of patient layering and excavation. Parts of the human body and face are either left blank or slightly concealed, yet we, as viewers, are still able to make sense of them. ",
+        bio: "By putting a mask on, we begin to play different versions of ourselves. Intrigued by the process of unbalancing composition through distinct colours, crackled textures, and seemingly incongruous references, this series of paintings explores the theme of reality versus illusion in relation to the coexistence of present and past. By capturing the intimate gesture of push and pull in a ballet performance, each dancer becomes a version of another. It reflects the idea that a different version of you exists in the mind of everyone who knows you. Curious images emerge through a process of patient layering and excavation. Parts of the human body and face are either left blank or slightly concealed, yet we, as viewers, are still able to make sense of them.",
         images: [
           "public/art/NoLongerUs_JunShya/Jun-Shya-1-1.jpg",
           "https://picsum.photos/id/1015/900/900",
           "https://picsum.photos/id/1025/900/900"
-        ]
+        ],
+        narration: `${baseURL}audio/NoLongerUs_Narration.mp3`,
+        narrationCues: `${baseURL}audio/NoLongerUs_Narration.json`
       },
       width: 2,
       height: 2.25,
@@ -1338,6 +1350,7 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     const video = this.screenManager.activateVideo(obj);
     if (video) {
       this.infoPanel.showVideoControls(video);
+      this.infoPanel.hideAudioControls();
       this._deactivateNarration();
     } else {
       this.infoPanel.hideVideoControls();
