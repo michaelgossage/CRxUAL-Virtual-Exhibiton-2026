@@ -145,7 +145,7 @@ export class World {
     this.locations = new LocationManager({ camera: this.camera });
     this.locations.setLocations({
       lobby:   { camera: { pos:[0,0.8,0], lookAt:[0,0.8,-1] } },
-      WestPavillion:{ camera: { pos:[-34,0.8,-22.4], lookAt:[-14,1.2,-6] } },
+      WestPavillion:{ camera: { pos:[-34,0.8,-22.4], lookAt:[-36,0.8,-24.0] } },
       EagleBar:{ camera: { pos:[ 1,23,12.8], lookAt:[ 1,23,12] } },
       //winners: { camera: { pos:[0, 12, 24], lookAt:[0, 0, -1] } }
       winners: { camera: { pos:[0, 0.8, 0], lookAt:[0, 0, -1] } }
@@ -170,9 +170,23 @@ export class World {
     { pos: [3, 0.8, -8], lookAt: [-10, 0.8,-15] },                                                                                                                                                      
     { pos: [-10, 0.8, -15], lookAt: [-12, 0.8, -18] },
     { pos: [-12, 0.8, -18], lookAt: [-28, 0.8, -18] },
-    { pos: [-28, 0.8, -18], lookAt: [-15, 0.8, -15] }
+    { pos: [-28, 0.8, -18], lookAt: [-30, 0.8, -20] }
   ],
 {duration: 5.0, distanceWeighted: true}); 
+      // make a path between 2 lodcations
+  this.locations.setPathBidirectional("WestPavillion", "EagleBar", [
+    { pos: [-28, 0.8, -18], lookAt: [-15, 0.8, -15] },
+    { pos: [-12, 0.8, -18], lookAt: [-28, 0.8, -18] },
+    { pos: [-10, 0.8, -15], lookAt: [-12, 0.8, -18] },
+    { pos: [3, 0.8, -8], lookAt: [-10, 0.8,-15] },
+    { pos: [0, 10, 0], lookAt: [0, 23, 0] },                                                                                                                                                      
+    { pos: [0, 23, 0], lookAt: [10, 23, 0] },
+    { pos: [10, 23, 0], lookAt: [10, 23, 3.2] },
+    { pos: [10, 23, 3.2], lookAt: [1,23,12.8] },
+    { pos: [7, 23, 4], lookAt: [ 1,23,12.8] }
+
+  ],
+{duration: 8.0, distanceWeighted: true}); 
 
 this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
 
@@ -738,8 +752,11 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
       artworkInfo: {
         title: "Experiment n°58-2: Position in Space",
         artist: "Marie Saint-Yves",
-        description: "An exploration of space, physical forces of the Earth and the theory of material agency. Binding air and helium with low materials (surival blankets, salvaged sack trolley, nylon thread), I aimed to challenge our perception of the World via a contrasting piece, engaging viewers' personal sensory experience while inviting them to take a step back from their daily lives. Interested in leaving work open to individual interpretations, I wonder: What's yours?"
+        description: "An exploration of space, physical forces of the Earth and the theory of material agency. Binding air and helium with low materials (surival blankets, salvaged sack trolley, nylon thread), I aimed to challenge our perception of the World via a contrasting piece, engaging viewers' personal sensory experience while inviting them to take a step back from their daily lives. Interested in leaving work open to individual interpretations, I wonder: What's yours?",
+        narration:`${baseURL}audio/Exploration-n58_Narration.mp3`
+        //narrationCues: `${baseURL}audio/Exploration-n58_Narration.json`
       }
+      
     }).then((modelRoot) => {
       this.statue = modelRoot;
       this._registerArtwork(modelRoot);
@@ -774,7 +791,7 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
   */
 
     //left front desk
-    const b=import.meta.env.BASE_URL + "public/art/LetMeEatCake_SuzannaTeal/LetMeEatCake01.glb";
+    const b=import.meta.env.BASE_URL + "/art/LetMeEatCake_SuzannaTeal/LetMeEatCake01.glb";
 
   this.screenManager.addModel({
     url: b,

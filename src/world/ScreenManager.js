@@ -606,6 +606,17 @@ export class ScreenManager {
     const record = this.screens.find(s => s.mesh === screenMesh);
     if (!record) return result;
 
+    // Seed _texCache with the index-0 texture (loaded by addScreen via _makeImageTexture,
+    // not _getCachedTexture) so navigating back to index 0 reuses the same GPU texture.
+    const firstUrl = content.images[0];
+    if (!this._texCache.has(firstUrl) && record.texture) {
+      this._texCache.set(firstUrl, record.texture);
+    }
+    // Preload all carousel images so navigation never stalls on an empty cache.
+    for (const url of content.images) {
+      this._getCachedTexture(url); // no-op if already cached
+    }
+
     // 2) Replace material with fluid carousel material
     const revealTex = record.material?.uniforms?.uRevealMap?.value;
     const currentMap = record.material?.uniforms?.uMap?.value;
@@ -631,19 +642,23 @@ export class ScreenManager {
     };
     if (currentMap?.image?.naturalWidth > 0) {
       applyContainScale(currentMap.image);
-    } else if (currentMap) {
-      // Poll each RAF until the image element has dimensions
-      const pollContain = () => {
-        if (currentMap.image?.naturalWidth > 0) applyContainScale(currentMap.image);
-        else requestAnimationFrame(pollContain);
-      };
-      requestAnimationFrame(pollContain);
+    } else if (currentMap?.image) {
+      if (currentMap.image.naturalWidth > 0) {
+        applyContainScale(currentMap.image);
+      } else {
+        currentMap.image.addEventListener(
+          'load',
+          () => applyContainScale(currentMap.image),
+          { once: true }
+        );
+      }
     }
 
     // 3) Create fluid sim
     const fluidSim = new CarouselFluidSim();
 
     // 4) Override carousel setIndex to use fluid transition
+    // Records transition intent; update(dt) drives the blend inside the main loop.
     carousel.setIndex = (i, wipeOriginNDC = null) => {
       if (carousel._transitioning) return;
       const n = carousel.images.length;
@@ -659,23 +674,7 @@ export class ScreenManager {
       uniforms.uIsTransitioning.value = 1.0;
       uniforms.uDragReveal.value = 0.0;
 
-      const duration = transitionDuration;
-      const start = performance.now();
-      const animate = () => {
-        const p = Math.min((performance.now() - start) / 1000 / duration, 1.0);
-        uniforms.uBlend.value = p;
-        if (p < 1.0) {
-          requestAnimationFrame(animate);
-        } else {
-          uniforms.uMap.value = tex;
-          uniforms.uMapNext.value = tex;
-          uniforms.uBlend.value = 0.0;
-          uniforms.uIsTransitioning.value = 0.0;
-          carousel._transitioning = false;
-          if (this.renderer) fluidSim.clearSim(this.renderer);
-        }
-      };
-      requestAnimationFrame(animate);
+      fr._transition = { tex, uniforms, elapsed: 0, duration: transitionDuration };
     };
 
     // Wire prev/next buttons with wipe origin from button NDC position
@@ -689,7 +688,7 @@ export class ScreenManager {
     };
 
     // 5) Register fluid record for update loop
-    const fr = { record, fluidSim, hitBox: record.hitBox, state: carousel, screenMesh };
+    const fr = { record, fluidSim, hitBox: record.hitBox, state: carousel, screenMesh, _transition: null };
     this._fluidRecords.push(fr);
 
     // 6) Add pointer listeners for fluid drag + swipe
@@ -742,6 +741,23 @@ export class ScreenManager {
 
       if (fluidSim.texture) uniforms.uSim.value = fluidSim.texture;
       uniforms.uTime.value += dt;
+
+      // Advance active blend transition inside the main loop (safe renderer context)
+      if (fr._transition) {
+        const t = fr._transition;
+        t.elapsed += dt;
+        const p = Math.min(t.elapsed / t.duration, 1.0);
+        t.uniforms.uBlend.value = p;
+        if (p >= 1.0) {
+          t.uniforms.uMap.value = t.tex;
+          t.uniforms.uMapNext.value = t.tex;
+          t.uniforms.uBlend.value = 0.0;
+          t.uniforms.uIsTransitioning.value = 0.0;
+          fr.state._transitioning = false;
+          fr._transition = null;
+          fluidSim.clearSim(this.renderer);
+        }
+      }
     }
     this._fluidMousePrev.copy(this._fluidMouse);
   }
@@ -971,7 +987,9 @@ export class ScreenManager {
   // simple texture cache to avoid reloading the same URL multiple times
   _getCachedTexture(url) {
     if (this._texCache.has(url)) return this._texCache.get(url);
-    const tex = this.textureLoader.load(url);
+    const tex = this.textureLoader.load(url, (loadedTex) => {
+      if (this.renderer) this.renderer.initTexture(loadedTex);
+    });
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.minFilter = THREE.LinearFilter;
     tex.magFilter = THREE.LinearFilter;
@@ -1086,6 +1104,20 @@ async addModel({
   modelRoot.userData.onClick = onClick;
 
   this.scene.add(modelRoot);
+
+  // GPU warmup: pre-upload textures + compile shaders to avoid first-render stutter
+  if (this.renderer) {
+    modelRoot.traverse(child => {
+      if (!child.isMesh) return;
+      const mats = Array.isArray(child.material) ? child.material : [child.material];
+      mats.forEach(mat => {
+        [mat.map, mat.normalMap, mat.roughnessMap, mat.metalnessMap,
+         mat.emissiveMap, mat.aoMap, mat.lightMap, mat.envMap]
+          .forEach(t => { if (t) this.renderer.initTexture(t); });
+      });
+    });
+    await this.renderer.compileAsync(this.scene, this.camera);
+  }
 
   // Optional animation mixer
   let mixer = null;
