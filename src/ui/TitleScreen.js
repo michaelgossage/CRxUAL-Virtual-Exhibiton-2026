@@ -83,7 +83,10 @@ export class TitleScreen {
   hide() {
     cancelAnimationFrame(this._carouselRaf);
     this._el.classList.add("ts--hiding");
-    this._el.addEventListener("transitionend", () => this._el.remove(), { once: true });
+    const cleanup = () => { if (this._el.parentNode) this._el.remove(); };
+    this._el.addEventListener("transitionend", cleanup, { once: true });
+    // Fallback in case transitionend never fires (reduced-motion, 0s transition, etc.)
+    setTimeout(cleanup, 2000);
   }
 
   // ─── DOM builder ───────────────────────────────────────────────────────────
@@ -146,6 +149,8 @@ export class TitleScreen {
 
     this._startBtn.addEventListener("click", () => {
       if (!this._ready) return;
+      this._ready = false;
+      this._startBtn.disabled = true;
       this._onStart?.();
     });
 

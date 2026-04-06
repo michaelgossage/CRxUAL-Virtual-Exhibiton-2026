@@ -145,13 +145,14 @@ export class World {
     this.locations = new LocationManager({ camera: this.camera });
     this.locations.setLocations({
       lobby:   { camera: { pos:[0,0.8,0], lookAt:[0,0.8,-1] } },
-      WestPavillion:{ camera: { pos:[-29,0.8,-20], lookAt:[-14,1.2,-6] } },
+      WestPavillion:{ camera: { pos:[-34,0.8,-22.4], lookAt:[-14,1.2,-6] } },
       EagleBar:{ camera: { pos:[ 1,23,12.8], lookAt:[ 1,23,12] } },
       //winners: { camera: { pos:[0, 12, 24], lookAt:[0, 0, -1] } }
       winners: { camera: { pos:[0, 0.8, 0], lookAt:[0, 0, -1] } }
     });
 
     // start location
+    //this.locations.goTo("lobby", { duration: 0.01 });
     this.locations.goTo("lobby", { duration: 0.01 });
 
       // make a path between 2 lodcations
@@ -642,7 +643,7 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
       }
     }));
 
-      //right side, middle front desk
+      //left side, middle front desk
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/SelfFinish_BeatriceElAsmar/SF_02.jpg.avif`,
       width: 1.8,
@@ -664,6 +665,27 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
       }
     }));
 
+    //right side, right front desk
+    this._registerArtwork(this.screenManager.addScreen({
+      url: `${baseURL}art/WhimsyThroughTheWindow_SarahAbdi/20250530_193358.jpg`,
+      width: 1.2,
+      height: 2.0,
+      position: [7.1, 0.8, 1.4],
+      rotation: [0, -135, 0],
+      clickable: true,
+      offsetClick: 0.0,
+      text: "Image Screen",
+      location: 'lobby',
+      artworkInfo: {
+        title: "Whimsy Through The Window",
+        artist: "Sarah Abdi",
+        description: "Weaving"
+      },
+      plinthVisible: false,
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
     /*
     this._registerArtwork(this.screenManager.addContentScreen({
       content: {
@@ -725,6 +747,7 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
 
     const a=import.meta.env.BASE_URL + "/art/test3d/8 Ultra High Quality Scan_low poly DRACO jpeg (1024).glb";
     //central coffee table
+    /*
     this.screenManager.addModel({
     url: a,
     position: [.7, -.5, -4.5],
@@ -748,15 +771,15 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
     this.statue = modelRoot;
     this._registerArtwork(modelRoot);
   }).catch(console.error);
-
+  */
 
     //left front desk
     const b=import.meta.env.BASE_URL + "public/art/LetMeEatCake_SuzannaTeal/LetMeEatCake01.glb";
 
   this.screenManager.addModel({
     url: b,
-    position: [-6.7, .5, -3],
-    rotation: [0, -90, 0],
+    position: [.7, -.5, -4.5],
+    rotation: [0, 20, 0],
     normalizeTo: 0.8,
     clickable: true,
     onClick: (obj, hit) => console.log("Model clicked:", obj),
@@ -778,7 +801,7 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
   }).catch(console.error);
 
 
-
+/*
   this.screenManager.addModel({
     url: a,
     position: [4.8, 0, 3.8],
@@ -814,8 +837,9 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
     // optional: store reference
     this.statue = modelRoot;
   }).catch(console.error);
+  */
 
-  //left of fireplace
+  //right front desk
 this._registerArtwork(this.screenManager.addFluidContentScreen({
       location: 'lobby',
       content: {
@@ -830,8 +854,8 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       },
       width: 2,
       height: 2.25,
-      position: [-4.6, 1.4, -6],
-      rotation: [0, 30, 0],
+      position: [8.4, 1.1, -1.5],
+      rotation: [0, -90, 0],
       offsetClick: .2,
       infoWidth: 1.6,
       infoHeight: 1.2,
@@ -865,12 +889,13 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
   //West Pavilion - Technology, Fashion and body
   //Pseudosynthesis, Synesthetic Skin, EMBODIED, Embodied Memories, Dehumanized, Black Swan
 
+  //left of entrance way
   this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/EMBODIED_VeepraMishra/20251114_Veepra0132-1-1.webp`,
       width: 1.3,
       height: 1.74,
-      position: [-32.0, 0.9, -22.0],   // e.g. on/near carousel A
-      rotation: [0, -35, 0],
+      position: [-34.2, 0.9, -15.8],   // e.g. on/near carousel A
+      rotation: [0, 180, 0],
       clickable: true,
       offsetClick: .1,
       clickableSize: [2.0, 2.0], // make click area bigger than screen size to include podium
@@ -887,12 +912,13 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       }
     }));
 
+    //window behind counter
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/BlackSwan-JieunSung/IMG_5414-2.png.avif`,
       width: 1.5,
       height: 2,
-      position: [-33.0, .5, -24.0],   // e.g. on/near carousel A
-      rotation: [0, -45, 0],
+      position: [-33.9, .9, -26.4],   // e.g. on/near carousel A
+      rotation: [0, 0, 0],
       clickable: true,
       clickableSize: [2.0, 2.0], // make click area bigger than screen size to include podium
       offsetClick: 0.0,
@@ -909,16 +935,17 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       }
     }));
 
+    //window behind counter
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/Dehumanized_ChiAnChou/IMG_7018-Large.jpeg.avif`,
       width: 1.8,
       height: 1.3,
-      position: [8.4, 0.8, -1.5],
-      rotation: [0, -90, 0],
+      position: [-37.3, .9, -26.4],
+      rotation: [0, 0, 0],
       clickable: true,
       offsetClick: 0.0,
       text: "Image Screen",
-      location: 'lobby',
+      location: 'WestPavillion',
       artworkInfo: {
         title: "Dehumanized",
         artist: "Chi An Chou",
@@ -930,6 +957,7 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       }
     }));
 
+    //on the wall in to the dining room
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/Pseudosynthesis_LeonLin/Vertical_comp-1.png.avif`,
       width: 5,
@@ -951,12 +979,13 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       }
     }));
 
+    //window corner
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/EmbodiedMemories_YoonJuChung/B0009341-1-1.webp`,
-      width: 4,
-      height: 2.1,
-      position: [-34.0, 3.6, -22.0],
-      rotation: [0, 90, 0],
+      width: 3.0,
+      height: 1.4,
+      position: [-40.8, 1.0, -25.2],
+      rotation: [0, 45, 0],
       clickable: true,
       plinthVisible: false,
       offsetClick: 0.0,
@@ -972,12 +1001,13 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       }
     }));
 
+    //wall in the window corner
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/SynestheticSkin_JianingDing/Screenshot 2026-03-22 at 17.33.20.png`,
       width: 3,
       height: 1.5,
-      position: [-36, 3.5, -20.0],
-      rotation: [0, 90, 0],
+      position: [-39, 1.0, -20.4],
+      rotation: [0, 180, 0],
       clickable: true,
       plinthVisible: false,
       offsetClick: 0.0,
@@ -996,12 +1026,13 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     //bar Sound art, 
   //Be Not Afraid, Lust Feels Like Bad Luck, 
 
+  //left of bar wall
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/Nailed_Genevieve Carr/nailed.webp`,
       width: 1.5,
       height: 2.0,
-      position: [-4.0, 23, 6.0],
-      rotation: [0, -135, 0],
+      position: [-7.6, 22.6, 7.0],
+      rotation: [0, 90, 0],
       clickable: true,
       offsetClick: 0.5,
       clickableSize: [2.2, 2.5],
@@ -1017,6 +1048,102 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
         console.log("Clicked screen/podium", obj);
       }
     }));
+
+    //right side outside
+    this._registerArtwork(this.screenManager.addScreen({
+      url: `${baseURL}art/FauxFlora_JustinaAlexandrof/Justina_Alexandroff_2-2.jpg`,
+      width: 1.5,
+      height: 2.0,
+      position: [4.5, 23, 15.5],
+      rotation: [0, -135, 0],
+      clickable: true,
+      offsetClick: 0.5,
+      clickableSize: [2.2, 2.5],
+      text: "Image Screen",
+      plinthVisible: false,
+      location: 'EagleBar',
+      artworkInfo: {
+        title: "Faux Flora",
+        artist: "Justina Alexandroff",
+        description: "\"Faux Flora\" is a collection of 3D printed plant forms that explore the relationship between natural and artificial environments. The project questions the boundaries between real and simulated ecosystems."
+      },
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+
+    //right side of bar
+    this._registerArtwork(this.screenManager.addScreen({
+      url: `${baseURL}art/LustFeelsLikeBadLuck-JuliaPytko/Backwards-Artwork-1_1.jpg`,
+      width: 1.5,
+      height: 1.5,
+      position: [7.8, 23, 7.0],
+      rotation: [0, -90, 0],
+      clickable: true,
+      offsetClick: 0.5,
+      clickableSize: [2.2, 2.5],
+      text: "Image Screen",
+      plinthVisible: false,
+      location: 'EagleBar',
+      artworkInfo: {
+        title: "Lust Feels Like Bad Luck",
+        artist: "Julia Pytko",
+        description: "\"Lust Feels Like Bad Luck\" is a multimedia installation that explores the intersection of desire and consequence in the digital age."
+      },
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+
+    //left side of bar
+     this.screenManager.addModel({
+    url: `${baseURL}art/BeNotAfraid-RysiaAnnaKaczmar/BeNotAfraid_Artwork3D.glb`,
+    position: [-3.0, 22.6, 12.0],
+    rotation: [0, 90, 0],
+    normalizeTo: 0.8,
+    clickable: true,
+    onClick: (obj, hit) => console.log("Model clicked:", obj),
+    text: "STATUE_01",
+    textOffset: [0, -0.5, 0.9],
+    hitboxSize: [0.6, 1.4, 0.6],
+    offsetClick: -0.0,
+    plinthVisible: false,
+    playAnimation: "first",
+    location: 'EagleBar',
+    artworkInfo: {
+      title: "Be Not Afraid",
+      artist: "Rysia Anna Kaczmar",
+      description: "A 3D sculptural work rendered in real-time. Rotate and explore the form from any angle."
+    }
+  }).then((modelRoot) => {
+    this.statue = modelRoot;
+    this._registerArtwork(modelRoot);
+  }).catch(console.error);
+
+  //on the bar
+    this._registerArtwork(this.screenManager.addScreen({
+      url: `${baseURL}art/MaterialPlace_NeveBeill/ual-showcase-2-1.jpg`,
+      width: 1.4,
+      height: 0.7,
+      position: [1.9, 22.7, 5.2],
+      rotation: [0, -10, 0],
+      clickable: true,
+      offsetClick: 0.0,
+      clickableSize: [2.2, 1.0],
+      text: "Image Screen",
+      plinthVisible: false,
+      location: 'EagleBar',
+      artworkInfo: {
+        title: "Material Place",
+        artist: "Neve Beill",
+        description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments."
+      },
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+
+
 
   }
 
