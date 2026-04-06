@@ -27,12 +27,15 @@ export class InfoPanel {
 
     // Audio narration controls
     this.audioEl          = this.el.querySelector(".info-panel__audio");
-    this.audioPlayPauseBtn = this.audioEl.querySelector(".video-ctrl__playpause");
-    this.audioTimeEl       = this.audioEl.querySelector(".video-ctrl__time");
-    this.audioScrubberEl   = this.audioEl.querySelector(".video-ctrl__scrubber");
-    this.audioDurationEl   = this.audioEl.querySelector(".video-ctrl__duration");
+    const audioControls   = this.audioEl.querySelector(".info-panel__audio-controls");
+    this.audioPlayPauseBtn = audioControls.querySelector(".video-ctrl__playpause");
+    this.audioTimeEl       = audioControls.querySelector(".video-ctrl__time");
+    this.audioScrubberEl   = audioControls.querySelector(".video-ctrl__scrubber");
+    this.audioDurationEl   = audioControls.querySelector(".video-ctrl__duration");
     this._activeAudio = null;
     this._audioRafId = null;
+    this._activeCues = null;
+    this._activeCueIdx = -1;
 
     this._onJumpTo = onJumpTo;
     this._registry = [];
@@ -88,6 +91,9 @@ export class InfoPanel {
     });
 
     this.audioScrubberEl.addEventListener("pointerdown", e => e.stopPropagation());
+
+    // Prevent description scroll from bubbling to 3D scene when showing transcript
+    this.descEl.addEventListener("pointerdown", e => e.stopPropagation());
   }
 
   show({ title = "", artist = "", description = "" } = {}) {
@@ -133,9 +139,12 @@ export class InfoPanel {
     this.durationEl.textContent = "0:00";
   }
 
-  showAudioControls(audio) {
+  showAudioControls(audio, segments = null) {
+    this._activeCues = null;
+    this._activeCueIdx = -1;
     this._activeAudio = audio;
     this.audioEl.classList.add("info-panel__audio--visible");
+    if (segments) this.setCues(segments);
 
     const setDuration = () => {
       if (!isNaN(audio.duration)) {
@@ -151,10 +160,25 @@ export class InfoPanel {
   hideAudioControls() {
     this._stopAudioLoop();
     this._activeAudio = null;
+    this._activeCues = null;
+    this._activeCueIdx = -1;
     this.audioEl.classList.remove("info-panel__audio--visible");
     this.audioScrubberEl.value = 0;
     this.audioTimeEl.textContent = "0:00";
     this.audioDurationEl.textContent = "0:00";
+  }
+
+  setCues(segments) {
+    this._activeCues = segments;
+    this._activeCueIdx = -1;
+    this.descEl.innerHTML = "";
+    this.descEl.scrollTop = 0;
+    segments.forEach(seg => {
+      const span = document.createElement("span");
+      span.className = "info-panel__transcript-seg";
+      span.textContent = seg.text;
+      this.descEl.appendChild(span);
+    });
   }
 
   setRegistry(registry) {
@@ -162,7 +186,7 @@ export class InfoPanel {
     this._buildList();
   }
 
-  setActiveIndex(idx, total) {
+  setActiveIndex(idx) {
     const items = this.listItemsEl.querySelectorAll(".artwork-list__item");
     items.forEach((el, i) => el.classList.toggle("artwork-list__item--active", i === idx));
   }
@@ -234,6 +258,21 @@ export class InfoPanel {
     this.audioScrubberEl.value = a.currentTime / a.duration;
     this.audioTimeEl.textContent = this._formatTime(a.currentTime);
     this.audioPlayPauseBtn.innerHTML = a.paused ? "&#9654;" : "&#9646;&#9646;";
+
+    if (this._activeCues) {
+      const t = a.currentTime;
+      const idx = this._activeCues.findIndex(s => t >= s.start_time && t <= s.end_time);
+      if (idx !== this._activeCueIdx) {
+        const items = this.descEl.querySelectorAll(".info-panel__transcript-seg");
+        if (this._activeCueIdx >= 0 && items[this._activeCueIdx])
+          items[this._activeCueIdx].classList.remove("info-panel__transcript-seg--active");
+        if (idx >= 0 && items[idx]) {
+          items[idx].classList.add("info-panel__transcript-seg--active");
+          items[idx].scrollIntoView({ block: "nearest", behavior: "smooth" });
+        }
+        this._activeCueIdx = idx;
+      }
+    }
   }
 
   _tickVideo() {

@@ -84,7 +84,7 @@ canvas { width: 100%; height: 100%; display:block; }
   left: 0;
   right: 0;
   z-index: 25;
-  padding: 32px 48px 48px;
+  padding: 32px 24px 24px;
   background: rgba(0, 0, 0, 0.72);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -120,7 +120,22 @@ canvas { width: 100%; height: 100%; display:block; }
   line-height: 1.6;
   max-height: 8em;
   overflow-y: auto;
+  scroll-behavior: smooth;
   pointer-events: auto;
+}
+
+.info-panel__transcript-seg {
+  display: block;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.4);
+  padding: 0;
+  transition: color 0.2s;
+  cursor: default;
+}
+
+.info-panel__transcript-seg--active {
+  color: rgba(255,255,255,0.95);
+  font-style: italic;
 }
 
 /* ─── Video controls ─────────────────────────────────────── */
@@ -135,17 +150,24 @@ canvas { width: 100%; height: 100%; display:block; }
   display: flex;
 }
 
-/* ─── Audio narration controls (identical layout to video) ── */
+/* ─── Audio narration controls ──────────────────────────── */
 .info-panel__audio {
   display: none;
-  align-items: center;
-  gap: 10px;
+  flex-direction: column;
+  gap: 0;
   margin-top: 14px;
   pointer-events: auto;
 }
 .info-panel__audio--visible {
   display: flex;
 }
+
+.info-panel__audio-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 
 .video-ctrl__playpause {
   background: rgba(255, 255, 255, 0.10);
@@ -342,8 +364,8 @@ canvas { width: 100%; height: 100%; display:block; }
 @media (min-width: 640px) {
   .info-panel {
     right: auto;
-    width: 20%;
-    min-width: 280px;
+    width: 25%;
+    min-width: 340px;
     border-top-right-radius: 14px;
     border-right: 1px solid rgba(255, 255, 255, 0.10);
   }

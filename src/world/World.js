@@ -650,7 +650,7 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
       artworkInfo: {
         title: "Unrendered",
         artist: "Marie-Lisette Cropp",
-        description: "A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility."
+        description: "Unrendered explores how the female body is represented and reshaped through technology and Western cultural expectations. The project examines the tension between the physical and the digital, and how images shape our understanding of identity and beauty. Using photogrammetry, the body is scanned into digital form, fragmenting in the process and celebrating these glitches and distortions. By reworking these scans by hand and through darkroom printing, the work restores a raw, physical presence. Inspired by Rosi Braidotti’s Posthuman theory, Unrendered views the body as part of a wider ecosystem, continuously shaped by machines, nature, and technology."
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
@@ -693,7 +693,7 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
       artworkInfo: {
         title: "Whimsy Through The Window",
         artist: "Sarah Abdi",
-        description: "Weaving"
+        description: "My final collection centres around whimsy from nostalgic childhood media. I chose this theme as I believe small forms of escapism is essential, especially when we live in such unstable times; from the rise of fascism to feeling the effects of climate change. Its important maintain a balance to avoid burnout and actually be able to help others. I created woven samples intended as curtains/drapes to block out the grey and dreary London landscape, made from waste and deadstock materials."
       },
       plinthVisible: false,
       onClick: (obj) => {
@@ -742,10 +742,10 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
       normalizeTo: 2.0,
       clickable: true,
       onClick: (obj, hit) => console.log("Model clicked:", obj),
-      text: "STATUE_01",
+      //text: "STATUE_01",
       textOffset: [0, -0.1, 0.9],
-      hitboxSize: [2.0, 2.0, 2.0],
-      offsetClick: -0.4,
+      hitboxSize: [1.8, 1.5, 1.8],
+      offsetClick: 0.2,
       plinthVisible: false,
       playAnimation: "first",
       location: 'lobby',
@@ -753,8 +753,8 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
         title: "Experiment n°58-2: Position in Space",
         artist: "Marie Saint-Yves",
         description: "An exploration of space, physical forces of the Earth and the theory of material agency. Binding air and helium with low materials (surival blankets, salvaged sack trolley, nylon thread), I aimed to challenge our perception of the World via a contrasting piece, engaging viewers' personal sensory experience while inviting them to take a step back from their daily lives. Interested in leaving work open to individual interpretations, I wonder: What's yours?",
-        narration:`${baseURL}audio/Exploration-n58_Narration.mp3`
-        //narrationCues: `${baseURL}audio/Exploration-n58_Narration.json`
+        narration:`${baseURL}audio/Exploration-n58_Narration.mp3`,
+        narrationCues: `${baseURL}audio/Exploration-n58_Narration.json`
       }
       
     }).then((modelRoot) => {
@@ -1342,8 +1342,23 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     } else {
       this.infoPanel.hideVideoControls();
       const audio = this._activateNarration(obj);
-      if (audio) this.infoPanel.showAudioControls(audio);
-      else       this.infoPanel.hideAudioControls();
+      if (audio) {
+        this.infoPanel.showAudioControls(audio, obj.userData.narrationCuesData ?? null);
+        const cuesUrl = obj.userData.artworkInfo?.narrationCues;
+        if (cuesUrl && !obj.userData.narrationCuesData) {
+          fetch(cuesUrl)
+            .then(r => r.json())
+            .then(data => {
+              obj.userData.narrationCuesData = data.segments ?? [];
+              if (this._activeNarration?.obj === obj) {
+                this.infoPanel.setCues(obj.userData.narrationCuesData);
+              }
+            })
+            .catch(err => console.warn('[Narration] Could not load cues:', cuesUrl, err));
+        }
+      } else {
+        this.infoPanel.hideAudioControls();
+      }
     }
 
     const idx = this._artworkRegistry.findIndex(r => r.obj === obj);
