@@ -1,0 +1,2251 @@
+{
+  "language_code": null,
+  "segments": [
+    {
+      "text": "Let Me Eat Cake is a multidisciplinary",
+      "start_time": 0.219,
+      "end_time": 2.559,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Let",
+          "start_time": 0.219,
+          "end_time": 0.359
+        },
+        {
+          "text": " ",
+          "start_time": 0.359,
+          "end_time": 0.419
+        },
+        {
+          "text": "Me",
+          "start_time": 0.419,
+          "end_time": 0.519
+        },
+        {
+          "text": " ",
+          "start_time": 0.519,
+          "end_time": 0.62
+        },
+        {
+          "text": "Eat",
+          "start_time": 0.62,
+          "end_time": 0.779
+        },
+        {
+          "text": " ",
+          "start_time": 0.779,
+          "end_time": 0.879
+        },
+        {
+          "text": "Cake",
+          "start_time": 0.879,
+          "end_time": 1.24
+        },
+        {
+          "text": " ",
+          "start_time": 1.24,
+          "end_time": 1.279
+        },
+        {
+          "text": "is",
+          "start_time": 1.279,
+          "end_time": 1.379
+        },
+        {
+          "text": " ",
+          "start_time": 1.379,
+          "end_time": 1.419
+        },
+        {
+          "text": "a",
+          "start_time": 1.419,
+          "end_time": 1.519
+        },
+        {
+          "text": " ",
+          "start_time": 1.519,
+          "end_time": 1.559
+        },
+        {
+          "text": "multidisciplinary",
+          "start_time": 1.559,
+          "end_time": 2.559
+        }
+      ]
+    },
+    {
+      "text": "project comprising clay sculptures",
+      "start_time": 2.7,
+      "end_time": 5.039,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "project",
+          "start_time": 2.7,
+          "end_time": 3.179
+        },
+        {
+          "text": " ",
+          "start_time": 3.179,
+          "end_time": 3.559
+        },
+        {
+          "text": "comprising",
+          "start_time": 3.559,
+          "end_time": 4.099
+        },
+        {
+          "text": " ",
+          "start_time": 4.099,
+          "end_time": 4.239
+        },
+        {
+          "text": "clay",
+          "start_time": 4.239,
+          "end_time": 4.42
+        },
+        {
+          "text": " ",
+          "start_time": 4.42,
+          "end_time": 4.539
+        },
+        {
+          "text": "sculptures",
+          "start_time": 4.539,
+          "end_time": 5.039
+        }
+      ]
+    },
+    {
+      "text": "resembling slices of cake alongside a",
+      "start_time": 5.099,
+      "end_time": 7.699,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "resembling",
+          "start_time": 5.099,
+          "end_time": 5.559
+        },
+        {
+          "text": " ",
+          "start_time": 5.559,
+          "end_time": 5.699
+        },
+        {
+          "text": "slices",
+          "start_time": 5.699,
+          "end_time": 6.059
+        },
+        {
+          "text": " ",
+          "start_time": 6.059,
+          "end_time": 6.079
+        },
+        {
+          "text": "of",
+          "start_time": 6.079,
+          "end_time": 6.159
+        },
+        {
+          "text": " ",
+          "start_time": 6.159,
+          "end_time": 6.239
+        },
+        {
+          "text": "cake",
+          "start_time": 6.239,
+          "end_time": 6.599
+        },
+        {
+          "text": " ",
+          "start_time": 6.599,
+          "end_time": 7.099
+        },
+        {
+          "text": "alongside",
+          "start_time": 7.099,
+          "end_time": 7.559
+        },
+        {
+          "text": " ",
+          "start_time": 7.559,
+          "end_time": 7.639
+        },
+        {
+          "text": "a",
+          "start_time": 7.639,
+          "end_time": 7.699
+        }
+      ]
+    },
+    {
+      "text": "series of studio-based still life images",
+      "start_time": 7.759,
+      "end_time": 10.46,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "series",
+          "start_time": 7.759,
+          "end_time": 8.119
+        },
+        {
+          "text": " ",
+          "start_time": 8.119,
+          "end_time": 8.159
+        },
+        {
+          "text": "of",
+          "start_time": 8.159,
+          "end_time": 8.26
+        },
+        {
+          "text": " ",
+          "start_time": 8.26,
+          "end_time": 8.359
+        },
+        {
+          "text": "studio-based",
+          "start_time": 8.359,
+          "end_time": 9.139
+        },
+        {
+          "text": " ",
+          "start_time": 9.139,
+          "end_time": 9.399
+        },
+        {
+          "text": "still",
+          "start_time": 9.399,
+          "end_time": 9.579
+        },
+        {
+          "text": " ",
+          "start_time": 9.579,
+          "end_time": 9.659
+        },
+        {
+          "text": "life",
+          "start_time": 9.659,
+          "end_time": 9.899
+        },
+        {
+          "text": " ",
+          "start_time": 9.899,
+          "end_time": 9.979
+        },
+        {
+          "text": "images",
+          "start_time": 9.979,
+          "end_time": 10.46
+        }
+      ]
+    },
+    {
+      "text": "showing them tightly clenched in angry",
+      "start_time": 10.859,
+      "end_time": 12.899,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "showing",
+          "start_time": 10.859,
+          "end_time": 11.079
+        },
+        {
+          "text": " ",
+          "start_time": 11.079,
+          "end_time": 11.119
+        },
+        {
+          "text": "them",
+          "start_time": 11.119,
+          "end_time": 11.3
+        },
+        {
+          "text": " ",
+          "start_time": 11.3,
+          "end_time": 11.359
+        },
+        {
+          "text": "tightly",
+          "start_time": 11.359,
+          "end_time": 11.779
+        },
+        {
+          "text": " ",
+          "start_time": 11.779,
+          "end_time": 11.859
+        },
+        {
+          "text": "clenched",
+          "start_time": 11.859,
+          "end_time": 12.34
+        },
+        {
+          "text": " ",
+          "start_time": 12.34,
+          "end_time": 12.38
+        },
+        {
+          "text": "in",
+          "start_time": 12.38,
+          "end_time": 12.46
+        },
+        {
+          "text": " ",
+          "start_time": 12.46,
+          "end_time": 12.619
+        },
+        {
+          "text": "angry",
+          "start_time": 12.619,
+          "end_time": 12.899
+        }
+      ]
+    },
+    {
+      "text": "fists.",
+      "start_time": 13.039,
+      "end_time": 13.579,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "fists.",
+          "start_time": 13.039,
+          "end_time": 13.579
+        }
+      ]
+    },
+    {
+      "text": "In taking cake beyond its characteristic",
+      "start_time": 14.779,
+      "end_time": 17.18,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "In",
+          "start_time": 14.779,
+          "end_time": 14.859
+        },
+        {
+          "text": " ",
+          "start_time": 14.859,
+          "end_time": 14.979
+        },
+        {
+          "text": "taking",
+          "start_time": 14.979,
+          "end_time": 15.319
+        },
+        {
+          "text": " ",
+          "start_time": 15.319,
+          "end_time": 15.399
+        },
+        {
+          "text": "cake",
+          "start_time": 15.399,
+          "end_time": 15.679
+        },
+        {
+          "text": " ",
+          "start_time": 15.679,
+          "end_time": 15.779
+        },
+        {
+          "text": "beyond",
+          "start_time": 15.779,
+          "end_time": 16.139
+        },
+        {
+          "text": " ",
+          "start_time": 16.139,
+          "end_time": 16.199
+        },
+        {
+          "text": "its",
+          "start_time": 16.199,
+          "end_time": 16.359
+        },
+        {
+          "text": " ",
+          "start_time": 16.359,
+          "end_time": 16.419
+        },
+        {
+          "text": "characteristic",
+          "start_time": 16.42,
+          "end_time": 17.18
+        }
+      ]
+    },
+    {
+      "text": "material form,",
+      "start_time": 17.26,
+      "end_time": 18.279,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "material",
+          "start_time": 17.26,
+          "end_time": 17.799
+        },
+        {
+          "text": " ",
+          "start_time": 17.799,
+          "end_time": 17.959
+        },
+        {
+          "text": "form,",
+          "start_time": 17.959,
+          "end_time": 18.279
+        }
+      ]
+    },
+    {
+      "text": "I'm interested in problematizing diet",
+      "start_time": 18.899,
+      "end_time": 21.199,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "I'm",
+          "start_time": 18.899,
+          "end_time": 19.02
+        },
+        {
+          "text": " ",
+          "start_time": 19.02,
+          "end_time": 19.059
+        },
+        {
+          "text": "interested",
+          "start_time": 19.059,
+          "end_time": 19.579
+        },
+        {
+          "text": " ",
+          "start_time": 19.579,
+          "end_time": 19.68
+        },
+        {
+          "text": "in",
+          "start_time": 19.68,
+          "end_time": 19.799
+        },
+        {
+          "text": " ",
+          "start_time": 19.799,
+          "end_time": 19.879
+        },
+        {
+          "text": "problematizing",
+          "start_time": 19.879,
+          "end_time": 20.719
+        },
+        {
+          "text": " ",
+          "start_time": 20.719,
+          "end_time": 20.859
+        },
+        {
+          "text": "diet",
+          "start_time": 20.859,
+          "end_time": 21.199
+        }
+      ]
+    },
+    {
+      "text": "culture by disrupting dominant perceptions",
+      "start_time": 21.26,
+      "end_time": 24.419,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "culture",
+          "start_time": 21.26,
+          "end_time": 21.699
+        },
+        {
+          "text": " ",
+          "start_time": 21.699,
+          "end_time": 22.159
+        },
+        {
+          "text": "by",
+          "start_time": 22.159,
+          "end_time": 22.239
+        },
+        {
+          "text": " ",
+          "start_time": 22.239,
+          "end_time": 22.319
+        },
+        {
+          "text": "disrupting",
+          "start_time": 22.319,
+          "end_time": 22.879
+        },
+        {
+          "text": " ",
+          "start_time": 22.879,
+          "end_time": 22.979
+        },
+        {
+          "text": "dominant",
+          "start_time": 22.979,
+          "end_time": 23.34
+        },
+        {
+          "text": " ",
+          "start_time": 23.34,
+          "end_time": 23.439
+        },
+        {
+          "text": "perceptions",
+          "start_time": 23.439,
+          "end_time": 24.419
+        }
+      ]
+    },
+    {
+      "text": "related to how cake should act, look, and",
+      "start_time": 24.479,
+      "end_time": 27.519,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "related",
+          "start_time": 24.479,
+          "end_time": 24.879
+        },
+        {
+          "text": " ",
+          "start_time": 24.879,
+          "end_time": 24.939
+        },
+        {
+          "text": "to",
+          "start_time": 24.939,
+          "end_time": 25.0
+        },
+        {
+          "text": " ",
+          "start_time": 25.0,
+          "end_time": 25.079
+        },
+        {
+          "text": "how",
+          "start_time": 25.079,
+          "end_time": 25.219
+        },
+        {
+          "text": " ",
+          "start_time": 25.219,
+          "end_time": 25.359
+        },
+        {
+          "text": "cake",
+          "start_time": 25.359,
+          "end_time": 25.679
+        },
+        {
+          "text": " ",
+          "start_time": 25.679,
+          "end_time": 25.739
+        },
+        {
+          "text": "should",
+          "start_time": 25.739,
+          "end_time": 25.939
+        },
+        {
+          "text": " ",
+          "start_time": 25.939,
+          "end_time": 26.199
+        },
+        {
+          "text": "act,",
+          "start_time": 26.199,
+          "end_time": 26.519
+        },
+        {
+          "text": " ",
+          "start_time": 26.519,
+          "end_time": 26.92
+        },
+        {
+          "text": "look,",
+          "start_time": 26.92,
+          "end_time": 27.159
+        },
+        {
+          "text": " ",
+          "start_time": 27.159,
+          "end_time": 27.379
+        },
+        {
+          "text": "and",
+          "start_time": 27.379,
+          "end_time": 27.519
+        }
+      ]
+    },
+    {
+      "text": "feel.",
+      "start_time": 27.599,
+      "end_time": 27.939,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "feel.",
+          "start_time": 27.599,
+          "end_time": 27.939
+        }
+      ]
+    },
+    {
+      "text": "The clay creates a cold, hard, heavy,",
+      "start_time": 29.34,
+      "end_time": 32.279,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "The",
+          "start_time": 29.34,
+          "end_time": 29.439
+        },
+        {
+          "text": " ",
+          "start_time": 29.439,
+          "end_time": 29.499
+        },
+        {
+          "text": "clay",
+          "start_time": 29.5,
+          "end_time": 29.84
+        },
+        {
+          "text": " ",
+          "start_time": 29.84,
+          "end_time": 29.92
+        },
+        {
+          "text": "creates",
+          "start_time": 29.92,
+          "end_time": 30.34
+        },
+        {
+          "text": " ",
+          "start_time": 30.34,
+          "end_time": 30.42
+        },
+        {
+          "text": "a",
+          "start_time": 30.42,
+          "end_time": 30.5
+        },
+        {
+          "text": " ",
+          "start_time": 30.5,
+          "end_time": 30.579
+        },
+        {
+          "text": "cold,",
+          "start_time": 30.579,
+          "end_time": 31.0
+        },
+        {
+          "text": " ",
+          "start_time": 31.0,
+          "end_time": 31.279
+        },
+        {
+          "text": "hard,",
+          "start_time": 31.279,
+          "end_time": 31.679
+        },
+        {
+          "text": " ",
+          "start_time": 31.679,
+          "end_time": 31.999
+        },
+        {
+          "text": "heavy,",
+          "start_time": 32.0,
+          "end_time": 32.279
+        }
+      ]
+    },
+    {
+      "text": "tactile experience that contrasts with our",
+      "start_time": 32.419,
+      "end_time": 35.38,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "tactile",
+          "start_time": 32.419,
+          "end_time": 32.979
+        },
+        {
+          "text": " ",
+          "start_time": 32.979,
+          "end_time": 33.079
+        },
+        {
+          "text": "experience",
+          "start_time": 33.079,
+          "end_time": 33.799
+        },
+        {
+          "text": " ",
+          "start_time": 33.799,
+          "end_time": 34.239
+        },
+        {
+          "text": "that",
+          "start_time": 34.239,
+          "end_time": 34.34
+        },
+        {
+          "text": " ",
+          "start_time": 34.34,
+          "end_time": 34.419
+        },
+        {
+          "text": "contrasts",
+          "start_time": 34.419,
+          "end_time": 35.079
+        },
+        {
+          "text": " ",
+          "start_time": 35.079,
+          "end_time": 35.139
+        },
+        {
+          "text": "with",
+          "start_time": 35.139,
+          "end_time": 35.239
+        },
+        {
+          "text": " ",
+          "start_time": 35.239,
+          "end_time": 35.299
+        },
+        {
+          "text": "our",
+          "start_time": 35.299,
+          "end_time": 35.38
+        }
+      ]
+    },
+    {
+      "text": "experience of cake as soft and light,",
+      "start_time": 35.479,
+      "end_time": 38.02,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "experience",
+          "start_time": 35.479,
+          "end_time": 36.04
+        },
+        {
+          "text": " ",
+          "start_time": 36.04,
+          "end_time": 36.079
+        },
+        {
+          "text": "of",
+          "start_time": 36.079,
+          "end_time": 36.139
+        },
+        {
+          "text": " ",
+          "start_time": 36.139,
+          "end_time": 36.259
+        },
+        {
+          "text": "cake",
+          "start_time": 36.259,
+          "end_time": 36.619
+        },
+        {
+          "text": " ",
+          "start_time": 36.619,
+          "end_time": 36.7
+        },
+        {
+          "text": "as",
+          "start_time": 36.7,
+          "end_time": 36.879
+        },
+        {
+          "text": " ",
+          "start_time": 36.879,
+          "end_time": 36.979
+        },
+        {
+          "text": "soft",
+          "start_time": 36.979,
+          "end_time": 37.399
+        },
+        {
+          "text": " ",
+          "start_time": 37.399,
+          "end_time": 37.439
+        },
+        {
+          "text": "and",
+          "start_time": 37.439,
+          "end_time": 37.559
+        },
+        {
+          "text": " ",
+          "start_time": 37.559,
+          "end_time": 37.639
+        },
+        {
+          "text": "light,",
+          "start_time": 37.639,
+          "end_time": 38.02
+        }
+      ]
+    },
+    {
+      "text": "a material that gives.",
+      "start_time": 38.739,
+      "end_time": 40.419,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "a",
+          "start_time": 38.739,
+          "end_time": 38.779
+        },
+        {
+          "text": " ",
+          "start_time": 38.779,
+          "end_time": 38.84
+        },
+        {
+          "text": "material",
+          "start_time": 38.84,
+          "end_time": 39.479
+        },
+        {
+          "text": " ",
+          "start_time": 39.479,
+          "end_time": 39.52
+        },
+        {
+          "text": "that",
+          "start_time": 39.52,
+          "end_time": 39.68
+        },
+        {
+          "text": " ",
+          "start_time": 39.68,
+          "end_time": 39.919
+        },
+        {
+          "text": "gives.",
+          "start_time": 39.919,
+          "end_time": 40.419
+        }
+      ]
+    },
+    {
+      "text": "The strained fists reveal the difficulty",
+      "start_time": 41.579,
+      "end_time": 44.0,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "The",
+          "start_time": 41.579,
+          "end_time": 41.659
+        },
+        {
+          "text": " ",
+          "start_time": 41.659,
+          "end_time": 41.759
+        },
+        {
+          "text": "strained",
+          "start_time": 41.759,
+          "end_time": 42.2
+        },
+        {
+          "text": " ",
+          "start_time": 42.2,
+          "end_time": 42.259
+        },
+        {
+          "text": "fists",
+          "start_time": 42.259,
+          "end_time": 42.719
+        },
+        {
+          "text": " ",
+          "start_time": 42.719,
+          "end_time": 42.799
+        },
+        {
+          "text": "reveal",
+          "start_time": 42.799,
+          "end_time": 43.139
+        },
+        {
+          "text": " ",
+          "start_time": 43.139,
+          "end_time": 43.18
+        },
+        {
+          "text": "the",
+          "start_time": 43.18,
+          "end_time": 43.279
+        },
+        {
+          "text": " ",
+          "start_time": 43.279,
+          "end_time": 43.34
+        },
+        {
+          "text": "difficulty",
+          "start_time": 43.34,
+          "end_time": 44.0
+        }
+      ]
+    },
+    {
+      "text": "and awkwardness of holding them, evoking",
+      "start_time": 44.079,
+      "end_time": 46.68,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "and",
+          "start_time": 44.079,
+          "end_time": 44.239
+        },
+        {
+          "text": " ",
+          "start_time": 44.239,
+          "end_time": 44.319
+        },
+        {
+          "text": "awkwardness",
+          "start_time": 44.319,
+          "end_time": 44.879
+        },
+        {
+          "text": " ",
+          "start_time": 44.879,
+          "end_time": 44.919
+        },
+        {
+          "text": "of",
+          "start_time": 44.919,
+          "end_time": 45.0
+        },
+        {
+          "text": " ",
+          "start_time": 45.0,
+          "end_time": 45.059
+        },
+        {
+          "text": "holding",
+          "start_time": 45.059,
+          "end_time": 45.419
+        },
+        {
+          "text": " ",
+          "start_time": 45.419,
+          "end_time": 45.459
+        },
+        {
+          "text": "them,",
+          "start_time": 45.459,
+          "end_time": 46.119
+        },
+        {
+          "text": " ",
+          "start_time": 46.119,
+          "end_time": 46.219
+        },
+        {
+          "text": "evoking",
+          "start_time": 46.219,
+          "end_time": 46.68
+        }
+      ]
+    },
+    {
+      "text": "the strained relationship many women have",
+      "start_time": 46.739,
+      "end_time": 49.0,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "the",
+          "start_time": 46.739,
+          "end_time": 46.84
+        },
+        {
+          "text": " ",
+          "start_time": 46.84,
+          "end_time": 46.899
+        },
+        {
+          "text": "strained",
+          "start_time": 46.899,
+          "end_time": 47.239
+        },
+        {
+          "text": " ",
+          "start_time": 47.239,
+          "end_time": 47.279
+        },
+        {
+          "text": "relationship",
+          "start_time": 47.279,
+          "end_time": 48.139
+        },
+        {
+          "text": " ",
+          "start_time": 48.139,
+          "end_time": 48.239
+        },
+        {
+          "text": "many",
+          "start_time": 48.239,
+          "end_time": 48.419
+        },
+        {
+          "text": " ",
+          "start_time": 48.419,
+          "end_time": 48.519
+        },
+        {
+          "text": "women",
+          "start_time": 48.52,
+          "end_time": 48.799
+        },
+        {
+          "text": " ",
+          "start_time": 48.799,
+          "end_time": 48.879
+        },
+        {
+          "text": "have",
+          "start_time": 48.879,
+          "end_time": 49.0
+        }
+      ]
+    },
+    {
+      "text": "with food due to diet culture.",
+      "start_time": 49.059,
+      "end_time": 51.079,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "with",
+          "start_time": 49.059,
+          "end_time": 49.219
+        },
+        {
+          "text": " ",
+          "start_time": 49.219,
+          "end_time": 49.299
+        },
+        {
+          "text": "food",
+          "start_time": 49.299,
+          "end_time": 49.759
+        },
+        {
+          "text": " ",
+          "start_time": 49.759,
+          "end_time": 49.84
+        },
+        {
+          "text": "due",
+          "start_time": 49.84,
+          "end_time": 50.0
+        },
+        {
+          "text": " ",
+          "start_time": 50.0,
+          "end_time": 50.039
+        },
+        {
+          "text": "to",
+          "start_time": 50.039,
+          "end_time": 50.139
+        },
+        {
+          "text": " ",
+          "start_time": 50.139,
+          "end_time": 50.219
+        },
+        {
+          "text": "diet",
+          "start_time": 50.219,
+          "end_time": 50.539
+        },
+        {
+          "text": " ",
+          "start_time": 50.539,
+          "end_time": 50.599
+        },
+        {
+          "text": "culture.",
+          "start_time": 50.599,
+          "end_time": 51.079
+        }
+      ]
+    },
+    {
+      "text": "The act of interacting with the sculptures",
+      "start_time": 52.5,
+      "end_time": 54.659,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "The",
+          "start_time": 52.5,
+          "end_time": 52.599
+        },
+        {
+          "text": " ",
+          "start_time": 52.599,
+          "end_time": 52.699
+        },
+        {
+          "text": "act",
+          "start_time": 52.699,
+          "end_time": 52.919
+        },
+        {
+          "text": " ",
+          "start_time": 52.919,
+          "end_time": 52.959
+        },
+        {
+          "text": "of",
+          "start_time": 52.959,
+          "end_time": 53.039
+        },
+        {
+          "text": " ",
+          "start_time": 53.039,
+          "end_time": 53.119
+        },
+        {
+          "text": "interacting",
+          "start_time": 53.119,
+          "end_time": 53.719
+        },
+        {
+          "text": " ",
+          "start_time": 53.719,
+          "end_time": 53.779
+        },
+        {
+          "text": "with",
+          "start_time": 53.779,
+          "end_time": 53.86
+        },
+        {
+          "text": " ",
+          "start_time": 53.86,
+          "end_time": 53.899
+        },
+        {
+          "text": "the",
+          "start_time": 53.899,
+          "end_time": 53.979
+        },
+        {
+          "text": " ",
+          "start_time": 53.979,
+          "end_time": 54.039
+        },
+        {
+          "text": "sculptures",
+          "start_time": 54.039,
+          "end_time": 54.659
+        }
+      ]
+    },
+    {
+      "text": "alters the meaning.",
+      "start_time": 54.759,
+      "end_time": 55.779,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "alters",
+          "start_time": 54.759,
+          "end_time": 55.139
+        },
+        {
+          "text": " ",
+          "start_time": 55.139,
+          "end_time": 55.199
+        },
+        {
+          "text": "the",
+          "start_time": 55.199,
+          "end_time": 55.259
+        },
+        {
+          "text": " ",
+          "start_time": 55.259,
+          "end_time": 55.34
+        },
+        {
+          "text": "meaning.",
+          "start_time": 55.34,
+          "end_time": 55.779
+        }
+      ]
+    },
+    {
+      "text": "There's a thin facade of something",
+      "start_time": 56.639,
+      "end_time": 58.419,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "There's",
+          "start_time": 56.639,
+          "end_time": 56.779
+        },
+        {
+          "text": " ",
+          "start_time": 56.779,
+          "end_time": 56.84
+        },
+        {
+          "text": "a",
+          "start_time": 56.84,
+          "end_time": 56.919
+        },
+        {
+          "text": " ",
+          "start_time": 56.919,
+          "end_time": 56.979
+        },
+        {
+          "text": "thin",
+          "start_time": 56.979,
+          "end_time": 57.239
+        },
+        {
+          "text": " ",
+          "start_time": 57.239,
+          "end_time": 57.299
+        },
+        {
+          "text": "facade",
+          "start_time": 57.299,
+          "end_time": 57.759
+        },
+        {
+          "text": " ",
+          "start_time": 57.759,
+          "end_time": 57.799
+        },
+        {
+          "text": "of",
+          "start_time": 57.799,
+          "end_time": 57.899
+        },
+        {
+          "text": " ",
+          "start_time": 57.899,
+          "end_time": 57.959
+        },
+        {
+          "text": "something",
+          "start_time": 57.959,
+          "end_time": 58.419
+        }
+      ]
+    },
+    {
+      "text": "positive and shiny under which is",
+      "start_time": 58.5,
+      "end_time": 61.139,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "positive",
+          "start_time": 58.5,
+          "end_time": 59.059
+        },
+        {
+          "text": " ",
+          "start_time": 59.059,
+          "end_time": 59.119
+        },
+        {
+          "text": "and",
+          "start_time": 59.119,
+          "end_time": 59.279
+        },
+        {
+          "text": " ",
+          "start_time": 59.279,
+          "end_time": 59.34
+        },
+        {
+          "text": "shiny",
+          "start_time": 59.34,
+          "end_time": 60.199
+        },
+        {
+          "text": " ",
+          "start_time": 60.199,
+          "end_time": 60.299
+        },
+        {
+          "text": "under",
+          "start_time": 60.299,
+          "end_time": 60.5
+        },
+        {
+          "text": " ",
+          "start_time": 60.5,
+          "end_time": 60.559
+        },
+        {
+          "text": "which",
+          "start_time": 60.559,
+          "end_time": 60.919
+        },
+        {
+          "text": " ",
+          "start_time": 60.919,
+          "end_time": 60.979
+        },
+        {
+          "text": "is",
+          "start_time": 60.979,
+          "end_time": 61.139
+        }
+      ]
+    },
+    {
+      "text": "sinister, hard, and potentially dangerous.",
+      "start_time": 61.219,
+      "end_time": 64.339,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "sinister,",
+          "start_time": 61.219,
+          "end_time": 62.02
+        },
+        {
+          "text": " ",
+          "start_time": 62.02,
+          "end_time": 62.119
+        },
+        {
+          "text": "hard,",
+          "start_time": 62.119,
+          "end_time": 62.779
+        },
+        {
+          "text": " ",
+          "start_time": 62.779,
+          "end_time": 62.84
+        },
+        {
+          "text": "and",
+          "start_time": 62.84,
+          "end_time": 62.919
+        },
+        {
+          "text": " ",
+          "start_time": 62.919,
+          "end_time": 62.979
+        },
+        {
+          "text": "potentially",
+          "start_time": 62.979,
+          "end_time": 63.579
+        },
+        {
+          "text": " ",
+          "start_time": 63.579,
+          "end_time": 63.639
+        },
+        {
+          "text": "dangerous.",
+          "start_time": 63.639,
+          "end_time": 64.339
+        }
+      ]
+    },
+    {
+      "text": "They become weapon-like objects,",
+      "start_time": 65.22,
+      "end_time": 67.239,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "They",
+          "start_time": 65.22,
+          "end_time": 65.319
+        },
+        {
+          "text": " ",
+          "start_time": 65.319,
+          "end_time": 65.379
+        },
+        {
+          "text": "become",
+          "start_time": 65.379,
+          "end_time": 65.739
+        },
+        {
+          "text": " ",
+          "start_time": 65.739,
+          "end_time": 65.86
+        },
+        {
+          "text": "weapon-like",
+          "start_time": 65.86,
+          "end_time": 66.499
+        },
+        {
+          "text": " ",
+          "start_time": 66.499,
+          "end_time": 66.599
+        },
+        {
+          "text": "objects,",
+          "start_time": 66.599,
+          "end_time": 67.239
+        }
+      ]
+    },
+    {
+      "text": "subverting the soft, spongy",
+      "start_time": 67.68,
+      "end_time": 69.579,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "subverting",
+          "start_time": 67.68,
+          "end_time": 68.279
+        },
+        {
+          "text": " ",
+          "start_time": 68.279,
+          "end_time": 68.339
+        },
+        {
+          "text": "the",
+          "start_time": 68.339,
+          "end_time": 68.459
+        },
+        {
+          "text": " ",
+          "start_time": 68.459,
+          "end_time": 68.559
+        },
+        {
+          "text": "soft,",
+          "start_time": 68.559,
+          "end_time": 68.919
+        },
+        {
+          "text": " ",
+          "start_time": 68.919,
+          "end_time": 69.099
+        },
+        {
+          "text": "spongy",
+          "start_time": 69.099,
+          "end_time": 69.579
+        }
+      ]
+    },
+    {
+      "text": "characteristics we associate with cake and",
+      "start_time": 69.639,
+      "end_time": 72.639,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "characteristics",
+          "start_time": 69.639,
+          "end_time": 70.559
+        },
+        {
+          "text": " ",
+          "start_time": 70.559,
+          "end_time": 70.619
+        },
+        {
+          "text": "we",
+          "start_time": 70.619,
+          "end_time": 70.679
+        },
+        {
+          "text": " ",
+          "start_time": 70.679,
+          "end_time": 70.739
+        },
+        {
+          "text": "associate",
+          "start_time": 70.739,
+          "end_time": 71.36
+        },
+        {
+          "text": " ",
+          "start_time": 71.36,
+          "end_time": 71.4
+        },
+        {
+          "text": "with",
+          "start_time": 71.4,
+          "end_time": 71.519
+        },
+        {
+          "text": " ",
+          "start_time": 71.519,
+          "end_time": 71.599
+        },
+        {
+          "text": "cake",
+          "start_time": 71.599,
+          "end_time": 72.459
+        },
+        {
+          "text": " ",
+          "start_time": 72.459,
+          "end_time": 72.519
+        },
+        {
+          "text": "and",
+          "start_time": 72.519,
+          "end_time": 72.639
+        }
+      ]
+    },
+    {
+      "text": "creating an exaggerated disturbance of",
+      "start_time": 72.699,
+      "end_time": 75.059,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "creating",
+          "start_time": 72.699,
+          "end_time": 73.22
+        },
+        {
+          "text": " ",
+          "start_time": 73.22,
+          "end_time": 73.26
+        },
+        {
+          "text": "an",
+          "start_time": 73.26,
+          "end_time": 73.339
+        },
+        {
+          "text": " ",
+          "start_time": 73.339,
+          "end_time": 73.419
+        },
+        {
+          "text": "exaggerated",
+          "start_time": 73.419,
+          "end_time": 74.159
+        },
+        {
+          "text": " ",
+          "start_time": 74.159,
+          "end_time": 74.219
+        },
+        {
+          "text": "disturbance",
+          "start_time": 74.22,
+          "end_time": 74.939
+        },
+        {
+          "text": " ",
+          "start_time": 74.939,
+          "end_time": 74.979
+        },
+        {
+          "text": "of",
+          "start_time": 74.979,
+          "end_time": 75.059
+        }
+      ]
+    },
+    {
+      "text": "accepted norms.",
+      "start_time": 75.159,
+      "end_time": 76.259,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "accepted",
+          "start_time": 75.159,
+          "end_time": 75.679
+        },
+        {
+          "text": " ",
+          "start_time": 75.679,
+          "end_time": 75.739
+        },
+        {
+          "text": "norms.",
+          "start_time": 75.739,
+          "end_time": 76.259
+        }
+      ]
+    },
+    {
+      "text": "The fist connotes anger, frustration, and",
+      "start_time": 77.54,
+      "end_time": 80.519,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "The",
+          "start_time": 77.54,
+          "end_time": 77.599
+        },
+        {
+          "text": " ",
+          "start_time": 77.599,
+          "end_time": 77.739
+        },
+        {
+          "text": "fist",
+          "start_time": 77.739,
+          "end_time": 78.179
+        },
+        {
+          "text": " ",
+          "start_time": 78.179,
+          "end_time": 78.239
+        },
+        {
+          "text": "connotes",
+          "start_time": 78.239,
+          "end_time": 78.72
+        },
+        {
+          "text": " ",
+          "start_time": 78.72,
+          "end_time": 78.819
+        },
+        {
+          "text": "anger,",
+          "start_time": 78.819,
+          "end_time": 79.18
+        },
+        {
+          "text": " ",
+          "start_time": 79.18,
+          "end_time": 79.519
+        },
+        {
+          "text": "frustration,",
+          "start_time": 79.519,
+          "end_time": 80.339
+        },
+        {
+          "text": " ",
+          "start_time": 80.339,
+          "end_time": 80.399
+        },
+        {
+          "text": "and",
+          "start_time": 80.4,
+          "end_time": 80.519
+        }
+      ]
+    },
+    {
+      "text": "resistance, which are key themes in this",
+      "start_time": 80.58,
+      "end_time": 83.179,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "resistance,",
+          "start_time": 80.58,
+          "end_time": 81.299
+        },
+        {
+          "text": " ",
+          "start_time": 81.299,
+          "end_time": 81.72
+        },
+        {
+          "text": "which",
+          "start_time": 81.72,
+          "end_time": 81.879
+        },
+        {
+          "text": " ",
+          "start_time": 81.879,
+          "end_time": 81.919
+        },
+        {
+          "text": "are",
+          "start_time": 81.919,
+          "end_time": 82.059
+        },
+        {
+          "text": " ",
+          "start_time": 82.059,
+          "end_time": 82.119
+        },
+        {
+          "text": "key",
+          "start_time": 82.119,
+          "end_time": 82.379
+        },
+        {
+          "text": " ",
+          "start_time": 82.379,
+          "end_time": 82.439
+        },
+        {
+          "text": "themes",
+          "start_time": 82.439,
+          "end_time": 82.839
+        },
+        {
+          "text": " ",
+          "start_time": 82.839,
+          "end_time": 82.899
+        },
+        {
+          "text": "in",
+          "start_time": 82.9,
+          "end_time": 82.979
+        },
+        {
+          "text": " ",
+          "start_time": 82.979,
+          "end_time": 83.019
+        },
+        {
+          "text": "this",
+          "start_time": 83.019,
+          "end_time": 83.179
+        }
+      ]
+    },
+    {
+      "text": "series.",
+      "start_time": 83.239,
+      "end_time": 83.779,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "series.",
+          "start_time": 83.239,
+          "end_time": 83.779
+        }
+      ]
+    },
+    {
+      "text": "The sculptures parody indulgence and",
+      "start_time": 84.619,
+      "end_time": 87.099,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "The",
+          "start_time": 84.619,
+          "end_time": 84.659
+        },
+        {
+          "text": " ",
+          "start_time": 84.659,
+          "end_time": 84.739
+        },
+        {
+          "text": "sculptures",
+          "start_time": 84.739,
+          "end_time": 85.299
+        },
+        {
+          "text": " ",
+          "start_time": 85.299,
+          "end_time": 85.379
+        },
+        {
+          "text": "parody",
+          "start_time": 85.379,
+          "end_time": 85.839
+        },
+        {
+          "text": " ",
+          "start_time": 85.839,
+          "end_time": 85.919
+        },
+        {
+          "text": "indulgence",
+          "start_time": 85.919,
+          "end_time": 86.939
+        },
+        {
+          "text": " ",
+          "start_time": 86.939,
+          "end_time": 86.999
+        },
+        {
+          "text": "and",
+          "start_time": 87.0,
+          "end_time": 87.099
+        }
+      ]
+    },
+    {
+      "text": "exaggerate the ridiculousness of diet",
+      "start_time": 87.199,
+      "end_time": 89.519,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "exaggerate",
+          "start_time": 87.199,
+          "end_time": 87.939
+        },
+        {
+          "text": " ",
+          "start_time": 87.939,
+          "end_time": 87.979
+        },
+        {
+          "text": "the",
+          "start_time": 87.979,
+          "end_time": 88.04
+        },
+        {
+          "text": " ",
+          "start_time": 88.04,
+          "end_time": 88.08
+        },
+        {
+          "text": "ridiculousness",
+          "start_time": 88.08,
+          "end_time": 88.959
+        },
+        {
+          "text": " ",
+          "start_time": 88.959,
+          "end_time": 89.0
+        },
+        {
+          "text": "of",
+          "start_time": 89.0,
+          "end_time": 89.099
+        },
+        {
+          "text": " ",
+          "start_time": 89.099,
+          "end_time": 89.199
+        },
+        {
+          "text": "diet",
+          "start_time": 89.199,
+          "end_time": 89.519
+        }
+      ]
+    },
+    {
+      "text": "culture.",
+      "start_time": 89.619,
+      "end_time": 90.099,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "culture.",
+          "start_time": 89.619,
+          "end_time": 90.099
+        }
+      ]
+    },
+    {
+      "text": "They are inedible, deliberately cold and",
+      "start_time": 90.939,
+      "end_time": 93.839,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "They",
+          "start_time": 90.939,
+          "end_time": 91.039
+        },
+        {
+          "text": " ",
+          "start_time": 91.039,
+          "end_time": 91.119
+        },
+        {
+          "text": "are",
+          "start_time": 91.119,
+          "end_time": 91.299
+        },
+        {
+          "text": " ",
+          "start_time": 91.299,
+          "end_time": 91.379
+        },
+        {
+          "text": "inedible,",
+          "start_time": 91.379,
+          "end_time": 92.319
+        },
+        {
+          "text": " ",
+          "start_time": 92.319,
+          "end_time": 92.399
+        },
+        {
+          "text": "deliberately",
+          "start_time": 92.4,
+          "end_time": 93.059
+        },
+        {
+          "text": " ",
+          "start_time": 93.059,
+          "end_time": 93.139
+        },
+        {
+          "text": "cold",
+          "start_time": 93.139,
+          "end_time": 93.639
+        },
+        {
+          "text": " ",
+          "start_time": 93.639,
+          "end_time": 93.699
+        },
+        {
+          "text": "and",
+          "start_time": 93.699,
+          "end_time": 93.839
+        }
+      ]
+    },
+    {
+      "text": "heavy.",
+      "start_time": 93.86,
+      "end_time": 94.239,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "heavy.",
+          "start_time": 93.86,
+          "end_time": 94.239
+        }
+      ]
+    },
+    {
+      "text": "By physically resisting the grasp of the",
+      "start_time": 96.099,
+      "end_time": 98.159,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "By",
+          "start_time": 96.099,
+          "end_time": 96.199
+        },
+        {
+          "text": " ",
+          "start_time": 96.199,
+          "end_time": 96.319
+        },
+        {
+          "text": "physically",
+          "start_time": 96.319,
+          "end_time": 96.759
+        },
+        {
+          "text": " ",
+          "start_time": 96.759,
+          "end_time": 96.799
+        },
+        {
+          "text": "resisting",
+          "start_time": 96.799,
+          "end_time": 97.299
+        },
+        {
+          "text": " ",
+          "start_time": 97.299,
+          "end_time": 97.36
+        },
+        {
+          "text": "the",
+          "start_time": 97.36,
+          "end_time": 97.479
+        },
+        {
+          "text": " ",
+          "start_time": 97.479,
+          "end_time": 97.519
+        },
+        {
+          "text": "grasp",
+          "start_time": 97.519,
+          "end_time": 97.959
+        },
+        {
+          "text": " ",
+          "start_time": 97.959,
+          "end_time": 98.0
+        },
+        {
+          "text": "of",
+          "start_time": 98.0,
+          "end_time": 98.099
+        },
+        {
+          "text": " ",
+          "start_time": 98.099,
+          "end_time": 98.139
+        },
+        {
+          "text": "the",
+          "start_time": 98.139,
+          "end_time": 98.159
+        }
+      ]
+    },
+    {
+      "text": "viewer's hand, they resist traditional",
+      "start_time": 98.279,
+      "end_time": 100.719,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "viewer's",
+          "start_time": 98.279,
+          "end_time": 98.579
+        },
+        {
+          "text": " ",
+          "start_time": 98.579,
+          "end_time": 98.619
+        },
+        {
+          "text": "hand,",
+          "start_time": 98.619,
+          "end_time": 99.399
+        },
+        {
+          "text": " ",
+          "start_time": 99.399,
+          "end_time": 99.479
+        },
+        {
+          "text": "they",
+          "start_time": 99.479,
+          "end_time": 99.599
+        },
+        {
+          "text": " ",
+          "start_time": 99.599,
+          "end_time": 99.639
+        },
+        {
+          "text": "resist",
+          "start_time": 99.639,
+          "end_time": 100.119
+        },
+        {
+          "text": " ",
+          "start_time": 100.119,
+          "end_time": 100.179
+        },
+        {
+          "text": "traditional",
+          "start_time": 100.18,
+          "end_time": 100.719
+        }
+      ]
+    },
+    {
+      "text": "ideas of femininity.",
+      "start_time": 100.839,
+      "end_time": 102.059,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "ideas",
+          "start_time": 100.839,
+          "end_time": 101.279
+        },
+        {
+          "text": " ",
+          "start_time": 101.279,
+          "end_time": 101.299
+        },
+        {
+          "text": "of",
+          "start_time": 101.299,
+          "end_time": 101.419
+        },
+        {
+          "text": " ",
+          "start_time": 101.419,
+          "end_time": 101.459
+        },
+        {
+          "text": "femininity.",
+          "start_time": 101.459,
+          "end_time": 102.059
+        }
+      ]
+    }
+  ]
+}

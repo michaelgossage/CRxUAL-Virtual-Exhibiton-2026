@@ -1,0 +1,1123 @@
+{
+  "language_code": null,
+  "segments": [
+    {
+      "text": "This series of self-portraits was created",
+      "start_time": 0.099,
+      "end_time": 2.919,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "This",
+          "start_time": 0.099,
+          "end_time": 0.28
+        },
+        {
+          "text": " ",
+          "start_time": 0.28,
+          "end_time": 0.34
+        },
+        {
+          "text": "series",
+          "start_time": 0.34,
+          "end_time": 0.699
+        },
+        {
+          "text": " ",
+          "start_time": 0.699,
+          "end_time": 0.74
+        },
+        {
+          "text": "of",
+          "start_time": 0.74,
+          "end_time": 0.819
+        },
+        {
+          "text": " ",
+          "start_time": 0.819,
+          "end_time": 0.919
+        },
+        {
+          "text": "self-portraits",
+          "start_time": 0.919,
+          "end_time": 1.86
+        },
+        {
+          "text": " ",
+          "start_time": 1.86,
+          "end_time": 2.039
+        },
+        {
+          "text": "was",
+          "start_time": 2.039,
+          "end_time": 2.2
+        },
+        {
+          "text": " ",
+          "start_time": 2.2,
+          "end_time": 2.24
+        },
+        {
+          "text": "created",
+          "start_time": 2.24,
+          "end_time": 2.919
+        }
+      ]
+    },
+    {
+      "text": "using slit scan technology,",
+      "start_time": 3.0,
+      "end_time": 4.639,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "using",
+          "start_time": 3.0,
+          "end_time": 3.22
+        },
+        {
+          "text": " ",
+          "start_time": 3.22,
+          "end_time": 3.359
+        },
+        {
+          "text": "slit",
+          "start_time": 3.359,
+          "end_time": 3.579
+        },
+        {
+          "text": " ",
+          "start_time": 3.579,
+          "end_time": 3.659
+        },
+        {
+          "text": "scan",
+          "start_time": 3.659,
+          "end_time": 3.959
+        },
+        {
+          "text": " ",
+          "start_time": 3.959,
+          "end_time": 4.019
+        },
+        {
+          "text": "technology,",
+          "start_time": 4.019,
+          "end_time": 4.639
+        }
+      ]
+    },
+    {
+      "text": "mostly known for its use for photo finish",
+      "start_time": 5.299,
+      "end_time": 7.559,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "mostly",
+          "start_time": 5.299,
+          "end_time": 5.659
+        },
+        {
+          "text": " ",
+          "start_time": 5.659,
+          "end_time": 5.699
+        },
+        {
+          "text": "known",
+          "start_time": 5.699,
+          "end_time": 5.94
+        },
+        {
+          "text": " ",
+          "start_time": 5.94,
+          "end_time": 6.019
+        },
+        {
+          "text": "for",
+          "start_time": 6.019,
+          "end_time": 6.079
+        },
+        {
+          "text": " ",
+          "start_time": 6.079,
+          "end_time": 6.119
+        },
+        {
+          "text": "its",
+          "start_time": 6.119,
+          "end_time": 6.259
+        },
+        {
+          "text": " ",
+          "start_time": 6.259,
+          "end_time": 6.359
+        },
+        {
+          "text": "use",
+          "start_time": 6.359,
+          "end_time": 6.519
+        },
+        {
+          "text": " ",
+          "start_time": 6.519,
+          "end_time": 6.579
+        },
+        {
+          "text": "for",
+          "start_time": 6.579,
+          "end_time": 6.719
+        },
+        {
+          "text": " ",
+          "start_time": 6.719,
+          "end_time": 6.759
+        },
+        {
+          "text": "photo",
+          "start_time": 6.759,
+          "end_time": 7.079
+        },
+        {
+          "text": " ",
+          "start_time": 7.079,
+          "end_time": 7.199
+        },
+        {
+          "text": "finish",
+          "start_time": 7.199,
+          "end_time": 7.559
+        }
+      ]
+    },
+    {
+      "text": "in racing sports,",
+      "start_time": 7.599,
+      "end_time": 8.699,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "in",
+          "start_time": 7.599,
+          "end_time": 7.679
+        },
+        {
+          "text": " ",
+          "start_time": 7.679,
+          "end_time": 7.779
+        },
+        {
+          "text": "racing",
+          "start_time": 7.779,
+          "end_time": 8.119
+        },
+        {
+          "text": " ",
+          "start_time": 8.119,
+          "end_time": 8.199
+        },
+        {
+          "text": "sports,",
+          "start_time": 8.199,
+          "end_time": 8.699
+        }
+      ]
+    },
+    {
+      "text": "thus reclaiming a patriarchal automation",
+      "start_time": 9.34,
+      "end_time": 12.459,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "thus",
+          "start_time": 9.34,
+          "end_time": 9.559
+        },
+        {
+          "text": " ",
+          "start_time": 9.559,
+          "end_time": 9.719
+        },
+        {
+          "text": "reclaiming",
+          "start_time": 9.719,
+          "end_time": 10.5
+        },
+        {
+          "text": " ",
+          "start_time": 10.5,
+          "end_time": 10.559
+        },
+        {
+          "text": "a",
+          "start_time": 10.559,
+          "end_time": 10.619
+        },
+        {
+          "text": " ",
+          "start_time": 10.619,
+          "end_time": 10.699
+        },
+        {
+          "text": "patriarchal",
+          "start_time": 10.699,
+          "end_time": 11.399
+        },
+        {
+          "text": " ",
+          "start_time": 11.399,
+          "end_time": 11.539
+        },
+        {
+          "text": "automation",
+          "start_time": 11.539,
+          "end_time": 12.459
+        }
+      ]
+    },
+    {
+      "text": "which judges, measures, and commodifies",
+      "start_time": 12.519,
+      "end_time": 15.279,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "which",
+          "start_time": 12.519,
+          "end_time": 12.739
+        },
+        {
+          "text": " ",
+          "start_time": 12.739,
+          "end_time": 12.819
+        },
+        {
+          "text": "judges,",
+          "start_time": 12.819,
+          "end_time": 13.279
+        },
+        {
+          "text": " ",
+          "start_time": 13.279,
+          "end_time": 13.659
+        },
+        {
+          "text": "measures,",
+          "start_time": 13.659,
+          "end_time": 14.079
+        },
+        {
+          "text": " ",
+          "start_time": 14.079,
+          "end_time": 14.359
+        },
+        {
+          "text": "and",
+          "start_time": 14.359,
+          "end_time": 14.44
+        },
+        {
+          "text": " ",
+          "start_time": 14.44,
+          "end_time": 14.539
+        },
+        {
+          "text": "commodifies",
+          "start_time": 14.539,
+          "end_time": 15.279
+        }
+      ]
+    },
+    {
+      "text": "linear speed and progress.",
+      "start_time": 15.559,
+      "end_time": 17.279,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "linear",
+          "start_time": 15.559,
+          "end_time": 15.899
+        },
+        {
+          "text": " ",
+          "start_time": 15.899,
+          "end_time": 15.96
+        },
+        {
+          "text": "speed",
+          "start_time": 15.96,
+          "end_time": 16.379
+        },
+        {
+          "text": " ",
+          "start_time": 16.379,
+          "end_time": 16.439
+        },
+        {
+          "text": "and",
+          "start_time": 16.44,
+          "end_time": 16.52
+        },
+        {
+          "text": " ",
+          "start_time": 16.52,
+          "end_time": 16.639
+        },
+        {
+          "text": "progress.",
+          "start_time": 16.639,
+          "end_time": 17.279
+        }
+      ]
+    },
+    {
+      "text": "Subverting our expectations of how time",
+      "start_time": 18.779,
+      "end_time": 21.319,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Subverting",
+          "start_time": 18.779,
+          "end_time": 19.319
+        },
+        {
+          "text": " ",
+          "start_time": 19.319,
+          "end_time": 19.379
+        },
+        {
+          "text": "our",
+          "start_time": 19.379,
+          "end_time": 19.459
+        },
+        {
+          "text": " ",
+          "start_time": 19.459,
+          "end_time": 19.579
+        },
+        {
+          "text": "expectations",
+          "start_time": 19.579,
+          "end_time": 20.459
+        },
+        {
+          "text": " ",
+          "start_time": 20.459,
+          "end_time": 20.539
+        },
+        {
+          "text": "of",
+          "start_time": 20.539,
+          "end_time": 20.6
+        },
+        {
+          "text": " ",
+          "start_time": 20.6,
+          "end_time": 20.68
+        },
+        {
+          "text": "how",
+          "start_time": 20.68,
+          "end_time": 20.819
+        },
+        {
+          "text": " ",
+          "start_time": 20.819,
+          "end_time": 20.979
+        },
+        {
+          "text": "time",
+          "start_time": 20.979,
+          "end_time": 21.319
+        }
+      ]
+    },
+    {
+      "text": "and space occupy the photographic image,",
+      "start_time": 21.399,
+      "end_time": 23.979,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "and",
+          "start_time": 21.399,
+          "end_time": 21.479
+        },
+        {
+          "text": " ",
+          "start_time": 21.479,
+          "end_time": 21.579
+        },
+        {
+          "text": "space",
+          "start_time": 21.579,
+          "end_time": 22.079
+        },
+        {
+          "text": " ",
+          "start_time": 22.079,
+          "end_time": 22.18
+        },
+        {
+          "text": "occupy",
+          "start_time": 22.18,
+          "end_time": 22.699
+        },
+        {
+          "text": " ",
+          "start_time": 22.699,
+          "end_time": 22.759
+        },
+        {
+          "text": "the",
+          "start_time": 22.76,
+          "end_time": 22.84
+        },
+        {
+          "text": " ",
+          "start_time": 22.84,
+          "end_time": 22.899
+        },
+        {
+          "text": "photographic",
+          "start_time": 22.899,
+          "end_time": 23.479
+        },
+        {
+          "text": " ",
+          "start_time": 23.479,
+          "end_time": 23.579
+        },
+        {
+          "text": "image,",
+          "start_time": 23.579,
+          "end_time": 23.979
+        }
+      ]
+    },
+    {
+      "text": "the work highlights how the supposedly",
+      "start_time": 24.719,
+      "end_time": 26.939,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "the",
+          "start_time": 24.719,
+          "end_time": 24.78
+        },
+        {
+          "text": " ",
+          "start_time": 24.78,
+          "end_time": 24.879
+        },
+        {
+          "text": "work",
+          "start_time": 24.879,
+          "end_time": 25.159
+        },
+        {
+          "text": " ",
+          "start_time": 25.159,
+          "end_time": 25.219
+        },
+        {
+          "text": "highlights",
+          "start_time": 25.219,
+          "end_time": 25.84
+        },
+        {
+          "text": " ",
+          "start_time": 25.84,
+          "end_time": 25.899
+        },
+        {
+          "text": "how",
+          "start_time": 25.899,
+          "end_time": 26.02
+        },
+        {
+          "text": " ",
+          "start_time": 26.02,
+          "end_time": 26.059
+        },
+        {
+          "text": "the",
+          "start_time": 26.059,
+          "end_time": 26.119
+        },
+        {
+          "text": " ",
+          "start_time": 26.119,
+          "end_time": 26.199
+        },
+        {
+          "text": "supposedly",
+          "start_time": 26.199,
+          "end_time": 26.939
+        }
+      ]
+    },
+    {
+      "text": "linear progression of human rights,",
+      "start_time": 27.099,
+      "end_time": 29.019,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "linear",
+          "start_time": 27.099,
+          "end_time": 27.419
+        },
+        {
+          "text": " ",
+          "start_time": 27.419,
+          "end_time": 27.479
+        },
+        {
+          "text": "progression",
+          "start_time": 27.479,
+          "end_time": 28.039
+        },
+        {
+          "text": " ",
+          "start_time": 28.039,
+          "end_time": 28.079
+        },
+        {
+          "text": "of",
+          "start_time": 28.079,
+          "end_time": 28.18
+        },
+        {
+          "text": " ",
+          "start_time": 28.18,
+          "end_time": 28.26
+        },
+        {
+          "text": "human",
+          "start_time": 28.26,
+          "end_time": 28.519
+        },
+        {
+          "text": " ",
+          "start_time": 28.519,
+          "end_time": 28.579
+        },
+        {
+          "text": "rights,",
+          "start_time": 28.579,
+          "end_time": 29.019
+        }
+      ]
+    },
+    {
+      "text": "especially for cis and trans women, is",
+      "start_time": 29.479,
+      "end_time": 32.299,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "especially",
+          "start_time": 29.479,
+          "end_time": 30.079
+        },
+        {
+          "text": " ",
+          "start_time": 30.079,
+          "end_time": 30.179
+        },
+        {
+          "text": "for",
+          "start_time": 30.179,
+          "end_time": 30.239
+        },
+        {
+          "text": " ",
+          "start_time": 30.239,
+          "end_time": 30.379
+        },
+        {
+          "text": "cis",
+          "start_time": 30.379,
+          "end_time": 30.619
+        },
+        {
+          "text": " ",
+          "start_time": 30.619,
+          "end_time": 30.679
+        },
+        {
+          "text": "and",
+          "start_time": 30.679,
+          "end_time": 30.819
+        },
+        {
+          "text": " ",
+          "start_time": 30.819,
+          "end_time": 30.859
+        },
+        {
+          "text": "trans",
+          "start_time": 30.859,
+          "end_time": 31.139
+        },
+        {
+          "text": " ",
+          "start_time": 31.139,
+          "end_time": 31.219
+        },
+        {
+          "text": "women,",
+          "start_time": 31.219,
+          "end_time": 31.559
+        },
+        {
+          "text": " ",
+          "start_time": 31.559,
+          "end_time": 32.159
+        },
+        {
+          "text": "is",
+          "start_time": 32.159,
+          "end_time": 32.299
+        }
+      ]
+    },
+    {
+      "text": "being eroded to the extent that it is",
+      "start_time": 32.36,
+      "end_time": 34.959,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "being",
+          "start_time": 32.36,
+          "end_time": 32.599
+        },
+        {
+          "text": " ",
+          "start_time": 32.599,
+          "end_time": 32.779
+        },
+        {
+          "text": "eroded",
+          "start_time": 32.779,
+          "end_time": 33.459
+        },
+        {
+          "text": " ",
+          "start_time": 33.459,
+          "end_time": 33.52
+        },
+        {
+          "text": "to",
+          "start_time": 33.52,
+          "end_time": 33.619
+        },
+        {
+          "text": " ",
+          "start_time": 33.619,
+          "end_time": 33.639
+        },
+        {
+          "text": "the",
+          "start_time": 33.639,
+          "end_time": 33.68
+        },
+        {
+          "text": " ",
+          "start_time": 33.68,
+          "end_time": 33.799
+        },
+        {
+          "text": "extent",
+          "start_time": 33.799,
+          "end_time": 34.479
+        },
+        {
+          "text": " ",
+          "start_time": 34.479,
+          "end_time": 34.52
+        },
+        {
+          "text": "that",
+          "start_time": 34.52,
+          "end_time": 34.639
+        },
+        {
+          "text": " ",
+          "start_time": 34.639,
+          "end_time": 34.659
+        },
+        {
+          "text": "it",
+          "start_time": 34.659,
+          "end_time": 34.739
+        },
+        {
+          "text": " ",
+          "start_time": 34.739,
+          "end_time": 34.799
+        },
+        {
+          "text": "is",
+          "start_time": 34.799,
+          "end_time": 34.959
+        }
+      ]
+    },
+    {
+      "text": "actually moving backwards.",
+      "start_time": 35.04,
+      "end_time": 36.619,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "actually",
+          "start_time": 35.04,
+          "end_time": 35.479
+        },
+        {
+          "text": " ",
+          "start_time": 35.479,
+          "end_time": 35.54
+        },
+        {
+          "text": "moving",
+          "start_time": 35.54,
+          "end_time": 35.9
+        },
+        {
+          "text": " ",
+          "start_time": 35.9,
+          "end_time": 35.919
+        },
+        {
+          "text": "backwards.",
+          "start_time": 35.919,
+          "end_time": 36.619
+        }
+      ]
+    },
+    {
+      "text": "A fragmented portrait of one of the two",
+      "start_time": 38.0,
+      "end_time": 40.359,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "A",
+          "start_time": 38.0,
+          "end_time": 38.02
+        },
+        {
+          "text": " ",
+          "start_time": 38.02,
+          "end_time": 38.099
+        },
+        {
+          "text": "fragmented",
+          "start_time": 38.099,
+          "end_time": 38.719
+        },
+        {
+          "text": " ",
+          "start_time": 38.719,
+          "end_time": 38.779
+        },
+        {
+          "text": "portrait",
+          "start_time": 38.779,
+          "end_time": 39.419
+        },
+        {
+          "text": " ",
+          "start_time": 39.419,
+          "end_time": 39.459
+        },
+        {
+          "text": "of",
+          "start_time": 39.459,
+          "end_time": 39.56
+        },
+        {
+          "text": " ",
+          "start_time": 39.56,
+          "end_time": 39.619
+        },
+        {
+          "text": "one",
+          "start_time": 39.619,
+          "end_time": 39.7
+        },
+        {
+          "text": " ",
+          "start_time": 39.7,
+          "end_time": 39.719
+        },
+        {
+          "text": "of",
+          "start_time": 39.719,
+          "end_time": 39.84
+        },
+        {
+          "text": " ",
+          "start_time": 39.84,
+          "end_time": 39.86
+        },
+        {
+          "text": "the",
+          "start_time": 39.86,
+          "end_time": 40.0
+        },
+        {
+          "text": " ",
+          "start_time": 40.0,
+          "end_time": 40.059
+        },
+        {
+          "text": "two",
+          "start_time": 40.059,
+          "end_time": 40.359
+        }
+      ]
+    },
+    {
+      "text": "female photo finish operators in the UK,",
+      "start_time": 40.439,
+      "end_time": 43.419,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "female",
+          "start_time": 40.439,
+          "end_time": 40.919
+        },
+        {
+          "text": " ",
+          "start_time": 40.919,
+          "end_time": 40.979
+        },
+        {
+          "text": "photo",
+          "start_time": 40.979,
+          "end_time": 41.259
+        },
+        {
+          "text": " ",
+          "start_time": 41.259,
+          "end_time": 41.379
+        },
+        {
+          "text": "finish",
+          "start_time": 41.379,
+          "end_time": 41.699
+        },
+        {
+          "text": " ",
+          "start_time": 41.699,
+          "end_time": 41.759
+        },
+        {
+          "text": "operators",
+          "start_time": 41.759,
+          "end_time": 42.559
+        },
+        {
+          "text": " ",
+          "start_time": 42.559,
+          "end_time": 42.619
+        },
+        {
+          "text": "in",
+          "start_time": 42.619,
+          "end_time": 42.72
+        },
+        {
+          "text": " ",
+          "start_time": 42.72,
+          "end_time": 42.739
+        },
+        {
+          "text": "the",
+          "start_time": 42.739,
+          "end_time": 42.819
+        },
+        {
+          "text": " ",
+          "start_time": 42.819,
+          "end_time": 42.939
+        },
+        {
+          "text": "UK,",
+          "start_time": 42.939,
+          "end_time": 43.419
+        }
+      ]
+    },
+    {
+      "text": "this work invites a different kind of",
+      "start_time": 44.299,
+      "end_time": 46.68,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "this",
+          "start_time": 44.299,
+          "end_time": 44.479
+        },
+        {
+          "text": " ",
+          "start_time": 44.479,
+          "end_time": 44.579
+        },
+        {
+          "text": "work",
+          "start_time": 44.579,
+          "end_time": 44.899
+        },
+        {
+          "text": " ",
+          "start_time": 44.899,
+          "end_time": 44.979
+        },
+        {
+          "text": "invites",
+          "start_time": 44.979,
+          "end_time": 45.419
+        },
+        {
+          "text": " ",
+          "start_time": 45.419,
+          "end_time": 45.459
+        },
+        {
+          "text": "a",
+          "start_time": 45.459,
+          "end_time": 45.579
+        },
+        {
+          "text": " ",
+          "start_time": 45.579,
+          "end_time": 45.639
+        },
+        {
+          "text": "different",
+          "start_time": 45.639,
+          "end_time": 46.02
+        },
+        {
+          "text": " ",
+          "start_time": 46.02,
+          "end_time": 46.079
+        },
+        {
+          "text": "kind",
+          "start_time": 46.079,
+          "end_time": 46.539
+        },
+        {
+          "text": " ",
+          "start_time": 46.539,
+          "end_time": 46.579
+        },
+        {
+          "text": "of",
+          "start_time": 46.579,
+          "end_time": 46.68
+        }
+      ]
+    },
+    {
+      "text": "embodied photographic seeing.",
+      "start_time": 46.7,
+      "end_time": 48.68,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "embodied",
+          "start_time": 46.7,
+          "end_time": 47.419
+        },
+        {
+          "text": " ",
+          "start_time": 47.419,
+          "end_time": 47.479
+        },
+        {
+          "text": "photographic",
+          "start_time": 47.479,
+          "end_time": 48.239
+        },
+        {
+          "text": " ",
+          "start_time": 48.239,
+          "end_time": 48.299
+        },
+        {
+          "text": "seeing.",
+          "start_time": 48.299,
+          "end_time": 48.68
+        }
+      ]
+    }
+  ]
+}

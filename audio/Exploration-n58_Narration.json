@@ -1,0 +1,723 @@
+{
+  "language_code": "eng",
+  "segments": [
+    {
+      "text": "An exploration of space, physical forces",
+      "start_time": 0.079,
+      "end_time": 3.019,
+      "words": [
+        {
+          "text": "An",
+          "start_time": 0.079,
+          "end_time": 0.159
+        },
+        {
+          "text": " ",
+          "start_time": 0.159,
+          "end_time": 0.28
+        },
+        {
+          "text": "exploration",
+          "start_time": 0.28,
+          "end_time": 0.939
+        },
+        {
+          "text": " ",
+          "start_time": 0.939,
+          "end_time": 1.0
+        },
+        {
+          "text": "of",
+          "start_time": 1.0,
+          "end_time": 1.079
+        },
+        {
+          "text": " ",
+          "start_time": 1.079,
+          "end_time": 1.199
+        },
+        {
+          "text": "space,",
+          "start_time": 1.199,
+          "end_time": 1.639
+        },
+        {
+          "text": " ",
+          "start_time": 1.639,
+          "end_time": 2.139
+        },
+        {
+          "text": "physical",
+          "start_time": 2.139,
+          "end_time": 2.5
+        },
+        {
+          "text": " ",
+          "start_time": 2.5,
+          "end_time": 2.659
+        },
+        {
+          "text": "forces",
+          "start_time": 2.659,
+          "end_time": 3.019
+        }
+      ]
+    },
+    {
+      "text": "of the earth, and the theory of material",
+      "start_time": 3.059,
+      "end_time": 5.46,
+      "words": [
+        {
+          "text": "of",
+          "start_time": 3.059,
+          "end_time": 3.139
+        },
+        {
+          "text": " ",
+          "start_time": 3.139,
+          "end_time": 3.199
+        },
+        {
+          "text": "the",
+          "start_time": 3.199,
+          "end_time": 3.24
+        },
+        {
+          "text": " ",
+          "start_time": 3.24,
+          "end_time": 3.339
+        },
+        {
+          "text": "earth,",
+          "start_time": 3.339,
+          "end_time": 3.659
+        },
+        {
+          "text": " ",
+          "start_time": 3.659,
+          "end_time": 4.079
+        },
+        {
+          "text": "and",
+          "start_time": 4.079,
+          "end_time": 4.159
+        },
+        {
+          "text": " ",
+          "start_time": 4.159,
+          "end_time": 4.199
+        },
+        {
+          "text": "the",
+          "start_time": 4.199,
+          "end_time": 4.239
+        },
+        {
+          "text": " ",
+          "start_time": 4.239,
+          "end_time": 4.379
+        },
+        {
+          "text": "theory",
+          "start_time": 4.38,
+          "end_time": 4.699
+        },
+        {
+          "text": " ",
+          "start_time": 4.699,
+          "end_time": 4.799
+        },
+        {
+          "text": "of",
+          "start_time": 4.799,
+          "end_time": 4.88
+        },
+        {
+          "text": " ",
+          "start_time": 4.88,
+          "end_time": 4.94
+        },
+        {
+          "text": "material",
+          "start_time": 4.94,
+          "end_time": 5.46
+        }
+      ]
+    },
+    {
+      "text": "agency.",
+      "start_time": 5.599,
+      "end_time": 6.119,
+      "words": [
+        {
+          "text": "agency.",
+          "start_time": 5.599,
+          "end_time": 6.119
+        }
+      ]
+    },
+    {
+      "text": "Binding air and helium with low",
+      "start_time": 7.079,
+      "end_time": 8.88,
+      "words": [
+        {
+          "text": "Binding",
+          "start_time": 7.079,
+          "end_time": 7.5
+        },
+        {
+          "text": " ",
+          "start_time": 7.5,
+          "end_time": 7.659
+        },
+        {
+          "text": "air",
+          "start_time": 7.659,
+          "end_time": 7.839
+        },
+        {
+          "text": " ",
+          "start_time": 7.839,
+          "end_time": 7.879
+        },
+        {
+          "text": "and",
+          "start_time": 7.879,
+          "end_time": 8.019
+        },
+        {
+          "text": " ",
+          "start_time": 8.019,
+          "end_time": 8.079
+        },
+        {
+          "text": "helium",
+          "start_time": 8.079,
+          "end_time": 8.479
+        },
+        {
+          "text": " ",
+          "start_time": 8.479,
+          "end_time": 8.539
+        },
+        {
+          "text": "with",
+          "start_time": 8.539,
+          "end_time": 8.659
+        },
+        {
+          "text": " ",
+          "start_time": 8.659,
+          "end_time": 8.759
+        },
+        {
+          "text": "low",
+          "start_time": 8.76,
+          "end_time": 8.88
+        }
+      ]
+    },
+    {
+      "text": "materials\u2014survival blankets, salvaged sack",
+      "start_time": 8.96,
+      "end_time": 12.099,
+      "words": [
+        {
+          "text": "materials\u2014survival",
+          "start_time": 8.96,
+          "end_time": 10.519
+        },
+        {
+          "text": " ",
+          "start_time": 10.519,
+          "end_time": 10.599
+        },
+        {
+          "text": "blankets,",
+          "start_time": 10.599,
+          "end_time": 11.18
+        },
+        {
+          "text": " ",
+          "start_time": 11.18,
+          "end_time": 11.479
+        },
+        {
+          "text": "salvaged",
+          "start_time": 11.479,
+          "end_time": 11.84
+        },
+        {
+          "text": " ",
+          "start_time": 11.84,
+          "end_time": 11.92
+        },
+        {
+          "text": "sack",
+          "start_time": 11.92,
+          "end_time": 12.099
+        }
+      ]
+    },
+    {
+      "text": "trolley, nylon thread\u2014I aimed to",
+      "start_time": 12.199,
+      "end_time": 14.92,
+      "words": [
+        {
+          "text": "trolley,",
+          "start_time": 12.199,
+          "end_time": 12.5
+        },
+        {
+          "text": " ",
+          "start_time": 12.5,
+          "end_time": 12.799
+        },
+        {
+          "text": "nylon",
+          "start_time": 12.799,
+          "end_time": 13.119
+        },
+        {
+          "text": " ",
+          "start_time": 13.119,
+          "end_time": 13.259
+        },
+        {
+          "text": "thread\u2014I",
+          "start_time": 13.259,
+          "end_time": 14.34
+        },
+        {
+          "text": " ",
+          "start_time": 14.34,
+          "end_time": 14.439
+        },
+        {
+          "text": "aimed",
+          "start_time": 14.439,
+          "end_time": 14.72
+        },
+        {
+          "text": " ",
+          "start_time": 14.72,
+          "end_time": 14.739
+        },
+        {
+          "text": "to",
+          "start_time": 14.739,
+          "end_time": 14.92
+        }
+      ]
+    },
+    {
+      "text": "challenge our perception of the world via",
+      "start_time": 14.96,
+      "end_time": 16.94,
+      "words": [
+        {
+          "text": "challenge",
+          "start_time": 14.96,
+          "end_time": 15.319
+        },
+        {
+          "text": " ",
+          "start_time": 15.319,
+          "end_time": 15.359
+        },
+        {
+          "text": "our",
+          "start_time": 15.359,
+          "end_time": 15.46
+        },
+        {
+          "text": " ",
+          "start_time": 15.46,
+          "end_time": 15.5
+        },
+        {
+          "text": "perception",
+          "start_time": 15.5,
+          "end_time": 15.96
+        },
+        {
+          "text": " ",
+          "start_time": 15.96,
+          "end_time": 15.979
+        },
+        {
+          "text": "of",
+          "start_time": 15.979,
+          "end_time": 16.079
+        },
+        {
+          "text": " ",
+          "start_time": 16.079,
+          "end_time": 16.1
+        },
+        {
+          "text": "the",
+          "start_time": 16.1,
+          "end_time": 16.18
+        },
+        {
+          "text": " ",
+          "start_time": 16.18,
+          "end_time": 16.219
+        },
+        {
+          "text": "world",
+          "start_time": 16.219,
+          "end_time": 16.6
+        },
+        {
+          "text": " ",
+          "start_time": 16.6,
+          "end_time": 16.719
+        },
+        {
+          "text": "via",
+          "start_time": 16.719,
+          "end_time": 16.94
+        }
+      ]
+    },
+    {
+      "text": "a contrasting piece, engaging viewers'",
+      "start_time": 17.1,
+      "end_time": 19.699,
+      "words": [
+        {
+          "text": "a",
+          "start_time": 17.1,
+          "end_time": 17.12
+        },
+        {
+          "text": " ",
+          "start_time": 17.12,
+          "end_time": 17.159
+        },
+        {
+          "text": "contrasting",
+          "start_time": 17.159,
+          "end_time": 17.879
+        },
+        {
+          "text": " ",
+          "start_time": 17.879,
+          "end_time": 17.939
+        },
+        {
+          "text": "piece,",
+          "start_time": 17.94,
+          "end_time": 18.299
+        },
+        {
+          "text": " ",
+          "start_time": 18.299,
+          "end_time": 18.759
+        },
+        {
+          "text": "engaging",
+          "start_time": 18.76,
+          "end_time": 19.28
+        },
+        {
+          "text": " ",
+          "start_time": 19.28,
+          "end_time": 19.34
+        },
+        {
+          "text": "viewers'",
+          "start_time": 19.34,
+          "end_time": 19.699
+        }
+      ]
+    },
+    {
+      "text": "personal sensory experience while inviting",
+      "start_time": 19.779,
+      "end_time": 22.62,
+      "words": [
+        {
+          "text": "personal",
+          "start_time": 19.779,
+          "end_time": 20.319
+        },
+        {
+          "text": " ",
+          "start_time": 20.319,
+          "end_time": 20.379
+        },
+        {
+          "text": "sensory",
+          "start_time": 20.379,
+          "end_time": 20.799
+        },
+        {
+          "text": " ",
+          "start_time": 20.799,
+          "end_time": 20.899
+        },
+        {
+          "text": "experience",
+          "start_time": 20.899,
+          "end_time": 21.899
+        },
+        {
+          "text": " ",
+          "start_time": 21.899,
+          "end_time": 21.959
+        },
+        {
+          "text": "while",
+          "start_time": 21.959,
+          "end_time": 22.1
+        },
+        {
+          "text": " ",
+          "start_time": 22.1,
+          "end_time": 22.119
+        },
+        {
+          "text": "inviting",
+          "start_time": 22.119,
+          "end_time": 22.62
+        }
+      ]
+    },
+    {
+      "text": "them to take a step back from their daily",
+      "start_time": 22.639,
+      "end_time": 24.479,
+      "words": [
+        {
+          "text": "them",
+          "start_time": 22.639,
+          "end_time": 22.739
+        },
+        {
+          "text": " ",
+          "start_time": 22.739,
+          "end_time": 22.799
+        },
+        {
+          "text": "to",
+          "start_time": 22.799,
+          "end_time": 22.92
+        },
+        {
+          "text": " ",
+          "start_time": 22.92,
+          "end_time": 22.959
+        },
+        {
+          "text": "take",
+          "start_time": 22.959,
+          "end_time": 23.12
+        },
+        {
+          "text": " ",
+          "start_time": 23.12,
+          "end_time": 23.159
+        },
+        {
+          "text": "a",
+          "start_time": 23.159,
+          "end_time": 23.219
+        },
+        {
+          "text": " ",
+          "start_time": 23.219,
+          "end_time": 23.26
+        },
+        {
+          "text": "step",
+          "start_time": 23.26,
+          "end_time": 23.5
+        },
+        {
+          "text": " ",
+          "start_time": 23.5,
+          "end_time": 23.539
+        },
+        {
+          "text": "back",
+          "start_time": 23.539,
+          "end_time": 23.799
+        },
+        {
+          "text": " ",
+          "start_time": 23.799,
+          "end_time": 23.859
+        },
+        {
+          "text": "from",
+          "start_time": 23.859,
+          "end_time": 24.0
+        },
+        {
+          "text": " ",
+          "start_time": 24.0,
+          "end_time": 24.019
+        },
+        {
+          "text": "their",
+          "start_time": 24.019,
+          "end_time": 24.18
+        },
+        {
+          "text": " ",
+          "start_time": 24.18,
+          "end_time": 24.199
+        },
+        {
+          "text": "daily",
+          "start_time": 24.199,
+          "end_time": 24.479
+        }
+      ]
+    },
+    {
+      "text": "lives.",
+      "start_time": 24.539,
+      "end_time": 25.02,
+      "words": [
+        {
+          "text": "lives.",
+          "start_time": 24.539,
+          "end_time": 25.02
+        }
+      ]
+    },
+    {
+      "text": "Interested in leaving work open to",
+      "start_time": 25.899,
+      "end_time": 27.659,
+      "words": [
+        {
+          "text": "Interested",
+          "start_time": 25.899,
+          "end_time": 26.399
+        },
+        {
+          "text": " ",
+          "start_time": 26.399,
+          "end_time": 26.42
+        },
+        {
+          "text": "in",
+          "start_time": 26.42,
+          "end_time": 26.52
+        },
+        {
+          "text": " ",
+          "start_time": 26.52,
+          "end_time": 26.579
+        },
+        {
+          "text": "leaving",
+          "start_time": 26.579,
+          "end_time": 26.86
+        },
+        {
+          "text": " ",
+          "start_time": 26.86,
+          "end_time": 26.939
+        },
+        {
+          "text": "work",
+          "start_time": 26.939,
+          "end_time": 27.219
+        },
+        {
+          "text": " ",
+          "start_time": 27.219,
+          "end_time": 27.319
+        },
+        {
+          "text": "open",
+          "start_time": 27.319,
+          "end_time": 27.479
+        },
+        {
+          "text": " ",
+          "start_time": 27.479,
+          "end_time": 27.559
+        },
+        {
+          "text": "to",
+          "start_time": 27.559,
+          "end_time": 27.659
+        }
+      ]
+    },
+    {
+      "text": "individual interpretations, I wonder,",
+      "start_time": 27.699,
+      "end_time": 30.199,
+      "words": [
+        {
+          "text": "individual",
+          "start_time": 27.699,
+          "end_time": 28.2
+        },
+        {
+          "text": " ",
+          "start_time": 28.2,
+          "end_time": 28.239
+        },
+        {
+          "text": "interpretations,",
+          "start_time": 28.239,
+          "end_time": 29.319
+        },
+        {
+          "text": " ",
+          "start_time": 29.319,
+          "end_time": 29.719
+        },
+        {
+          "text": "I",
+          "start_time": 29.719,
+          "end_time": 29.779
+        },
+        {
+          "text": " ",
+          "start_time": 29.779,
+          "end_time": 29.839
+        },
+        {
+          "text": "wonder,",
+          "start_time": 29.84,
+          "end_time": 30.199
+        }
+      ]
+    },
+    {
+      "text": "what's yours?",
+      "start_time": 30.939,
+      "end_time": 31.679,
+      "words": [
+        {
+          "text": "what's",
+          "start_time": 30.939,
+          "end_time": 31.199
+        },
+        {
+          "text": " ",
+          "start_time": 31.199,
+          "end_time": 31.239
+        },
+        {
+          "text": "yours?",
+          "start_time": 31.239,
+          "end_time": 31.679
+        }
+      ]
+    }
+  ]
+}
