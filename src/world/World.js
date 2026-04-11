@@ -68,11 +68,17 @@ export class World {
     this._lastNDC            = new Vector2();
     this._mouseRevealDirty   = false;   // true when pointermove fired since last update
     this._lastMouseRevealPos = null;    // Vector3 — world pos of last mouse trail reveal
+    this._modelDrag = null;             // { lastX, modelRoot } while drag-rotating a focused model
     this.renderer.domElement.addEventListener('pointerdown', (e) => {
       this._lastNDC.set(
         (e.clientX / this.sizes.width)  * 2 - 1,
        -(e.clientY / this.sizes.height) * 2 + 1
       );
+      // Start model drag if focused on a 3D model
+      if (this._focusState === "focused") {
+        const modelRoot = this._focusedScreen?.userData?.modelRoot;
+        if (modelRoot) this._modelDrag = { lastX: e.clientX, modelRoot };
+      }
     });
     this.renderer.domElement.addEventListener('pointermove', (e) => {
       this._lastNDC.set(
@@ -80,7 +86,16 @@ export class World {
        -(e.clientY / this.sizes.height) * 2 + 1
       );
       this._mouseRevealDirty = true;
+      // Rotate focused model on drag
+      if (this._modelDrag) {
+        const dx = e.clientX - this._modelDrag.lastX;
+        this._modelDrag.modelRoot.rotateY(dx * 0.007);
+        this._modelDrag.lastX = e.clientX;
+      }
     });
+    this.renderer.domElement.addEventListener('pointerup', () => {
+      this._modelDrag = null;
+    }, { passive: true });
     
 
     // initialise the screen manager for adding artworks
@@ -120,6 +135,18 @@ export class World {
 
       this._focusState = "returning";
       this._focusCooldown = 0.2;
+
+      // Spin focused model back to its rest quaternion
+      const _modelRoot = this._focusedScreen?.userData?.modelRoot;
+      if (_modelRoot?.userData?.baseQuaternion) {
+        const _from = _modelRoot.quaternion.clone();
+        const _to   = _modelRoot.userData.baseQuaternion.clone();
+        this._tweens.push(makeTween01({
+          from: 0, to: 1,
+          duration: 0.5,
+          onUpdate: (v) => _modelRoot.quaternion.slerpQuaternions(_from, _to, v),
+        }));
+      }
 
       this.focus.returnHome(0.7);
 
@@ -805,6 +832,7 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
     url: b,
     position: [.7, -.5, -4.5],
     rotation: [0, 20, 0],
+    rotationOffset: 180,
     normalizeTo: 0.8,
     clickable: true,
     onClick: (obj, hit) => console.log("Model clicked:", obj),

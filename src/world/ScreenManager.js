@@ -39,12 +39,22 @@ export class ScreenManager {
     this._fluidActiveRecord = null;
     this._fluidDragStartX = 0;
     this._fluidDragStartY = 0;
+    this._tapStartX = 0;
+    this._tapStartY = 0;
 
     this._onPointerMove  = this._onPointerMove.bind(this);
     this._onPointerUpFluid = this._onPointerUpFluid.bind(this);
 
-    this._onClick = this._onClick.bind(this);
-    this.domElement.addEventListener("pointerdown", this._onClick, { passive: true });
+    // Tap vs drag disambiguation: only fire raycast if pointer moved < 8px
+    this._doRaycast = this._onClick.bind(this);
+    this._onTapDown = (e) => { this._tapStartX = e.clientX; this._tapStartY = e.clientY; };
+    this._onTapUp   = (e) => {
+      const dx = e.clientX - this._tapStartX;
+      const dy = e.clientY - this._tapStartY;
+      if (Math.hypot(dx, dy) < 8) this._doRaycast(e);
+    };
+    this.domElement.addEventListener("pointerdown", this._onTapDown, { passive: true });
+    this.domElement.addEventListener("pointerup",   this._onTapUp,   { passive: true });
 
     this._texCache = new Map(); // url -> THREE.Texture
 
@@ -60,7 +70,8 @@ export class ScreenManager {
   }
 
   destroy() {
-    this.domElement.removeEventListener("pointerdown", this._onClick);
+    this.domElement.removeEventListener("pointerdown", this._onTapDown);
+    this.domElement.removeEventListener("pointerup",   this._onTapUp);
 
     // dispose everything we created
     for (const s of this.screens) this.removeScreen(s.mesh);
@@ -1086,6 +1097,7 @@ async addModel({
   onClick = null,
   artworkInfo = null, // { title, artist, description }
   location = null,   // location ID this artwork belongs to (null = always visible)
+  rotationOffset = 0, // extra Y-axis degrees applied after rotation — sets the drag-to-rotate rest angle
 }) {
   // Convert degrees to radians to match your convention
   const rotRad = rotation.map(r => THREE.MathUtils.degToRad(r));
@@ -1111,6 +1123,8 @@ async addModel({
   // Place in world
   modelRoot.position.set(...position);
   modelRoot.rotation.set(...rotRad);
+  if (rotationOffset) modelRoot.rotateY(THREE.MathUtils.degToRad(rotationOffset));
+  modelRoot.userData.baseQuaternion = modelRoot.quaternion.clone(); // rest pose for drag-to-rotate
   modelRoot.userData.isModel = true;
   modelRoot.userData.onClick = onClick;
 
@@ -1170,6 +1184,7 @@ async addModel({
     hitBox.userData.focusTarget = hitBox; // focus on hitBox itself for better framing, but you can switch to modelRoot if you want to focus on the model directly
     hitBox.userData.isModelHitbox = true;
     hitBox.userData.artworkInfo = artworkInfo;
+    hitBox.userData.modelRoot = modelRoot; // for drag-to-rotate in World.js
     modelRoot.userData.hitBox = hitBox; // expose for external registry access
 
     this.scene.add(hitBox);
