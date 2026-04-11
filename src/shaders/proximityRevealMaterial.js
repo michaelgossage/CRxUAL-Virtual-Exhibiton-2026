@@ -13,6 +13,11 @@ const TEMP_REVEAL_DUR    = 4.0;  // seconds for tap reveals to fade out (default
 const GOLD_DUR_MS        = 3000; // ms for gold expansion to fade out after a permanent reveal
 const GOLD_EDGE_WIDTH    = 0.18; // 0..1 — width of the persistent gold ring
 const GOLD_EDGE_MULT     = 0.7;  // 0..1 — brightness of the persistent gold edge ring
+// ─── Edge noise tuning ────────────────────────────────────────────────────────
+const NOISE_TILE_SCALE   = 10;    // integer — multiply voxel coords before wrapping; higher = finer/denser tiles
+const NOISE_EDGE_START   = 0.65; // 0..1 — nd threshold where noise begins (lower = wider noisy band)
+const NOISE_STRENGTH_MIN = 0.65; // 0..1 — minimum brightness multiplier at noisy edges
+const NOISE_STRENGTH_MAX = 1.00; // 0..1 — maximum brightness multiplier at noisy edges (should stay ≤ 1)
 // ─────────────────────────────────────────────────────────────────────────────
 // World-space bounds the voxel volume covers. Adjust to match your scene extents.
 // XZ covers the horizontal footprint; Y covers vertical (height) range.
@@ -240,16 +245,16 @@ export class ProximityRevealSystem {
           let val = t * t * (3.0 - 2.0 * t) * alpha;
 
           // Edge noise on XZ plane — baked once on paint, zero GPU cost
-          if (noisy && nd > 0.65) {
+          if (noisy && nd > NOISE_EDGE_START) {
             let sample;
             if (this._noiseData) {
-              const tnx = ((nx % this._noiseSize) + this._noiseSize) % this._noiseSize;
-              const tnz = ((nz % this._noiseSize) + this._noiseSize) % this._noiseSize;
+              const tnx = ((nx * NOISE_TILE_SCALE % this._noiseSize) + this._noiseSize) % this._noiseSize;
+              const tnz = ((nz * NOISE_TILE_SCALE % this._noiseSize) + this._noiseSize) % this._noiseSize;
               sample = this._noiseData[tnz * this._noiseSize + tnx] / 255;
             } else {
               sample = ((nx * 1664525 + nz * 1013904223) >>> 0) / 0xFFFFFFFF;
             }
-            val *= 0.65 + sample * 0.35;
+            val *= NOISE_STRENGTH_MIN + sample * (NOISE_STRENGTH_MAX - NOISE_STRENGTH_MIN);
           }
 
           const byte = Math.round(val * 255);
