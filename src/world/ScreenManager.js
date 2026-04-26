@@ -775,6 +775,13 @@ export class ScreenManager {
     this._fluidMousePrev.copy(this._fluidMouse);
   }
 
+  updateMixers(dt, focusedRoot) {
+    for (const m of this.models) {
+      if (!m.mixer) continue;
+      if (m.root === focusedRoot) m.mixer.update(dt);
+    }
+  }
+
   _onPointerMove(e) {
     if (!this._fluidMouseActive || !this._fluidActiveRecord) return;
     const fr = this._fluidActiveRecord;
@@ -1149,12 +1156,16 @@ async addModel({
   if (animations && animations.length && playAnimation) {
     mixer = new THREE.AnimationMixer(modelRoot);
 
-    let clip = animations[0];
-    if (playAnimation !== "first") {
-      const byName = animations.find(a => a.name === playAnimation);
-      if (byName) clip = byName;
+    if (playAnimation === "all") {
+      for (const clip of animations) mixer.clipAction(clip).play();
+    } else {
+      let clip = animations[0];
+      if (playAnimation !== "first") {
+        const byName = animations.find(a => a.name === playAnimation);
+        if (byName) clip = byName;
+      }
+      mixer.clipAction(clip).play();
     }
-    mixer.clipAction(clip).play();
   }
 
   // Optional clickable proxy (hitbox)

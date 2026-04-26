@@ -13,11 +13,18 @@ const TEMP_REVEAL_DUR    = 4.0;  // seconds for tap reveals to fade out (default
 const GOLD_DUR_MS        = 3000; // ms for gold expansion to fade out after a permanent reveal
 const GOLD_EDGE_WIDTH    = 0.18; // 0..1 — width of the persistent gold ring
 const GOLD_EDGE_MULT     = 0.7;  // 0..1 — brightness of the persistent gold edge ring
-// ─── Edge noise tuning ────────────────────────────────────────────────────────
+// ─── Edge noise mode ──────────────────────────────────────────────────────────
+const NOISE_MODE         = 'gpu'; // 'cpu' | 'gpu'
+// CPU mode — noise baked into voxel volume at paint time (voxel-grid aligned)
 const NOISE_TILE_SCALE   = 10;    // integer — multiply voxel coords before wrapping; higher = finer/denser tiles
-const NOISE_EDGE_START   = 0.65; // 0..1 — nd threshold where noise begins (lower = wider noisy band)
-const NOISE_STRENGTH_MIN = 0.65; // 0..1 — minimum brightness multiplier at noisy edges
-const NOISE_STRENGTH_MAX = 1.00; // 0..1 — maximum brightness multiplier at noisy edges (should stay ≤ 1)
+const NOISE_EDGE_START   = 0.65;  // 0..1 — nd threshold where noise begins (lower = wider noisy band)
+const NOISE_STRENGTH_MIN = 0.65;  // 0..1 — minimum brightness multiplier at noisy edges
+const NOISE_STRENGTH_MAX = 1.00;  // 0..1 — maximum brightness multiplier at noisy edges (should stay ≤ 1)
+// GPU mode — noise applied per-fragment in shader using world-space XZ (surface-aligned)
+const GPU_NOISE_TILE_SCALE = 0.1;   // tiles per world unit — higher = more repetitions/finer
+const GPU_NOISE_STRENGTH   = 0.5;  // 0..1 — how far noise displaces the reveal threshold (higher = more jagged)
+const GPU_EDGE_HARDNESS    = 0.02; // 0..0.5 — 0 = perfectly hard step, 0.5 = fully soft gradient
+const DEBUG_SHOW_NOISE     = false; // true = render raw noise texture as surface colour (gpu mode only)
 // ─────────────────────────────────────────────────────────────────────────────
 // World-space bounds the voxel volume covers. Adjust to match your scene extents.
 // XZ covers the horizontal footprint; Y covers vertical (height) range.
@@ -53,7 +60,13 @@ uniform vec3      uGoldColor;
 uniform float     uGoldEdgeWidth;
 uniform float     uGoldEdgeMult;
 varying vec3      vWorld;
-`;
+` + (NOISE_MODE === 'gpu' ? /* glsl */`
+uniform sampler2D uNoiseTex;
+uniform float     uNoiseTileScale;
+uniform float     uNoiseStrength;
+uniform float     uEdgeHardness;
+uniform float     uDebugNoise;
+` : '');
 
 const _fragReveal = /* glsl */`
 #include <color_fragment>
@@ -68,7 +81,12 @@ vec3 _uvw = clamp(vec3(
 float _settled = texture(uRevealTex,     _uvw).r;
 float _temp    = texture(uRevealTexTemp, _uvw).r;
 float _gold    = texture(uRevealTexGold, _uvw).r;
-
+` + (NOISE_MODE === 'gpu' ? /* glsl */`
+// GPU noise — displace threshold with noise, then threshold for hard/soft edge
+float _noiseSample = texture(uNoiseTex, fract(vWorld.xz * uNoiseTileScale)).r;
+float _noised      = _settled + (_noiseSample - 0.5) * uNoiseStrength;
+_settled = smoothstep(0.5 - uEdgeHardness, 0.5 + uEdgeHardness, _noised);
+` : '') + /* glsl */`
 // Persistent gold ring — derived from boundary of settled reveal, zero extra sample
 float _edge    = smoothstep(0.0, uGoldEdgeWidth, _settled) * smoothstep(1.0, 1.0 - uGoldEdgeWidth, _settled);
 
@@ -77,9 +95,12 @@ float _goldAmt = clamp(_gold + _edge * uGoldEdgeMult, 0.0, 1.0);
 vec3  _colored = mix(diffuseColor.rgb, uGoldColor, _goldAmt);
 
 diffuseColor.rgb = mix(uFogColor, _colored, _reveal);
-`;
+` + (NOISE_MODE === 'gpu' ? /* glsl */`
+// Debug — show raw noise texture as surface colour
+diffuseColor.rgb = mix(diffuseColor.rgb, vec3(_noiseSample), uDebugNoise);
+` : '');
 
-function _injectReveal(shader, mat, texture, tempTexture, goldTexture, fogColor) {
+function _injectReveal(shader, mat, texture, tempTexture, goldTexture, fogColor, noiseTexture) {
   mat.userData.shader = shader;
 
   shader.uniforms.uRevealTex      = { value: texture };
@@ -93,6 +114,14 @@ function _injectReveal(shader, mat, texture, tempTexture, goldTexture, fogColor)
   shader.uniforms.uGoldColor      = { value: new THREE.Color(0xFFD700) };
   shader.uniforms.uGoldEdgeWidth  = { value: GOLD_EDGE_WIDTH };
   shader.uniforms.uGoldEdgeMult   = { value: GOLD_EDGE_MULT };
+
+  if (NOISE_MODE === 'gpu') {
+    shader.uniforms.uNoiseTex       = { value: noiseTexture };
+    shader.uniforms.uNoiseTileScale = { value: GPU_NOISE_TILE_SCALE };
+    shader.uniforms.uNoiseStrength  = { value: GPU_NOISE_STRENGTH };
+    shader.uniforms.uEdgeHardness   = { value: GPU_EDGE_HARDNESS };
+    shader.uniforms.uDebugNoise     = { value: DEBUG_SHOW_NOISE ? 1.0 : 0.0 };
+  }
 
   shader.vertexShader = _vertexPreamble + shader.vertexShader;
   shader.vertexShader = shader.vertexShader.replace(
@@ -125,7 +154,7 @@ function _injectReveal(shader, mat, texture, tempTexture, goldTexture, fogColor)
 
 export function makeProximityRevealMaterial(system, { color = 0x808080, fogColor = 0x000000, side = THREE.FrontSide } = {}) {
   const mat = new THREE.MeshStandardMaterial({ color, side, roughness: 1.0, metalness: 0.0 });
-  mat.onBeforeCompile = (shader) => _injectReveal(shader, mat, system.texture, system.tempTexture, system.goldTexture, fogColor);
+  mat.onBeforeCompile = (shader) => _injectReveal(shader, mat, system.texture, system.tempTexture, system.goldTexture, fogColor, system.noiseTexture);
   system.registerMaterial(mat);
   return mat;
 }
@@ -137,7 +166,7 @@ export function applyProximityRevealToMaterial(mat, system, { fogColor = 0xfffff
   const _prev = mat.onBeforeCompile;
   mat.onBeforeCompile = (shader, renderer) => {
     if (_prev) _prev(shader, renderer);
-    _injectReveal(shader, mat, system.texture, system.tempTexture, system.goldTexture, fogColor);
+    _injectReveal(shader, mat, system.texture, system.tempTexture, system.goldTexture, fogColor, system.noiseTexture);
   };
 
   mat.needsUpdate = true;
@@ -166,11 +195,11 @@ export class ProximityRevealSystem {
     this._activeTemp  = [];
     this._goldReveals = [];
 
-    // Noise texture — loaded from PNG, sampled on XZ plane per voxel
+    // CPU noise — image decoded on canvas, sampled on XZ plane per voxel in _paint()
     this._noiseData = null;
     this._noiseSize = 0;
     const img = new Image();
-    img.src = '/art/textures/noise.png';
+    img.src = import.meta.env.BASE_URL + 'art/textures/noise.png';
     img.onload = () => {
       const size = img.naturalWidth;
       const c    = document.createElement('canvas');
@@ -181,7 +210,11 @@ export class ProximityRevealSystem {
       this._noiseData = new Uint8Array(size * size);
       for (let i = 0; i < this._noiseData.length; i++) this._noiseData[i] = px[i * 4];
     };
-    img.onerror = () => console.warn('[ProximityReveal] noise.png not found — using hash fallback');
+    img.onerror = () => console.warn('[ProximityReveal] noiseTest.png not found — using hash fallback');
+
+    // GPU noise — THREE.Texture sampled per-fragment in the shader (used only in 'gpu' mode)
+    this.noiseTexture = new THREE.TextureLoader().load(import.meta.env.BASE_URL + 'art/textures/noise.png');
+    this.noiseTexture.wrapS = this.noiseTexture.wrapT = THREE.RepeatWrapping;
 
     // Data3DTexture — true trilinear interpolation, no slice boundary artefacts.
     // precision highp sampler3D; is injected in the GLSL preamble to satisfy WebGL 2.
@@ -279,7 +312,7 @@ export class ProximityRevealSystem {
       );
       if (!already) this._activeFade.push({ x, y, z, t0: performance.now() });
     } else {
-      this._paint(this._texData, x, y, z, 1.0, this.features.edgeNoise);
+      this._paint(this._texData, x, y, z, 1.0, this.features.edgeNoise && NOISE_MODE === 'cpu');
       this.texture.needsUpdate = true;
     }
   }
@@ -304,7 +337,7 @@ export class ProximityRevealSystem {
 
   // ─── Camera trail ─────────────────────────────────────────────────────────
   _paintCameraTrail(x, y, z) {
-    this._paint(this._texData, x, y, z, 1.0, this.features.edgeNoise);
+    this._paint(this._texData, x, y, z, 1.0, this.features.edgeNoise && NOISE_MODE === 'cpu');
     this.texture.needsUpdate = true;
   }
 
@@ -329,7 +362,7 @@ export class ProximityRevealSystem {
       for (let i = this._activeFade.length - 1; i >= 0; i--) {
         const f     = this._activeFade[i];
         const alpha = Math.min((now - f.t0) / FADE_IN_DUR_MS, 1.0);
-        this._paint(this._texData, f.x, f.y, f.z, alpha, this.features.edgeNoise);
+        this._paint(this._texData, f.x, f.y, f.z, alpha, this.features.edgeNoise && NOISE_MODE === 'cpu');
         if (alpha >= 1.0) this._activeFade.splice(i, 1);
       }
       this.texture.needsUpdate = true;

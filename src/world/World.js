@@ -215,7 +215,9 @@ export class World {
   ],
 {duration: 8.0, distanceWeighted: true}); 
 
-this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
+this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 50});
+this.setLocationRevealZone("WestPavillion", { center: [-34,0.8,-22.4],     radius: 50});
+this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
 
     // Arrow key navigation
     document.addEventListener("keydown", (e) => {
@@ -285,7 +287,7 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
 
     //import environment models
     const gridMat = makeArchGridMaterial({ });
-
+    /*
     const room01 = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/Chancery Rosewood_V8_.glb").then((gltf) => {
       const model = gltf.scene;
       model.traverse((child) => {
@@ -307,8 +309,36 @@ this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 100});
       model.position.set(0.0, -4.0, 16.0);
       this.scene.add(model);
     }).catch(console.error);
+    */
 
-    const WestPavillion = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/WestPavillion_V2_Baked.glb").then((gltf) => {
+    const Lobby = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/Building/ChanceryRosewood-Lobby-V1.glb").then((gltf) => {
+      const model1 = gltf.scene;
+      model1.traverse((child) => {
+        if (child.isMesh) {
+          // Baked GLBs export MeshBasicMaterial which ignores scene.environment.
+          // Swap to MeshStandardMaterial, preserving the baked texture map.
+          if (child.material.isMeshBasicMaterial) {
+            const prev = child.material;
+            child.material = new MeshStandardMaterial({
+              map: prev.map,
+              side: prev.side,
+              roughness: 1.0,
+              metalness: 0.0,
+            });
+            prev.dispose();
+          }
+          child.material.envMapIntensity = 1.0;
+          child.receiveShadow = true;
+          applyProximityRevealToMaterial(child.material, this.proximityReveal, { fogColor: 0x800000 });
+          this._envMeshes.push(child);
+        }
+      });
+      model1.scale.set(1.0, 1.0, 1.0);
+      model1.position.set(0.0, -4.0, 16.0);
+      this.scene.add(model1);
+    }).catch(console.error);
+
+    const WestPavillion = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/Building/ChanceryRosewood-Pavilion-V1.glb").then((gltf) => {
       const model1 = gltf.scene;
       model1.traverse((child) => {
         if (child.isMesh) {
@@ -1037,6 +1067,7 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     }));
 
     //window corner
+    /*
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/EmbodiedMemories_YoonJuChung/B0009341-1-1.webp`,
       width: 3.0,
@@ -1056,7 +1087,35 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
-    }));
+    }));*/
+        const c=import.meta.env.BASE_URL + "/art/EmbodiedMemories_YoonJuChung/JU-CHUNG.glb";
+
+  this.screenManager.addModel({
+    url: c,
+    //position: [-40.8, 1.0, -25.2],
+    position: [-4, 1.0, -4],
+      rotation: [0, 45, 0],
+    rotationOffset: 180,
+    normalizeTo: 0.5,
+    clickable: true,
+    onClick: (obj, hit) => console.log("Model clicked:", obj),
+    text: "",
+    textOffset: [0, -0.7, 0.9],
+    hitboxSize: [0.6, 1.4, 0.6],
+    offsetClick: -0.0,
+    plinthVisible: false,
+    playAnimation: "first",
+    location: 'lobby',
+    playAnimation:"all",
+    artworkInfo: {
+        title: "Embodied Memories",
+        artist: "Yoon Ju Chung",
+        description: "Embodied Memories explores Hangul, the Korean alphabet, as an embodied and relational language through modular wearable artefacts. Originating from experiences of non-verbal communication with the artist’s hearing-impaired aunt, the project approaches gesture and movement as fundamental forms of language. Drawing on Hangul’s geometric structure, linguistic principles are translated into a modular system that functions as words, sculptural forms, or wearable objects. Grounded in Korean emotional philosophies—Jeong (connection), Han (endurance), and Heung (vitality)—the work informs processes of alignment, tension, play, and repair. Rather than treating language as a fixed visual system, meaning emerges through bodily movement, touch, and reconfiguration. The final artefacts are constructed using Korean textiles such as Mosi (ramie) and Oksa (silk), combined with transparent acrylic structures, magnetic connections, and traditional techniques including Gamchimgil hand-stitching and Pusae (rice starch stiffening).  Language is not only spoken or written; it is sensed, worn, and remembered. "
+      }
+  }).then((modelRoot) => {
+    this.statue = modelRoot;
+    this._registerArtwork(modelRoot);
+  }).catch(console.error);
 
     //wall in the window corner
     this._registerArtwork(this.screenManager.addScreen({
@@ -1285,6 +1344,10 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
 
     // update fluid carousel sims
     this.screenManager.update(dt);
+
+    // advance animation mixer for the focused model only
+    const focusedModelRoot = this._focusedScreen?.userData?.modelRoot ?? null;
+    this.screenManager.updateMixers(dt, focusedModelRoot);
 
     // mouse-trail temporary reveal — one raycast per frame at most
     this._tryMouseTrailReveal();
