@@ -14,6 +14,7 @@ import { applyHDRI } from "./hdri.js";
 import { LocationManager } from "./LocationManager.js";
 import { makeArchGridMaterial } from "../shaders/gridShader.js";
 import { InfoPanel } from "../ui/InfoPanel.js";
+import { ModelCarousel } from "./experiences/ModelCarousel.js";
 
 
 
@@ -38,6 +39,7 @@ export class World {
     this._controlsSaved = null;
     this._focusState = "idle"; // idle | focusing | focused | returning
     this._focusCooldown = 0;
+    this._focusedExperience = null;
     this._focusedScreen = null;
     this._lastfocusedScreen = null;
     this._lastRevealedScreen = null;
@@ -74,10 +76,14 @@ export class World {
         (e.clientX / this.sizes.width)  * 2 - 1,
        -(e.clientY / this.sizes.height) * 2 + 1
       );
-      // Start model drag if focused on a 3D model
+      // Start model drag if focused on a 3D model or experience
       if (this._focusState === "focused") {
-        const modelRoot = this._focusedScreen?.userData?.modelRoot;
-        if (modelRoot) this._modelDrag = { lastX: e.clientX, modelRoot };
+        if (this._focusedExperience?.onDrag) {
+          this._modelDrag = { lastX: e.clientX, modelRoot: null };
+        } else {
+          const modelRoot = this._focusedScreen?.userData?.modelRoot;
+          if (modelRoot) this._modelDrag = { lastX: e.clientX, modelRoot };
+        }
       }
     });
     this.renderer.domElement.addEventListener('pointermove', (e) => {
@@ -86,10 +92,14 @@ export class World {
        -(e.clientY / this.sizes.height) * 2 + 1
       );
       this._mouseRevealDirty = true;
-      // Rotate focused model on drag
+      // Rotate focused model on drag (or delegate to active experience)
       if (this._modelDrag) {
         const dx = e.clientX - this._modelDrag.lastX;
-        this._modelDrag.modelRoot.rotateY(dx * 0.007);
+        if (this._focusedExperience?.onDrag) {
+          this._focusedExperience.onDrag(dx);
+        } else if (this._modelDrag.modelRoot) {
+          this._modelDrag.modelRoot.rotateY(dx * 0.007);
+        }
         this._modelDrag.lastX = e.clientX;
       }
     });
@@ -109,6 +119,20 @@ export class World {
     });
 
     this.screenManager.onHit = (obj) => {
+      // Route clicks to the active experience first
+      if (this._focusedExperience) {
+        const result = this._focusedExperience.onHit?.(obj);
+        if (result === true) return; // absorbed, no camera action
+        if (result?.consumed) {
+          // Experience wants to move camera to a specific model
+          if (result.focusTarget) {
+            this.focus.focusOn({ targetObject: result.focusTarget, distance: "fit", duration: 0.6, padding: 1 });
+          }
+          if (result.artworkInfo) this.infoPanel.show(result.artworkInfo);
+          return;
+        }
+      }
+
       const target = obj.userData.focusTarget || obj;
       // If already focused on this artwork, tap toggles video play/pause
       if (this._focusState === "focused" && this._focusedScreen === target) {
@@ -133,6 +157,23 @@ export class World {
       if (this.focus.isMoving) return;
       if (this._focusState === "idle") return;
 
+      // Let the active experience intercept — e.g. carousel returning to overview
+      if (this._focusedExperience) {
+        const result = this._focusedExperience.onMiss?.();
+        if (result === true || result?.consumed) {
+          if (result?.focusTarget) {
+            this.focus.focusOn({ targetObject: result.focusTarget, distance: "fit", duration: 0.6, padding: 1.5 });
+          }
+          if (result?.artworkInfo) this.infoPanel.show(result.artworkInfo);
+          else this.infoPanel.hide();
+          return;
+        }
+        // result === false → fall through to full exit
+      }
+
+      this._restoreExperienceHitbox(this._focusedExperience);
+      this._focusedExperience?.onUnfocus();
+      this._focusedExperience = null;
       this._focusState = "returning";
       this._focusCooldown = 0.2;
 
@@ -311,7 +352,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
     }).catch(console.error);
     */
 
-    const Lobby = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/Building/ChanceryRosewood-Lobby-V1.glb").then((gltf) => {
+    //const Lobby = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/Building/ChanceryRosewood-Lobby-V1.glb").then((gltf) => {
+    const Lobby = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/Building/Chancery Rosewood_LOBBY_BAKE_V4.glb").then((gltf) => {
       const model1 = gltf.scene;
       model1.traverse((child) => {
         if (child.isMesh) {
@@ -338,7 +380,34 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
       this.scene.add(model1);
     }).catch(console.error);
 
-    const WestPavillion = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/Building/ChanceryRosewood-Pavilion-V1.glb").then((gltf) => {
+    const LobbyFurniture = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/Building/Chancery Rosewood_LOBBY_FURNITURE_BAKE_V4.glb").then((gltf) => {
+      const model1 = gltf.scene;
+      model1.traverse((child) => {
+        if (child.isMesh) {
+          // Baked GLBs export MeshBasicMaterial which ignores scene.environment.
+          // Swap to MeshStandardMaterial, preserving the baked texture map.
+          if (child.material.isMeshBasicMaterial) {
+            const prev = child.material;
+            child.material = new MeshStandardMaterial({
+              map: prev.map,
+              side: prev.side,
+              roughness: 1.0,
+              metalness: 0.0,
+            });
+            prev.dispose();
+          }
+          child.material.envMapIntensity = 1.0;
+          child.receiveShadow = true;
+          applyProximityRevealToMaterial(child.material, this.proximityReveal, { fogColor: 0x800000 });
+          this._envMeshes.push(child);
+        }
+      });
+      model1.scale.set(1.0, 1.0, 1.0);
+      model1.position.set(0.0, -4.0, 16.0);
+      this.scene.add(model1);
+    }).catch(console.error);
+
+    const WestPavillion = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/Building/Chancery Rosewood_Pavilion_BAKE_V4.glb").then((gltf) => {
       const model1 = gltf.scene;
       model1.traverse((child) => {
         if (child.isMesh) {
@@ -695,6 +764,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
     */
 
     //left side, left front desk
+    /*
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-2-1.jpg.avif`,
       width: 1.4,
@@ -717,8 +787,47 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
         console.log("Clicked screen/podium", obj);
       }
     }));
+    */
+
+    this._registerArtwork(this.screenManager.addFluidContentScreen({
+      location: 'lobby',
+      content: {
+        title: "Unrendered",
+        artist: "Marie-Lisette Cropp",
+        bio: "Unrendered explores how the female body is represented and reshaped through technology and Western cultural expectations. The project examines the tension between the physical and the digital, and how images shape our understanding of identity and beauty. Using photogrammetry, the body is scanned into digital form, fragmenting in the process and celebrating these glitches and distortions. By reworking these scans by hand and through darkroom printing, the work restores a raw, physical presence. Inspired by Rosi Braidotti’s Posthuman theory, Unrendered views the body as part of a wider ecosystem, continuously shaped by machines, nature, and technology.",
+        images: [
+          `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-2-1.jpg.avif`,
+          `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-3-2.jpg`,
+          `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-3-3.jpg`,
+          `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-4.jpg`,
+          `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-5-4.jpg`,
+          `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-5-5.jpg`,
+          `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-6-2.jpg`
+
+
+        ],
+        narration: `${baseURL}audio/Unrendered_Narration.mp3`,
+        narrationCues: `${baseURL}audio/Unrendered_Narration.json`
+      },
+      width: 1.4,
+      height: 1.8,
+      position: [-7.15, 0.7, 1.6],   // e.g. on/near carousel A
+      rotation: [0, 135, 0],
+      offsetClick: 0.0,
+      infoWidth: 1.6,
+      infoHeight: 1.2,
+      infoOffset: [0, -1.7, 0.55],
+      clickableSize: [2.2, 2.2],
+      clickable: true,
+      plinthVisible: false,
+      infoPanel: false,
+
+      //transition
+      transitionDuration: 0.35,
+    }).screenMesh);
 
       //left side, middle front desk
+      /*
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/SelfFinish_BeatriceElAsmar/SF_02.jpg.avif`,
       width: 1.8,
@@ -741,6 +850,87 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
         console.log("Clicked screen/podium", obj);
       }
     }));
+    */
+
+    this._registerArtwork(this.screenManager.addFluidContentScreen({
+      location: 'lobby',
+      content: {
+        title: "Self-Finish",
+        artist: "Beatrice El Asmar",
+        bio: "This series of self-portraits was created using slit scan technology, mostly known for its use for photo-finish in racing sports, thus reclaiming a patriarchal automation which judges, measures and commodifies linear speed and \‘progress\'. Subverting our expectations of how time and space occupy the photographic image, the work highlights how the supposedly linear progression of human rights, especially for cis and trans women, is being eroded to the extent that it is actually moving backwards. A fragmented portrait of one of the two female photo-finish operators in the UK, this work invites a different kind of embodied photographic seeing.",
+        images: [
+          `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF_02.jpg.avif`,
+          `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF-01.jpg`,
+          `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF_03.jpg`,
+          `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF_04.jpg`,
+          `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF_08.jpg`
+
+        ],
+        narration: `${baseURL}audio/Self-Finish_Narration.mp3`,
+        narrationCues: `${baseURL}audio/Self-Finish_Narration.json`
+      },
+      width: 1.8,
+      height: 1.3,
+      position: [-8.4, 0.8, -1.5],
+      rotation: [0, 90, 0],
+      offsetClick: 0.0,
+      infoWidth: 1.6,
+      infoHeight: 1.2,
+      infoOffset: [0, -1.7, 0.55],
+      clickableSize: [2.2, 2.2],
+      clickable: true,
+      plinthVisible: false,
+      infoPanel: false,
+
+      //transition
+      transitionDuration: 0.35,
+    }).screenMesh);
+
+    //left side right front desk
+    this._registerArtwork(this.screenManager.addScreen({
+      url: `${baseURL}art/TheNoos-SanneWinderickx/Invocation of the Black flame_MB.mp4`,
+      poster: `${baseURL}art/TheNoos-SanneWinderickx/IMG_4879-final-sRGB_Ratio-HQ-landscape-fill-1_1.jpg`,
+      width: 2.8,
+      height: 1.8,
+      position: [-4.4, 0.8, -5.5],
+      rotation: [0, 35, 0],
+      clickable: true,
+      offsetClick: 0.0,
+      text: "Video Screen",
+      location: 'lobby',
+      artworkInfo: {
+        title: "Invocation of the Black Flame",
+        artist: "Sanne Winderickx",
+        description: "Invocation of the Black Flame is a video work that explores the concept of the black flame as a symbol of transformation, resistance, and empowerment. The piece draws on occult and mystical traditions to create a visual narrative that challenges conventional notions of power and identity. Through a combination of striking imagery, sound design, and symbolism, the work invites viewers to contemplate the potential for personal and collective transformation in the face of adversity."
+      },
+      plinthVisible: false,
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+
+    this.screenManager.addModel({
+      url: `${baseURL}art/TheNoos-SanneWinderickx/TheNoos_yellowHand.glb`,
+      position: [-2.8, 0.0, -6.5],
+      rotation: [0, 35, 0],
+      normalizeTo: 0.8,
+      clickable: true,
+      onClick: (obj, hit) => console.log("Model clicked:", obj),
+      text: "",
+      textOffset: [0, -0.1, 0.9],
+      hitboxSize: [1.8, 1.5, 1.8],
+      offsetClick: 0.2,
+      plinthVisible:true,
+      plinthOffset: [0, -0.5, 0],
+      plinthSize: [1.0, 0.5, 1.0],
+      //playAnimation: "first",
+      location: 'lobby',
+      artworkInfo: {
+        title: "Yellow Hand",
+        artist: "Sanne Winderickx",
+        description: "Yellow Hand is a 3D model of a hand that serves as a companion piece to the video work Invocation of the Black Flame. The hand is designed to evoke a sense of mysticism and transformation, with its intricate details and symbolic gestures. As viewers interact with the hand, they are encouraged to explore themes of power, identity, and resistance, further deepening their engagement with the concepts presented in the video."
+      }
+    });
 
     //right side, right front desk
     this._registerArtwork(this.screenManager.addScreen({
@@ -802,9 +992,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
 
     this.screenManager.addModel({
       url: Experiment58,
-      position: [0, -1.0, 8.5],
+      position: [0, 0.3, 8.5],
       rotation: [0, -35, 0],
-      normalizeTo: 2.0,
+      normalizeTo: 2.2,
       clickable: true,
       onClick: (obj, hit) => console.log("Model clicked:", obj),
       //text: "STATUE_01",
@@ -856,6 +1046,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
   */
 
     //left front desk
+
+    //front table
+    /*
     const b=import.meta.env.BASE_URL + "/art/LetMeEatCake_SuzannaTeal/LetMeEatCake01.glb";
 
   this.screenManager.addModel({
@@ -884,7 +1077,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
     this.statue = modelRoot;
     this._registerArtwork(modelRoot);
   }).catch(console.error);
-
+*/
 
 /*
   this.screenManager.addModel({
@@ -932,7 +1125,7 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
         artist: "Jun Shya",
         bio: "By putting a mask on, we begin to play different versions of ourselves. Intrigued by the process of unbalancing composition through distinct colours, crackled textures, and seemingly incongruous references, this series of paintings explores the theme of reality versus illusion in relation to the coexistence of present and past. By capturing the intimate gesture of push and pull in a ballet performance, each dancer becomes a version of another. It reflects the idea that a different version of you exists in the mind of everyone who knows you. Curious images emerge through a process of patient layering and excavation. Parts of the human body and face are either left blank or slightly concealed, yet we, as viewers, are still able to make sense of them.",
         images: [
-          "public/art/NoLongerUs_JunShya/Jun-Shya-1-1.jpg",
+          `${baseURL}/art/NoLongerUs_JunShya/Jun-Shya-1-1.jpg`,
           "https://picsum.photos/id/1015/900/900",
           "https://picsum.photos/id/1025/900/900"
         ],
@@ -955,15 +1148,90 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       transitionDuration: 0.35,
     }).screenMesh);
 
-    // Hide artworks that don't belong to the starting location
-    // (runs after sync artworks; async models hide themselves on first transition)
-    for (const entry of this._artworkRegistry) {
-      const loc = entry.obj.userData.location;
-      if (loc && loc !== this._currentLocation) {
-        entry.obj.visible = false;
-        (entry.obj.userData.associatedMeshes ?? []).forEach(m => { m.visible = false; });
-      }
-    }
+    // ── Dummy ModelCarousel ──────────────────────────────────────────────────
+    const dummyCarousel = new ModelCarousel({
+      scene: this.scene,
+      position: [-7.6, 22.6, 7.0],
+      rotation: [0, 90, 0],
+      radius: 1.4,
+      normalizeTo: 1.0,
+      debugOn: this._debug,
+      artworkInfo: {
+        title: "3D Works",
+        artist: "Various",
+        description: "A rotating carousel of 3D works. Use prev / next to cycle through each piece."
+      },
+      models: [
+        {
+          url: `${baseURL}art/Nailed_Genevieve Carr/3D/5Hole_Decimate.glb`,
+          playAnimation: "first",
+          
+          artworkInfo: {
+            title: "5 Hole",
+            artist: "Genevieve Carr",
+            description: "An exploration of space, physical forces of the Earth and the theory of material agency."
+          }
+        },
+        {
+          url: `${baseURL}art/Nailed_Genevieve Carr/3D/Bone_Decimate.glb`,
+          playAnimation: "first",
+          
+          artworkInfo: {
+            title: "3D Bone",
+            artist: "Genevieve Carr",
+            description: "Clay sculptures resembling slices of cake — hard, cold, and weapon-like, subverting diet culture."
+          }
+        },
+        {
+          url: `${baseURL}art/Nailed_Genevieve Carr/3D/Hmmnotsure_Decimate.glb`,
+          playAnimation: "all",
+          
+          artworkInfo: {
+            title: "Hmm... Not Sure",
+            artist: "Genevieve Carr",
+            description: "Hangul as an embodied language — modular wearable artefacts shaped by movement, touch, and Korean textiles."
+          }
+        },
+        {
+          url: `${baseURL}art/Nailed_Genevieve Carr/3D/lotsofholes_Decimate.glb`,
+          playAnimation: "all",
+          
+          artworkInfo: {
+            title: "Lots of Holes",
+            artist: "Genevieve Carr",
+            description: "Hangul as an embodied language — modular wearable artefacts shaped by movement, touch, and Korean textiles."
+          }
+        },
+        {
+          url: `${baseURL}art/Nailed_Genevieve Carr/3D/PointBall_Decimate.glb`,
+          playAnimation: "all",
+          
+          artworkInfo: {
+            title: "Point Ball",
+            artist: "Genevieve Carr",
+            description: "Hangul as an embodied language — modular wearable artefacts shaped by movement, touch, and Korean textiles."
+          }
+        },
+        {
+          url: `${baseURL}art/Nailed_Genevieve Carr/3D/TroPhobia_Decimate.glb`,
+          playAnimation: "all",
+          
+          artworkInfo: {
+            title: "TroPhobia",
+            artist: "Genevieve Carr",
+            description: "Hangul as an embodied language — modular wearable artefacts shaped by movement, touch, and Korean textiles."
+          }
+        },
+      ]
+    });
+
+    dummyCarousel.load().then(() => {
+      dummyCarousel.hitbox.userData.location = 'EagleBar';
+      this._registerExperience(dummyCarousel);
+    }).catch(console.error);
+    // ────────────────────────────────────────────────────────────────────────
+
+    
 
   
 
@@ -1066,28 +1334,37 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       }
     }));
 
-    //window corner
-    /*
-    this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/EmbodiedMemories_YoonJuChung/B0009341-1-1.webp`,
-      width: 3.0,
-      height: 1.4,
-      position: [-40.8, 1.0, -25.2],
-      rotation: [0, 45, 0],
-      clickable: true,
-      plinthVisible: false,
-      offsetClick: 0.0,
-      text: "Image Screen",
-      location: 'WestPavillion',
-      artworkInfo: {
-        title: "Embodied Memories",
-        artist: "Yoon Ju Chung",
-        description: "Embodied Memories explores Hangul, the Korean alphabet, as an embodied and relational language through modular wearable artefacts. Originating from experiences of non-verbal communication with the artist’s hearing-impaired aunt, the project approaches gesture and movement as fundamental forms of language. Drawing on Hangul’s geometric structure, linguistic principles are translated into a modular system that functions as words, sculptural forms, or wearable objects. Grounded in Korean emotional philosophies—Jeong (connection), Han (endurance), and Heung (vitality)—the work informs processes of alignment, tension, play, and repair. Rather than treating language as a fixed visual system, meaning emerges through bodily movement, touch, and reconfiguration. The final artefacts are constructed using Korean textiles such as Mosi (ramie) and Oksa (silk), combined with transparent acrylic structures, magnetic connections, and traditional techniques including Gamchimgil hand-stitching and Pusae (rice starch stiffening).  Language is not only spoken or written; it is sensed, worn, and remembered. "
-      },
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
+
+
+  this.screenManager.addModel({
+    url: import.meta.env.BASE_URL + "/art/LetMeEatCake_SuzannaTeal/CAkeTable.glb",
+    position: [-29.0, -1.0, -21.0],   // e.g. on/near carousel A
+      rotation: [0, -90, 0],
+    rotationOffset: 90,
+    normalizeTo: 2.2,
+    clickable: true,
+    onClick: (obj, hit) => console.log("Model clicked:", obj),
+    text: "",
+    textOffset: [0, -0.7, 0.9],
+    hitboxSize: [1.8, 1.2, 1.6],
+    offsetClick: -1.5,
+    plinthVisible: false,
+    plinthOffset: [0, -0.8, 0],
+    playAnimation: "first",
+    location: 'WestPavillion',
+    artworkInfo: {
+        title: "Let Me Eat Cake",
+        artist: "Suzanna Teal",
+        description: "Let Me Eat Cake is a multimedia installation that explores the relationship between food, memory, and identity. Through a combination of sculpture, video, and interactive elements, the work invites viewers to reflect on their own experiences with food and the stories they tell about it. The installation features a series of sculptural cakes that respond to viewer interaction, creating a dynamic and engaging experience that blurs the line between art and culinary tradition. "
       }
-    }));*/
+  }).then((modelRoot) => {
+    this.statue = modelRoot;
+    this._registerArtwork(modelRoot);
+  }).catch(console.error);
+
+    
+
+    //window corner
         const c=import.meta.env.BASE_URL + "/art/EmbodiedMemories_YoonJuChung/JU-CHUNG.glb";
 
   this.screenManager.addModel({
@@ -1095,8 +1372,8 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     position: [-40.8, 1.0, -25.2],
     //position: [-4, 1.0, -4],
       rotation: [0, 45, 0],
-    rotationOffset: 180,
-    normalizeTo: 0.8,
+    rotationOffset: 0,
+    normalizeTo: 1.5,
     clickable: true,
     onClick: (obj, hit) => console.log("Model clicked:", obj),
     text: "",
@@ -1104,8 +1381,9 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     hitboxSize: [0.6, 1.4, 0.6],
     offsetClick: -0.0,
     plinthVisible: true,
+    plinthOffset: [0, -0.8, 0],
     playAnimation: "first",
-    location: 'lobby',
+    location: 'WestPavillion',
     playAnimation:"all",
     artworkInfo: {
         title: "Embodied Memories",
@@ -1170,7 +1448,7 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       url: `${baseURL}art/FauxFlora_JustinaAlexandrof/Justina_Alexandroff_2-2.jpg`,
       width: 1.5,
       height: 2.0,
-      position: [4.5, 23, 15.5],
+      position: [5.5, 23, 16.5],
       rotation: [0, -135, 0],
       clickable: true,
       offsetClick: 0.5,
@@ -1187,6 +1465,29 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
         console.log("Clicked screen/podium", obj);
       }
     }));
+
+    this.screenManager.addModel({
+      url: `${baseURL}art/FauxFlora_JustinaAlexandrof/FauxFlora01.glb`,
+      position: [4.5, 23, 15.5],
+      rotation: [0, -135, 0],
+      normalizeTo: 0.8,
+      clickable: true,
+      onClick: (obj, hit) => console.log("Model clicked:", obj),
+      text: "",
+      textOffset: [0, -0.1, 0.9],
+      hitboxSize: [1.8, 1.5, 1.8],
+      offsetClick: 0.2,
+      plinthVisible:true,
+      plinthOffset: [0, -0.5, 0],
+      plinthSize: [1.0, 1.0, 1.0],
+      //playAnimation: "first",
+      location: 'EagleBar',
+      artworkInfo: {
+        title: "Yellow Hand",
+        artist: "Sanne Winderickx",
+        description: "Yellow Hand is a 3D model of a hand that serves as a companion piece to the video work Invocation of the Black Flame. The hand is designed to evoke a sense of mysticism and transformation, with its intricate details and symbolic gestures. As viewers interact with the hand, they are encouraged to explore themes of power, identity, and resistance, further deepening their engagement with the concepts presented in the video."
+      }
+    });
 
     //right side of bar
     this._registerArtwork(this.screenManager.addScreen({
@@ -1259,6 +1560,16 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       }
     }));
 
+    // Hide artworks that don't belong to the starting location
+    // (runs after sync artworks; async models hide themselves on first transition)
+    for (const entry of this._artworkRegistry) {
+      const loc = entry.obj.userData.location;
+      if (loc && loc !== this._currentLocation) {
+        entry.obj.visible = false;
+        (entry.obj.userData.associatedMeshes ?? []).forEach(m => { m.visible = false; });
+      }
+    }
+
 
 
   }
@@ -1267,7 +1578,7 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
 
   update(dt) {
     //test rotation
-    this.ball.rotation.y += dt * 0.6;
+    //this.ball.rotation.y += dt * 0.6;
 
     // update focus cooldown
     this._focusCooldown = Math.max(0, this._focusCooldown - dt);
@@ -1348,6 +1659,9 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     // advance animation mixer for the focused model only
     const focusedModelRoot = this._focusedScreen?.userData?.modelRoot ?? null;
     this.screenManager.updateMixers(dt, focusedModelRoot);
+
+    // tick the active experience (handles its own mixers + tweens)
+    this._focusedExperience?.update(dt);
 
     // mouse-trail temporary reveal — one raycast per frame at most
     this._tryMouseTrailReveal();
@@ -1482,6 +1796,32 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       }
       if (loc) this._checkLocationCompletion(loc);
     }
+
+    // Activate experience if this object belongs to one
+    const _exp = obj.userData.experience ?? null;
+    if (_exp !== this._focusedExperience) {
+      // Re-add previous experience's entry hitbox before switching away
+      this._restoreExperienceHitbox(this._focusedExperience);
+      this._focusedExperience?.onUnfocus();
+      this._focusedExperience = _exp;
+      _exp?.onFocus(this.camera, obj);
+      // Remove entry hitbox from clickables — Three.js raycasts visible=false objects too,
+      // so the large central box would intercept clicks meant for the per-model hitboxes.
+      this._removeExperienceHitbox(_exp);
+    }
+  }
+
+  _removeExperienceHitbox(exp) {
+    if (!exp?.hitbox) return;
+    const idx = this.screenManager.clickables.indexOf(exp.hitbox);
+    if (idx !== -1) this.screenManager.clickables.splice(idx, 1);
+  }
+
+  _restoreExperienceHitbox(exp) {
+    if (!exp?.hitbox) return;
+    if (!this.screenManager.clickables.includes(exp.hitbox)) {
+      this.screenManager.clickables.push(exp.hitbox);
+    }
   }
 
   _activateNarration(obj) {
@@ -1571,6 +1911,29 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     this.infoPanel.setRegistry(this._artworkRegistry);
   }
 
+  // Register a mini-experience (ModelCarousel, etc.) into the artwork registry.
+  // Adds the experience's hitbox to ScreenManager's click list and tags it.
+  _registerExperience(exp) {
+    exp.hitbox.userData.experience = exp;
+    this.screenManager.clickables.push(exp.hitbox);
+
+    if (exp.modelHitboxes?.length) {
+      for (const hb of exp.modelHitboxes) {
+        hb.userData.experience = exp;
+        this.screenManager.clickables.push(hb);
+      }
+      // root covers the models; model hitboxes are listed explicitly because
+      // Three.js raycaster checks each mesh's own .visible, not ancestor visibility
+      exp.hitbox.userData.associatedMeshes = [
+        ...(exp.hitbox.userData.associatedMeshes ?? []),
+        exp.root,
+        ...exp.modelHitboxes,
+      ];
+    }
+
+    this._registerArtwork(exp.hitbox);
+  }
+
   // ─── Location reveal zone registration ───────────────────────────────────
   // Call after setLocations() in scene setup. When all artworks tagged with
   // `name` have been seen, floods the zone permanently.
@@ -1605,6 +1968,16 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
   }
 
   _navigateArtwork(dir) {
+    // Let a focused experience consume the nav first (e.g. carousel cycling)
+    if (this._focusedExperience) {
+      const result = this._focusedExperience.onNav?.(dir);
+      if (result?.consumed) {
+        if (result.focusTarget) this.focus.focusOn({ targetObject: result.focusTarget, duration: 0.5 });
+        if (result.artworkInfo) this.infoPanel.show(result.artworkInfo);
+        return;
+      }
+    }
+
     // Only cycle through artworks in the current location (or always-visible null-location ones)
     const activeIndices = this._artworkRegistry
       .map((entry, i) => ({ entry, i }))

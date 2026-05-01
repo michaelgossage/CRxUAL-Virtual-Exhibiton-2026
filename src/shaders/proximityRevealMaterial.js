@@ -11,8 +11,8 @@ const FADE_IN_DUR_MS     = 900;  // ms for permanent reveals to fade in
 const TEMP_FADE_IN_MS    = 300;  // ms for tap reveals to fade in
 const TEMP_REVEAL_DUR    = 4.0;  // seconds for tap reveals to fade out (default)
 const GOLD_DUR_MS        = 3000; // ms for gold expansion to fade out after a permanent reveal
-const GOLD_EDGE_WIDTH    = 0.18; // 0..1 — width of the persistent gold ring
-const GOLD_EDGE_MULT     = 0.7;  // 0..1 — brightness of the persistent gold edge ring
+const GOLD_EDGE_WIDTH    = 0.7; // 0..1 — width of the persistent gold ring
+const GOLD_EDGE_MULT     = 5.7;  // 0..1 — brightness of the persistent gold edge ring
 // ─── Edge noise mode ──────────────────────────────────────────────────────────
 const NOISE_MODE         = 'gpu'; // 'cpu' | 'gpu'
 // CPU mode — noise baked into voxel volume at paint time (voxel-grid aligned)
@@ -25,6 +25,9 @@ const GPU_NOISE_TILE_SCALE = 0.1;   // tiles per world unit — higher = more re
 const GPU_NOISE_STRENGTH   = 0.5;  // 0..1 — how far noise displaces the reveal threshold (higher = more jagged)
 const GPU_EDGE_HARDNESS    = 0.02; // 0..0.5 — 0 = perfectly hard step, 0.5 = fully soft gradient
 const DEBUG_SHOW_NOISE     = false; // true = render raw noise texture as surface colour (gpu mode only)
+const DEBUG_FOG            = false; // true = use DEBUG_FOG_COLOR instead of production fog colour
+const DEBUG_FOG_COLOR      = 0x800000; // red — visible debug fog
+const PRODUCTION_FOG_COLOR = 0xcccccc; // white — production fog
 // ─────────────────────────────────────────────────────────────────────────────
 // World-space bounds the voxel volume covers. Adjust to match your scene extents.
 // XZ covers the horizontal footprint; Y covers vertical (height) range.
@@ -78,7 +81,8 @@ vec3 _uvw = clamp(vec3(
   (vWorld.z - uWorldMinXZ.y) / uWorldSizeXZ.y
 ), 0.0, 1.0);
 
-float _settled = texture(uRevealTex,     _uvw).r;
+float _settled    = texture(uRevealTex,     _uvw).r;
+float _settledRaw = _settled;
 float _temp    = texture(uRevealTexTemp, _uvw).r;
 float _gold    = texture(uRevealTexGold, _uvw).r;
 ` + (NOISE_MODE === 'gpu' ? /* glsl */`
@@ -87,12 +91,15 @@ float _noiseSample = texture(uNoiseTex, fract(vWorld.xz * uNoiseTileScale)).r;
 float _noised      = _settled + (_noiseSample - 0.5) * uNoiseStrength;
 _settled = smoothstep(0.5 - uEdgeHardness, 0.5 + uEdgeHardness, _noised);
 ` : '') + /* glsl */`
-// Persistent gold ring — derived from boundary of settled reveal, zero extra sample
-float _edge    = smoothstep(0.0, uGoldEdgeWidth, _settled) * smoothstep(1.0, 1.0 - uGoldEdgeWidth, _settled);
+// Persistent gold ring — uses raw pre-noise gradient so edge width is always visible
+// Gold band just inside the hard reveal edge: _settled keeps the outer edge hard,
+// _settledRaw fades the band inward so GOLD_EDGE_WIDTH actually controls thickness
+float _edge    = _settled * smoothstep(uGoldEdgeWidth, 0.0, _settledRaw);
 
-float _reveal  = max(_settled, max(_temp, _gold));
-float _goldAmt = clamp(_gold + _edge * uGoldEdgeMult, 0.0, 1.0);
-vec3  _colored = mix(diffuseColor.rgb, uGoldColor, _goldAmt);
+float _goldAmt  = clamp(_gold + _edge * uGoldEdgeMult, 0.0, 1.0);
+// Gold ring punches through fog so it's visible at the hidden boundary
+float _reveal   = max(_settled, max(_temp, max(_gold, _goldAmt)));
+vec3  _colored  = mix(diffuseColor.rgb, uGoldColor, _goldAmt);
 
 diffuseColor.rgb = mix(uFogColor, _colored, _reveal);
 ` + (NOISE_MODE === 'gpu' ? /* glsl */`
@@ -100,7 +107,7 @@ diffuseColor.rgb = mix(uFogColor, _colored, _reveal);
 diffuseColor.rgb = mix(diffuseColor.rgb, vec3(_noiseSample), uDebugNoise);
 ` : '');
 
-function _injectReveal(shader, mat, texture, tempTexture, goldTexture, fogColor, noiseTexture) {
+function _injectReveal(shader, mat, texture, tempTexture, goldTexture, noiseTexture) {
   mat.userData.shader = shader;
 
   shader.uniforms.uRevealTex      = { value: texture };
@@ -110,7 +117,7 @@ function _injectReveal(shader, mat, texture, tempTexture, goldTexture, fogColor,
   shader.uniforms.uWorldSizeXZ    = { value: new THREE.Vector2(WORLD_SIZE_X, WORLD_SIZE_Z) };
   shader.uniforms.uWorldMinY      = { value: WORLD_MIN_Y };
   shader.uniforms.uWorldSizeY     = { value: WORLD_SIZE_Y };
-  shader.uniforms.uFogColor       = { value: new THREE.Color(fogColor) };
+  shader.uniforms.uFogColor       = { value: new THREE.Color(DEBUG_FOG ? DEBUG_FOG_COLOR : PRODUCTION_FOG_COLOR) };
   shader.uniforms.uGoldColor      = { value: new THREE.Color(0xFFD700) };
   shader.uniforms.uGoldEdgeWidth  = { value: GOLD_EDGE_WIDTH };
   shader.uniforms.uGoldEdgeMult   = { value: GOLD_EDGE_MULT };
@@ -152,21 +159,21 @@ function _injectReveal(shader, mat, texture, tempTexture, goldTexture, fogColor,
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
-export function makeProximityRevealMaterial(system, { color = 0x808080, fogColor = 0x000000, side = THREE.FrontSide } = {}) {
+export function makeProximityRevealMaterial(system, { color = 0x808080, side = THREE.FrontSide } = {}) {
   const mat = new THREE.MeshStandardMaterial({ color, side, roughness: 1.0, metalness: 0.0 });
-  mat.onBeforeCompile = (shader) => _injectReveal(shader, mat, system.texture, system.tempTexture, system.goldTexture, fogColor, system.noiseTexture);
+  mat.onBeforeCompile = (shader) => _injectReveal(shader, mat, system.texture, system.tempTexture, system.goldTexture, system.noiseTexture);
   system.registerMaterial(mat);
   return mat;
 }
 
-export function applyProximityRevealToMaterial(mat, system, { fogColor = 0xffffff } = {}) {
+export function applyProximityRevealToMaterial(mat, system) {
   if (mat.userData._proximityRevealApplied) return;
   mat.userData._proximityRevealApplied = true;
 
   const _prev = mat.onBeforeCompile;
   mat.onBeforeCompile = (shader, renderer) => {
     if (_prev) _prev(shader, renderer);
-    _injectReveal(shader, mat, system.texture, system.tempTexture, system.goldTexture, fogColor, system.noiseTexture);
+    _injectReveal(shader, mat, system.texture, system.tempTexture, system.goldTexture, system.noiseTexture);
   };
 
   mat.needsUpdate = true;

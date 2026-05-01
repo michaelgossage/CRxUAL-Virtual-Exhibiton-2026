@@ -3,6 +3,48 @@ import { makeRevealMaterial, makeCarouselMaterial } from "../shaders/revealshade
 import { loadGLTFWithAnimations } from "../utils/gltfLoader.js"; // adjust path
 import { CarouselFluidSim } from "./CarouselFluidSim.js";
 
+// Procedural white marble — veining computed from world position in the fragment
+// shader, no texture required. Uses MeshStandardMaterial so it picks up scene
+// lighting and the HDRI env map. Cost: ~8 extra ALU ops per fragment, negligible.
+function makePlinthMarbleMaterial() {
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0xf5f2ee,
+    roughness: 0.32,
+    metalness: 0.0,
+    envMapIntensity: 0.6,
+  });
+
+  mat.onBeforeCompile = (shader) => {
+    // Expose world position to fragment shader
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <worldpos_vertex>',
+      `#include <worldpos_vertex>
+       vWorldPos = (modelMatrix * vec4(transformed, 1.0)).xyz;`
+    );
+    shader.vertexShader = 'varying vec3 vWorldPos;\n' + shader.vertexShader;
+    shader.fragmentShader = 'varying vec3 vWorldPos;\n' + shader.fragmentShader;
+
+    shader.fragmentShader = shader.fragmentShader.replace(
+      '#include <color_fragment>',
+      /* glsl */`
+      #include <color_fragment>
+
+      // Cheap hash — no texture needed
+      vec3 p = vWorldPos * 1.8;
+      float v = sin(p.x * 1.1 + p.y * 0.4 + sin(p.z * 0.9 + p.x * 0.6) * 2.2) * 0.5 + 0.5;
+      v = pow(v, 3.5); // thin, sharp veins
+      float vein = smoothstep(0.55, 0.72, v);
+
+      // Vein colour: cool grey-blue, typical of Carrara marble
+      vec3 veinColor = vec3(0.72, 0.74, 0.76);
+      diffuseColor.rgb = mix(diffuseColor.rgb, veinColor, vein * 0.55);
+      `
+    );
+  };
+
+  return mat;
+}
+
 
 
 /**
@@ -98,6 +140,8 @@ export class ScreenManager {
     text = "",
     fontSize = 30,
     plinthVisible = true,
+    plinthSize = null,   // [w, h, d] — defaults to [width*0.9, 2.0, 1.0]
+    plinthOffset = [0, 0, 0], // [x, y, z] world-space offset added to plinth position
     clickableSize = [width * 1.2, height * 1.2], // size of the clickable hitBox (if clickable)
     onClick = null, // optional callback(meshOrPodium, hit)
     artworkInfo = null, // { title, artist, description }
@@ -207,11 +251,14 @@ export class ScreenManager {
     //add a box for the artwork to sit on
     let boxMesh = null;
     if(plinthVisible){
-      const boxGeoHeight = 2.0;
-      const boxGeo = new THREE.BoxGeometry(width * 0.9, boxGeoHeight, 1.0);
-      const boxMat = new THREE.MeshStandardMaterial({ color: 0x404040 });
-      boxMesh = new THREE.Mesh(boxGeo, boxMat);
-      boxMesh.position.set(position[0], position[1] - (height / 2) - (boxGeoHeight / 2), position[2]);
+      const [pw, ph, pd] = plinthSize ?? [width * 0.9, 2.0, 1.0];
+      const boxGeo = new THREE.BoxGeometry(pw, ph, pd);
+      boxMesh = new THREE.Mesh(boxGeo, makePlinthMarbleMaterial());
+      boxMesh.position.set(
+        position[0] + plinthOffset[0],
+        position[1] - (height / 2) - (ph / 2) + plinthOffset[1],
+        position[2] + plinthOffset[2]
+      );
       boxMesh.rotation.set(...rotation);
       boxMesh.receiveShadow = true;
       boxMesh.castShadow = true;
@@ -1097,6 +1144,8 @@ async addModel({
   fontSize = 30,
   textOffset = [0, -0.6, 0.6], // local [x,y,z] offset relative to model rotation
   plinthVisible = true,
+  plinthSize = null,        // [w, h, d] — defaults to [1.2, 10.2, 1.2]
+  plinthOffset = [0, 0, 0], // [x, y, z] world-space offset added to plinth position
 
   castShadow = true,
 
@@ -1203,19 +1252,22 @@ async addModel({
     this.clickables.push(hitBox);
   }
 
-  //add plinth for the model to sit on, we can use the same dimensions as the hitbox but make it a thin box under the model
   let plinth = null;
   if(plinthVisible){
-  const plinthHeight = 10.2;
-  plinth = new THREE.Mesh(
-    new THREE.BoxGeometry( 1.2, plinthHeight, 1.2),
-    new THREE.MeshStandardMaterial({ color: 0x404040 }) // dark gray
-  );
-  plinth.position.set(position[0], position[1] - (plinthHeight / 2), position[2]);
-  plinth.rotation.set(...rotRad);
-  plinth.receiveShadow = true;
-  plinth.castShadow = true;
-  this.scene.add(plinth);
+    const [pw, ph, pd] = plinthSize ?? [1.2, 10.2, 1.2];
+    plinth = new THREE.Mesh(
+      new THREE.BoxGeometry(pw, ph, pd),
+      makePlinthMarbleMaterial()
+    );
+    plinth.position.set(
+      position[0] + plinthOffset[0],
+      position[1] - (ph / 2) + plinthOffset[1],
+      position[2] + plinthOffset[2]
+    );
+    plinth.rotation.set(...rotRad);
+    plinth.receiveShadow = true;
+    plinth.castShadow = true;
+    this.scene.add(plinth);
   }
 
   // Optional label (relative to model rotation, like you fixed for screens)
