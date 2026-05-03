@@ -133,6 +133,22 @@ export class CameraFocus {
   }
 
   /**
+   * Move the camera to an explicit world-space position + quaternion.
+   * Used by ImmersiveCarousel to place the camera inside the image ring.
+   */
+  moveTo({ position, quaternion, duration = 0.9 }) {
+    if (!this._hasHome) this.setHomeFromCurrent();
+    this.duration = Math.max(0.05, duration);
+    this.fromPos.copy(this.camera.position);
+    this.fromQuat.copy(this.camera.quaternion);
+    this.toPos.copy(position);
+    this.toQuat.copy(quaternion);
+    this.t = 0;
+    this.isMoving = true;
+    this.isFocused = true;
+  }
+
+  /**
    * Return to the stored "home" pose.
    */
   returnHome(duration = 0.75) {

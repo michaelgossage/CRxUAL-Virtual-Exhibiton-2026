@@ -15,6 +15,7 @@ import { LocationManager } from "./LocationManager.js";
 import { makeArchGridMaterial } from "../shaders/gridShader.js";
 import { InfoPanel } from "../ui/InfoPanel.js";
 import { ModelCarousel } from "./experiences/ModelCarousel.js";
+import { ImmersiveCarousel } from "./experiences/ImmersiveCarousel.js";
 
 
 
@@ -1231,6 +1232,64 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     }).catch(console.error);
     // ────────────────────────────────────────────────────────────────────────
 
+    // ── Dummy ImmersiveCarousel ──────────────────────────────────────────────
+    const dummyImmersive = new ImmersiveCarousel({
+      scene: this.scene,
+      position: [-1.6, 0.5, -1.0],
+      rotation: [0, 45, 0],
+      radius: 3.5,
+      panelWidth: 2.5,
+      panelHeight: 2.0,
+      debugOn: this._debug,
+      artworkInfo: {
+        title: "Self-Finish",
+        artist: "Beatrice El-Asmar",
+        description: "Step inside the work. Use ‹ › or arrow keys to cycle through images.",
+      },
+      images: [
+        {
+          url: `${baseURL}art/SelfFinish_BeatriceElAsmar/SF_03.jpg`,
+          artworkInfo: {
+            title: "Self-Finish I",
+            artist: "Beatrice El-Asmar",
+            description: "Image one from the Self-Finish series.",
+          },
+        },
+        {
+          url: `${baseURL}art/SelfFinish_BeatriceElAsmar/SF_03.jpg`,
+          artworkInfo: {
+            title: "Self-Finish III",
+            artist: "Beatrice El-Asmar",
+            description: "Image three from the Self-Finish series.",
+          },
+        },
+        {
+          url: `${baseURL}art/SelfFinish_BeatriceElAsmar/SF_04.jpg`,
+          artworkInfo: {
+            title: "Self-Finish IV",
+            artist: "Beatrice El-Asmar",
+            description: "Image four from the Self-Finish series.",
+          },
+        },
+        {
+          url: `${baseURL}art/SelfFinish_BeatriceElAsmar/SF_08.jpg`,
+          artworkInfo: {
+            title: "Self-Finish VIII",
+            artist: "Beatrice El-Asmar",
+            description: "Image eight from the Self-Finish series.",
+          },
+        },
+      ],
+    });
+
+    dummyImmersive.load().then(() => {
+      dummyImmersive.hitbox.userData.location = 'lobby';
+      this._registerExperience(dummyImmersive);
+      dummyImmersive._clickables = this.screenManager.clickables;
+      this.screenManager.clickables.push(dummyImmersive.arrowPrev, dummyImmersive.arrowNext);
+    }).catch(console.error);
+    // ────────────────────────────────────────────────────────────────────────
+
     
 
   
@@ -1746,7 +1805,12 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       this._animateColorReveal(revealTarget, currentColor, 1.0, 1.5);
     }
 
-    this.focus.focusOn({ targetObject: target, distance: "fit", heightOffset: 0.0, duration: 0.7, padding: 1 });
+    if (target.userData.focusPose) {
+      const { position, quaternion, duration: d = 0.9 } = target.userData.focusPose;
+      this.focus.moveTo({ position, quaternion, duration: d });
+    } else {
+      this.focus.focusOn({ targetObject: target, distance: "fit", heightOffset: 0.0, duration: 0.7, padding: 1 });
+    }
 
     const info = obj.userData.artworkInfo;
     if (info) this.infoPanel.show(info);
