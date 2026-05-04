@@ -53,7 +53,7 @@ function makePlinthMarbleMaterial() {
  * - manages videos, clickable hitBoxes, and clean disposal
  */
 export class ScreenManager {
-  constructor({ scene, camera, renderer, domElement, makeTextPlane, debugOn }) {
+  constructor({ scene, camera, renderer, domElement, makeTextPlane, debugOn, isMobile = false }) {
     this.scene = scene;
     this.camera = camera;
     this.renderer = renderer ?? null;
@@ -69,6 +69,7 @@ export class ScreenManager {
     this.hitBoxes = [];   // clickable meshes (invisible)
     this.clickables = []; // meshes to raycast against
     this._activeVideo = null; // only one video plays at a time
+    this._isMobile = isMobile;
 
     this.models = [];   // { root, hitBox?, textMesh?, mixer?, clips?, url? }
 
@@ -973,19 +974,23 @@ export class ScreenManager {
       this._swapScreenTexture(hitBox, hitBox.userData.videoTexture, hitBox.userData.videoContainScale);
     }
 
-    // Play — called within a user-gesture chain so audio is allowed.
-    // readyState >= 3 (HAVE_FUTURE_DATA) means enough is buffered to start.
-    // If not there yet, wait for the first canplay event then try again.
-    const tryPlay = () => video.play().catch(() => {});
-
-    if (video.readyState >= 3) {
-      tryPlay();
+    // On mobile (iOS Safari) play() must be called synchronously within the
+    // user-gesture chain — deferring to a canplay listener breaks the gesture
+    // context and iOS silently blocks unmuted playback.
+    // On desktop we wait for readyState >= 3 to avoid a flash of buffering.
+    if (this._isMobile) {
+      video.play().catch(() => {});
     } else {
-      const onCanPlay = () => {
+      const tryPlay = () => video.play().catch(() => {});
+      if (video.readyState >= 3) {
         tryPlay();
-        video.removeEventListener("canplay", onCanPlay);
-      };
-      video.addEventListener("canplay", onCanPlay);
+      } else {
+        const onCanPlay = () => {
+          tryPlay();
+          video.removeEventListener("canplay", onCanPlay);
+        };
+        video.addEventListener("canplay", onCanPlay);
+      }
     }
     return video;
   }
@@ -995,9 +1000,6 @@ export class ScreenManager {
     if (!video) return;
 
     video.pause();
-    // Drop back to metadata-only so the browser can free the video buffer
-    video.preload = "metadata";
-    video.load();
     if (this._activeVideo === video) this._activeVideo = null;
 
     // Restore poster if one was provided (with its contain scale)

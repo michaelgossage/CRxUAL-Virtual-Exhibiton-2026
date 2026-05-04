@@ -19,12 +19,15 @@ export class App {
     this.renderer = new Renderer({ mount: this.mount, sizes: this.sizes });
     this.sceneManager = new SceneManager(this.scene);
 
+    this.isMobile = /iphone|ipad|ipod|android/i.test(navigator.userAgent);
+
     this.world = new World({
       scene: this.scene,
       camera: this.cameraRig.camera,
       renderer: this.renderer.gl,
       sizes: this.sizes,
       debugOn: true,  // enable debug logging for location reveal system
+      isMobile: this.isMobile,
     });
 
     this._fpsEl = null;

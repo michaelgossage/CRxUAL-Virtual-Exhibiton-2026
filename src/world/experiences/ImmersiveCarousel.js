@@ -2,9 +2,10 @@ import * as THREE from "three";
 import { makeRevealMaterial } from "../../shaders/revealshader.js";
 import { makeTween01 } from "../../utils/tween.js";
 
-const _easeInOut = (t) => t * t * (3 - 2 * t);
-const _clamp01   = (t) => Math.max(0, Math.min(1, t));
-const _WORLD_UP  = new THREE.Vector3(0, 1, 0);
+const _easeInOut  = (t) => t * t * (3 - 2 * t);
+const _clamp01    = (t) => Math.max(0, Math.min(1, t));
+const _WORLD_UP   = new THREE.Vector3(0, 1, 0);
+const _mergeInfo  = (base, override) => ({ ...base, ...(override ?? {}) });
 
 /**
  * ImmersiveCarousel — still images arranged in a ring; camera moves to ring
@@ -47,9 +48,16 @@ export class ImmersiveCarousel {
       ? radius
       : Math.max(2.5, (panelWidth * n * 1.3) / (2 * Math.PI));
 
+    // Anchor position to the front image face (like any other artwork).
+    // Root sits at ring centre = front panel pos − frontDir * R.
+    const yRad = rotation[1] * deg;
+    const frontDir = new THREE.Vector3(Math.sin(yRad), 0, Math.cos(yRad));
+    const ringCenter = new THREE.Vector3(...position)
+      .addScaledVector(frontDir, -this._radius);
+
     this.root = new THREE.Group();
-    this.root.position.set(...position);
-    this.root.rotation.set(rotation[0] * deg, rotation[1] * deg, rotation[2] * deg);
+    this.root.position.copy(ringCenter);
+    this.root.rotation.set(rotation[0] * deg, yRad, rotation[2] * deg);
     scene.add(this.root);
 
     // ring is a child of root and rotates Y to cycle images
@@ -67,7 +75,8 @@ export class ImmersiveCarousel {
     this._isFocused     = false;
     this._rotTween      = null;
     this._colorTween    = null;  // greyscale → colour on first focus
-    this._currentAngle  = 0;     // ring.rotation.y — separate from root's base angle
+    this._currentAngle  = 0;     // live visual ring.rotation.y
+    this._targetAngle   = 0;     // committed destination (may differ mid-tween on rapid clicks)
     this._revealTweens  = [];    // [{ mesh, elapsed, duration }] — side panel fade-in
     this._clickables    = null;  // set by World.js after _registerExperience
 
@@ -145,7 +154,7 @@ export class ImmersiveCarousel {
       hb.position.copy(mesh.position);
       hb.quaternion.copy(mesh.quaternion);
       hb.visible = false; // shown only when experience is focused
-      hb.userData.artworkInfo = def.artworkInfo ?? this.artworkInfo;
+      hb.userData.artworkInfo = _mergeInfo(this.artworkInfo, def.artworkInfo);
       hb.userData.experience  = this; // tag for World.js routing
       this.ring.add(hb);
       this._panelHitboxes.push(hb);
@@ -165,7 +174,7 @@ export class ImmersiveCarousel {
     // Position at front panel location in root-local space and face inward
     this.hitbox.position.set(0, 0, R);
     this.hitbox.lookAt(new THREE.Vector3(0, 0, 0));
-    this.hitbox.userData.artworkInfo     = defs[0].artworkInfo ?? this.artworkInfo;
+    this.hitbox.userData.artworkInfo     = _mergeInfo(this.artworkInfo, defs[0].artworkInfo);
     this.hitbox.userData.focusTarget     = this.hitbox;
     // No revealTarget — we own the greyscale→colour tween ourselves in onFocus()
     this.hitbox.userData.experienceOwner = this;
@@ -259,12 +268,13 @@ export class ImmersiveCarousel {
     }
 
     // Snap ring to index 0 for clean re-entry
-    this.activeIndex   = 0;
-    this._currentAngle = 0;
+    this.activeIndex     = 0;
+    this._currentAngle   = 0;
+    this._targetAngle    = 0;
     this.ring.rotation.y = 0;
     this._rotTween = null;
 
-    this.hitbox.userData.artworkInfo = this._imageDefs[0].artworkInfo ?? this.artworkInfo;
+    this.hitbox.userData.artworkInfo = _mergeInfo(this.artworkInfo, this._imageDefs[0].artworkInfo);
   }
 
   onMiss() {
@@ -275,22 +285,22 @@ export class ImmersiveCarousel {
     const n = this._panels.length;
     if (n <= 1) return null;
     const next = ((this.activeIndex + dir) % n + n) % n;
-    this._rotateToIndex(next);
+    this._rotateByDelta(dir);
     this.activeIndex = next;
-    const info = this._imageDefs[next].artworkInfo ?? this.artworkInfo;
+    const info = _mergeInfo(this.artworkInfo, this._imageDefs[next].artworkInfo);
     this.hitbox.userData.artworkInfo = info;
     return { consumed: true, artworkInfo: info };
   }
 
   onHit(obj) {
-    if (obj === this.arrowPrev) return this.onNav(-1);
-    if (obj === this.arrowNext) return this.onNav(+1);
+    if (obj === this.arrowPrev) return this.onNav(+1);
+    if (obj === this.arrowNext) return this.onNav(-1);
 
     const idx = this._panelHitboxes.indexOf(obj);
     if (idx !== -1) {
       this._rotateToIndex(idx);
       this.activeIndex = idx;
-      const info = this._imageDefs[idx].artworkInfo ?? this.artworkInfo;
+      const info = _mergeInfo(this.artworkInfo, this._imageDefs[idx].artworkInfo);
       this.hitbox.userData.artworkInfo = info;
       return { consumed: true, artworkInfo: info };
     }
@@ -346,15 +356,38 @@ export class ImmersiveCarousel {
     this.hitbox.userData.focusPose = { position: camPos, quaternion: quat, duration: 0.9 };
   }
 
-  _rotateToIndex(index, duration = 0.6) {
-    const step   = (2 * Math.PI) / this._panels.length;
-    const target = -(step * index);
+  // Called by arrow/keyboard nav — always rotates exactly one step in dir, never snaps back.
+  // Uses _targetAngle so rapid clicks accumulate correctly even mid-tween.
+  _rotateByDelta(dir, duration = 0.6) {
+    const step          = (2 * Math.PI) / this._panels.length;
+    const target        = this._targetAngle - dir * step;
+    this._targetAngle   = target;
     this._rotTween = makeTween01({
       from: this._currentAngle,
       to:   target,
       duration,
       onUpdate: (v) => {
-        this._currentAngle  = v;
+        this._currentAngle   = v;
+        this.ring.rotation.y = v;
+      },
+    });
+  }
+
+  // Called by direct panel hitbox clicks — takes shortest path to the target index.
+  // Anchors delta from _targetAngle so mid-tween direct clicks also land cleanly.
+  _rotateToIndex(index, duration = 0.6) {
+    const n    = this._panels.length;
+    const step = (2 * Math.PI) / n;
+    let delta  = ((index - this.activeIndex) % n + n) % n;
+    if (delta > n / 2) delta -= n; // choose shortest arc
+    const target        = this._targetAngle - delta * step;
+    this._targetAngle   = target;
+    this._rotTween = makeTween01({
+      from: this._currentAngle,
+      to:   target,
+      duration,
+      onUpdate: (v) => {
+        this._currentAngle   = v;
         this.ring.rotation.y = v;
       },
     });

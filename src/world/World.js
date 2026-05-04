@@ -21,12 +21,13 @@ import { ImmersiveCarousel } from "./experiences/ImmersiveCarousel.js";
 
 
 export class World {
-  constructor({ scene, camera, renderer, sizes, debugOn = false }) {
+  constructor({ scene, camera, renderer, sizes, debugOn = false, isMobile = false }) {
     this.scene = scene;
     this.camera = camera;
     this.renderer = renderer;
     this.sizes = sizes;
     this._debug = debugOn;
+    this.isMobile = isMobile;
     this.controls = new ControlsFPS({ camera: this.camera, domElement: this.renderer.domElement, autoRotate: true, autoRotateSpeed: -0.05 });
     // focus helper for smoothly moving camera to screens
     this.focus = new CameraFocus({ camera: this.camera });
@@ -116,7 +117,8 @@ export class World {
       renderer: this.renderer,
       domElement: this.renderer.domElement,
       makeTextPlane,
-      debugOn: this._debug  // set to true to show clickable podiums
+      debugOn: this._debug,  // set to true to show clickable podiums
+      isMobile: this.isMobile,
     });
 
     this.screenManager.onHit = (obj) => {
@@ -694,6 +696,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
     */
 
     //right side hallway next to stairs
+    /*
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/film/-46631048878830026754dgs_social_v5.MP4`,
       poster: "https://picsum.photos/id/1011/900/900",
@@ -715,6 +718,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
         console.log("Clicked screen/podium", obj);
       }
     }));
+    */
 
       //atrium left wall, above front desk
 
@@ -853,6 +857,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
     }));
     */
 
+    /*
     this._registerArtwork(this.screenManager.addFluidContentScreen({
       location: 'lobby',
       content: {
@@ -886,10 +891,12 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
       //transition
       transitionDuration: 0.35,
     }).screenMesh);
+    */
 
     //left side right front desk
     this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/TheNoos-SanneWinderickx/Invocation of the Black flame_MB.mp4`,
+      //url: `${baseURL}art/TheNoos-SanneWinderickx/Invocation of the Black flame_MB.mp4`,
+      url: "https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/Invocation%20of%20the%20Black%20flame_MB.mp4",
       poster: `${baseURL}art/TheNoos-SanneWinderickx/IMG_4879-final-sRGB_Ratio-HQ-landscape-fill-1_1.jpg`,
       width: 2.8,
       height: 1.8,
@@ -1118,7 +1125,40 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
   }).catch(console.error);
   */
 
+  
+
+
+
   //right front desk
+
+  this._registerArtwork(this.screenManager.addScreen({
+      url: `https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/No%20Longer%20Us_MB.mp4`,
+      poster: `${baseURL}art/NoLongerUs_JunShya/Jun-Shya-1-1.jpg`,
+      width: 2,
+      height: 2.25,
+      position: [8.4, 1.1, -1.5],
+      rotation: [0, -90, 0],
+      clickable: true,
+      offsetClick: 0.0,
+      clickableSize: [2.2, 2.2],
+      //text: "Image Screen",
+      location: 'lobby',
+      artworkInfo: {
+        title: "No Longer Us",
+        artist: "Jun Shya",
+        description: "By putting a mask on, we begin to play different versions of ourselves. Intrigued by the process of unbalancing composition through distinct colours, crackled textures, and seemingly incongruous references, this series of paintings explores the theme of reality versus illusion in relation to the coexistence of present and past. By capturing the intimate gesture of push and pull in a ballet performance, each dancer becomes a version of another. It reflects the idea that a different version of you exists in the mind of everyone who knows you. Curious images emerge through a process of patient layering and excavation. Parts of the human body and face are either left blank or slightly concealed, yet we, as viewers, are still able to make sense of them.",
+        narration: `${baseURL}audio/NoLongerUs_Narration.mp3`,
+        narrationCues: `${baseURL}audio/NoLongerUs_Narration.json`
+
+      },
+      plinthVisible: false,
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+
+
+    /*
 this._registerArtwork(this.screenManager.addFluidContentScreen({
       location: 'lobby',
       content: {
@@ -1148,6 +1188,7 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       //transition
       transitionDuration: 0.35,
     }).screenMesh);
+    */
 
     // ── Dummy ModelCarousel ──────────────────────────────────────────────────
     const dummyCarousel = new ModelCarousel({
@@ -1159,7 +1200,7 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       debugOn: this._debug,
       artworkInfo: {
         title: "3D Works",
-        artist: "Various",
+        artist: "Genevieve Carr",
         description: "A rotating carousel of 3D works. Use prev / next to cycle through each piece."
       },
       models: [
@@ -1170,7 +1211,7 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
           artworkInfo: {
             title: "5 Hole",
             artist: "Genevieve Carr",
-            description: "An exploration of space, physical forces of the Earth and the theory of material agency."
+            
           }
         },
         {
@@ -1180,7 +1221,7 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
           artworkInfo: {
             title: "3D Bone",
             artist: "Genevieve Carr",
-            description: "Clay sculptures resembling slices of cake — hard, cold, and weapon-like, subverting diet culture."
+            
           }
         },
         {
@@ -1190,7 +1231,7 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
           artworkInfo: {
             title: "Hmm... Not Sure",
             artist: "Genevieve Carr",
-            description: "Hangul as an embodied language — modular wearable artefacts shaped by movement, touch, and Korean textiles."
+            
           }
         },
         {
@@ -1200,7 +1241,7 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
           artworkInfo: {
             title: "Lots of Holes",
             artist: "Genevieve Carr",
-            description: "Hangul as an embodied language — modular wearable artefacts shaped by movement, touch, and Korean textiles."
+            
           }
         },
         {
@@ -1210,7 +1251,7 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
           artworkInfo: {
             title: "Point Ball",
             artist: "Genevieve Carr",
-            description: "Hangul as an embodied language — modular wearable artefacts shaped by movement, touch, and Korean textiles."
+            
           }
         },
         {
@@ -1220,7 +1261,7 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
           artworkInfo: {
             title: "TroPhobia",
             artist: "Genevieve Carr",
-            description: "Hangul as an embodied language — modular wearable artefacts shaped by movement, touch, and Korean textiles."
+            
           }
         },
       ]
@@ -1235,51 +1276,40 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     // ── Dummy ImmersiveCarousel ──────────────────────────────────────────────
     const dummyImmersive = new ImmersiveCarousel({
       scene: this.scene,
-      position: [-1.6, 0.5, -1.0],
-      rotation: [0, 45, 0],
+      position: [-8.4, 0.8, -1.4],
+      rotation: [0, -90, 0],
       radius: 3.5,
-      panelWidth: 2.5,
-      panelHeight: 2.0,
+      panelWidth: 2.2,
+      panelHeight: 1.8,
       debugOn: this._debug,
       artworkInfo: {
         title: "Self-Finish",
-        artist: "Beatrice El-Asmar",
-        description: "Step inside the work. Use ‹ › or arrow keys to cycle through images.",
+        artist: "Beatrice El Asmar",
+        description: "This series of self-portraits was created using slit scan technology, mostly known for its use for photo-finish in racing sports, thus reclaiming a patriarchal automation which judges, measures and commodifies linear speed and \‘progress\'. Subverting our expectations of how time and space occupy the photographic image, the work highlights how the supposedly linear progression of human rights, especially for cis and trans women, is being eroded to the extent that it is actually moving backwards. A fragmented portrait of one of the two female photo-finish operators in the UK, this work invites a different kind of embodied photographic seeing.",
       },
       images: [
         {
-          url: `${baseURL}art/SelfFinish_BeatriceElAsmar/SF_03.jpg`,
-          artworkInfo: {
-            title: "Self-Finish I",
-            artist: "Beatrice El-Asmar",
-            description: "Image one from the Self-Finish series.",
-          },
+          url: `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF_02.jpg.avif`,
+          
         },
         {
-          url: `${baseURL}art/SelfFinish_BeatriceElAsmar/SF_03.jpg`,
-          artworkInfo: {
-            title: "Self-Finish III",
-            artist: "Beatrice El-Asmar",
-            description: "Image three from the Self-Finish series.",
-          },
+          url: `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF-01.jpg`,
+          
         },
         {
-          url: `${baseURL}art/SelfFinish_BeatriceElAsmar/SF_04.jpg`,
-          artworkInfo: {
-            title: "Self-Finish IV",
-            artist: "Beatrice El-Asmar",
-            description: "Image four from the Self-Finish series.",
-          },
+          url: `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF_03.jpg`,
+          
         },
         {
-          url: `${baseURL}art/SelfFinish_BeatriceElAsmar/SF_08.jpg`,
-          artworkInfo: {
-            title: "Self-Finish VIII",
-            artist: "Beatrice El-Asmar",
-            description: "Image eight from the Self-Finish series.",
-          },
+          url: `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF_04.jpg`,
+          
+        },
+        {
+          url: `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF_08.jpg`,
+          
         },
       ],
+      
     });
 
     dummyImmersive.load().then(() => {
@@ -1373,13 +1403,15 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
 
     //on the wall in to the dining room
     this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/Pseudosynthesis_LeonLin/Vertical_comp-1.png.avif`,
+      url:"https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/Pseudosynthesis.mp4",
+      poster: `${baseURL}art/Pseudosynthesis_LeonLin/Vertical_comp-1.png.avif`,
       width: 5,
       height: 2.25,
       position: [-26.0, 0.8, -23.0],   // e.g. on/near carousel A
       rotation: [0, -90, 0],
       clickable: true,
       offsetClick: 0.0,
+      clickableSize: [5.2, 2.45], // make click area bigger than screen size to include podium
       text: "Image Screen",
       plinthVisible: false,
       location: 'WestPavillion',
@@ -1456,7 +1488,8 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
 
     //wall in the window corner
     this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/SynestheticSkin_JianingDing/Screenshot 2026-03-22 at 17.33.20.png`,
+      url: "https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/Synesthetic%20Skin_MB.mp4",
+      poster: `${baseURL}art/SynestheticSkin_JianingDing/Screenshot 2026-03-22 at 17.33.20.png`,
       width: 3,
       height: 1.5,
       position: [-39, 1.0, -20.4],
@@ -1501,6 +1534,8 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
         console.log("Clicked screen/podium", obj);
       }
     }));
+
+    
 
     //right side outside
     this._registerArtwork(this.screenManager.addScreen({
@@ -1550,7 +1585,8 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
 
     //right side of bar
     this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/LustFeelsLikeBadLuck-JuliaPytko/Backwards-Artwork-1_1.jpg`,
+      url: "https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/PYTKO%20-%20Lust%20Feels%20Like%20Bad%20Luck.mp4",
+      poster: `${baseURL}art/LustFeelsLikeBadLuck-JuliaPytko/Backwards-Artwork-1_1.jpg`,
       width: 1.5,
       height: 1.5,
       position: [7.8, 23, 7.0],
@@ -1571,10 +1607,35 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       }
     }));
 
+   
+
+    this._registerArtwork(this.screenManager.addScreen({
+      url: ` https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/Be%20Not%20Afraid.mp4`,
+      poster: `${baseURL}art/BeNotAfraid-RysiaAnnaKaczmar/9T0A5893_1.jpg`,
+      width: 1.8,
+      height: 1.2,
+      position: [-3.0, 23, 12.0],
+    rotation: [0, 90, 0],
+      clickable: true,
+      offsetClick: 0.0,
+      clickableSize: [2.2, 1.0],
+      text: "Image Screen",
+      plinthVisible: false,
+      location: 'EagleBar',
+      artworkInfo: {
+        title: "Be Not Afraid",
+        artist: "Rysia Anna Kaczmar",
+        description: "\"Be Not Afraid\" "
+      },
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+
     //left side of bar
      this.screenManager.addModel({
     url: `${baseURL}art/BeNotAfraid-RysiaAnnaKaczmar/BeNotAfraid_Artwork3D.glb`,
-    position: [-3.0, 22.6, 12.0],
+    position: [-2.5, 22.4, 11.2],
     rotation: [0, 90, 0],
     normalizeTo: 0.8,
     clickable: true,
@@ -1593,7 +1654,7 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     }
   }).then((modelRoot) => {
     this.statue = modelRoot;
-    this._registerArtwork(modelRoot);
+    //this._registerArtwork(modelRoot);
   }).catch(console.error);
 
   //on the bar
@@ -1613,6 +1674,29 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
         title: "Material Place",
         artist: "Neve Beill",
         description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments."
+      },
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    }));
+    //on the bar
+    this._registerArtwork(this.screenManager.addScreen({
+      url: `https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/Echoes%20out%20of%20tune.mp4`,
+      poster: `${baseURL}art/EchoesOutOfTune/tu-1.jpg`,
+      width: 1.4,
+      height: 0.7,
+      position: [-1.9, 22.7, 5.2],
+      rotation: [0, -10, 0],
+      clickable: true,
+      offsetClick: 0.0,
+      clickableSize: [2.2, 1.0],
+      text: "Image Screen",
+      plinthVisible: false,
+      location: 'EagleBar',
+      artworkInfo: {
+        title: "Echoes out of tune",
+        artist: "-",
+        description: "-"
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);

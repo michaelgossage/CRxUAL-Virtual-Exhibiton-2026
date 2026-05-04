@@ -2,7 +2,8 @@ import * as THREE from "three";
 import { loadGLTFWithAnimations } from "../../utils/gltfLoader.js";
 import { makeTween01 } from "../../utils/tween.js";
 
-const _WORLD_UP = new THREE.Vector3(0, 1, 0);
+const _WORLD_UP  = new THREE.Vector3(0, 1, 0);
+const _mergeInfo = (base, override) => ({ ...base, ...(override ?? {}) });
 
 /**
  * ModelCarousel — models arranged in a fixed circle; camera stays at one position.
@@ -52,6 +53,7 @@ export class ModelCarousel {
     this._isFocused = false;
     this._rotTween = null;
     this._currentAngle = this._baseAngle;
+    this._targetAngle  = this._baseAngle;
   }
 
   async load() {
@@ -111,7 +113,7 @@ export class ModelCarousel {
       // Tag all mesh descendants for experience routing in World.js
       modelRoot.traverse(child => { child.userData.experienceOwner = this; });
 
-      this._models.push({ root: modelRoot, mixer, artworkInfo: def.artworkInfo ?? null });
+      this._models.push({ root: modelRoot, mixer, artworkInfo: _mergeInfo(this.artworkInfo, def.artworkInfo) });
       this.root.add(modelRoot);
 
       // Compute ACTUAL geometry bounds after the model is placed in the ring so
@@ -121,8 +123,8 @@ export class ModelCarousel {
       const worldCenter = worldBox.getCenter(new THREE.Vector3());
       const worldSize   = worldBox.getSize(new THREE.Vector3());
 
-      // Convert world centre to root-local space (root has no rotation yet at load time)
-      const localCenter = worldCenter.clone().sub(this.root.getWorldPosition(new THREE.Vector3()));
+      // Convert world centre to root-local space using full inverse transform
+      const localCenter = this.root.worldToLocal(worldCenter.clone());
 
       const hb = new THREE.Mesh(
         new THREE.BoxGeometry(
@@ -137,9 +139,8 @@ export class ModelCarousel {
         })
       );
       hb.position.copy(localCenter);
-      hb.rotation.y = angle;
       hb.userData.carouselModelIndex = i;
-      hb.userData.artworkInfo        = def.artworkInfo ?? this.artworkInfo;
+      hb.userData.artworkInfo        = _mergeInfo(this.artworkInfo, def.artworkInfo);
       hb.userData.experienceOwner    = this;
 
       this.root.add(hb); // child of root — rotates with ring
@@ -156,7 +157,7 @@ export class ModelCarousel {
     );
     this.hitbox.position.set(...this._position);
     // Show model 0's artworkInfo on first click; focusTarget = root frames ALL models
-    this.hitbox.userData.artworkInfo     = this._models[0]?.artworkInfo ?? this.artworkInfo;
+    this.hitbox.userData.artworkInfo     = _mergeInfo(this.artworkInfo, this._models[0]?.artworkInfo);
     this.hitbox.userData.focusTarget     = this.root;
     this.hitbox.userData.experienceOwner = this;
     this.scene.add(this.hitbox);
@@ -180,12 +181,13 @@ export class ModelCarousel {
       if (m?.mixer) m.mixer.timeScale = 0;
     }
     // Snap ring back to index 0 silently for next entry
-    this.activeIndex = 0;
+    this.activeIndex   = 0;
     this._currentAngle = this._baseAngle;
+    this._targetAngle  = this._baseAngle;
     this.root.rotation.y = this._baseAngle;
     this._rotTween = null;
     this.hitbox.userData.focusTarget     = this.root;
-    this.hitbox.userData.artworkInfo     = this._models[0]?.artworkInfo ?? this.artworkInfo;
+    this.hitbox.userData.artworkInfo     = _mergeInfo(this.artworkInfo, this._models[0]?.artworkInfo);
   }
 
   // Clicking empty space always exits (no deeper state to return from)
@@ -208,7 +210,7 @@ export class ModelCarousel {
     if (prev?.mixer) prev.mixer.timeScale = 0;
 
     this.activeIndex = ((this.activeIndex + dir) % n + n) % n;
-    this.rotateTo(this.activeIndex);
+    this._rotateByDelta(dir);
 
     const next = this._models[this.activeIndex];
     if (next?.mixer) next.mixer.timeScale = 1;
@@ -227,7 +229,7 @@ export class ModelCarousel {
       if (idx === this.activeIndex) {
         // Already at front — just refresh the info panel
         const m = this._models[idx];
-        return { consumed: true, artworkInfo: m?.artworkInfo ?? this.artworkInfo };
+        return { consumed: true, artworkInfo: _mergeInfo(this.artworkInfo, m?.artworkInfo) };
       }
 
       const prev = this._models[this.activeIndex];
@@ -239,7 +241,7 @@ export class ModelCarousel {
       const m = this._models[idx];
       if (m?.mixer) m.mixer.timeScale = 1;
 
-      return { consumed: true, artworkInfo: m?.artworkInfo ?? this.artworkInfo };
+      return { consumed: true, artworkInfo: _mergeInfo(this.artworkInfo, m?.artworkInfo) };
     }
     return false; // not a carousel object — let World.js handle normally
   }
@@ -257,17 +259,28 @@ export class ModelCarousel {
 
   // ── Internal ───────────────────────────────────────────────────────────────
 
-  rotateTo(index, duration = 0.65) {
-    const n = this._models.length;
-    const targetAngle = this._baseAngle - ((2 * Math.PI / n) * index);
-    const from = this._currentAngle;
-    const to = targetAngle;
+  // Rotate one step in dir — accumulates via _targetAngle so rapid clicks don't snap back
+  _rotateByDelta(dir, duration = 0.65) {
+    const step         = (2 * Math.PI) / this._models.length;
+    const target       = this._targetAngle - dir * step;
+    this._targetAngle  = target;
     this._rotTween = makeTween01({
-      from, to, duration,
-      onUpdate: (v) => {
-        this._currentAngle = v;
-        this.root.rotation.y = v;
-      },
+      from: this._currentAngle, to: target, duration,
+      onUpdate: (v) => { this._currentAngle = v; this.root.rotation.y = v; },
+    });
+  }
+
+  // Rotate to a specific index via shortest arc (used for direct hitbox clicks)
+  rotateTo(index, duration = 0.65) {
+    const n    = this._models.length;
+    const step = (2 * Math.PI) / n;
+    let delta  = ((index - this.activeIndex) % n + n) % n;
+    if (delta > n / 2) delta -= n;
+    const target      = this._targetAngle - delta * step;
+    this._targetAngle = target;
+    this._rotTween = makeTween01({
+      from: this._currentAngle, to: target, duration,
+      onUpdate: (v) => { this._currentAngle = v; this.root.rotation.y = v; },
     });
   }
 
