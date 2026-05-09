@@ -28,7 +28,10 @@ requestAnimationFrame(() => {
   const app = new App({ mount: document.querySelector("#app") });
   window.__APP__ = app;
 
+  app.world.controls.autoRotate = false;
+
   titleScreen.onStart = () => {
+    app.world.controls.autoRotate = true;
     app.world.autoplayNarration = titleScreen.autoplayNarration;
 
     if (!titleScreen.extraInteractions) {

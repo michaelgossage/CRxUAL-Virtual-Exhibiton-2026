@@ -96,8 +96,19 @@ export class InfoPanel {
     this.descEl.addEventListener("pointerdown", e => e.stopPropagation());
   }
 
-  show({ title = "", artist = "", description = "" } = {}) {
-    this.titleEl.textContent = title;
+  show({ title = "", artist = "", description = "", link = "" } = {}) {
+    if (link) {
+      const a = document.createElement("a");
+      a.href = link;
+      a.textContent = title;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.addEventListener("pointerdown", e => e.stopPropagation());
+      this.titleEl.innerHTML = "";
+      this.titleEl.appendChild(a);
+    } else {
+      this.titleEl.textContent = title;
+    }
     this.artistEl.textContent = artist;
     this.descEl.textContent = description;
 

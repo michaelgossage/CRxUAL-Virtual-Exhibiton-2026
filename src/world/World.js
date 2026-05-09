@@ -16,6 +16,7 @@ import { makeArchGridMaterial } from "../shaders/gridShader.js";
 import { InfoPanel } from "../ui/InfoPanel.js";
 import { ModelCarousel } from "./experiences/ModelCarousel.js";
 import { ImmersiveCarousel } from "./experiences/ImmersiveCarousel.js";
+import { ModelGalleryWalk } from "./experiences/ModelGalleryWalk.js";
 
 
 
@@ -497,6 +498,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
         title: "birdcage",
         artist: "Jichu Zhang",
         description: "My paintings are spaces of suspended narration, where the relationship between people and their surroundings is never fixed, but constantly shifting — between intimacy and distance, memory and control. Inspired by familial experiences, everyday interpersonal patterns, and the lingering structures of myth, I seek to construct visual environments that do not illustrate stories, but evoke atmospheres — spaces where something is felt before it is understood. Visually, my compositions follow drifting, current-like rhythms — inspired by the unseen movement of oceanic flows, as a way to mirror the subtle undercurrents of perception and emotional experience.",
+        link: "https://ualshowcase.arts.ac.uk/@zhangjichu",
         narration: `${baseURL}audio/birdcage_Narration.mp3`,
         narrationCues: `${baseURL}audio/birdcage_Narration.json`
       },
@@ -554,281 +556,13 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
 
     //right side, left front desk
 
-    /*
-    this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/BlackSwan-JieunSung/IMG_5414-2.png.avif`,
-      width: 1.5,
-      height: 2,
-      position: [7.2, .5, -4.35],   // e.g. on/near carousel A
-      rotation: [0, -45, 0],
-      clickable: true,
-      clickableSize: [2.0, 2.0], // make click area bigger than screen size to include podium
-      offsetClick: 0.0,
-      text: "Image Screen",
-      plinthVisible: false,
-      location: 'lobby',
-      artworkInfo: {
-        title: "Black Swan",
-        artist: "Jieun Sung",
-        description: "This project is about the black swan. Of all animals, I’ve always been particularly afraid of birds, but swans are the only ones that have ever helped me overcome that fear. So, I was intrigued to research them. I didn’t even know that black swans existed before, and I was fascinated to discover this species of swan. The black swan, with its dark mood and colour, really appealed to me, so I decided to make it the focus of my project."
-      },
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
-      }
-    }));
-    */
 
-    /*
-    this.screenManager.addScreen({
-      url: "https://picsum.photos/id/1011/900/900",
-      width: 1,
-      height: 2.25,
-      position: [8.4, 1.0, -2.5],   // e.g. on/near carousel A
-      rotation: [0, -90, 0],
-      clickable: true,
-      offsetClick: 1.0,
-      clickableSize: [2.2, 3.25],
-      text: "Image Screen",
-      plinthVisible: false,
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
-      }
-    });
-    */
 
-    //right side, right front desk
-
-    /*
-    this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/Nailed_Genevieve Carr/nailed.webp`,
-      width: 1.5,
-      height: 2.0,
-      position: [7.2, 0.5, 1.55],
-      rotation: [0, -135, 0],
-      clickable: true,
-      offsetClick: 0.5,
-      clickableSize: [2.2, 2.5],
-      text: "Image Screen",
-      plinthVisible: false,
-      location: 'lobby',
-      artworkInfo: {
-        title: "Nailed",
-        artist: "Genevieve Carr",
-        description: "\"Nailed\" transforms nail salon waste into a 3D printing filament, used to create sculptural nails inspired by botanical drawings. The project explores beauty, waste, and material reuse—reimagining synthetic leftovers as future design materials."
-      },
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
-      }
-    }));
-    */
-
-      
-      //right side, middle front desk
-
-      /*
-    this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/Dehumanized_ChiAnChou/IMG_7018-Large.jpeg.avif`,
-      width: 1.8,
-      height: 1.3,
-      position: [8.4, 0.8, -1.5],
-      rotation: [0, -90, 0],
-      clickable: true,
-      offsetClick: 0.0,
-      text: "Image Screen",
-      location: 'lobby',
-      artworkInfo: {
-        title: "Dehumanized",
-        artist: "Chi An Chou",
-        description: "In this era of artificial intelligence, automation and highly mature technology, the definition of human is gradually disintegrating, and machines and technology are infiltrating and dominating our daily lives. Dehumanized is a conceptual exploration of a future world in which technology no longer centers on human nature, but instead gradually controls, holds power, and eventually replaces humanity. When digital systems take over judgment, aesthetics become algorithmically defined, and the body is transformed into a tool that prioritizes efficiency, emotions and individual consciousness begin to be seen as redundant residues. This project want to use visual language to present a imaginary future worldview: redesigned organisms, individuality erased, and a void beneath the human shell. Is Dehumanized a dystopian fantasy world, or is it a mirror held up to our present? In the wave of rapid innovation, what may ultimately be sacrificed is the very essence of what makes us human."
-      },
-      plinthVisible: false,
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
-      }
-    }));
-    */
-
-    //above front door
-    /*
-    this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/Pseudosynthesis_LeonLin/Vertical_comp-1.png.avif`,
-      width: 5,
-      height: 2.25,
-      position: [0.0, 0.8, 13.8],   // e.g. on/near carousel A
-      rotation: [0, -180, 0],
-      clickable: true,
-      offsetClick: 0.0,
-      text: "Image Screen",
-      plinthVisible: false,
-      location: 'lobby',
-      artworkInfo: {
-        title: "Pseudosynthesis",
-        artist: "Leon Lin",
-        description: "This project investigates whether AI-generated performers can authentically replicate human emotional expression in dance and performance. Through interviews with dancers and motion-capture experiments, it identifies three stages of human emotion (raw, mechanical, controlled) and argues that AI is limited to mimicry due to its lack of consciousness, embodiment, and lived experience. Drawing on Judith Butler’s theories, it contrasts human performativity (fluid, culturally embedded) with AI’s programmed rigidity. The work also explores queering digital avatars, critiques the commodification of bodies, and uses a 3D fashion film to visualize the human-machine divide."
-      },
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
-      }
-    }));
-    */
-
-    
-    /*
-    this._registerArtwork(this.screenManager.addScreen({
-      url: "public/art/film/-46631048878830026754dgs_social_v5.MP4",
-      poster: "https://picsum.photos/id/1011/900/900",
-      width: 3,
-      height: 3,
-      position: [2.0, 0.5, 13.8],   // e.g. on/near carousel A
-      rotation: [0, -180, 0],
-      clickable: true,
-      offsetClick: 0.0,
-      text: "Image Screen",
-      plinthVisible: false,
-      artworkInfo: {
-        title: "Untitled II",
-        artist: "Placeholder Artist 2",
-        description: "A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility."
-      },
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
-      }
-    }));
-    */
-
-    //right side hallway next to stairs
-    /*
-    this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/film/-46631048878830026754dgs_social_v5.MP4`,
-      poster: "https://picsum.photos/id/1011/900/900",
-      width: 1.4,
-      height: 2.4,
-      position: [7.0, 0.6, 4.0],   // e.g. on/near carousel A
-      rotation: [0, -135, 0],
-      clickable: true,
-      offsetClick: 0.0,
-      text: "Image Screen",
-      plinthVisible: false,
-      location: 'lobby',
-      artworkInfo: {
-        title: "Untitled II",
-        artist: "Placeholder Artist 2",
-        description: "A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility."
-      },
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
-      }
-    }));
-    */
-
-      //atrium left wall, above front desk
-
-      /*
-    this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/EmbodiedMemories_YoonJuChung/B0009341-1-1.webp`,
-      width: 4,
-      height: 2.1,
-      position: [-7.5, 3.6, -1.5],
-      rotation: [0, 90, 0],
-      clickable: true,
-      plinthVisible: false,
-      offsetClick: 0.0,
-      text: "Image Screen",
-      location: 'lobby',
-      artworkInfo: {
-        title: "Embodied Memories",
-        artist: "Yoon Ju Chung",
-        description: "Embodied Memories explores Hangul, the Korean alphabet, as an embodied and relational language through modular wearable artefacts. Originating from experiences of non-verbal communication with the artist’s hearing-impaired aunt, the project approaches gesture and movement as fundamental forms of language. Drawing on Hangul’s geometric structure, linguistic principles are translated into a modular system that functions as words, sculptural forms, or wearable objects. Grounded in Korean emotional philosophies—Jeong (connection), Han (endurance), and Heung (vitality)—the work informs processes of alignment, tension, play, and repair. Rather than treating language as a fixed visual system, meaning emerges through bodily movement, touch, and reconfiguration. The final artefacts are constructed using Korean textiles such as Mosi (ramie) and Oksa (silk), combined with transparent acrylic structures, magnetic connections, and traditional techniques including Gamchimgil hand-stitching and Pusae (rice starch stiffening).  Language is not only spoken or written; it is sensed, worn, and remembered. "
-      },
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
-      }
-    }));
-    */
-  
-    /*
-    this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/SynestheticSkin_JianingDing/Screenshot 2026-03-22 at 17.33.20.png`,
-      width: 3,
-      height: 1.5,
-      position: [7.5, 3.5, -1.0],
-      rotation: [0, -90, 0],
-      clickable: true,
-      plinthVisible: false,
-      offsetClick: 0.0,
-      text: "Image Screen",
-      location: 'lobby',
-      artworkInfo: {
-        title: "Synesthetic Skin：A Posthuman Visual Narrative",
-        artist: "Jianing Ding",
-        description: "A conceptual and experimental platform—an art-philosophy construct designed to utilize digital space as a medium for examining the interplay between reality and virtuality, embodied and digital identities"
-      },
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
-      }
-    }));
-    */
 
     //left side, left front desk
-    /*
-    this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-2-1.jpg.avif`,
-      width: 1.4,
-      height: 1.8,
-      position: [-7.15, 0.7, 1.6],   // e.g. on/near carousel A
-      rotation: [0, 135, 0],
-      clickable: true,
-      plinthVisible: false,
-      offsetClick: 0.0,
-      text: "Image Screen",
-      location: 'lobby',
-      artworkInfo: {
-        title: "Unrendered",
-        artist: "Marie-Lisette Cropp",
-        description: "Unrendered explores how the female body is represented and reshaped through technology and Western cultural expectations. The project examines the tension between the physical and the digital, and how images shape our understanding of identity and beauty. Using photogrammetry, the body is scanned into digital form, fragmenting in the process and celebrating these glitches and distortions. By reworking these scans by hand and through darkroom printing, the work restores a raw, physical presence. Inspired by Rosi Braidotti’s Posthuman theory, Unrendered views the body as part of a wider ecosystem, continuously shaped by machines, nature, and technology.",
-        narration: `${baseURL}audio/Unrendered_Narration.mp3`,
-        narrationCues: `${baseURL}audio/Unrendered_Narration.json`
-      },
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
-      }
-    }));
-    */
+    
 
-    /*
-    this._registerArtwork(this.screenManager.addFluidContentScreen({
-      location: ‘lobby’,
-      content: {
-        title: "Unrendered",
-        artist: "Marie-Lisette Cropp",
-        bio: "Unrendered explores how the female body is represented and reshaped through technology and Western cultural expectations. The project examines the tension between the physical and the digital, and how images shape our understanding of identity and beauty. Using photogrammetry, the body is scanned into digital form, fragmenting in the process and celebrating these glitches and distortions. By reworking these scans by hand and through darkroom printing, the work restores a raw, physical presence. Inspired by Rosi Braidotti’s Posthuman theory, Unrendered views the body as part of a wider ecosystem, continuously shaped by machines, nature, and technology.",
-        images: [
-          `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-2-1.jpg.avif`,
-          `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-3-2.jpg`,
-          `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-3-3.jpg`,
-          `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-4.jpg`,
-          `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-5-4.jpg`,
-          `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-5-5.jpg`,
-          `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-6-2.jpg`
-        ],
-        narration: `${baseURL}audio/Unrendered_Narration.mp3`,
-        narrationCues: `${baseURL}audio/Unrendered_Narration.json`
-      },
-      width: 1.4,
-      height: 1.8,
-      position: [-7.15, 0.7, 1.6],
-      rotation: [0, 135, 0],
-      offsetClick: 0.0,
-      infoWidth: 1.6,
-      infoHeight: 1.2,
-      infoOffset: [0, -1.7, 0.55],
-      clickableSize: [2.2, 2.2],
-      clickable: true,
-      plinthVisible: false,
-      infoPanel: false,
-      transitionDuration: 0.35,
-    }).screenMesh);
-    */
+    
     const unrenderedCarousel = new ImmersiveCarousel({
       scene: this.scene,
       position: [-7.10, 0.7, 1.55],
@@ -840,6 +574,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
         title: "Unrendered",
         artist: "Marie-Lisette Cropp",
         description: "Unrendered explores how the female body is represented and reshaped through technology and Western cultural expectations. The project examines the tension between the physical and the digital, and how images shape our understanding of identity and beauty. Using photogrammetry, the body is scanned into digital form, fragmenting in the process and celebrating these glitches and distortions. By reworking these scans by hand and through darkroom printing, the work restores a raw, physical presence. Inspired by Rosi Braidotti’s Posthuman theory, Unrendered views the body as part of a wider ecosystem, continuously shaped by machines, nature, and technology.",
+        link: "https://ualshowcase.arts.ac.uk/@marielisette",
         narration: `${baseURL}audio/Unrendered_Narration.mp3`,
         narrationCues: `${baseURL}audio/Unrendered_Narration.json`
       },
@@ -923,21 +658,21 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
 
     //left side right front desk
     this._registerArtwork(this.screenManager.addScreen({
-      //url: `${baseURL}art/TheNoos-SanneWinderickx/Invocation of the Black flame_MB.mp4`,
       url: "https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/Invocation%20of%20the%20Black%20flame_MB.mp4",
       poster: `${baseURL}art/TheNoos-SanneWinderickx/IMG_4879-final-sRGB_Ratio-HQ-landscape-fill-1_1.jpg`,
       width: 2.8,
       height: 1.8,
-      position: [-4.4, 0.8, -5.5],
-      rotation: [0, 35, 0],
+      position: [-4.8, 23.0, 16.0],
+    rotation: [0, 110, 0],
       clickable: true,
       offsetClick: 0.0,
       text: "Video Screen",
-      location: 'lobby',
+      location: 'EagleBar',
       artworkInfo: {
-        title: "Invocation of the Black Flame",
+        title: "The Noös-∞",
         artist: "Sanne Winderickx",
-        description: "Invocation of the Black Flame is a video work that explores the concept of the black flame as a symbol of transformation, resistance, and empowerment. The piece draws on occult and mystical traditions to create a visual narrative that challenges conventional notions of power and identity. Through a combination of striking imagery, sound design, and symbolism, the work invites viewers to contemplate the potential for personal and collective transformation in the face of adversity."
+        description: "The Noös-∞ is a perceptual system and cosmology combining sonic prosthetics, kinaesthetic movement, and narrative design to shift how depression is sensed and understood. It is not a cure, but a method of transmutation—where melancholy is an altered state. At its core are a prosthetic limb and sonic wand, registering sound, gesture, and rhythm to generate live sensory feedback through slow synchrony with self and other.",
+        link: "https://ualshowcase.arts.ac.uk/@kinaestheticalchemy"
       },
       plinthVisible: false,
       onClick: (obj) => {
@@ -947,8 +682,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
 
     this.screenManager.addModel({
       url: `${baseURL}art/TheNoos-SanneWinderickx/TheNoos_yellowHand.glb`,
-      position: [-2.8, 0.0, -6.5],
-      rotation: [0, 35, 0],
+      position: [-4.3, 22.3, 18.0],
+      rotation: [0, 100, 0],
       normalizeTo: 0.8,
       clickable: true,
       onClick: (obj, hit) => console.log("Model clicked:", obj),
@@ -960,11 +695,11 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
       plinthOffset: [0, -0.5, 0],
       plinthSize: [1.0, 0.5, 1.0],
       //playAnimation: "first",
-      location: 'lobby',
+      location: 'EagleBar',
       artworkInfo: {
         title: "Yellow Hand",
         artist: "Sanne Winderickx",
-        description: "Yellow Hand is a 3D model of a hand that serves as a companion piece to the video work Invocation of the Black Flame. The hand is designed to evoke a sense of mysticism and transformation, with its intricate details and symbolic gestures. As viewers interact with the hand, they are encouraged to explore themes of power, identity, and resistance, further deepening their engagement with the concepts presented in the video."
+        description: "Yellow Hand is a 3D model of a hand that serves as a companion piece to the video work of The Noös-∞."
       }
     });
 
@@ -983,6 +718,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
         title: "Whimsy Through The Window",
         artist: "Sarah Abdi",
         description: "My final collection centres around whimsy from nostalgic childhood media. I chose this theme as I believe small forms of escapism is essential, especially when we live in such unstable times; from the rise of fascism to feeling the effects of climate change. Its important maintain a balance to avoid burnout and actually be able to help others. I created woven samples intended as curtains/drapes to block out the grey and dreary London landscape, made from waste and deadstock materials.",
+        link: "https://ualshowcase.arts.ac.uk/@sazweaves",
         narration: `${baseURL}audio/Whimsy_Narration.mp3`,
         narrationCues: `${baseURL}audio/Whimsy_Narration.json`
       },
@@ -991,35 +727,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
         console.log("Clicked screen/podium", obj);
       }
     }));
-    /*
-    this._registerArtwork(this.screenManager.addContentScreen({
-      content: {
-        title: "Artist Name",
-        artist: "Chancery Rosewood",
-        bio: "Long bio goes here...lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-        images: [
-          "https://picsum.photos/id/1011/900/900",
-          "https://picsum.photos/id/1015/900/900",
-          "https://picsum.photos/id/1025/900/900"
-        ]
-      },
-      width: 2,
-      height: 2.25,
-      position: [-5, 1.4, -6],
-      rotation: [0, 30, 0],
-      offsetClick: .2,
-      infoWidth: 1.6,
-      infoHeight: 1.2,
-      infoOffset: [0, -1.7, 0.55],
-      clickableSize: [2.2, 2.2],
-      clickable: true,
-      plinthVisible: false,
 
-      //transition
-      transitionDuration: 0.35,
-    }).screenMesh);
-    //test model url
-    */
     
     //3d models
 
@@ -1054,105 +762,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
     }).catch(console.error);
 
     const a=import.meta.env.BASE_URL + "/art/test3d/8 Ultra High Quality Scan_low poly DRACO jpeg (1024).glb";
-    //central coffee table
-    /*
-    this.screenManager.addModel({
-    url: a,
-    position: [.7, -.5, -4.5],
-    rotation: [0, 35, 0],
-    normalizeTo: 1.0,
-    clickable: true,
-    onClick: (obj, hit) => console.log("Model clicked:", obj),
-    text: "STATUE_01",
-    textOffset: [0, -0.1, 0.9],
-    hitboxSize: [.5, 1.0, .5],
-    offsetClick: -0.4,
-    plinthVisible: false,
-    playAnimation: "first",
-    location: 'lobby',
-    artworkInfo: {
-      title: "Statue 01",
-      artist: "Placeholder Sculptor",
-      description: "A 3D sculptural work rendered in real-time. Rotate and explore the form from any angle."
-    }
-  }).then((modelRoot) => {
-    this.statue = modelRoot;
-    this._registerArtwork(modelRoot);
-  }).catch(console.error);
-  */
-
-    //left front desk
-
-    //front table
-    /*
-    const b=import.meta.env.BASE_URL + "/art/LetMeEatCake_SuzannaTeal/LetMeEatCake01.glb";
-
-  this.screenManager.addModel({
-    url: b,
-    position: [.7, -.5, -4.5],
-    rotation: [0, 20, 0],
-    rotationOffset: 180,
-    normalizeTo: 0.8,
-    clickable: true,
-    onClick: (obj, hit) => console.log("Model clicked:", obj),
-    text: "STATUE_01",
-    textOffset: [0, -0.5, 0.9],
-    hitboxSize: [0.6, 1.4, 0.6],
-    offsetClick: -0.0,
-    plinthVisible: false,
-    playAnimation: "first",
-    location: 'lobby',
-    artworkInfo: {
-      title: "Let Me Eat Cake",
-      artist: "Suzanna Teal",
-      description: "Let Me Eat Cake is a multi-disciplinary project comprising clay sculptures resembling slices of cake alongside a series of studio-based, still-life images showing them tightly clenched in angry fists. In taking cake beyond its characteristic material form, I’m interested in problematising diet culture by disrupting dominant perceptions related to how cake should act, look and feel. The clay creates a cold, hard, heavy tactile experience, that contrasts with our experience of cake as soft and light; a material that ‘gives’.  The strained fists reveal the difficulty and awkwardness of holding them, evoking the strained relationship many women have with food due to diet culture. The act of interacting with the sculptures alters the meaning. There's a thin facade of something positive and shiny under which is sinister, hard and potentially dangerous. They become weapon-like objects, subverting the soft, spongy characteristics we associate with cake and creating an exaggerated disturbance of accepted norms. The fist connotes anger, frustration, and resistance, which are key themes in this series. The sculptures parody indulgence and exaggerate the ridiculousness of diet culture. They are inedible; deliberately cold and heavy. By physically resisting the grasp of the viewer's hand, they resist traditional ideas of femininity.",
-      narration: `${baseURL}audio/LetMeEatCake_Narration.mp3`,
-      narrationCues: `${baseURL}audio/LetMeEatCake_Narration.json`
-    }
-  }).then((modelRoot) => {
-    this.statue = modelRoot;
-    this._registerArtwork(modelRoot);
-  }).catch(console.error);
-*/
-
-/*
-  this.screenManager.addModel({
-    url: a,
-    position: [4.8, 0, 3.8],
-    rotation: [0, 235, 0],
-    normalizeTo: 1.4,
-    clickable: true,
-    onClick: (obj, hit) => console.log("Model clicked:", obj),
-    text: "STATUE_01",
-    textOffset: [0, -0.1, 0.9],
-    offsetClick: -0.1,
-    hitboxSize: [1.0, 3.0, 1.0],
-    plinthVisible: true,
-    playAnimation: "first"
-  }).then((modelRoot) => {
-    // optional: store reference
-    this.statue = modelRoot;
-  }).catch(console.error);
-
- 
-  this.screenManager.addModel({
-    url: a,
-    position: [-4.8, 0, 3.8],
-    rotation: [0, 135, 0],
-    normalizeTo: 1.4,
-    clickable: true,
-    onClick: (obj, hit) => console.log("Model clicked:", obj),
-    text: "STATUE_01",
-    textOffset: [0, -0.1, 0.9],
-    hitboxSize: [1.0, 3.0, 1.0],
-    plinthVisible: true,
-    playAnimation: "first"
-  }).then((modelRoot) => {
-    // optional: store reference
-    this.statue = modelRoot;
-  }).catch(console.error);
-  */
-
+    
   
 
 
@@ -1175,6 +785,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
         title: "No Longer Us",
         artist: "Jun Shya",
         description: "By putting a mask on, we begin to play different versions of ourselves. Intrigued by the process of unbalancing composition through distinct colours, crackled textures, and seemingly incongruous references, this series of paintings explores the theme of reality versus illusion in relation to the coexistence of present and past. By capturing the intimate gesture of push and pull in a ballet performance, each dancer becomes a version of another. It reflects the idea that a different version of you exists in the mind of everyone who knows you. Curious images emerge through a process of patient layering and excavation. Parts of the human body and face are either left blank or slightly concealed, yet we, as viewers, are still able to make sense of them.",
+        link: "https://ualshowcase.arts.ac.uk/project/638926/cover",
         narration: `${baseURL}audio/NoLongerUs_Narration.mp3`,
         narrationCues: `${baseURL}audio/NoLongerUs_Narration.json`
 
@@ -1186,50 +797,21 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
     }));
 
 
-    /*
-this._registerArtwork(this.screenManager.addFluidContentScreen({
-      location: 'lobby',
-      content: {
-        title: "No Longer Us",
-        artist: "Jun Shya",
-        bio: "By putting a mask on, we begin to play different versions of ourselves. Intrigued by the process of unbalancing composition through distinct colours, crackled textures, and seemingly incongruous references, this series of paintings explores the theme of reality versus illusion in relation to the coexistence of present and past. By capturing the intimate gesture of push and pull in a ballet performance, each dancer becomes a version of another. It reflects the idea that a different version of you exists in the mind of everyone who knows you. Curious images emerge through a process of patient layering and excavation. Parts of the human body and face are either left blank or slightly concealed, yet we, as viewers, are still able to make sense of them.",
-        images: [
-          `${baseURL}/art/NoLongerUs_JunShya/Jun-Shya-1-1.jpg`,
-          "https://picsum.photos/id/1015/900/900",
-          "https://picsum.photos/id/1025/900/900"
-        ],
-        narration: `${baseURL}audio/NoLongerUs_Narration.mp3`,
-        narrationCues: `${baseURL}audio/NoLongerUs_Narration.json`
-      },
-      width: 2,
-      height: 2.25,
-      position: [8.4, 1.1, -1.5],
-      rotation: [0, -90, 0],
-      offsetClick: .2,
-      infoWidth: 1.6,
-      infoHeight: 1.2,
-      infoOffset: [0, -1.7, 0.55],
-      clickableSize: [2.2, 2.2],
-      clickable: true,
-      plinthVisible: false,
-
-      //transition
-      transitionDuration: 0.35,
-    }).screenMesh);
-    */
 
     // ── Dummy ModelCarousel ──────────────────────────────────────────────────
+    //west pavillion
     const dummyCarousel = new ModelCarousel({
       scene: this.scene,
-      position: [-7.6, 22.6, 7.0],
-      rotation: [0, 90, 0],
-      radius: 1.4,
+      position: [-34.2, 1.5, -15.8],
+      rotation: [0, 180, 0],
+      radius: 1.0,
       normalizeTo: 1.0,
       debugOn: this._debug,
       artworkInfo: {
         title: "3D Works",
         artist: "Genevieve Carr",
-        description: "A rotating carousel of 3D works. Use prev / next to cycle through each piece."
+        description: "A rotating carousel of 3D works. Use prev / next to cycle through each piece.",
+        link: "https://ualshowcase.arts.ac.uk/@genevievefkcarr"
       },
       models: [
         {
@@ -1296,7 +878,7 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     });
 
     dummyCarousel.load().then(() => {
-      dummyCarousel.hitbox.userData.location = 'EagleBar';
+      dummyCarousel.hitbox.userData.location = 'WestPavillion';
       this._registerExperience(dummyCarousel);
     }).catch(console.error);
     // ────────────────────────────────────────────────────────────────────────
@@ -1314,6 +896,7 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
         title: "Self-Finish",
         artist: "Beatrice El Asmar",
         description: "This series of self-portraits was created using slit scan technology, mostly known for its use for photo-finish in racing sports, thus reclaiming a patriarchal automation which judges, measures and commodifies linear speed and \‘progress\'. Subverting our expectations of how time and space occupy the photographic image, the work highlights how the supposedly linear progression of human rights, especially for cis and trans women, is being eroded to the extent that it is actually moving backwards. A fragmented portrait of one of the two female photo-finish operators in the UK, this work invites a different kind of embodied photographic seeing.",
+        link: "https://ualshowcase.arts.ac.uk/project/682951/cover"
       },
       images: [
         {
@@ -1351,21 +934,18 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
 
   
 
-  //lobby - Fine Art, Photography, 
-  //birdcage, No Longer Us, Experiment n58, Whimsy Through the Window
-  //Self-Finish, Unrendered, Let Me Eat Cake
+  //lobby
 
   
 
-  //West Pavilion - Technology, Fashion and body
-  //Pseudosynthesis, Synesthetic Skin, EMBODIED, Embodied Memories, Dehumanized, Black Swan
+  //West Pavilion
 
   //left of entrance way
   this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/EMBODIED_VeepraMishra/20251114_Veepra0132-1-1.webp`,
       width: 1.3,
       height: 1.74,
-      position: [-34.2, 0.9, -15.8],   // e.g. on/near carousel A
+      position: [-31.2, 0.9, -17.8],   // e.g. on/near carousel A
       rotation: [0, 180, 0],
       clickable: true,
       offsetClick: .1,
@@ -1374,9 +954,10 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       plinthVisible: true,
       location: 'WestPavillion',
       artworkInfo: {
-        title: "EMBODIED: Reclaiming Assistive Devices as Culturally Expressive Fashion",
+        title: "EMBODIED",
         artist: "Veepra Mishra",
-        description: "It began with the slightest gesture: my mother hiding her cane behind her back every time a camera appeared, as if the object were never meant to speak for her. This project turns toward that silence and wonders how assistive devices might become sites of cultural expression rather than symbols of concealment. In the realm of assistive design and fashion, such moments reveal how deeply aesthetics and embodiment intertwine, particularly for disabled people of colour whose identities are shaped through layered histories of visibility and belonging. Guided by co-design conversations with two South Asian participants and informed by critical disabilities, material culture, and cultural symbolism, I developed usable prototypes that merge function with cultural resonance. These artefacts, rooted in traditions, memory, agency, and empowerment, ask what happens when assistive devices are culturally expressive artefacts that hold beauty, heritage, and emotional truth. The work demonstrates that when disabled people of colour shape the instruments that support them, assistive devices shift from clinical symbols into objects of affirmation and pride. The process illuminated both the challenges and possibilities of designing across distance, culture, and lived experience. It reveals how identity and functionality are inseparable. Ultimately, the project suggests that inclusive futures emerge when design listens closely, honours complexity, and treats assistive devices not as objects that should be hidden, but as sites of beauty, cultural identity, and empowerment.  "
+        description: "It began with the slightest gesture: my mother hiding her cane behind her back every time a camera appeared, as if the object were never meant to speak for her. This project turns toward that silence and wonders how assistive devices might become sites of cultural expression rather than symbols of concealment. In the realm of assistive design and fashion, such moments reveal how deeply aesthetics and embodiment intertwine, particularly for disabled people of colour whose identities are shaped through layered histories of visibility and belonging. Guided by co-design conversations with two South Asian participants and informed by critical disabilities, material culture, and cultural symbolism, I developed usable prototypes that merge function with cultural resonance. These artefacts, rooted in traditions, memory, agency, and empowerment, ask what happens when assistive devices are culturally expressive artefacts that hold beauty, heritage, and emotional truth. The work demonstrates that when disabled people of colour shape the instruments that support them, assistive devices shift from clinical symbols into objects of affirmation and pride. The process illuminated both the challenges and possibilities of designing across distance, culture, and lived experience. It reveals how identity and functionality are inseparable. Ultimately, the project suggests that inclusive futures emerge when design listens closely, honours complexity, and treats assistive devices not as objects that should be hidden, but as sites of beauty, cultural identity, and empowerment.",
+        link: "https://ualshowcase.arts.ac.uk/@veepramishra"
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
@@ -1399,7 +980,8 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       artworkInfo: {
         title: "Black Swan",
         artist: "Jieun Sung",
-        description: "This project is about the black swan. Of all animals, I’ve always been particularly afraid of birds, but swans are the only ones that have ever helped me overcome that fear. So, I was intrigued to research them. I didn’t even know that black swans existed before, and I was fascinated to discover this species of swan. The black swan, with its dark mood and colour, really appealed to me, so I decided to make it the focus of my project."
+        description: "This project is about the black swan. Of all animals, I’ve always been particularly afraid of birds, but swans are the only ones that have ever helped me overcome that fear. So, I was intrigued to research them. I didn’t even know that black swans existed before, and I was fascinated to discover this species of swan. The black swan, with its dark mood and colour, really appealed to me, so I decided to make it the focus of my project.",
+        link: "https://ualshowcase.arts.ac.uk/project/645817/cover"
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
@@ -1420,7 +1002,8 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       artworkInfo: {
         title: "Dehumanized",
         artist: "Chi An Chou",
-        description: "In this era of artificial intelligence, automation and highly mature technology, the definition of human is gradually disintegrating, and machines and technology are infiltrating and dominating our daily lives. Dehumanized is a conceptual exploration of a future world in which technology no longer centers on human nature, but instead gradually controls, holds power, and eventually replaces humanity. When digital systems take over judgment, aesthetics become algorithmically defined, and the body is transformed into a tool that prioritizes efficiency, emotions and individual consciousness begin to be seen as redundant residues. This project want to use visual language to present a imaginary future worldview: redesigned organisms, individuality erased, and a void beneath the human shell. Is Dehumanized a dystopian fantasy world, or is it a mirror held up to our present? In the wave of rapid innovation, what may ultimately be sacrificed is the very essence of what makes us human."
+        description: "In this era of artificial intelligence, automation and highly mature technology, the definition of human is gradually disintegrating, and machines and technology are infiltrating and dominating our daily lives. Dehumanized is a conceptual exploration of a future world in which technology no longer centers on human nature, but instead gradually controls, holds power, and eventually replaces humanity. When digital systems take over judgment, aesthetics become algorithmically defined, and the body is transformed into a tool that prioritizes efficiency, emotions and individual consciousness begin to be seen as redundant residues. This project want to use visual language to present a imaginary future worldview: redesigned organisms, individuality erased, and a void beneath the human shell. Is Dehumanized a dystopian fantasy world, or is it a mirror held up to our present? In the wave of rapid innovation, what may ultimately be sacrificed is the very essence of what makes us human.",
+        link: "https://ualshowcase.arts.ac.uk/@chiannj"
       },
       plinthVisible: false,
       onClick: (obj) => {
@@ -1445,7 +1028,8 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       artworkInfo: {
         title: "Pseudosynthesis",
         artist: "Leon Lin",
-        description: "This project investigates whether AI-generated performers can authentically replicate human emotional expression in dance and performance. Through interviews with dancers and motion-capture experiments, it identifies three stages of human emotion (raw, mechanical, controlled) and argues that AI is limited to mimicry due to its lack of consciousness, embodiment, and lived experience. Drawing on Judith Butler’s theories, it contrasts human performativity (fluid, culturally embedded) with AI’s programmed rigidity. The work also explores queering digital avatars, critiques the commodification of bodies, and uses a 3D fashion film to visualize the human-machine divide."
+        description: "This project investigates whether AI-generated performers can authentically replicate human emotional expression in dance and performance. Through interviews with dancers and motion-capture experiments, it identifies three stages of human emotion (raw, mechanical, controlled) and argues that AI is limited to mimicry due to its lack of consciousness, embodiment, and lived experience. Drawing on Judith Butler’s theories, it contrasts human performativity (fluid, culturally embedded) with AI’s programmed rigidity. The work also explores queering digital avatars, critiques the commodification of bodies, and uses a 3D fashion film to visualize the human-machine divide.",
+        link: "https://ualshowcase.arts.ac.uk/project/655404/cover"
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
@@ -1473,7 +1057,8 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     artworkInfo: {
         title: "Let Me Eat Cake",
         artist: "Suzanna Teal",
-        description: "Let Me Eat Cake is a multimedia installation that explores the relationship between food, memory, and identity. Through a combination of sculpture, video, and interactive elements, the work invites viewers to reflect on their own experiences with food and the stories they tell about it. The installation features a series of sculptural cakes that respond to viewer interaction, creating a dynamic and engaging experience that blurs the line between art and culinary tradition. "
+        description: "Let Me Eat Cake is a multimedia installation that explores the relationship between food, memory, and identity. Through a combination of sculpture, video, and interactive elements, the work invites viewers to reflect on their own experiences with food and the stories they tell about it. The installation features a series of sculptural cakes that respond to viewer interaction, creating a dynamic and engaging experience that blurs the line between art and culinary tradition. ",
+        link: "https://ualshowcase.arts.ac.uk/project/616847/cover"
       }
   }).then((modelRoot) => {
     this.statue = modelRoot;
@@ -1506,7 +1091,8 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     artworkInfo: {
         title: "Embodied Memories",
         artist: "Yoon Ju Chung",
-        description: "Embodied Memories explores Hangul, the Korean alphabet, as an embodied and relational language through modular wearable artefacts. Originating from experiences of non-verbal communication with the artist’s hearing-impaired aunt, the project approaches gesture and movement as fundamental forms of language. Drawing on Hangul’s geometric structure, linguistic principles are translated into a modular system that functions as words, sculptural forms, or wearable objects. Grounded in Korean emotional philosophies—Jeong (connection), Han (endurance), and Heung (vitality)—the work informs processes of alignment, tension, play, and repair. Rather than treating language as a fixed visual system, meaning emerges through bodily movement, touch, and reconfiguration. The final artefacts are constructed using Korean textiles such as Mosi (ramie) and Oksa (silk), combined with transparent acrylic structures, magnetic connections, and traditional techniques including Gamchimgil hand-stitching and Pusae (rice starch stiffening).  Language is not only spoken or written; it is sensed, worn, and remembered. "
+        description: "Embodied Memories explores Hangul, the Korean alphabet, as an embodied and relational language through modular wearable artefacts. Originating from experiences of non-verbal communication with the artist’s hearing-impaired aunt, the project approaches gesture and movement as fundamental forms of language. Drawing on Hangul’s geometric structure, linguistic principles are translated into a modular system that functions as words, sculptural forms, or wearable objects. Grounded in Korean emotional philosophies—Jeong (connection), Han (endurance), and Heung (vitality)—the work informs processes of alignment, tension, play, and repair. Rather than treating language as a fixed visual system, meaning emerges through bodily movement, touch, and reconfiguration. The final artefacts are constructed using Korean textiles such as Mosi (ramie) and Oksa (silk), combined with transparent acrylic structures, magnetic connections, and traditional techniques including Gamchimgil hand-stitching and Pusae (rice starch stiffening).  Language is not only spoken or written; it is sensed, worn, and remembered.",
+        link: "https://ualshowcase.arts.ac.uk/@yoonjuchung"
       }
   }).then((modelRoot) => {
     this.statue = modelRoot;
@@ -1529,7 +1115,8 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       artworkInfo: {
         title: "Synesthetic Skin：A Posthuman Visual Narrative",
         artist: "Jianing Ding",
-        description: "A conceptual and experimental platform—an art-philosophy construct designed to utilize digital space as a medium for examining the interplay between reality and virtuality, embodied and digital identities"
+        description: "A conceptual and experimental platform—an art-philosophy construct designed to utilize digital space as a medium for examining the interplay between reality and virtuality, embodied and digital identities",
+        link: "https://ualshowcase.arts.ac.uk/project/690407/cover"
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
@@ -1544,14 +1131,14 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       url: `${baseURL}art/Nailed_Genevieve Carr/nailed.webp`,
       width: 1.5,
       height: 2.0,
-      position: [-7.6, 22.6, 7.0],
-      rotation: [0, 90, 0],
+      position: [-34.2, 1.5, -15.8],
+      rotation: [0, 180, 0],
       clickable: true,
       offsetClick: 0.5,
       clickableSize: [2.2, 2.5],
       text: "Image Screen",
       plinthVisible: false,
-      location: 'EagleBar',
+      location: 'WestPavillion',
       artworkInfo: {
         title: "Nailed",
         artist: "Genevieve Carr",
@@ -1580,7 +1167,8 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       artworkInfo: {
         title: "Faux Flora",
         artist: "Justina Alexandroff",
-        description: "\"Faux Flora\" is a collection of 3D printed plant forms that explore the relationship between natural and artificial environments. The project questions the boundaries between real and simulated ecosystems."
+        description: "\"Faux Flora\" is a collection of 3D printed plant forms that explore the relationship between natural and artificial environments. The project questions the boundaries between real and simulated ecosystems.",
+        link: "https://ualshowcase.arts.ac.uk/@justinaalexandroff"
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
@@ -1627,7 +1215,8 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       artworkInfo: {
         title: "Lust Feels Like Bad Luck",
         artist: "Julia Pytko",
-        description: "\"Lust Feels Like Bad Luck\" is a multimedia installation that explores the intersection of desire and consequence in the digital age."
+        description: "\"Lust Feels Like Bad Luck\" is a multimedia installation that explores the intersection of desire and consequence in the digital age.",
+        link: "https://ualshowcase.arts.ac.uk/@juliapytko"
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
@@ -1635,13 +1224,13 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
     }));
 
    
-
+    //left outside tunnel
     this._registerArtwork(this.screenManager.addScreen({
       url: ` https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/Be%20Not%20Afraid.mp4`,
       poster: `${baseURL}art/BeNotAfraid-RysiaAnnaKaczmar/9T0A5893_1.jpg`,
       width: 1.8,
       height: 1.2,
-      position: [-3.0, 23, 12.0],
+      position: [-5.0, 23, 12.0],
     rotation: [0, 90, 0],
       clickable: true,
       offsetClick: 0.0,
@@ -1652,17 +1241,18 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       artworkInfo: {
         title: "Be Not Afraid",
         artist: "Rysia Anna Kaczmar",
-        description: "\"Be Not Afraid\" "
+        description: "Be Not Afraid is a sculptural sound work inspired by biblically accurate angels and childhood comfort objects. Constructed from plush fabric and embedded with a speaker in place of an eye, the piece features six oversized wings in various states of motion. It explores the intersection of sacred imagery and emotional attachment, questioning how tenderness and terror can coexist within a single form. Sound pulses through the speaker to activate the work sonically and symbolically. Drawing from religious aesthetics while acknowledging the erosion of moral certainty in contemporary life, Be Not Afraid invites reflection on how belief, fear, and care shape the way we encounter the unknown.",
+        link: "https://ualshowcase.arts.ac.uk/@lynxiewho"
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
     }));
 
-    //left side of bar
+    
      this.screenManager.addModel({
     url: `${baseURL}art/BeNotAfraid-RysiaAnnaKaczmar/BeNotAfraid_Artwork3D.glb`,
-    position: [-2.5, 22.4, 11.2],
+    position: [-4.5, 22.4, 11.2],
     rotation: [0, 90, 0],
     normalizeTo: 0.8,
     clickable: true,
@@ -1700,35 +1290,122 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       artworkInfo: {
         title: "Material Place",
         artist: "Neve Beill",
-        description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments."
+        description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
+        link: "https://ualshowcase.arts.ac.uk/project/633733/cover"
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
     }));
-    //on the bar
+
+    // ── Material Place — ModelGalleryWalk (dummy models; swap urls when assets ready) ──
+    const materialPlaceWalk = new ModelGalleryWalk({
+      scene: this.scene,
+      debugOn: this._debug,
+      artworkInfo: {
+        title: "Material Place",
+        artist: "Neve Beill",
+        description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
+      },
+      entryPosition: [1.9, 22.7, 6.0],
+      entryHitboxSize: [4.5, 1.5, 2.0],
+      arrowOffset: 0.2,
+      arrowHeight: 0.0,
+      arrowSize: 0.35,
+      models: [
+        {
+          url: `${baseURL}art/FauxFlora_JustinaAlexandrof/FauxFlora01.glb`,
+          position: [-0.8, 22.5, 4.6],
+          rotation: [0, 30, 0],
+          normalizeTo: 0.35,
+          playAnimation: null,
+          artworkInfo: {
+            title: "Material Place — I",
+            artist: "Neve Beill",
+            description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
+          },
+        },
+        {
+          url: `${baseURL}art/TheNoos-SanneWinderickx/TheNoos_yellowHand.glb`,
+          position: [1.9, 22.5, 4.0],
+          rotation: [0, -10, 0],
+          normalizeTo: 0.35,
+          playAnimation: null,
+          artworkInfo: {
+            title: "Material Place — II",
+            artist: "Neve Beill",
+            description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
+          },
+        },
+        {
+          url: `${baseURL}art/BeNotAfraid-RysiaAnnaKaczmar/BeNotAfraid_Artwork3D.glb`,
+          position: [4.6, 22.5, 4.6],
+          rotation: [0, -30, 0],
+          normalizeTo: 0.35,
+          playAnimation: "first",
+          artworkInfo: {
+            title: "Material Place — III",
+            artist: "Neve Beill",
+            description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
+          },
+        },
+      ],
+    });
+    materialPlaceWalk.load().then(() => {
+      materialPlaceWalk.hitbox.userData.location = 'EagleBar';
+      this._registerExperience(materialPlaceWalk);
+      materialPlaceWalk._clickables = this.screenManager.clickables;
+    }).catch(console.error);
+    // ─────────────────────────────────────────────────────────────────────────
+
+    //left wall from bar
     this._registerArtwork(this.screenManager.addScreen({
-      url: `https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/Echoes%20out%20of%20tune.mp4`,
-      poster: `${baseURL}art/EchoesOutOfTune/tu-1.jpg`,
+      url: `https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/Show_Video_ShuyangWang_MB.mp4`,
+      poster: `${baseURL}art/Symbion/hero_img-3.jpg-2.avif`,
       width: 1.4,
       height: 0.7,
-      position: [-1.9, 22.7, 5.2],
-      rotation: [0, -10, 0],
+      position: [-7.8, 23, 7.0],
+    rotation: [0, 90, 0],
       clickable: true,
       offsetClick: 0.0,
       clickableSize: [2.2, 1.0],
-      text: "Image Screen",
+      text: "",
       plinthVisible: false,
       location: 'EagleBar',
       artworkInfo: {
-        title: "Echoes out of tune",
-        artist: "-",
-        description: "-"
+        title: "Symbion",
+        artist: "Shuyang Wang",
+        description: "Symbion is a conceptual model for human–embodied AI collaboration that centers on a novel human–AI relationship spectrum under which a biomimetic robotic hand operates. The spectrum spans five modes—Manual, Training, Collaboration, Guidance, and Automated—each reflecting a different balance of control and learning between human and AI. Within this framework, the robotic hand is designed to collaborate seamlessly with humans in existing ergonomic contexts while expressing movements in ways that are naturally intuitive and easy to interpret. Together, these elements create a unified environment for exploring how embodied AI and humans can learn from one another, share control, and work in synergy.",
+        link: "https://ualshowcase.arts.ac.uk/@shuyangwang"
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
     }));
+
+     this.screenManager.addModel({
+    url: `${baseURL}art/Symbion/symbionHand.glb`,
+    position: [-6.8, 22.4, 6.0],
+    rotation: [0, 90, 0],
+    normalizeTo: 0.8,
+    clickable: true,
+    onClick: (obj, hit) => console.log("Model clicked:", obj),
+    text: "",
+    textOffset: [0, -0.5, 0.9],
+    hitboxSize: [0.6, 1.4, 0.6],
+    offsetClick: -0.0,
+    plinthVisible: false,
+    playAnimation: "first",
+    location: 'EagleBar',
+    artworkInfo: {
+      title: "Symbion",
+      artist: "Shuyang Wang",
+      description: ""
+    }
+  }).then((modelRoot) => {
+    this.statue = modelRoot;
+    //this._registerArtwork(modelRoot);
+  }).catch(console.error);
 
     // Belt-and-suspenders: hide sync-registered artworks not in the starting location.
     // Async registrations are handled by _registerArtwork itself.
