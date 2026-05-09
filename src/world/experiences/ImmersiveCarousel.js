@@ -217,11 +217,13 @@ export class ImmersiveCarousel {
     this.arrowPrev.visible = true;
     this.arrowNext.visible = true;
 
-    // Add panel hitboxes to the live raycast list so they can be clicked
+    // Add panel hitboxes and arrows to the live raycast list
     if (this._clickables) {
       for (const hb of this._panelHitboxes) {
         if (!this._clickables.includes(hb)) this._clickables.push(hb);
       }
+      if (!this._clickables.includes(this.arrowPrev)) this._clickables.push(this.arrowPrev);
+      if (!this._clickables.includes(this.arrowNext)) this._clickables.push(this.arrowNext);
     }
 
     // Greyscale → colour on the front panel (only animates once; stays colour after)
@@ -251,10 +253,10 @@ export class ImmersiveCarousel {
     this.arrowPrev.visible = false;
     this.arrowNext.visible = false;
 
-    // Remove panel hitboxes from the raycast list — only entry hitbox clickable from outside
+    // Remove panel hitboxes and arrows from the raycast list
     if (this._clickables) {
-      for (const hb of this._panelHitboxes) {
-        const idx = this._clickables.indexOf(hb);
+      for (const obj of [...this._panelHitboxes, this.arrowPrev, this.arrowNext]) {
+        const idx = this._clickables.indexOf(obj);
         if (idx !== -1) this._clickables.splice(idx, 1);
       }
     }

@@ -438,7 +438,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
     }).catch(console.error);
 
 
-    const EagleBar = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/EagleBar_V1.glb").then((gltf) => {
+    //const EagleBar = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/EagleBar_V1.glb").then((gltf) => {
+      const EagleBar = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/Building/Chancery Rosewood_EagleBar_V1.glb").then((gltf) => {
       const model1 = gltf.scene;
       model1.traverse((child) => {
         if (child.isMesh) {
@@ -461,7 +462,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
         }
       });
       model1.scale.set(1.0, 1.0, 1.0);
-      model1.position.set(0, 21.3, 19.2);
+      model1.position.set(0.0, -4.0, 16.0);
       this.scene.add(model1);
     }).catch(console.error);
 
@@ -794,8 +795,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
     }));
     */
 
+    /*
     this._registerArtwork(this.screenManager.addFluidContentScreen({
-      location: 'lobby',
+      location: ‘lobby’,
       content: {
         title: "Unrendered",
         artist: "Marie-Lisette Cropp",
@@ -808,15 +810,13 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
           `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-5-4.jpg`,
           `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-5-5.jpg`,
           `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-6-2.jpg`
-
-
         ],
         narration: `${baseURL}audio/Unrendered_Narration.mp3`,
         narrationCues: `${baseURL}audio/Unrendered_Narration.json`
       },
       width: 1.4,
       height: 1.8,
-      position: [-7.15, 0.7, 1.6],   // e.g. on/near carousel A
+      position: [-7.15, 0.7, 1.6],
       rotation: [0, 135, 0],
       offsetClick: 0.0,
       infoWidth: 1.6,
@@ -826,10 +826,38 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
       clickable: true,
       plinthVisible: false,
       infoPanel: false,
-
-      //transition
       transitionDuration: 0.35,
     }).screenMesh);
+    */
+    const unrenderedCarousel = new ImmersiveCarousel({
+      scene: this.scene,
+      position: [-7.10, 0.7, 1.55],
+      rotation: [0, 315, 0],
+      panelWidth: 1.4,
+      panelHeight: 1.8,
+      debugOn: this._debug,
+      artworkInfo: {
+        title: "Unrendered",
+        artist: "Marie-Lisette Cropp",
+        description: "Unrendered explores how the female body is represented and reshaped through technology and Western cultural expectations. The project examines the tension between the physical and the digital, and how images shape our understanding of identity and beauty. Using photogrammetry, the body is scanned into digital form, fragmenting in the process and celebrating these glitches and distortions. By reworking these scans by hand and through darkroom printing, the work restores a raw, physical presence. Inspired by Rosi Braidotti’s Posthuman theory, Unrendered views the body as part of a wider ecosystem, continuously shaped by machines, nature, and technology.",
+        narration: `${baseURL}audio/Unrendered_Narration.mp3`,
+        narrationCues: `${baseURL}audio/Unrendered_Narration.json`
+      },
+      images: [
+        { url: `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-2-1.jpg.avif` },
+        { url: `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-3-2.jpg` },
+        { url: `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-3-3.jpg` },
+        { url: `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-4.jpg` },
+        { url: `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-5-4.jpg` },
+        { url: `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-5-5.jpg` },
+        { url: `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-6-2.jpg` },
+      ],
+    });
+    unrenderedCarousel.load().then(() => {
+      unrenderedCarousel.hitbox.userData.location = 'lobby';
+      this._registerExperience(unrenderedCarousel);
+      unrenderedCarousel._clickables = this.screenManager.clickables;
+    }).catch(console.error);
 
       //left side, middle front desk
       /*
@@ -1316,7 +1344,6 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       dummyImmersive.hitbox.userData.location = 'lobby';
       this._registerExperience(dummyImmersive);
       dummyImmersive._clickables = this.screenManager.clickables;
-      this.screenManager.clickables.push(dummyImmersive.arrowPrev, dummyImmersive.arrowNext);
     }).catch(console.error);
     // ────────────────────────────────────────────────────────────────────────
 
@@ -1703,8 +1730,8 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       }
     }));
 
-    // Hide artworks that don't belong to the starting location
-    // (runs after sync artworks; async models hide themselves on first transition)
+    // Belt-and-suspenders: hide sync-registered artworks not in the starting location.
+    // Async registrations are handled by _registerArtwork itself.
     for (const entry of this._artworkRegistry) {
       const loc = entry.obj.userData.location;
       if (loc && loc !== this._currentLocation) {
@@ -2056,6 +2083,14 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
       const idx = this._artworkRegistry.length - 1;
       console.log(`[LocationReveal] registered artwork #${idx} "${info.title}" → location: "${clickable.userData.location}"`);
     }
+
+    // Hide immediately if registering into a non-current location (covers async loads)
+    const loc = clickable.userData.location;
+    if (loc && loc !== this._currentLocation) {
+      clickable.visible = false;
+      (clickable.userData.associatedMeshes ?? []).forEach(m => { m.visible = false; });
+    }
+
     this.infoPanel.setRegistry(this._artworkRegistry);
   }
 
@@ -2070,14 +2105,16 @@ this._registerArtwork(this.screenManager.addFluidContentScreen({
         hb.userData.experience = exp;
         this.screenManager.clickables.push(hb);
       }
-      // root covers the models; model hitboxes are listed explicitly because
-      // Three.js raycaster checks each mesh's own .visible, not ancestor visibility
-      exp.hitbox.userData.associatedMeshes = [
-        ...(exp.hitbox.userData.associatedMeshes ?? []),
-        exp.root,
-        ...exp.modelHitboxes,
-      ];
     }
+
+    // Always include root so _setLocationVisibility hides the whole experience.
+    // model hitboxes listed explicitly because Three.js raycaster checks each
+    // mesh's own .visible, not ancestor visibility.
+    exp.hitbox.userData.associatedMeshes = [
+      ...(exp.hitbox.userData.associatedMeshes ?? []),
+      exp.root,
+      ...(exp.modelHitboxes ?? []),
+    ];
 
     this._registerArtwork(exp.hitbox);
   }
