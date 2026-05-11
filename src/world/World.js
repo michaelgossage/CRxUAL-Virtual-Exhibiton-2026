@@ -260,9 +260,9 @@ export class World {
   ],
 {duration: 8.0, distanceWeighted: true}); 
 
-this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 50});
-this.setLocationRevealZone("WestPavillion", { center: [-34,0.8,-22.4],     radius: 50});
-this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
+this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 25});
+this.setLocationRevealZone("WestPavillion", { center: [-34,0.8,-22.4],     radius: 18});
+this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
 
     // Arrow key navigation
     document.addEventListener("keydown", (e) => {
@@ -486,7 +486,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
       url: `${baseURL}art/birdcage_jichu zhang/IMG_1571-1.jpeg`,
       width: 2,
       height: 1.85,
-      position: [0.0, 1.4, -6.0],   // e.g. on/near carousel A
+      position: [0.0, 1.6, -6.0],   // e.g. on/near carousel A
       rotation: [0, 0, 0],
       clickable: true,
       offsetClick: .1,
@@ -509,50 +509,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
 
       //Right of fireplace
      
-      /*
-    this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/EMBODIED_VeepraMishra/20251114_Veepra0132-1-1.webp`,
-      width: 1.3,
-      height: 1.74,
-      position: [4.65, 0.9, -6.0],   // e.g. on/near carousel A
-      rotation: [0, -35, 0],
-      clickable: true,
-      offsetClick: .1,
-      clickableSize: [2.0, 2.0], // make click area bigger than screen size to include podium
-      text: "",
-      plinthVisible: true,
-      location: 'lobby',
-      artworkInfo: {
-        title: "EMBODIED: Reclaiming Assistive Devices as Culturally Expressive Fashion",
-        artist: "Veepra Mishra",
-        description: "It began with the slightest gesture: my mother hiding her cane behind her back every time a camera appeared, as if the object were never meant to speak for her. This project turns toward that silence and wonders how assistive devices might become sites of cultural expression rather than symbols of concealment. In the realm of assistive design and fashion, such moments reveal how deeply aesthetics and embodiment intertwine, particularly for disabled people of colour whose identities are shaped through layered histories of visibility and belonging. Guided by co-design conversations with two South Asian participants and informed by critical disabilities, material culture, and cultural symbolism, I developed usable prototypes that merge function with cultural resonance. These artefacts, rooted in traditions, memory, agency, and empowerment, ask what happens when assistive devices are culturally expressive artefacts that hold beauty, heritage, and emotional truth. The work demonstrates that when disabled people of colour shape the instruments that support them, assistive devices shift from clinical symbols into objects of affirmation and pride. The process illuminated both the challenges and possibilities of designing across distance, culture, and lived experience. It reveals how identity and functionality are inseparable. Ultimately, the project suggests that inclusive futures emerge when design listens closely, honours complexity, and treats assistive devices not as objects that should be hidden, but as sites of beauty, cultural identity, and empowerment.  "
-      },
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
-      }
-    }));
-    */
-
-    /*
-    this._registerArtwork(this.screenManager.addScreen({
-      url: "https://picsum.photos/id/1011/900/900",
-      width: 2,
-      height: 1.25,
-      position: [5.0, 1.0, -10.0],   // e.g. on/near carousel A
-      rotation: [0, 0, 0],
-      clickable: true,
-      offsetClick: 0.0,
-      text: "Image Screen",
-      artworkInfo: {
-        title: "Untitled II",
-        artist: "Placeholder Artist 2",
-        description: "A test artwork to demonstrate the info panel functionality. This description will be read aloud for accessibility."
-      },
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
-      }
-    }));
-    */
+      
 
     //right side, left front desk
 
@@ -569,6 +526,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
       rotation: [0, 315, 0],
       panelWidth: 1.4,
       panelHeight: 1.8,
+      revealMap: this.screenManager._revealTex,
       debugOn: this._debug,
       artworkInfo: {
         title: "Unrendered",
@@ -891,6 +849,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
       radius: 3.5,
       panelWidth: 2.2,
       panelHeight: 1.8,
+      revealMap: this.screenManager._revealTex,
       debugOn: this._debug,
       artworkInfo: {
         title: "Self-Finish",
@@ -945,7 +904,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
       url: `${baseURL}art/EMBODIED_VeepraMishra/20251114_Veepra0132-1-1.webp`,
       width: 1.3,
       height: 1.74,
-      position: [-31.2, 0.9, -17.8],   // e.g. on/near carousel A
+      position: [-28.2, 0.9, -17.0],   // e.g. on/near carousel A
       rotation: [0, 180, 0],
       clickable: true,
       offsetClick: .1,
@@ -1177,16 +1136,39 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
 
     this.screenManager.addModel({
       url: `${baseURL}art/FauxFlora_JustinaAlexandrof/FauxFlora01.glb`,
-      position: [4.5, 23, 15.5],
+      position: [5.0, 22.5, 16.0],
       rotation: [0, -135, 0],
       normalizeTo: 0.8,
       clickable: true,
       onClick: (obj, hit) => console.log("Model clicked:", obj),
       text: "",
       textOffset: [0, -0.1, 0.9],
+      hitboxSize: [1.4, 1.4, 1.4],
+      offsetClick: -0.3,
+      plinthVisible:true,
+      plinthOffset: [0, -0.3, 0],
+      plinthSize: [0.8, 0.8, 0.8],
+      //playAnimation: "first",
+      location: 'EagleBar',
+      artworkInfo: {
+        title: "Yellow Hand",
+        artist: "Sanne Winderickx",
+        description: "Yellow Hand is a 3D model of a hand that serves as a companion piece to the video work Invocation of the Black Flame. The hand is designed to evoke a sense of mysticism and transformation, with its intricate details and symbolic gestures. As viewers interact with the hand, they are encouraged to explore themes of power, identity, and resistance, further deepening their engagement with the concepts presented in the video."
+      }
+    });
+
+    this.screenManager.addModel({
+      url: `${baseURL}art/FauxFlora_JustinaAlexandrof/FauxFloraArrangement.glb`,
+      position: [4.1, 21.3, 17.0],
+      rotation: [0, -135, 0],
+      normalizeTo: 2.5,
+      clickable: false,
+      onClick: (obj, hit) => console.log("Model clicked:", obj),
+      text: "",
+      textOffset: [0, -0.1, 0.9],
       hitboxSize: [1.8, 1.5, 1.8],
       offsetClick: 0.2,
-      plinthVisible:true,
+      plinthVisible:false,
       plinthOffset: [0, -0.5, 0],
       plinthSize: [1.0, 1.0, 1.0],
       //playAnimation: "first",
@@ -1275,6 +1257,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
   }).catch(console.error);
 
   //on the bar
+  /*
     this._registerArtwork(this.screenManager.addScreen({
       url: `${baseURL}art/MaterialPlace_NeveBeill/ual-showcase-2-1.jpg`,
       width: 1.4,
@@ -1297,8 +1280,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
         console.log("Clicked screen/podium", obj);
       }
     }));
+    */
 
-    // ── Material Place — ModelGalleryWalk (dummy models; swap urls when assets ready) ──
+    // ── Material Place — ModelGalleryWalk ────────────────────────────────────
     const materialPlaceWalk = new ModelGalleryWalk({
       scene: this.scene,
       debugOn: this._debug,
@@ -1307,18 +1291,17 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
         artist: "Neve Beill",
         description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
       },
-      entryPosition: [1.9, 22.7, 6.0],
+      entryPosition: [0.0, 22.7, 6.0],
       entryHitboxSize: [4.5, 1.5, 2.0],
       arrowOffset: 0.2,
       arrowHeight: 0.0,
       arrowSize: 0.35,
       models: [
         {
-          url: `${baseURL}art/FauxFlora_JustinaAlexandrof/FauxFlora01.glb`,
-          position: [-0.8, 22.5, 4.6],
+          url: `${baseURL}art/MaterialPlace_NeveBeill/MaterialPlace_01.glb`,
+          position: [-1.8, 22.3, 5.3],
           rotation: [0, 30, 0],
-          normalizeTo: 0.35,
-          playAnimation: null,
+          normalizeTo: 0.4,
           artworkInfo: {
             title: "Material Place — I",
             artist: "Neve Beill",
@@ -1326,11 +1309,10 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
           },
         },
         {
-          url: `${baseURL}art/TheNoos-SanneWinderickx/TheNoos_yellowHand.glb`,
-          position: [1.9, 22.5, 4.0],
-          rotation: [0, -10, 0],
-          normalizeTo: 0.35,
-          playAnimation: null,
+          url: `${baseURL}art/MaterialPlace_NeveBeill/MaterialPlace_02.glb`,
+          position: [-1.0, 22.3, 5.3],
+          rotation: [0, 10, 0],
+          normalizeTo: 0.4,
           artworkInfo: {
             title: "Material Place — II",
             artist: "Neve Beill",
@@ -1338,13 +1320,45 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
           },
         },
         {
-          url: `${baseURL}art/BeNotAfraid-RysiaAnnaKaczmar/BeNotAfraid_Artwork3D.glb`,
-          position: [4.6, 22.5, 4.6],
-          rotation: [0, -30, 0],
-          normalizeTo: 0.35,
-          playAnimation: "first",
+          url: `${baseURL}art/MaterialPlace_NeveBeill/MaterialPlace_03.glb`,
+          position: [-0.4, 22.3, 5.3],
+          rotation: [0, -10, 0],
+          normalizeTo: 0.4,
           artworkInfo: {
             title: "Material Place — III",
+            artist: "Neve Beill",
+            description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
+          },
+        },
+        {
+          url: `${baseURL}art/MaterialPlace_NeveBeill/MaterialPlace_04.glb`,
+          position: [0.4, 22.3, 5.3],
+          rotation: [0, -20, 0],
+          normalizeTo: 0.4,
+          artworkInfo: {
+            title: "Material Place — IV",
+            artist: "Neve Beill",
+            description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
+          },
+        },
+        {
+          url: `${baseURL}art/MaterialPlace_NeveBeill/MaterialPlace_05.glb`,
+          position: [1.0, 22.3, 5.3],
+          rotation: [0, -30, 0],
+          normalizeTo: 0.4,
+          artworkInfo: {
+            title: "Material Place — V",
+            artist: "Neve Beill",
+            description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
+          },
+        },
+        {
+          url: `${baseURL}art/MaterialPlace_NeveBeill/MaterialPlace_06.glb`,
+          position: [1.9, 22.3, 5.3],
+          rotation: [0, -40, 0],
+          normalizeTo: 0.4,
+          artworkInfo: {
+            title: "Material Place — VI",
             artist: "Neve Beill",
             description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
           },
@@ -1362,13 +1376,13 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
     this._registerArtwork(this.screenManager.addScreen({
       url: `https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/Show_Video_ShuyangWang_MB.mp4`,
       poster: `${baseURL}art/Symbion/hero_img-3.jpg-2.avif`,
-      width: 1.4,
-      height: 0.7,
+      width: 2.6,
+      height: 1.4,
       position: [-7.8, 23, 7.0],
     rotation: [0, 90, 0],
       clickable: true,
       offsetClick: 0.0,
-      clickableSize: [2.2, 1.0],
+      clickableSize: [2.7, 1.5],
       text: "",
       plinthVisible: false,
       location: 'EagleBar',
@@ -1589,8 +1603,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 50});
     // Animate grayscale → colour — only if not already colourised
     const revealMat = revealTarget?.userData?.revealMaterial;
     const currentColor = revealMat?.uniforms?.uColorReveal?.value ?? 0;
-    if (currentColor < 1.0) {
-      this._animateColorReveal(revealTarget, currentColor, 1.0, 1.5);
+    if (currentColor < 1.2) {
+      this._animateColorReveal(revealTarget, currentColor, 1.2, 1.5);
     }
 
     if (target.userData.focusPose) {

@@ -27,7 +27,10 @@ const GPU_EDGE_HARDNESS    = 0.02; // 0..0.5 — 0 = perfectly hard step, 0.5 = 
 const DEBUG_SHOW_NOISE     = false; // true = render raw noise texture as surface colour (gpu mode only)
 const DEBUG_FOG            = false; // true = use DEBUG_FOG_COLOR instead of production fog colour
 const DEBUG_FOG_COLOR      = 0x800000; // red — visible debug fog
-const PRODUCTION_FOG_COLOR = 0xcccccc; // white — production fog
+const PRODUCTION_FOG_COLOR = 0xdddddd; // white — production fog
+// Gold ring normal map
+const GOLD_NORMAL_TILE_SCALE = .25; // tiles per world unit
+const GOLD_NORMAL_STRENGTH   = 4.0;  // 0 = off, higher = stronger bump
 // ─────────────────────────────────────────────────────────────────────────────
 // World-space bounds the voxel volume covers. Adjust to match your scene extents.
 // XZ covers the horizontal footprint; Y covers vertical (height) range.
@@ -63,6 +66,9 @@ uniform vec3      uGoldColor;
 uniform float     uGoldEdgeWidth;
 uniform float     uGoldEdgeMult;
 varying vec3      vWorld;
+uniform sampler2D uGoldNormalMap;
+uniform float     uGoldNormalTileScale;
+uniform float     uGoldNormalStrength;
 ` + (NOISE_MODE === 'gpu' ? /* glsl */`
 uniform sampler2D uNoiseTex;
 uniform float     uNoiseTileScale;
@@ -99,7 +105,8 @@ float _edge    = _settled * smoothstep(uGoldEdgeWidth, 0.0, _settledRaw);
 float _goldAmt  = clamp(_gold + _edge * uGoldEdgeMult, 0.0, 1.0);
 // Gold ring punches through fog so it's visible at the hidden boundary
 float _reveal   = max(_settled, max(_temp, max(_gold, _goldAmt)));
-vec3  _colored  = mix(diffuseColor.rgb, uGoldColor, _goldAmt);
+// vec3  _colored  = mix(diffuseColor.rgb, uGoldColor, _goldAmt);
+vec3  _colored  = mix(diffuseColor.rgb, uGoldColor, max(_goldAmt, _temp));
 
 diffuseColor.rgb = mix(uFogColor, _colored, _reveal);
 ` + (NOISE_MODE === 'gpu' ? /* glsl */`
@@ -107,7 +114,7 @@ diffuseColor.rgb = mix(uFogColor, _colored, _reveal);
 diffuseColor.rgb = mix(diffuseColor.rgb, vec3(_noiseSample), uDebugNoise);
 ` : '');
 
-function _injectReveal(shader, mat, texture, tempTexture, goldTexture, noiseTexture) {
+function _injectReveal(shader, mat, texture, tempTexture, goldTexture, noiseTexture, goldNormalTexture) {
   mat.userData.shader = shader;
 
   shader.uniforms.uRevealTex      = { value: texture };
@@ -118,7 +125,7 @@ function _injectReveal(shader, mat, texture, tempTexture, goldTexture, noiseText
   shader.uniforms.uWorldMinY      = { value: WORLD_MIN_Y };
   shader.uniforms.uWorldSizeY     = { value: WORLD_SIZE_Y };
   shader.uniforms.uFogColor       = { value: new THREE.Color(DEBUG_FOG ? DEBUG_FOG_COLOR : PRODUCTION_FOG_COLOR) };
-  shader.uniforms.uGoldColor      = { value: new THREE.Color(0xFFD700) };
+  shader.uniforms.uGoldColor      = { value: new THREE.Color(0xffe263) };
   shader.uniforms.uGoldEdgeWidth  = { value: GOLD_EDGE_WIDTH };
   shader.uniforms.uGoldEdgeMult   = { value: GOLD_EDGE_MULT };
 
@@ -142,6 +149,38 @@ function _injectReveal(shader, mat, texture, tempTexture, goldTexture, noiseText
 
   // Drive PBR roughness/metalness in gold areas — _goldAmt is in scope above.
   // Only MeshStandardMaterial has these chunks — guard so Lambert materials are unaffected.
+  shader.uniforms.uGoldNormalMap       = { value: goldNormalTexture ?? null };
+  shader.uniforms.uGoldNormalTileScale = { value: GOLD_NORMAL_TILE_SCALE };
+  shader.uniforms.uGoldNormalStrength  = { value: GOLD_NORMAL_STRENGTH };
+
+  if (shader.fragmentShader.includes("#include <normal_fragment_maps>")) {
+    shader.fragmentShader = shader.fragmentShader.replace(
+      "#include <normal_fragment_maps>",
+      `#include <normal_fragment_maps>
+       vec3 _uvwN = clamp(vec3(
+         (vWorld.x - uWorldMinXZ.x) / uWorldSizeXZ.x,
+         (vWorld.y - uWorldMinY)    / uWorldSizeY,
+         (vWorld.z - uWorldMinXZ.y) / uWorldSizeXZ.y
+       ), 0.0, 1.0);
+       float _goldN    = texture(uRevealTexGold, _uvwN).r;
+       float _tempN    = texture(uRevealTexTemp, _uvwN).r;
+       float _settledN = texture(uRevealTex,     _uvwN).r;
+       float _edgeN    = _settledN * smoothstep(uGoldEdgeWidth, 0.0, _settledN);
+       float _goldMask = clamp(_goldN + _edgeN * uGoldEdgeMult + _tempN, 0.0, 1.0);
+       vec3 _triBlend = pow(abs(normal), vec3(4.0));
+       _triBlend /= (_triBlend.x + _triBlend.y + _triBlend.z + 0.0001);
+       vec2 _sXZ = texture(uGoldNormalMap, fract(vWorld.xz * uGoldNormalTileScale)).rg;
+       vec2 _sXY = texture(uGoldNormalMap, fract(vWorld.xy * uGoldNormalTileScale)).rg;
+       vec2 _sYZ = texture(uGoldNormalMap, fract(vWorld.yz * uGoldNormalTileScale)).rg;
+       vec3 _nXZ = vec3(_sXZ.r * 2.0 - 1.0, 0.0,              _sXZ.g * 2.0 - 1.0);
+       vec3 _nXY = vec3(_sXY.r * 2.0 - 1.0, _sXY.g * 2.0 - 1.0, 0.0            );
+       vec3 _nYZ = vec3(0.0,              _sYZ.r * 2.0 - 1.0, _sYZ.g * 2.0 - 1.0);
+       vec3 _nrmlOffset  = _nXZ * _triBlend.y + _nXY * _triBlend.z + _nYZ * _triBlend.x;
+       float _revealN    = max(_settledN, _tempN);
+       normal = normalize(normal + _nrmlOffset * _goldMask * _revealN * uGoldNormalStrength);`
+    );
+  }
+
   if (shader.fragmentShader.includes("#include <roughnessmap_fragment>")) {
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <roughnessmap_fragment>",
@@ -159,9 +198,9 @@ function _injectReveal(shader, mat, texture, tempTexture, goldTexture, noiseText
 }
 // ─────────────────────────────────────────────────────────────────────────────
 
-export function makeProximityRevealMaterial(system, { color = 0x808080, side = THREE.FrontSide } = {}) {
-  const mat = new THREE.MeshStandardMaterial({ color, side, roughness: 1.0, metalness: 0.0 });
-  mat.onBeforeCompile = (shader) => _injectReveal(shader, mat, system.texture, system.tempTexture, system.goldTexture, system.noiseTexture);
+export function makeProximityRevealMaterial(system, { color = 0x808080, normalMap = null, side = THREE.FrontSide } = {}) {
+  const mat = new THREE.MeshStandardMaterial({ color, normalMap, side, roughness: 1.0, metalness: 0.0 });
+  mat.onBeforeCompile = (shader) => _injectReveal(shader, mat, system.texture, system.tempTexture, system.goldTexture, system.noiseTexture, system.goldNormalTexture);
   system.registerMaterial(mat);
   return mat;
 }
@@ -173,7 +212,7 @@ export function applyProximityRevealToMaterial(mat, system) {
   const _prev = mat.onBeforeCompile;
   mat.onBeforeCompile = (shader, renderer) => {
     if (_prev) _prev(shader, renderer);
-    _injectReveal(shader, mat, system.texture, system.tempTexture, system.goldTexture, system.noiseTexture);
+    _injectReveal(shader, mat, system.texture, system.tempTexture, system.goldTexture, system.noiseTexture, system.goldNormalTexture);
   };
 
   mat.needsUpdate = true;
@@ -222,6 +261,10 @@ export class ProximityRevealSystem {
     // GPU noise — THREE.Texture sampled per-fragment in the shader (used only in 'gpu' mode)
     this.noiseTexture = new THREE.TextureLoader().load(import.meta.env.BASE_URL + 'art/textures/noise.png');
     this.noiseTexture.wrapS = this.noiseTexture.wrapT = THREE.RepeatWrapping;
+
+    // Gold ring normal map — world-space XZ, perturbs normals in gold areas
+    this.goldNormalTexture = new THREE.TextureLoader().load(import.meta.env.BASE_URL + 'art/textures/noisev2_nrml.png');
+    this.goldNormalTexture.wrapS = this.goldNormalTexture.wrapT = THREE.RepeatWrapping;
 
     // Data3DTexture — true trilinear interpolation, no slice boundary artefacts.
     // precision highp sampler3D; is injected in the GLSL preamble to satisfy WebGL 2.

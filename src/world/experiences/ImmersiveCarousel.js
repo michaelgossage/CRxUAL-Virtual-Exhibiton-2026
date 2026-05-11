@@ -30,6 +30,7 @@ export class ImmersiveCarousel {
     panelWidth  = 2.5,
     panelHeight = 2.0,
     artworkInfo = {},       // shown on initial entry click
+    revealMap = null,
     debugOn = false,
   }) {
     this.scene        = scene;
@@ -38,6 +39,7 @@ export class ImmersiveCarousel {
     this._panelHeight = panelHeight;
     this.artworkInfo  = artworkInfo;
     this._debugOn     = debugOn;
+    this._revealMap   = revealMap;
 
     const deg = Math.PI / 180;
     this._baseYDeg = rotation[1];
@@ -94,12 +96,7 @@ export class ImmersiveCarousel {
     const SA = W / H;
     const step = (2 * Math.PI) / n;
 
-    // Shared reveal mask — only needed for the front panel's reveal shader
-    const revealTex = this._textureLoader.load(
-      import.meta.env.BASE_URL + "/art/textures/radial-512px.jpg"
-    );
-    revealTex.wrapS = revealTex.wrapT = THREE.ClampToEdgeWrapping;
-    revealTex.minFilter = revealTex.magFilter = THREE.LinearFilter;
+    const revealTex = this._revealMap;
 
     for (let i = 0; i < n; i++) {
       const def   = defs[i];

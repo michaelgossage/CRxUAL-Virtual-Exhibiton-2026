@@ -140,6 +140,8 @@ export class ModelGalleryWalk {
         new THREE.MeshBasicMaterial({ color: 0x00aaff, wireframe: true, visible: this._debugOn })
       );
       hitbox.position.copy(worldCenter);
+      // Copy model rotation so CameraFocus approaches from the model's facing direction
+      hitbox.quaternion.copy(modelRoot.quaternion);
       hitbox.userData.galleryModelIndex = i;
       hitbox.userData.artworkInfo       = _mergeInfo(this.artworkInfo, def.artworkInfo);
       hitbox.userData.experienceOwner   = this;
@@ -174,7 +176,7 @@ export class ModelGalleryWalk {
     );
     this.hitbox.position.set(...ep);
     this.hitbox.userData.artworkInfo     = _mergeInfo(this.artworkInfo, this._models[0]?.artworkInfo);
-    this.hitbox.userData.focusTarget     = this._models[0]?.root ?? this.root;
+    this.hitbox.userData.focusTarget     = this._models[0]?.hitbox ?? this.root;
     this.hitbox.userData.experienceOwner = this;
     this.scene.add(this.hitbox);
 
@@ -229,7 +231,7 @@ export class ModelGalleryWalk {
 
     // Reset so the next entry always starts from model 0
     this.activeIndex = 0;
-    this.hitbox.userData.focusTarget = this._models[0]?.root ?? this.root;
+    this.hitbox.userData.focusTarget = this._models[0]?.hitbox ?? this.root;
     this.hitbox.userData.artworkInfo = _mergeInfo(this.artworkInfo, this._models[0]?.artworkInfo);
   }
 
@@ -282,7 +284,9 @@ export class ModelGalleryWalk {
     if (next?.mixer) next.mixer.timeScale = 1;
 
     // _updateArrows() will reposition on the next frame via update(dt)
-    return { consumed: true, focusTarget: next.root, artworkInfo: next.artworkInfo };
+    // Use the hitbox as focus target — it is sized to the model's geometry bounds and
+    // carries the model's rotation, so CameraFocus frames it correctly every time.
+    return { consumed: true, focusTarget: next.hitbox, artworkInfo: next.artworkInfo };
   }
 
   // Recomputed every frame — uses camera right vector so arrows are always

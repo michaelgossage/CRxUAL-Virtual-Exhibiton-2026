@@ -20,22 +20,22 @@ export function addDefaultLights(scene) {
   //scene.add( light );
 
 
-  const pointLight = new PointLight(0xffffff, 100.3);
+  const pointLight = new PointLight(0xffffff, 10.0);
   pointLight.position.set(3, 5, -1);
   pointLight.castShadow = true;
   //scene.add(pointLight);
 
-  const pointLight2 = new PointLight(0xffffff, 100.3);
+  const pointLight2 = new PointLight(0xffffff, 10.0);
   pointLight2.position.set(-3, 5, -1);
   pointLight2.castShadow = true;
   //scene.add(pointLight2);
 
-  const pointLight3 = new PointLight(0xffffff, 100.3);
+  const pointLight3 = new PointLight(0xffffff, 10.0);
   pointLight3.position.set(0,22,8);
   pointLight3.castShadow = true;
   //scene.add(pointLight3);
 
-  const pointLight4 = new PointLight(0xffffff, 100.3);
+  const pointLight4 = new PointLight(0xffffff, 10.0);
   pointLight4.position.set(-30,3.0,-20);
   pointLight4.castShadow = true;
   scene.add(pointLight4);

@@ -74,6 +74,12 @@ export class ScreenManager {
     this.models = [];   // { root, hitBox?, textMesh?, mixer?, clips?, url? }
 
 
+    // Shared static materials — created once, reused across all artwork instances
+    this._frameMat  = new THREE.MeshStandardMaterial({ color: 0x111111 });
+    this._plinthMat = makePlinthMarbleMaterial(); // world-pos veining works when shared
+    this._hitboxMat = new THREE.MeshBasicMaterial({ visible: debugOn, opacity: 0.3, transparent: true });
+    this._btnMat    = new THREE.MeshBasicMaterial({ visible: false });
+
     // fluid carousel tracking
     this._fluidRecords = [];   // { record, fluidSim, hitBox, state }
     this._fluidMouse      = new THREE.Vector2(0, 0);
@@ -100,6 +106,10 @@ export class ScreenManager {
     this.domElement.addEventListener("pointerup",   this._onTapUp,   { passive: true });
 
     this._texCache = new Map(); // url -> THREE.Texture
+
+    this._revealTex = this.textureLoader.load(import.meta.env.BASE_URL + "/art/textures/noisev2.png");
+    this._revealTex.wrapS = this._revealTex.wrapT = THREE.ClampToEdgeWrapping;
+    this._revealTex.minFilter = this._revealTex.magFilter = THREE.LinearFilter;
 
 
 
@@ -190,10 +200,7 @@ export class ScreenManager {
 
     
 
-    const revealTex = this.textureLoader.load(import.meta.env.BASE_URL + "/art/textures/radial-512px.jpg");
-    revealTex.wrapS = revealTex.wrapT = THREE.ClampToEdgeWrapping;
-    revealTex.minFilter = THREE.LinearFilter;
-    revealTex.magFilter = THREE.LinearFilter;
+    const revealTex = this._revealTex;
 
     /*
     const material = new THREE.MeshBasicMaterial({
@@ -230,11 +237,12 @@ export class ScreenManager {
     screenMesh.userData.revealMaterial = material; // for easy access later
     screenMesh.userData.skipReveal = skipReveal;
 
+    screenMesh.castShadow = true;
     this.scene.add(screenMesh);
 
     // --- Frame / backing ---
     const frameThickness = 0.08;
-    const frameMat = new THREE.MeshStandardMaterial({ color: 0x111111 });
+    const frameMat = this._frameMat;
     const frameGeo = new THREE.PlaneGeometry(width + frameThickness * 2, height + frameThickness * 2);
     const frameMesh = new THREE.Mesh(frameGeo, frameMat);
 
@@ -247,6 +255,7 @@ export class ScreenManager {
       position[2] + frameLocalOffset.z
     );
     frameMesh.rotation.set(...rotation);
+    frameMesh.castShadow = true;
     this.scene.add(frameMesh);
 
     //add a box for the artwork to sit on
@@ -254,7 +263,7 @@ export class ScreenManager {
     if(plinthVisible){
       const [pw, ph, pd] = plinthSize ?? [width * 0.9, 2.0, 1.0];
       const boxGeo = new THREE.BoxGeometry(pw, ph, pd);
-      boxMesh = new THREE.Mesh(boxGeo, makePlinthMarbleMaterial());
+      boxMesh = new THREE.Mesh(boxGeo, this._plinthMat);
       boxMesh.position.set(
         position[0] + plinthOffset[0],
         position[1] - (height / 2) - (ph / 2) + plinthOffset[1],
@@ -274,7 +283,7 @@ export class ScreenManager {
       
       hitBox = new THREE.Mesh(
         new THREE.BoxGeometry(...clickableSize, 0.5),
-        new THREE.MeshBasicMaterial({ visible: this.debugOn, opacity: 0.3, transparent: true })
+        this._hitboxMat
       );
 
       hitBox.position.set(position[0], position[1] - offsetClick, position[2]);
@@ -490,7 +499,7 @@ export class ScreenManager {
     const makeBtn = (name, localX) => {
       const btn = new THREE.Mesh(
         new THREE.PlaneGeometry(buttonSize, buttonSize),
-        new THREE.MeshBasicMaterial({ visible: true })
+        this._btnMat
       );
 
       // place in screen local space
@@ -1236,7 +1245,7 @@ async addModel({
 
     hitBox = new THREE.Mesh(
       new THREE.BoxGeometry(w, h, d),
-      new THREE.MeshBasicMaterial({ visible: this.debugOn, opacity: 0.3, transparent: true })
+      this._hitboxMat
     );
 
     hitBox.position.set(position[0], position[1] - offsetClick, position[2]);
