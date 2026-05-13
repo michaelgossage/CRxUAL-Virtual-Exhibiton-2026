@@ -8,18 +8,11 @@ function _makeArrowTex(label) {
   const c = document.createElement("canvas");
   c.width = c.height = size;
   const ctx = c.getContext("2d");
-  ctx.fillStyle = "rgba(255,255,255,0.15)";
-  ctx.beginPath();
-  ctx.arc(size / 2, size / 2, size / 2 - 4, 0, Math.PI * 2);
-  ctx.fill();
-  ctx.strokeStyle = "rgba(255,255,255,0.65)";
-  ctx.lineWidth = 3;
-  ctx.stroke();
-  ctx.fillStyle = "rgba(255,255,255,0.92)";
-  ctx.font = `bold ${Math.round(size * 0.55)}px system-ui`;
-  ctx.textAlign = "center";
+  ctx.font         = "bold 96px sans-serif";
+  ctx.fillStyle    = "#ffffff";
+  ctx.textAlign    = "center";
   ctx.textBaseline = "middle";
-  ctx.fillText(label, size / 2, size / 2 + 2);
+  ctx.fillText(label, size / 2, size / 2 + 4);
   return new THREE.CanvasTexture(c);
 }
 
@@ -324,9 +317,8 @@ export class ModelGalleryWalk {
       new THREE.MeshBasicMaterial({
         map:         _makeArrowTex(label),
         transparent: true,
-        depthWrite:  false,
+        depthTest:   false,
         side:        THREE.DoubleSide,
-        toneMapped:  false,
       })
     );
     mesh.userData.galleryArrow    = dir;

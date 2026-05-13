@@ -82,7 +82,10 @@ export class ImmersiveCarousel {
     this._revealTweens  = [];    // [{ mesh, elapsed, duration }] — side panel fade-in
     this._clickables    = null;  // set by World.js after _registerExperience
 
-    this._textureLoader = new THREE.TextureLoader();
+    this._textureLoader  = new THREE.TextureLoader();
+    this._exitFadeTweens = [];
+    this._exitSpinTween  = null;
+    this._isExiting      = false;
   }
 
   async load() {
@@ -209,6 +212,9 @@ export class ImmersiveCarousel {
   // ── Experience interface ───────────────────────────────────────────────────
 
   onFocus() {
+    // Cancel any in-progress exit animation so re-entry is clean
+    if (this._isExiting) this._cancelExit();
+
     this._isFocused = true;
     this.hitbox.visible = false;
     this.arrowPrev.visible = true;
@@ -246,11 +252,10 @@ export class ImmersiveCarousel {
 
   onUnfocus() {
     this._isFocused = false;
-    this.hitbox.visible = true;
     this.arrowPrev.visible = false;
     this.arrowNext.visible = false;
 
-    // Remove panel hitboxes and arrows from the raycast list
+    // Remove clickables immediately so panels can't be hit during the exit animation
     if (this._clickables) {
       for (const obj of [...this._panelHitboxes, this.arrowPrev, this.arrowNext]) {
         const idx = this._clickables.indexOf(obj);
@@ -258,22 +263,70 @@ export class ImmersiveCarousel {
       }
     }
 
-    // Instantly hide side panels; clear any in-progress fade tweens
+    // Cancel any in-progress entry or rotation tweens
     this._revealTweens = [];
+    this._rotTween     = null;
+    this._isExiting    = true;
+
+    // Fade out all currently-visible side panels
+    this._exitFadeTweens = [];
+    for (let i = 1; i < this._panels.length; i++) {
+      const { mesh, material } = this._panels[i];
+      if (!mesh.visible || material.opacity <= 0) {
+        material.opacity = 0;
+        mesh.visible     = false;
+        continue;
+      }
+      this._exitFadeTweens.push({ mesh, material, elapsed: 0, duration: 0.4, startOpacity: material.opacity });
+    }
+
+    // Spin ring back to the nearest whole revolution (i.e. back to image 0)
+    const TwoPI   = 2 * Math.PI;
+    const target0 = Math.round(this._currentAngle / TwoPI) * TwoPI;
+    const spinDist = Math.abs(target0 - this._currentAngle);
+    // Minimum 0.45 s so fades have time to complete even when no spin is needed
+    const spinDur  = Math.max(0.45, spinDist * 0.55);
+
+    this._exitSpinTween = makeTween01({
+      from: this._currentAngle,
+      to:   target0,
+      duration: spinDur,
+      onUpdate: (v) => {
+        this._currentAngle   = v;
+        this.ring.rotation.y = v;
+      },
+      onDone: () => this._finishExit(),
+    });
+  }
+
+  _finishExit() {
+    this._isExiting     = false;
+    this._exitSpinTween = null;
+    this._exitFadeTweens = [];
+
+    // Ensure all side panels are fully hidden
     for (let i = 1; i < this._panels.length; i++) {
       const { mesh, material } = this._panels[i];
       material.opacity = 0;
       mesh.visible     = false;
     }
 
-    // Snap ring to index 0 for clean re-entry
+    // Snap ring cleanly to index 0
     this.activeIndex     = 0;
     this._currentAngle   = 0;
     this._targetAngle    = 0;
     this.ring.rotation.y = 0;
-    this._rotTween = null;
 
     this.hitbox.userData.artworkInfo = _mergeInfo(this.artworkInfo, this._imageDefs[0].artworkInfo);
+    this.hitbox.visible = true;
+  }
+
+  _cancelExit() {
+    this._isExiting     = false;
+    this._exitSpinTween = null;
+    this._exitFadeTweens = [];
+    // Re-hide the hitbox (onFocus will manage it)
+    this.hitbox.visible = false;
   }
 
   onMiss() {
@@ -317,7 +370,7 @@ export class ImmersiveCarousel {
       if (this._colorTween.done) this._colorTween = null;
     }
 
-    // Step side-panel fade-in tweens
+    // Step side-panel fade-in tweens (entry)
     for (let i = this._revealTweens.length - 1; i >= 0; i--) {
       const t = this._revealTweens[i];
       t.elapsed += dt;
@@ -329,6 +382,26 @@ export class ImmersiveCarousel {
         t.mesh.material.opacity = 1;
         this._revealTweens.splice(i, 1);
       }
+    }
+
+    // Step side-panel fade-out tweens (exit)
+    for (let i = this._exitFadeTweens.length - 1; i >= 0; i--) {
+      const t = this._exitFadeTweens[i];
+      t.elapsed += dt;
+      const a = _easeInOut(_clamp01(t.elapsed / t.duration));
+      t.material.opacity = t.startOpacity * (1 - a);
+      if (t.elapsed >= t.duration) {
+        t.material.opacity = 0;
+        t.mesh.visible     = false;
+        this._exitFadeTweens.splice(i, 1);
+      }
+    }
+
+    // Drive exit spin tween (use local ref — onDone may null this._exitSpinTween mid-call)
+    if (this._exitSpinTween) {
+      const t = this._exitSpinTween;
+      t.update(dt);
+      if (t.done) this._exitSpinTween = null;
     }
   }
 

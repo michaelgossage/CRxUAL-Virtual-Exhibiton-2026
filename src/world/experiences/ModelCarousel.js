@@ -5,6 +5,64 @@ import { makeTween01 } from "../../utils/tween.js";
 const _WORLD_UP  = new THREE.Vector3(0, 1, 0);
 const _mergeInfo = (base, override) => ({ ...base, ...(override ?? {}) });
 
+function _makeArrowPlane(symbol) {
+  const size   = 128;
+  const canvas = document.createElement("canvas");
+  canvas.width = canvas.height = size;
+  const ctx = canvas.getContext("2d");
+  ctx.font         = "bold 96px sans-serif";
+  ctx.fillStyle    = "#ffffff";
+  ctx.textAlign    = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(symbol, size / 2, size / 2 + 4);
+  const mat = new THREE.MeshBasicMaterial({
+    map:         new THREE.CanvasTexture(canvas),
+    transparent: true,
+    depthTest:   false,
+    side:        THREE.DoubleSide,
+  });
+  return new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.5), mat);
+}
+
+function _removeFrom(arr, item) {
+  const i = arr.indexOf(item);
+  if (i !== -1) arr.splice(i, 1);
+}
+
+function _makeTogglePlane(enabled) {
+  const w = 256, h = 64;
+  const canvas = document.createElement("canvas");
+  canvas.width = w; canvas.height = h;
+  _drawToggle(canvas, enabled);
+  const mat = new THREE.MeshBasicMaterial({
+    map:         new THREE.CanvasTexture(canvas),
+    transparent: true,
+    depthTest:   false,
+    side:        THREE.DoubleSide,
+  });
+  const mesh = new THREE.Mesh(new THREE.PlaneGeometry(0.9, 0.225), mat);
+  mesh.userData.toggleCanvas = canvas;
+  return mesh;
+}
+
+function _drawToggle(canvas, enabled) {
+  const w = canvas.width, h = canvas.height;
+  const ctx = canvas.getContext("2d");
+  ctx.clearRect(0, 0, w, h);
+  ctx.fillStyle = enabled ? "rgba(255,255,255,0.2)" : "rgba(255,255,255,0.06)";
+  ctx.beginPath();
+  ctx.roundRect(2, 2, w - 4, h - 4, (h - 4) / 2);
+  ctx.fill();
+  ctx.strokeStyle = enabled ? "rgba(255,255,255,0.65)" : "rgba(255,255,255,0.25)";
+  ctx.lineWidth = 1.5;
+  ctx.stroke();
+  ctx.font      = "bold 26px sans-serif";
+  ctx.fillStyle = enabled ? "#ffffff" : "rgba(255,255,255,0.4)";
+  ctx.textAlign    = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(enabled ? "AUTO SPIN  ●" : "AUTO SPIN  ○", w / 2, h / 2 + 1);
+}
+
 /**
  * ModelCarousel — models arranged in a fixed circle; camera stays at one position.
  *
@@ -54,6 +112,16 @@ export class ModelCarousel {
     this._rotTween = null;
     this._currentAngle = this._baseAngle;
     this._targetAngle  = this._baseAngle;
+
+    this._clickables  = null;  // assigned by World.js after load
+    this._camera      = null;
+    this._arrowPrev   = null;
+    this._arrowNext   = null;
+    this._arrowOffset = 0.8;   // lateral world units from active model centre
+
+    this._spinEnabled = true;
+    this._spinSpeed   = 0.5;   // radians/second
+    this._spinToggle  = null;
   }
 
   async load() {
@@ -161,20 +229,52 @@ export class ModelCarousel {
     this.hitbox.userData.focusTarget     = this.root;
     this.hitbox.userData.experienceOwner = this;
     this.scene.add(this.hitbox);
+
+    // Navigation arrows — shown when focused, hidden otherwise
+    this._arrowPrev = _makeArrowPlane("‹");
+    this._arrowNext = _makeArrowPlane("›");
+    this._arrowPrev.userData.carouselArrow    = "prev";
+    this._arrowPrev.userData.experienceOwner  = this;
+    this._arrowNext.userData.carouselArrow    = "next";
+    this._arrowNext.userData.experienceOwner  = this;
+    this._arrowPrev.visible = false;
+    this._arrowNext.visible = false;
+    this.scene.add(this._arrowPrev);
+    this.scene.add(this._arrowNext);
+
+    // Auto-spin toggle button
+    this._spinToggle = _makeTogglePlane(this._spinEnabled);
+    this._spinToggle.userData.carouselSpinToggle = true;
+    this._spinToggle.userData.experienceOwner    = this;
+    this._spinToggle.visible = false;
+    this.scene.add(this._spinToggle);
   }
 
   // ── Experience interface ────────────────────────────────────────────────────
 
-  onFocus() {
+  onFocus(camera) {
     this._isFocused = true;
+    this._camera    = camera;
     // Hide central hitbox so it can't block clicks on the model hitboxes behind it
     this.hitbox.visible = false;
     const m = this._models[this.activeIndex];
     if (m?.mixer) m.mixer.timeScale = 1;
+    if (this._arrowPrev) {
+      this._arrowPrev.visible = true;
+      this._arrowNext.visible = true;
+      this._spinToggle.visible = true;
+      if (this._clickables) {
+        if (!this._clickables.includes(this._arrowPrev))   this._clickables.push(this._arrowPrev);
+        if (!this._clickables.includes(this._arrowNext))   this._clickables.push(this._arrowNext);
+        if (!this._clickables.includes(this._spinToggle))  this._clickables.push(this._spinToggle);
+      }
+      this._updateArrows();
+    }
   }
 
   onUnfocus() {
     this._isFocused = false;
+    this._camera    = null;
     // Restore central hitbox so the carousel is clickable from the gallery again
     this.hitbox.visible = true;
     for (const m of this._models) {
@@ -188,6 +288,16 @@ export class ModelCarousel {
     this._rotTween = null;
     this.hitbox.userData.focusTarget     = this.root;
     this.hitbox.userData.artworkInfo     = _mergeInfo(this.artworkInfo, this._models[0]?.artworkInfo);
+    if (this._arrowPrev) {
+      this._arrowPrev.visible  = false;
+      this._arrowNext.visible  = false;
+      this._spinToggle.visible = false;
+      if (this._clickables) {
+        _removeFrom(this._clickables, this._arrowPrev);
+        _removeFrom(this._clickables, this._arrowNext);
+        _removeFrom(this._clickables, this._spinToggle);
+      }
+    }
   }
 
   // Clicking empty space always exits (no deeper state to return from)
@@ -222,8 +332,19 @@ export class ModelCarousel {
     };
   }
 
-  // obj: the mesh that was clicked (model hitbox or descendant)
+  // obj: the mesh that was clicked (model hitbox, arrow, spin toggle, or descendant)
   onHit(obj) {
+    const arrow = obj.userData.carouselArrow;
+    if (arrow === "prev") return this.onNav(-1);
+    if (arrow === "next") return this.onNav(+1);
+
+    if (obj.userData.carouselSpinToggle) {
+      this._spinEnabled = !this._spinEnabled;
+      _drawToggle(this._spinToggle.userData.toggleCanvas, this._spinEnabled);
+      this._spinToggle.material.map.needsUpdate = true;
+      return { consumed: true };
+    }
+
     const idx = obj.userData.carouselModelIndex;
     if (idx !== undefined) {
       if (idx === this.activeIndex) {
@@ -235,8 +356,9 @@ export class ModelCarousel {
       const prev = this._models[this.activeIndex];
       if (prev?.mixer) prev.mixer.timeScale = 0;
 
-      this.activeIndex = idx;
+      // rotateTo uses this.activeIndex as FROM — must call before updating it
       this.rotateTo(idx);
+      this.activeIndex = idx;
 
       const m = this._models[idx];
       if (m?.mixer) m.mixer.timeScale = 1;
@@ -252,12 +374,42 @@ export class ModelCarousel {
       if (this._rotTween.done) this._rotTween = null;
     }
     if (this._isFocused) {
-      const m = this._models[this.activeIndex];
-      if (m?.mixer) m.mixer.update(dt);
+      const active = this._models[this.activeIndex];
+      if (active?.mixer) active.mixer.update(dt);
+      if (this._spinEnabled) {
+        for (const m of this._models) {
+          m.root.rotateOnWorldAxis(_WORLD_UP, this._spinSpeed * dt);
+        }
+      }
+      this._updateArrows();
+      this._updateToggle();
     }
   }
 
   // ── Internal ───────────────────────────────────────────────────────────────
+
+  _updateArrows() {
+    if (!this._camera || !this._arrowPrev || !this._models.length) return;
+    const m = this._models[this.activeIndex];
+    if (!m) return;
+    const worldPos = new THREE.Vector3();
+    m.root.getWorldPosition(worldPos);
+    const right = new THREE.Vector3(1, 0, 0).applyQuaternion(this._camera.quaternion);
+    this._arrowPrev.position.copy(worldPos).addScaledVector(right, -this._arrowOffset);
+    this._arrowNext.position.copy(worldPos).addScaledVector(right,  this._arrowOffset);
+    this._arrowPrev.lookAt(this._camera.position);
+    this._arrowNext.lookAt(this._camera.position);
+  }
+
+  _updateToggle() {
+    if (!this._camera || !this._spinToggle || !this._models.length) return;
+    const m = this._models[this.activeIndex];
+    if (!m) return;
+    const worldPos = new THREE.Vector3();
+    m.root.getWorldPosition(worldPos);
+    this._spinToggle.position.set(worldPos.x, worldPos.y - 0.85, worldPos.z);
+    this._spinToggle.lookAt(this._camera.position);
+  }
 
   // Rotate one step in dir — accumulates via _targetAngle so rapid clicks don't snap back
   _rotateByDelta(dir, duration = 0.65) {

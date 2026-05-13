@@ -43,6 +43,7 @@ export class World {
     this._focusState = "idle"; // idle | focusing | focused | returning
     this._focusCooldown = 0;
     this._focusedExperience = null;
+    this._exitingExperience = null; // experience playing its exit animation after unfocus
     this._focusedScreen = null;
     this._lastfocusedScreen = null;
     this._lastRevealedScreen = null;
@@ -175,9 +176,11 @@ export class World {
         // result === false → fall through to full exit
       }
 
-      this._restoreExperienceHitbox(this._focusedExperience);
-      this._focusedExperience?.onUnfocus();
+      const _prevExp = this._focusedExperience;
+      this._restoreExperienceHitbox(_prevExp);
+      _prevExp?.onUnfocus();
       this._focusedExperience = null;
+      if (_prevExp?._isExiting) this._exitingExperience = _prevExp;
       this._focusState = "returning";
       this._focusCooldown = 0.2;
 
@@ -225,7 +228,8 @@ export class World {
 
     // start location
     //this.locations.goTo("lobby", { duration: 0.01 });
-    this.locations.goTo("lobby", { duration: 0.01 });
+    //this.locations.goTo("lobby", { duration: 0.01 });
+    this.locations.goTo("WestPavillion", { duration: 0.01 });
 
       // make a path between 2 lodcations
   this.locations.setPathBidirectional("lobby", "EagleBar", [   
@@ -531,7 +535,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       artworkInfo: {
         title: "Unrendered",
         artist: "Marie-Lisette Cropp",
-        description: "Unrendered explores how the female body is represented and reshaped through technology and Western cultural expectations. The project examines the tension between the physical and the digital, and how images shape our understanding of identity and beauty. Using photogrammetry, the body is scanned into digital form, fragmenting in the process and celebrating these glitches and distortions. By reworking these scans by hand and through darkroom printing, the work restores a raw, physical presence. Inspired by Rosi Braidotti’s Posthuman theory, Unrendered views the body as part of a wider ecosystem, continuously shaped by machines, nature, and technology.",
+        description: "Unrendered explores how the female body is represented and reshaped through technology and Western cultural expectations. The project examines the tension between the physical and the digital, and how images shape our understanding of identity and beauty. Using photogrammetry, the body is scanned into digital form, fragmenting in the process and celebrating these glitches and distortions. By reworking these scans by hand and through darkroom printing, the work restores a raw, physical presence. Inspired by Rosi Braidotti's Posthuman theory, Unrendered views the body as part of a wider ecosystem, continuously shaped by machines, nature, and technology.",
         link: "https://ualshowcase.arts.ac.uk/@marielisette",
         narration: `${baseURL}audio/Unrendered_Narration.mp3`,
         narrationCues: `${baseURL}audio/Unrendered_Narration.json`
@@ -567,7 +571,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       artworkInfo: {
         title: "Self-Finish",
         artist: "Beatrice El Asmar",
-        description: "This series of self-portraits was created using slit scan technology, mostly known for its use for photo-finish in racing sports, thus reclaiming a patriarchal automation which judges, measures and commodifies linear speed and \‘progress\'. Subverting our expectations of how time and space occupy the photographic image, the work highlights how the supposedly linear progression of human rights, especially for cis and trans women, is being eroded to the extent that it is actually moving backwards. A fragmented portrait of one of the two female photo-finish operators in the UK, this work invites a different kind of embodied photographic seeing.",
+        description: "This series of self-portraits was created using slit scan technology, mostly known for its use for photo-finish in racing sports, thus reclaiming a patriarchal automation which judges, measures and commodifies linear speed and \'progress\'. Subverting our expectations of how time and space occupy the photographic image, the work highlights how the supposedly linear progression of human rights, especially for cis and trans women, is being eroded to the extent that it is actually moving backwards. A fragmented portrait of one of the two female photo-finish operators in the UK, this work invites a different kind of embodied photographic seeing.",
         narration: `${baseURL}audio/Self-Finish_Narration.mp3`,
         narrationCues: `${baseURL}audio/Self-Finish_Narration.json`
       },
@@ -584,7 +588,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       content: {
         title: "Self-Finish",
         artist: "Beatrice El Asmar",
-        bio: "This series of self-portraits was created using slit scan technology, mostly known for its use for photo-finish in racing sports, thus reclaiming a patriarchal automation which judges, measures and commodifies linear speed and \‘progress\'. Subverting our expectations of how time and space occupy the photographic image, the work highlights how the supposedly linear progression of human rights, especially for cis and trans women, is being eroded to the extent that it is actually moving backwards. A fragmented portrait of one of the two female photo-finish operators in the UK, this work invites a different kind of embodied photographic seeing.",
+        bio: "This series of self-portraits was created using slit scan technology, mostly known for its use for photo-finish in racing sports, thus reclaiming a patriarchal automation which judges, measures and commodifies linear speed and \'progress\'. Subverting our expectations of how time and space occupy the photographic image, the work highlights how the supposedly linear progression of human rights, especially for cis and trans women, is being eroded to the extent that it is actually moving backwards. A fragmented portrait of one of the two female photo-finish operators in the UK, this work invites a different kind of embodied photographic seeing.",
         images: [
           `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF_02.jpg.avif`,
           `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF-01.jpg`,
@@ -662,16 +666,14 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     });
 
     //right side, right front desk
-    this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/WhimsyThroughTheWindow_SarahAbdi/20250530_193358.jpg`,
-      width: 1.2,
-      height: 2.0,
-      position: [7.1, 0.8, 1.4],
-      rotation: [0, -135, 0],
-      clickable: true,
-      offsetClick: 0.0,
-      text: "Image Screen",
-      location: 'lobby',
+    const whimsyCarousel = new ImmersiveCarousel({
+      scene: this.scene,
+      position: [7.1, 0.7, 1.4],
+      rotation: [0, 45, 0],
+      panelWidth: 1.4,
+      panelHeight: 1.8,
+      revealMap: this.screenManager._revealTex,
+      debugOn: this._debug,
       artworkInfo: {
         title: "Whimsy Through The Window",
         artist: "Sarah Abdi",
@@ -680,11 +682,18 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         narration: `${baseURL}audio/Whimsy_Narration.mp3`,
         narrationCues: `${baseURL}audio/Whimsy_Narration.json`
       },
-      plinthVisible: false,
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
-      }
-    }));
+      images: [
+        { url: `${baseURL}art/WhimsyThroughTheWindow_SarahAbdi/20250530_193358.jpg` },
+        { url: `${baseURL}art/WhimsyThroughTheWindow_SarahAbdi/20250530_193601-1.jpg` },
+        { url: `${baseURL}art/WhimsyThroughTheWindow_SarahAbdi/20250530_193031-rotated.jpg` },
+        { url: `${baseURL}art/WhimsyThroughTheWindow_SarahAbdi/20250510_104607.jpg` },
+      ],
+    });
+    whimsyCarousel.load().then(() => {
+      whimsyCarousel.hitbox.userData.location = 'lobby';
+      this._registerExperience(whimsyCarousel);
+      whimsyCarousel._clickables = this.screenManager.clickables;
+    }).catch(console.error);
 
     
     //3d models
@@ -760,7 +769,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     //west pavillion
     const dummyCarousel = new ModelCarousel({
       scene: this.scene,
-      position: [-34.2, 1.5, -15.8],
+      position: [-34.2, .5, -15.8],
       rotation: [0, 180, 0],
       radius: 1.0,
       normalizeTo: 1.0,
@@ -838,6 +847,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     dummyCarousel.load().then(() => {
       dummyCarousel.hitbox.userData.location = 'WestPavillion';
       this._registerExperience(dummyCarousel);
+      dummyCarousel._clickables = this.screenManager.clickables;
     }).catch(console.error);
     // ────────────────────────────────────────────────────────────────────────
 
@@ -854,7 +864,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       artworkInfo: {
         title: "Self-Finish",
         artist: "Beatrice El Asmar",
-        description: "This series of self-portraits was created using slit scan technology, mostly known for its use for photo-finish in racing sports, thus reclaiming a patriarchal automation which judges, measures and commodifies linear speed and \‘progress\'. Subverting our expectations of how time and space occupy the photographic image, the work highlights how the supposedly linear progression of human rights, especially for cis and trans women, is being eroded to the extent that it is actually moving backwards. A fragmented portrait of one of the two female photo-finish operators in the UK, this work invites a different kind of embodied photographic seeing.",
+        description: "This series of self-portraits was created using slit scan technology, mostly known for its use for photo-finish in racing sports, thus reclaiming a patriarchal automation which judges, measures and commodifies linear speed and \'progress\'. Subverting our expectations of how time and space occupy the photographic image, the work highlights how the supposedly linear progression of human rights, especially for cis and trans women, is being eroded to the extent that it is actually moving backwards. A fragmented portrait of one of the two female photo-finish operators in the UK, this work invites a different kind of embodied photographic seeing.",
         link: "https://ualshowcase.arts.ac.uk/project/682951/cover"
       },
       images: [
@@ -923,52 +933,70 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       }
     }));
 
-    //window behind counter
-    this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/BlackSwan-JieunSung/IMG_5414-2.png.avif`,
-      width: 1.5,
-      height: 2,
-      position: [-33.9, .9, -26.4],   // e.g. on/near carousel A
-      rotation: [0, 0, 0],
-      clickable: true,
-      clickableSize: [2.0, 2.0], // make click area bigger than screen size to include podium
-      offsetClick: 0.0,
-      text: "Image Screen",
-      plinthVisible: false,
-      location: 'WestPavillion',
+    // ── Black Swan — ImmersiveCarousel ──────────────────────────────────────
+    const blackSwanCarousel = new ImmersiveCarousel({
+      scene: this.scene,
+      position: [-33.9, 0.9, -25.5],
+      rotation: [0, 180, 0],
+      panelWidth: 1.5,
+      panelHeight: 2.0,
+      revealMap: this.screenManager._revealTex,
+      debugOn: this._debug,
       artworkInfo: {
         title: "Black Swan",
         artist: "Jieun Sung",
-        description: "This project is about the black swan. Of all animals, I’ve always been particularly afraid of birds, but swans are the only ones that have ever helped me overcome that fear. So, I was intrigued to research them. I didn’t even know that black swans existed before, and I was fascinated to discover this species of swan. The black swan, with its dark mood and colour, really appealed to me, so I decided to make it the focus of my project.",
+        description: "This project is about the black swan. Of all animals, I've always been particularly afraid of birds, but swans are the only ones that have ever helped me overcome that fear. So, I was intrigued to research them. I didn't even know that black swans existed before, and I was fascinated to discover this species of swan. The black swan, with its dark mood and colour, really appealed to me, so I decided to make it the focus of my project.",
         link: "https://ualshowcase.arts.ac.uk/project/645817/cover"
       },
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
-      }
-    }));
+      images: [
+        { url: `${baseURL}art/BlackSwan-JieunSung/IMG_5414-2.png.avif` },
+        { url: `${baseURL}art/BlackSwan-JieunSung/IMG_1886.jpg` },
+        { url: `${baseURL}art/BlackSwan-JieunSung/IMG_5433.jpg` },
+        { url: `${baseURL}art/BlackSwan-JieunSung/IMG_5435-1.jpg` },
+      ],
+    });
+    blackSwanCarousel.load().then(() => {
+      blackSwanCarousel.hitbox.userData.location = 'WestPavillion';
+      this._registerExperience(blackSwanCarousel);
+      blackSwanCarousel._clickables = this.screenManager.clickables;
+    }).catch(console.error);
+    // ────────────────────────────────────────────────────────────────────────
 
-    //window behind counter
-    this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/Dehumanized_ChiAnChou/IMG_7018-Large.jpeg.avif`,
-      width: 1.8,
-      height: 1.3,
-      position: [-37.3, .9, -26.4],
-      rotation: [0, 0, 0],
-      clickable: true,
-      offsetClick: 0.0,
-      text: "Image Screen",
-      location: 'WestPavillion',
+    // ── Dehumanized — Chi An Chou (EagleBar) ────────────────────────────────────
+    const dehumanizedCarousel = new ImmersiveCarousel({
+      scene: this.scene,
+      position: [-7.8, 23, 7.0],
+      rotation: [0, -90, 0],
+      panelWidth: 1.8,
+      panelHeight: 1.35,
+      revealMap: this.screenManager._revealTex,
+      debugOn: this._debug,
       artworkInfo: {
         title: "Dehumanized",
         artist: "Chi An Chou",
         description: "In this era of artificial intelligence, automation and highly mature technology, the definition of human is gradually disintegrating, and machines and technology are infiltrating and dominating our daily lives. Dehumanized is a conceptual exploration of a future world in which technology no longer centers on human nature, but instead gradually controls, holds power, and eventually replaces humanity. When digital systems take over judgment, aesthetics become algorithmically defined, and the body is transformed into a tool that prioritizes efficiency, emotions and individual consciousness begin to be seen as redundant residues. This project want to use visual language to present a imaginary future worldview: redesigned organisms, individuality erased, and a void beneath the human shell. Is Dehumanized a dystopian fantasy world, or is it a mirror held up to our present? In the wave of rapid innovation, what may ultimately be sacrificed is the very essence of what makes us human.",
         link: "https://ualshowcase.arts.ac.uk/@chiannj"
       },
-      plinthVisible: false,
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
-      }
-    }));
+      images: [
+        { url: `${baseURL}art/Dehumanized_ChiAnChou/IMG_7018-Large.jpeg.avif` },
+        { url: `${baseURL}art/Dehumanized_ChiAnChou/IMG_4790-Large.jpg` },
+        { url: `${baseURL}art/Dehumanized_ChiAnChou/IMG_4797-Large.jpg` },
+        { url: `${baseURL}art/Dehumanized_ChiAnChou/IMG_7023-Large.jpg` },
+        { url: `${baseURL}art/Dehumanized_ChiAnChou/IMG_7046-Large.jpg` },
+        { url: `${baseURL}art/Dehumanized_ChiAnChou/IMG_7074-Large.jpg` },
+        { url: `${baseURL}art/Dehumanized_ChiAnChou/IMG_7099-Large.jpg` },
+        { url: `${baseURL}art/Dehumanized_ChiAnChou/IMG_7271-Large.jpg` },
+        { url: `${baseURL}art/Dehumanized_ChiAnChou/cdf4401975effd4b5e3a229839cc6976-2-Large.jpg` },
+        { url: `${baseURL}art/Dehumanized_ChiAnChou/${encodeURIComponent('未命名的作品-7.jpg')}` },
+      ],
+    });
+
+    dehumanizedCarousel.load().then(() => {
+      dehumanizedCarousel.hitbox.userData.location = 'EagleBar';
+      this._registerExperience(dehumanizedCarousel);
+      dehumanizedCarousel._clickables = this.screenManager.clickables;
+    }).catch(console.error);
+    // ─────────────────────────────────────────────────────────────────────────────
 
     //on the wall in to the dining room
     this._registerArtwork(this.screenManager.addScreen({
@@ -987,7 +1015,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       artworkInfo: {
         title: "Pseudosynthesis",
         artist: "Leon Lin",
-        description: "This project investigates whether AI-generated performers can authentically replicate human emotional expression in dance and performance. Through interviews with dancers and motion-capture experiments, it identifies three stages of human emotion (raw, mechanical, controlled) and argues that AI is limited to mimicry due to its lack of consciousness, embodiment, and lived experience. Drawing on Judith Butler’s theories, it contrasts human performativity (fluid, culturally embedded) with AI’s programmed rigidity. The work also explores queering digital avatars, critiques the commodification of bodies, and uses a 3D fashion film to visualize the human-machine divide.",
+        description: "This project investigates whether AI-generated performers can authentically replicate human emotional expression in dance and performance. Through interviews with dancers and motion-capture experiments, it identifies three stages of human emotion (raw, mechanical, controlled) and argues that AI is limited to mimicry due to its lack of consciousness, embodiment, and lived experience. Drawing on Judith Butler's theories, it contrasts human performativity (fluid, culturally embedded) with AI's programmed rigidity. The work also explores queering digital avatars, critiques the commodification of bodies, and uses a 3D fashion film to visualize the human-machine divide.",
         link: "https://ualshowcase.arts.ac.uk/project/655404/cover"
       },
       onClick: (obj) => {
@@ -998,7 +1026,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
 
 
   this.screenManager.addModel({
-    url: import.meta.env.BASE_URL + "/art/LetMeEatCake_SuzannaTeal/CAkeTable.glb",
+    url: import.meta.env.BASE_URL + "/art/LetMeEatCake_SuzannaTeal/CakeTable_NoCake.glb",
     position: [-29.0, -1.0, -21.0],   // e.g. on/near carousel A
       rotation: [0, -90, 0],
     rotationOffset: 90,
@@ -1024,10 +1052,81 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     this._registerArtwork(modelRoot);
   }).catch(console.error);
 
-    
+  // ── Let Me Eat Cake — ModelGalleryWalk ────────────────────────────────────
+  const cakeWalk = new ModelGalleryWalk({
+    scene: this.scene,
+    debugOn: this._debug,
+    artworkInfo: {
+      title: "Let Me Eat Cake",
+      artist: "Suzanna Teal",
+      description: "Let Me Eat Cake is a multimedia installation that explores the relationship between food, memory, and identity. Through a combination of sculpture, video, and interactive elements, the work invites viewers to reflect on their own experiences with food and the stories they tell about it. The installation features a series of sculptural cakes that respond to viewer interaction, creating a dynamic and engaging experience that blurs the line between art and culinary tradition.",
+      link: "https://ualshowcase.arts.ac.uk/project/616847/cover",
+    },
+    entryPosition: [-29.0, 0.0, -22.0],
+    entryHitboxSize: [8, 2.5, 3],
+    arrowOffset: 1.0,
+    arrowHeight: 0.0,
+    arrowSize: 0.5,
+    models: [
+      {
+        url: `${baseURL}art/LetMeEatCake_SuzannaTeal/LetMeEatCake_01.glb`,
+        position: [-29.4, -.04, -21.7],
+        rotation: [0, 30, 0],
+        normalizeTo: .5,
+        artworkInfo: {
+          title: "Let Me Eat Cake — I",
+          artist: "Suzanna Teal",
+          description: "Let Me Eat Cake is a multimedia installation that explores the relationship between food, memory, and identity. Through a combination of sculpture, video, and interactive elements, the work invites viewers to reflect on their own experiences with food and the stories they tell about it.",
+          link: "https://ualshowcase.arts.ac.uk/project/616847/cover",
+        },
+      },
+      {
+        url: `${baseURL}art/LetMeEatCake_SuzannaTeal/LetMeEatCake_02.glb`,
+        position: [-28.7, -.04, -21.7],
+        rotation: [0, 10, 0],
+        normalizeTo: .5,
+        artworkInfo: {
+          title: "Let Me Eat Cake — II",
+          artist: "Suzanna Teal",
+          description: "Let Me Eat Cake is a multimedia installation that explores the relationship between food, memory, and identity. Through a combination of sculpture, video, and interactive elements, the work invites viewers to reflect on their own experiences with food and the stories they tell about it.",
+          link: "https://ualshowcase.arts.ac.uk/project/616847/cover",
+        },
+      },
+      {
+        url: `${baseURL}art/LetMeEatCake_SuzannaTeal/LetMeEatCake_03.glb`,
+        position: [-28.7, -.04, -20.3],
+        rotation: [0, -10, 0],
+        normalizeTo: .5,
+        artworkInfo: {
+          title: "Let Me Eat Cake — III",
+          artist: "Suzanna Teal",
+          description: "Let Me Eat Cake is a multimedia installation that explores the relationship between food, memory, and identity. Through a combination of sculpture, video, and interactive elements, the work invites viewers to reflect on their own experiences with food and the stories they tell about it.",
+          link: "https://ualshowcase.arts.ac.uk/project/616847/cover",
+        },
+      },
+      {
+        url: `${baseURL}art/LetMeEatCake_SuzannaTeal/LetMeEatCake_04.glb`,
+        position: [-29.4, -.04, -20.3],
+        rotation: [0, -30, 0],
+        normalizeTo: .5,
+        artworkInfo: {
+          title: "Let Me Eat Cake — IV",
+          artist: "Suzanna Teal",
+          description: "Let Me Eat Cake is a multimedia installation that explores the relationship between food, memory, and identity. Through a combination of sculpture, video, and interactive elements, the work invites viewers to reflect on their own experiences with food and the stories they tell about it.",
+          link: "https://ualshowcase.arts.ac.uk/project/616847/cover",
+        },
+      },
+    ],
+  });
+  cakeWalk.load().then(() => {
+    cakeWalk.hitbox.userData.location = 'WestPavillion';
+    this._registerExperience(cakeWalk);
+    cakeWalk._clickables = this.screenManager.clickables;
+  }).catch(console.error);
+  // ──────────────────────────────────────────────────────────────────────────
 
     //window corner
-        const c=import.meta.env.BASE_URL + "/art/EmbodiedMemories_YoonJuChung/JU-CHUNG.glb";
+        const c=import.meta.env.BASE_URL + "/art/EmbodiedMemories_YoonJuChung/JU CHUNG_V2.glb";
 
   this.screenManager.addModel({
     url: c,
@@ -1050,7 +1149,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     artworkInfo: {
         title: "Embodied Memories",
         artist: "Yoon Ju Chung",
-        description: "Embodied Memories explores Hangul, the Korean alphabet, as an embodied and relational language through modular wearable artefacts. Originating from experiences of non-verbal communication with the artist’s hearing-impaired aunt, the project approaches gesture and movement as fundamental forms of language. Drawing on Hangul’s geometric structure, linguistic principles are translated into a modular system that functions as words, sculptural forms, or wearable objects. Grounded in Korean emotional philosophies—Jeong (connection), Han (endurance), and Heung (vitality)—the work informs processes of alignment, tension, play, and repair. Rather than treating language as a fixed visual system, meaning emerges through bodily movement, touch, and reconfiguration. The final artefacts are constructed using Korean textiles such as Mosi (ramie) and Oksa (silk), combined with transparent acrylic structures, magnetic connections, and traditional techniques including Gamchimgil hand-stitching and Pusae (rice starch stiffening).  Language is not only spoken or written; it is sensed, worn, and remembered.",
+        description: "Embodied Memories explores Hangul, the Korean alphabet, as an embodied and relational language through modular wearable artefacts. Originating from experiences of non-verbal communication with the artist's hearing-impaired aunt, the project approaches gesture and movement as fundamental forms of language. Drawing on Hangul's geometric structure, linguistic principles are translated into a modular system that functions as words, sculptural forms, or wearable objects. Grounded in Korean emotional philosophies—Jeong (connection), Han (endurance), and Heung (vitality)—the work informs processes of alignment, tension, play, and repair. Rather than treating language as a fixed visual system, meaning emerges through bodily movement, touch, and reconfiguration. The final artefacts are constructed using Korean textiles such as Mosi (ramie) and Oksa (silk), combined with transparent acrylic structures, magnetic connections, and traditional techniques including Gamchimgil hand-stitching and Pusae (rice starch stiffening).  Language is not only spoken or written; it is sensed, worn, and remembered.",
         link: "https://ualshowcase.arts.ac.uk/@yoonjuchung"
       }
   }).then((modelRoot) => {
@@ -1090,8 +1189,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       url: `${baseURL}art/Nailed_Genevieve Carr/nailed.webp`,
       width: 1.5,
       height: 2.0,
-      position: [-34.2, 1.5, -15.8],
-      rotation: [0, 180, 0],
+      position: [-33.4, 1.0, -13.8],
+      rotation: [0, 210, 0],
       clickable: true,
       offsetClick: 0.5,
       clickableSize: [2.2, 2.5],
@@ -1257,30 +1356,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
   }).catch(console.error);
 
   //on the bar
-  /*
-    this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/MaterialPlace_NeveBeill/ual-showcase-2-1.jpg`,
-      width: 1.4,
-      height: 0.7,
-      position: [1.9, 22.7, 5.2],
-      rotation: [0, -10, 0],
-      clickable: true,
-      offsetClick: 0.0,
-      clickableSize: [2.2, 1.0],
-      text: "Image Screen",
-      plinthVisible: false,
-      location: 'EagleBar',
-      artworkInfo: {
-        title: "Material Place",
-        artist: "Neve Beill",
-        description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
-        link: "https://ualshowcase.arts.ac.uk/project/633733/cover"
-      },
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
-      }
-    }));
-    */
+  
 
     // ── Material Place — ModelGalleryWalk ────────────────────────────────────
     const materialPlaceWalk = new ModelGalleryWalk({
@@ -1291,7 +1367,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         artist: "Neve Beill",
         description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
       },
-      entryPosition: [0.0, 22.7, 6.0],
+      entryPosition: [0.0, .1, -4.0],
       entryHitboxSize: [4.5, 1.5, 2.0],
       arrowOffset: 0.2,
       arrowHeight: 0.0,
@@ -1299,9 +1375,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       models: [
         {
           url: `${baseURL}art/MaterialPlace_NeveBeill/MaterialPlace_01.glb`,
-          position: [-1.8, 22.3, 5.3],
+          position: [-1.6, -.55, -4.6],
           rotation: [0, 30, 0],
-          normalizeTo: 0.4,
+          normalizeTo: 0.25,
           artworkInfo: {
             title: "Material Place — I",
             artist: "Neve Beill",
@@ -1310,9 +1386,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         },
         {
           url: `${baseURL}art/MaterialPlace_NeveBeill/MaterialPlace_02.glb`,
-          position: [-1.0, 22.3, 5.3],
+          position: [-.4, -.7, -4.5],
           rotation: [0, 10, 0],
-          normalizeTo: 0.4,
+          normalizeTo: 0.25,
           artworkInfo: {
             title: "Material Place — II",
             artist: "Neve Beill",
@@ -1321,9 +1397,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         },
         {
           url: `${baseURL}art/MaterialPlace_NeveBeill/MaterialPlace_03.glb`,
-          position: [-0.4, 22.3, 5.3],
+          position: [-0.2, -.7, -4.9],
           rotation: [0, -10, 0],
-          normalizeTo: 0.4,
+          normalizeTo: 0.25,
           artworkInfo: {
             title: "Material Place — III",
             artist: "Neve Beill",
@@ -1332,9 +1408,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         },
         {
           url: `${baseURL}art/MaterialPlace_NeveBeill/MaterialPlace_04.glb`,
-          position: [0.4, 22.3, 5.3],
+          position: [0.2, -.7, -4.9],
           rotation: [0, -20, 0],
-          normalizeTo: 0.4,
+          normalizeTo: 0.25,
           artworkInfo: {
             title: "Material Place — IV",
             artist: "Neve Beill",
@@ -1343,9 +1419,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         },
         {
           url: `${baseURL}art/MaterialPlace_NeveBeill/MaterialPlace_05.glb`,
-          position: [1.0, 22.3, 5.3],
+          position: [.4, -.7, -4.5],
           rotation: [0, -30, 0],
-          normalizeTo: 0.4,
+          normalizeTo: 0.25,
           artworkInfo: {
             title: "Material Place — V",
             artist: "Neve Beill",
@@ -1354,9 +1430,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         },
         {
           url: `${baseURL}art/MaterialPlace_NeveBeill/MaterialPlace_06.glb`,
-          position: [1.9, 22.3, 5.3],
+          position: [1.6, -.55, -4.6],
           rotation: [0, -40, 0],
-          normalizeTo: 0.4,
+          normalizeTo: 0.25,
           artworkInfo: {
             title: "Material Place — VI",
             artist: "Neve Beill",
@@ -1366,7 +1442,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       ],
     });
     materialPlaceWalk.load().then(() => {
-      materialPlaceWalk.hitbox.userData.location = 'EagleBar';
+      materialPlaceWalk.hitbox.userData.location = 'lobby';
       this._registerExperience(materialPlaceWalk);
       materialPlaceWalk._clickables = this.screenManager.clickables;
     }).catch(console.error);
@@ -1376,10 +1452,10 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     this._registerArtwork(this.screenManager.addScreen({
       url: `https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/Show_Video_ShuyangWang_MB.mp4`,
       poster: `${baseURL}art/Symbion/hero_img-3.jpg-2.avif`,
-      width: 2.6,
-      height: 1.4,
-      position: [-7.8, 23, 7.0],
-    rotation: [0, 90, 0],
+      width: 1.8,
+      height: 1.0,
+      position: [1.8, 23, 5.0],
+    rotation: [0, -10, 0],
       clickable: true,
       offsetClick: 0.0,
       clickableSize: [2.7, 1.5],
@@ -1399,8 +1475,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
 
      this.screenManager.addModel({
     url: `${baseURL}art/Symbion/symbionHand.glb`,
-    position: [-6.8, 22.4, 6.0],
-    rotation: [0, 90, 0],
+    position: [0.8, 22.6, 5.0],
+    rotation: [0, -90, 0],
     normalizeTo: 0.8,
     clickable: true,
     onClick: (obj, hit) => console.log("Model clicked:", obj),
@@ -1523,6 +1599,11 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
 
     // tick the active experience (handles its own mixers + tweens)
     this._focusedExperience?.update(dt);
+    // tick any experience still playing its exit animation
+    if (this._exitingExperience) {
+      this._exitingExperience.update(dt);
+      if (!this._exitingExperience._isExiting) this._exitingExperience = null;
+    }
 
     // mouse-trail temporary reveal — one raycast per frame at most
     this._tryMouseTrailReveal();
@@ -1667,9 +1748,15 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     const _exp = obj.userData.experience ?? null;
     if (_exp !== this._focusedExperience) {
       // Re-add previous experience's entry hitbox before switching away
-      this._restoreExperienceHitbox(this._focusedExperience);
-      this._focusedExperience?.onUnfocus();
+      const _prevExp2 = this._focusedExperience;
+      this._restoreExperienceHitbox(_prevExp2);
+      if (this._exitingExperience && this._exitingExperience !== _exp) {
+        this._exitingExperience._cancelExit?.();
+        this._exitingExperience = null;
+      }
+      _prevExp2?.onUnfocus();
       this._focusedExperience = _exp;
+      if (_prevExp2?._isExiting) this._exitingExperience = _prevExp2;
       _exp?.onFocus(this.camera, obj);
       // Remove entry hitbox from clickables — Three.js raycasts visible=false objects too,
       // so the large central box would intercept clicks meant for the per-model hitboxes.

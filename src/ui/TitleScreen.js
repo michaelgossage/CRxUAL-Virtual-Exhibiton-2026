@@ -116,12 +116,12 @@ export class TitleScreen {
 
           <div class="ts-toggles">
             <label class="ts-toggle">
-              <input type="checkbox" id="ts-toggle-narration" checked>
+              <input type="checkbox" id="ts-toggle-narration">
               <span class="ts-toggle__track"></span>
               <span class="ts-toggle__label">Autoplay narration</span>
             </label>
             <label class="ts-toggle">
-              <input type="checkbox" id="ts-toggle-extras" checked>
+              <input type="checkbox" id="ts-toggle-extras">
               <span class="ts-toggle__track"></span>
               <span class="ts-toggle__label">Extra interactions</span>
             </label>
