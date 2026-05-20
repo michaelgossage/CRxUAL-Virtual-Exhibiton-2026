@@ -1,0 +1,1195 @@
+{
+  "language_code": null,
+  "segments": [
+    {
+      "text": "Be Not Afraid is a sculptural sound work",
+      "start_time": 0.14,
+      "end_time": 2.939,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Be",
+          "start_time": 0.14,
+          "end_time": 0.239
+        },
+        {
+          "text": " ",
+          "start_time": 0.239,
+          "end_time": 0.359
+        },
+        {
+          "text": "Not",
+          "start_time": 0.359,
+          "end_time": 0.5
+        },
+        {
+          "text": " ",
+          "start_time": 0.5,
+          "end_time": 0.56
+        },
+        {
+          "text": "Afraid",
+          "start_time": 0.56,
+          "end_time": 1.22
+        },
+        {
+          "text": " ",
+          "start_time": 1.22,
+          "end_time": 1.259
+        },
+        {
+          "text": "is",
+          "start_time": 1.259,
+          "end_time": 1.36
+        },
+        {
+          "text": " ",
+          "start_time": 1.36,
+          "end_time": 1.419
+        },
+        {
+          "text": "a",
+          "start_time": 1.419,
+          "end_time": 1.5
+        },
+        {
+          "text": " ",
+          "start_time": 1.5,
+          "end_time": 1.559
+        },
+        {
+          "text": "sculptural",
+          "start_time": 1.559,
+          "end_time": 2.139
+        },
+        {
+          "text": " ",
+          "start_time": 2.139,
+          "end_time": 2.279
+        },
+        {
+          "text": "sound",
+          "start_time": 2.279,
+          "end_time": 2.559
+        },
+        {
+          "text": " ",
+          "start_time": 2.559,
+          "end_time": 2.619
+        },
+        {
+          "text": "work",
+          "start_time": 2.619,
+          "end_time": 2.939
+        }
+      ]
+    },
+    {
+      "text": "inspired by biblically accurate angels and",
+      "start_time": 3.079,
+      "end_time": 6.159,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "inspired",
+          "start_time": 3.079,
+          "end_time": 3.619
+        },
+        {
+          "text": " ",
+          "start_time": 3.619,
+          "end_time": 3.679
+        },
+        {
+          "text": "by",
+          "start_time": 3.679,
+          "end_time": 3.879
+        },
+        {
+          "text": " ",
+          "start_time": 3.879,
+          "end_time": 3.939
+        },
+        {
+          "text": "biblically",
+          "start_time": 3.939,
+          "end_time": 4.4
+        },
+        {
+          "text": " ",
+          "start_time": 4.4,
+          "end_time": 4.539
+        },
+        {
+          "text": "accurate",
+          "start_time": 4.539,
+          "end_time": 5.019
+        },
+        {
+          "text": " ",
+          "start_time": 5.019,
+          "end_time": 5.219
+        },
+        {
+          "text": "angels",
+          "start_time": 5.219,
+          "end_time": 5.779
+        },
+        {
+          "text": " ",
+          "start_time": 5.779,
+          "end_time": 6.039
+        },
+        {
+          "text": "and",
+          "start_time": 6.039,
+          "end_time": 6.159
+        }
+      ]
+    },
+    {
+      "text": "childhood comfort objects.",
+      "start_time": 6.239,
+      "end_time": 7.839,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "childhood",
+          "start_time": 6.239,
+          "end_time": 6.699
+        },
+        {
+          "text": " ",
+          "start_time": 6.699,
+          "end_time": 6.819
+        },
+        {
+          "text": "comfort",
+          "start_time": 6.819,
+          "end_time": 7.159
+        },
+        {
+          "text": " ",
+          "start_time": 7.159,
+          "end_time": 7.219
+        },
+        {
+          "text": "objects.",
+          "start_time": 7.219,
+          "end_time": 7.839
+        }
+      ]
+    },
+    {
+      "text": "Constructed from plush fabric and embedded",
+      "start_time": 9.099,
+      "end_time": 11.92,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Constructed",
+          "start_time": 9.099,
+          "end_time": 9.88
+        },
+        {
+          "text": " ",
+          "start_time": 9.88,
+          "end_time": 9.92
+        },
+        {
+          "text": "from",
+          "start_time": 9.92,
+          "end_time": 10.06
+        },
+        {
+          "text": " ",
+          "start_time": 10.06,
+          "end_time": 10.179
+        },
+        {
+          "text": "plush",
+          "start_time": 10.179,
+          "end_time": 10.46
+        },
+        {
+          "text": " ",
+          "start_time": 10.46,
+          "end_time": 10.559
+        },
+        {
+          "text": "fabric",
+          "start_time": 10.559,
+          "end_time": 11.279
+        },
+        {
+          "text": " ",
+          "start_time": 11.279,
+          "end_time": 11.34
+        },
+        {
+          "text": "and",
+          "start_time": 11.34,
+          "end_time": 11.439
+        },
+        {
+          "text": " ",
+          "start_time": 11.439,
+          "end_time": 11.5
+        },
+        {
+          "text": "embedded",
+          "start_time": 11.5,
+          "end_time": 11.92
+        }
+      ]
+    },
+    {
+      "text": "with a speaker in place of an eye,",
+      "start_time": 11.979,
+      "end_time": 13.719,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "with",
+          "start_time": 11.979,
+          "end_time": 12.059
+        },
+        {
+          "text": " ",
+          "start_time": 12.059,
+          "end_time": 12.119
+        },
+        {
+          "text": "a",
+          "start_time": 12.119,
+          "end_time": 12.139
+        },
+        {
+          "text": " ",
+          "start_time": 12.139,
+          "end_time": 12.239
+        },
+        {
+          "text": "speaker",
+          "start_time": 12.239,
+          "end_time": 12.699
+        },
+        {
+          "text": " ",
+          "start_time": 12.699,
+          "end_time": 12.739
+        },
+        {
+          "text": "in",
+          "start_time": 12.739,
+          "end_time": 12.819
+        },
+        {
+          "text": " ",
+          "start_time": 12.819,
+          "end_time": 12.92
+        },
+        {
+          "text": "place",
+          "start_time": 12.92,
+          "end_time": 13.139
+        },
+        {
+          "text": " ",
+          "start_time": 13.139,
+          "end_time": 13.199
+        },
+        {
+          "text": "of",
+          "start_time": 13.199,
+          "end_time": 13.259
+        },
+        {
+          "text": " ",
+          "start_time": 13.259,
+          "end_time": 13.299
+        },
+        {
+          "text": "an",
+          "start_time": 13.299,
+          "end_time": 13.38
+        },
+        {
+          "text": " ",
+          "start_time": 13.38,
+          "end_time": 13.479
+        },
+        {
+          "text": "eye,",
+          "start_time": 13.479,
+          "end_time": 13.719
+        }
+      ]
+    },
+    {
+      "text": "the piece features six oversized wings in",
+      "start_time": 14.38,
+      "end_time": 17.559,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "the",
+          "start_time": 14.38,
+          "end_time": 14.46
+        },
+        {
+          "text": " ",
+          "start_time": 14.46,
+          "end_time": 14.539
+        },
+        {
+          "text": "piece",
+          "start_time": 14.539,
+          "end_time": 14.819
+        },
+        {
+          "text": " ",
+          "start_time": 14.819,
+          "end_time": 14.92
+        },
+        {
+          "text": "features",
+          "start_time": 14.92,
+          "end_time": 15.42
+        },
+        {
+          "text": " ",
+          "start_time": 15.42,
+          "end_time": 15.619
+        },
+        {
+          "text": "six",
+          "start_time": 15.619,
+          "end_time": 16.059
+        },
+        {
+          "text": " ",
+          "start_time": 16.059,
+          "end_time": 16.199
+        },
+        {
+          "text": "oversized",
+          "start_time": 16.199,
+          "end_time": 16.84
+        },
+        {
+          "text": " ",
+          "start_time": 16.84,
+          "end_time": 16.94
+        },
+        {
+          "text": "wings",
+          "start_time": 16.94,
+          "end_time": 17.42
+        },
+        {
+          "text": " ",
+          "start_time": 17.42,
+          "end_time": 17.479
+        },
+        {
+          "text": "in",
+          "start_time": 17.479,
+          "end_time": 17.559
+        }
+      ]
+    },
+    {
+      "text": "various states of motion.",
+      "start_time": 17.699,
+      "end_time": 19.139,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "various",
+          "start_time": 17.699,
+          "end_time": 18.1
+        },
+        {
+          "text": " ",
+          "start_time": 18.1,
+          "end_time": 18.18
+        },
+        {
+          "text": "states",
+          "start_time": 18.18,
+          "end_time": 18.459
+        },
+        {
+          "text": " ",
+          "start_time": 18.459,
+          "end_time": 18.5
+        },
+        {
+          "text": "of",
+          "start_time": 18.5,
+          "end_time": 18.6
+        },
+        {
+          "text": " ",
+          "start_time": 18.6,
+          "end_time": 18.699
+        },
+        {
+          "text": "motion.",
+          "start_time": 18.699,
+          "end_time": 19.139
+        }
+      ]
+    },
+    {
+      "text": "It explores the intersection of sacred",
+      "start_time": 20.379,
+      "end_time": 22.819,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "It",
+          "start_time": 20.379,
+          "end_time": 20.459
+        },
+        {
+          "text": " ",
+          "start_time": 20.459,
+          "end_time": 20.559
+        },
+        {
+          "text": "explores",
+          "start_time": 20.559,
+          "end_time": 21.039
+        },
+        {
+          "text": " ",
+          "start_time": 21.039,
+          "end_time": 21.099
+        },
+        {
+          "text": "the",
+          "start_time": 21.1,
+          "end_time": 21.199
+        },
+        {
+          "text": " ",
+          "start_time": 21.199,
+          "end_time": 21.279
+        },
+        {
+          "text": "intersection",
+          "start_time": 21.279,
+          "end_time": 22.139
+        },
+        {
+          "text": " ",
+          "start_time": 22.139,
+          "end_time": 22.199
+        },
+        {
+          "text": "of",
+          "start_time": 22.199,
+          "end_time": 22.279
+        },
+        {
+          "text": " ",
+          "start_time": 22.279,
+          "end_time": 22.439
+        },
+        {
+          "text": "sacred",
+          "start_time": 22.439,
+          "end_time": 22.819
+        }
+      ]
+    },
+    {
+      "text": "imagery and emotional attachment,",
+      "start_time": 22.92,
+      "end_time": 25.059,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "imagery",
+          "start_time": 22.92,
+          "end_time": 23.399
+        },
+        {
+          "text": " ",
+          "start_time": 23.399,
+          "end_time": 23.6
+        },
+        {
+          "text": "and",
+          "start_time": 23.6,
+          "end_time": 23.699
+        },
+        {
+          "text": " ",
+          "start_time": 23.699,
+          "end_time": 23.819
+        },
+        {
+          "text": "emotional",
+          "start_time": 23.819,
+          "end_time": 24.319
+        },
+        {
+          "text": " ",
+          "start_time": 24.319,
+          "end_time": 24.379
+        },
+        {
+          "text": "attachment,",
+          "start_time": 24.379,
+          "end_time": 25.059
+        }
+      ]
+    },
+    {
+      "text": "questioning how tenderness and terror can",
+      "start_time": 25.779,
+      "end_time": 28.599,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "questioning",
+          "start_time": 25.779,
+          "end_time": 26.299
+        },
+        {
+          "text": " ",
+          "start_time": 26.299,
+          "end_time": 26.42
+        },
+        {
+          "text": "how",
+          "start_time": 26.42,
+          "end_time": 26.599
+        },
+        {
+          "text": " ",
+          "start_time": 26.599,
+          "end_time": 26.779
+        },
+        {
+          "text": "tenderness",
+          "start_time": 26.779,
+          "end_time": 27.399
+        },
+        {
+          "text": " ",
+          "start_time": 27.399,
+          "end_time": 27.459
+        },
+        {
+          "text": "and",
+          "start_time": 27.459,
+          "end_time": 27.539
+        },
+        {
+          "text": " ",
+          "start_time": 27.539,
+          "end_time": 27.679
+        },
+        {
+          "text": "terror",
+          "start_time": 27.68,
+          "end_time": 28.019
+        },
+        {
+          "text": " ",
+          "start_time": 28.019,
+          "end_time": 28.459
+        },
+        {
+          "text": "can",
+          "start_time": 28.459,
+          "end_time": 28.599
+        }
+      ]
+    },
+    {
+      "text": "coexist within a single form.",
+      "start_time": 28.699,
+      "end_time": 30.679,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "coexist",
+          "start_time": 28.699,
+          "end_time": 29.439
+        },
+        {
+          "text": " ",
+          "start_time": 29.439,
+          "end_time": 29.499
+        },
+        {
+          "text": "within",
+          "start_time": 29.5,
+          "end_time": 29.719
+        },
+        {
+          "text": " ",
+          "start_time": 29.719,
+          "end_time": 29.779
+        },
+        {
+          "text": "a",
+          "start_time": 29.779,
+          "end_time": 29.859
+        },
+        {
+          "text": " ",
+          "start_time": 29.859,
+          "end_time": 29.919
+        },
+        {
+          "text": "single",
+          "start_time": 29.92,
+          "end_time": 30.279
+        },
+        {
+          "text": " ",
+          "start_time": 30.279,
+          "end_time": 30.359
+        },
+        {
+          "text": "form.",
+          "start_time": 30.359,
+          "end_time": 30.679
+        }
+      ]
+    },
+    {
+      "text": "Sound pulses through the speaker to",
+      "start_time": 31.939,
+      "end_time": 34.2,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Sound",
+          "start_time": 31.939,
+          "end_time": 32.339
+        },
+        {
+          "text": " ",
+          "start_time": 32.339,
+          "end_time": 32.419
+        },
+        {
+          "text": "pulses",
+          "start_time": 32.419,
+          "end_time": 32.899
+        },
+        {
+          "text": " ",
+          "start_time": 32.899,
+          "end_time": 32.939
+        },
+        {
+          "text": "through",
+          "start_time": 32.939,
+          "end_time": 33.159
+        },
+        {
+          "text": " ",
+          "start_time": 33.159,
+          "end_time": 33.219
+        },
+        {
+          "text": "the",
+          "start_time": 33.219,
+          "end_time": 33.279
+        },
+        {
+          "text": " ",
+          "start_time": 33.279,
+          "end_time": 33.34
+        },
+        {
+          "text": "speaker",
+          "start_time": 33.34,
+          "end_time": 34.039
+        },
+        {
+          "text": " ",
+          "start_time": 34.039,
+          "end_time": 34.099
+        },
+        {
+          "text": "to",
+          "start_time": 34.099,
+          "end_time": 34.2
+        }
+      ]
+    },
+    {
+      "text": "activate the work sonically and",
+      "start_time": 34.279,
+      "end_time": 36.159,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "activate",
+          "start_time": 34.279,
+          "end_time": 34.759
+        },
+        {
+          "text": " ",
+          "start_time": 34.759,
+          "end_time": 34.799
+        },
+        {
+          "text": "the",
+          "start_time": 34.799,
+          "end_time": 34.86
+        },
+        {
+          "text": " ",
+          "start_time": 34.86,
+          "end_time": 34.939
+        },
+        {
+          "text": "work",
+          "start_time": 34.939,
+          "end_time": 35.219
+        },
+        {
+          "text": " ",
+          "start_time": 35.219,
+          "end_time": 35.259
+        },
+        {
+          "text": "sonically",
+          "start_time": 35.259,
+          "end_time": 35.939
+        },
+        {
+          "text": " ",
+          "start_time": 35.939,
+          "end_time": 36.0
+        },
+        {
+          "text": "and",
+          "start_time": 36.0,
+          "end_time": 36.159
+        }
+      ]
+    },
+    {
+      "text": "symbolically.",
+      "start_time": 36.239,
+      "end_time": 36.939,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "symbolically.",
+          "start_time": 36.239,
+          "end_time": 36.939
+        }
+      ]
+    },
+    {
+      "text": "Drawing from religious aesthetics while",
+      "start_time": 38.099,
+      "end_time": 40.5,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Drawing",
+          "start_time": 38.099,
+          "end_time": 38.559
+        },
+        {
+          "text": " ",
+          "start_time": 38.559,
+          "end_time": 38.599
+        },
+        {
+          "text": "from",
+          "start_time": 38.599,
+          "end_time": 38.739
+        },
+        {
+          "text": " ",
+          "start_time": 38.739,
+          "end_time": 38.819
+        },
+        {
+          "text": "religious",
+          "start_time": 38.819,
+          "end_time": 39.279
+        },
+        {
+          "text": " ",
+          "start_time": 39.279,
+          "end_time": 39.299
+        },
+        {
+          "text": "aesthetics",
+          "start_time": 39.299,
+          "end_time": 40.279
+        },
+        {
+          "text": " ",
+          "start_time": 40.279,
+          "end_time": 40.36
+        },
+        {
+          "text": "while",
+          "start_time": 40.36,
+          "end_time": 40.5
+        }
+      ]
+    },
+    {
+      "text": "acknowledging the erosion of moral",
+      "start_time": 40.54,
+      "end_time": 42.359,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "acknowledging",
+          "start_time": 40.54,
+          "end_time": 41.119
+        },
+        {
+          "text": " ",
+          "start_time": 41.119,
+          "end_time": 41.159
+        },
+        {
+          "text": "the",
+          "start_time": 41.159,
+          "end_time": 41.219
+        },
+        {
+          "text": " ",
+          "start_time": 41.219,
+          "end_time": 41.339
+        },
+        {
+          "text": "erosion",
+          "start_time": 41.34,
+          "end_time": 41.759
+        },
+        {
+          "text": " ",
+          "start_time": 41.759,
+          "end_time": 41.799
+        },
+        {
+          "text": "of",
+          "start_time": 41.799,
+          "end_time": 41.899
+        },
+        {
+          "text": " ",
+          "start_time": 41.899,
+          "end_time": 42.019
+        },
+        {
+          "text": "moral",
+          "start_time": 42.02,
+          "end_time": 42.359
+        }
+      ]
+    },
+    {
+      "text": "certainty in contemporary life,",
+      "start_time": 42.419,
+      "end_time": 44.299,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "certainty",
+          "start_time": 42.419,
+          "end_time": 43.02
+        },
+        {
+          "text": " ",
+          "start_time": 43.02,
+          "end_time": 43.079
+        },
+        {
+          "text": "in",
+          "start_time": 43.079,
+          "end_time": 43.2
+        },
+        {
+          "text": " ",
+          "start_time": 43.2,
+          "end_time": 43.239
+        },
+        {
+          "text": "contemporary",
+          "start_time": 43.239,
+          "end_time": 43.84
+        },
+        {
+          "text": " ",
+          "start_time": 43.84,
+          "end_time": 43.899
+        },
+        {
+          "text": "life,",
+          "start_time": 43.899,
+          "end_time": 44.299
+        }
+      ]
+    },
+    {
+      "text": "Be Not Afraid invites reflection on how",
+      "start_time": 44.959,
+      "end_time": 47.719,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Be",
+          "start_time": 44.959,
+          "end_time": 45.059
+        },
+        {
+          "text": " ",
+          "start_time": 45.059,
+          "end_time": 45.139
+        },
+        {
+          "text": "Not",
+          "start_time": 45.139,
+          "end_time": 45.279
+        },
+        {
+          "text": " ",
+          "start_time": 45.279,
+          "end_time": 45.419
+        },
+        {
+          "text": "Afraid",
+          "start_time": 45.419,
+          "end_time": 46.039
+        },
+        {
+          "text": " ",
+          "start_time": 46.039,
+          "end_time": 46.119
+        },
+        {
+          "text": "invites",
+          "start_time": 46.119,
+          "end_time": 46.539
+        },
+        {
+          "text": " ",
+          "start_time": 46.539,
+          "end_time": 46.599
+        },
+        {
+          "text": "reflection",
+          "start_time": 46.599,
+          "end_time": 47.34
+        },
+        {
+          "text": " ",
+          "start_time": 47.34,
+          "end_time": 47.379
+        },
+        {
+          "text": "on",
+          "start_time": 47.379,
+          "end_time": 47.459
+        },
+        {
+          "text": " ",
+          "start_time": 47.459,
+          "end_time": 47.559
+        },
+        {
+          "text": "how",
+          "start_time": 47.559,
+          "end_time": 47.719
+        }
+      ]
+    },
+    {
+      "text": "belief, fear, and care shape the way we",
+      "start_time": 47.84,
+      "end_time": 51.299,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "belief,",
+          "start_time": 47.84,
+          "end_time": 48.619
+        },
+        {
+          "text": " ",
+          "start_time": 48.619,
+          "end_time": 48.719
+        },
+        {
+          "text": "fear,",
+          "start_time": 48.719,
+          "end_time": 49.02
+        },
+        {
+          "text": " ",
+          "start_time": 49.02,
+          "end_time": 49.299
+        },
+        {
+          "text": "and",
+          "start_time": 49.299,
+          "end_time": 49.479
+        },
+        {
+          "text": " ",
+          "start_time": 49.479,
+          "end_time": 49.559
+        },
+        {
+          "text": "care",
+          "start_time": 49.559,
+          "end_time": 50.399
+        },
+        {
+          "text": " ",
+          "start_time": 50.399,
+          "end_time": 50.539
+        },
+        {
+          "text": "shape",
+          "start_time": 50.539,
+          "end_time": 50.819
+        },
+        {
+          "text": " ",
+          "start_time": 50.819,
+          "end_time": 50.86
+        },
+        {
+          "text": "the",
+          "start_time": 50.86,
+          "end_time": 50.939
+        },
+        {
+          "text": " ",
+          "start_time": 50.939,
+          "end_time": 50.979
+        },
+        {
+          "text": "way",
+          "start_time": 50.979,
+          "end_time": 51.119
+        },
+        {
+          "text": " ",
+          "start_time": 51.119,
+          "end_time": 51.219
+        },
+        {
+          "text": "we",
+          "start_time": 51.219,
+          "end_time": 51.299
+        }
+      ]
+    },
+    {
+      "text": "encounter the unknown.",
+      "start_time": 51.36,
+      "end_time": 52.879,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "encounter",
+          "start_time": 51.36,
+          "end_time": 52.139
+        },
+        {
+          "text": " ",
+          "start_time": 52.139,
+          "end_time": 52.18
+        },
+        {
+          "text": "the",
+          "start_time": 52.18,
+          "end_time": 52.259
+        },
+        {
+          "text": " ",
+          "start_time": 52.259,
+          "end_time": 52.34
+        },
+        {
+          "text": "unknown.",
+          "start_time": 52.34,
+          "end_time": 52.879
+        }
+      ]
+    }
+  ]
+}

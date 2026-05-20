@@ -1,0 +1,1647 @@
+{
+  "language_code": null,
+  "segments": [
+    {
+      "text": "Embodied Memories explores Hangul, the",
+      "start_time": 0.119,
+      "end_time": 2.939,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Embodied",
+          "start_time": 0.119,
+          "end_time": 0.62
+        },
+        {
+          "text": " ",
+          "start_time": 0.62,
+          "end_time": 0.719
+        },
+        {
+          "text": "Memories",
+          "start_time": 0.719,
+          "end_time": 1.319
+        },
+        {
+          "text": " ",
+          "start_time": 1.319,
+          "end_time": 1.419
+        },
+        {
+          "text": "explores",
+          "start_time": 1.419,
+          "end_time": 1.86
+        },
+        {
+          "text": " ",
+          "start_time": 1.86,
+          "end_time": 1.939
+        },
+        {
+          "text": "Hangul,",
+          "start_time": 1.939,
+          "end_time": 2.379
+        },
+        {
+          "text": " ",
+          "start_time": 2.379,
+          "end_time": 2.879
+        },
+        {
+          "text": "the",
+          "start_time": 2.879,
+          "end_time": 2.939
+        }
+      ]
+    },
+    {
+      "text": "Korean alphabet, as an embodied and",
+      "start_time": 3.0,
+      "end_time": 5.42,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Korean",
+          "start_time": 3.0,
+          "end_time": 3.319
+        },
+        {
+          "text": " ",
+          "start_time": 3.319,
+          "end_time": 3.419
+        },
+        {
+          "text": "alphabet,",
+          "start_time": 3.419,
+          "end_time": 3.959
+        },
+        {
+          "text": " ",
+          "start_time": 3.959,
+          "end_time": 4.399
+        },
+        {
+          "text": "as",
+          "start_time": 4.4,
+          "end_time": 4.5
+        },
+        {
+          "text": " ",
+          "start_time": 4.5,
+          "end_time": 4.519
+        },
+        {
+          "text": "an",
+          "start_time": 4.519,
+          "end_time": 4.579
+        },
+        {
+          "text": " ",
+          "start_time": 4.579,
+          "end_time": 4.639
+        },
+        {
+          "text": "embodied",
+          "start_time": 4.639,
+          "end_time": 5.239
+        },
+        {
+          "text": " ",
+          "start_time": 5.239,
+          "end_time": 5.299
+        },
+        {
+          "text": "and",
+          "start_time": 5.299,
+          "end_time": 5.42
+        }
+      ]
+    },
+    {
+      "text": "relational language through modular",
+      "start_time": 5.5,
+      "end_time": 7.699,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "relational",
+          "start_time": 5.5,
+          "end_time": 6.039
+        },
+        {
+          "text": " ",
+          "start_time": 6.039,
+          "end_time": 6.139
+        },
+        {
+          "text": "language",
+          "start_time": 6.139,
+          "end_time": 6.679
+        },
+        {
+          "text": " ",
+          "start_time": 6.679,
+          "end_time": 7.0
+        },
+        {
+          "text": "through",
+          "start_time": 7.0,
+          "end_time": 7.199
+        },
+        {
+          "text": " ",
+          "start_time": 7.199,
+          "end_time": 7.259
+        },
+        {
+          "text": "modular",
+          "start_time": 7.259,
+          "end_time": 7.699
+        }
+      ]
+    },
+    {
+      "text": "wearable artifacts.",
+      "start_time": 7.899,
+      "end_time": 9.239,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "wearable",
+          "start_time": 7.899,
+          "end_time": 8.3
+        },
+        {
+          "text": " ",
+          "start_time": 8.3,
+          "end_time": 8.46
+        },
+        {
+          "text": "artifacts.",
+          "start_time": 8.46,
+          "end_time": 9.239
+        }
+      ]
+    },
+    {
+      "text": "Originating from experiences of non-verbal",
+      "start_time": 10.399,
+      "end_time": 13.279,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Originating",
+          "start_time": 10.399,
+          "end_time": 11.079
+        },
+        {
+          "text": " ",
+          "start_time": 11.079,
+          "end_time": 11.159
+        },
+        {
+          "text": "from",
+          "start_time": 11.159,
+          "end_time": 11.279
+        },
+        {
+          "text": " ",
+          "start_time": 11.279,
+          "end_time": 11.379
+        },
+        {
+          "text": "experiences",
+          "start_time": 11.38,
+          "end_time": 12.259
+        },
+        {
+          "text": " ",
+          "start_time": 12.259,
+          "end_time": 12.319
+        },
+        {
+          "text": "of",
+          "start_time": 12.319,
+          "end_time": 12.42
+        },
+        {
+          "text": " ",
+          "start_time": 12.42,
+          "end_time": 12.559
+        },
+        {
+          "text": "non-verbal",
+          "start_time": 12.559,
+          "end_time": 13.279
+        }
+      ]
+    },
+    {
+      "text": "communication with the artist's",
+      "start_time": 13.34,
+      "end_time": 15.359,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "communication",
+          "start_time": 13.34,
+          "end_time": 14.239
+        },
+        {
+          "text": " ",
+          "start_time": 14.239,
+          "end_time": 14.539
+        },
+        {
+          "text": "with",
+          "start_time": 14.539,
+          "end_time": 14.619
+        },
+        {
+          "text": " ",
+          "start_time": 14.619,
+          "end_time": 14.679
+        },
+        {
+          "text": "the",
+          "start_time": 14.679,
+          "end_time": 14.739
+        },
+        {
+          "text": " ",
+          "start_time": 14.739,
+          "end_time": 14.819
+        },
+        {
+          "text": "artist's",
+          "start_time": 14.819,
+          "end_time": 15.359
+        }
+      ]
+    },
+    {
+      "text": "hearing-impaired aunt, the project",
+      "start_time": 15.42,
+      "end_time": 17.819,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "hearing-impaired",
+          "start_time": 15.42,
+          "end_time": 16.239
+        },
+        {
+          "text": " ",
+          "start_time": 16.239,
+          "end_time": 16.319
+        },
+        {
+          "text": "aunt,",
+          "start_time": 16.319,
+          "end_time": 16.699
+        },
+        {
+          "text": " ",
+          "start_time": 16.699,
+          "end_time": 17.299
+        },
+        {
+          "text": "the",
+          "start_time": 17.299,
+          "end_time": 17.379
+        },
+        {
+          "text": " ",
+          "start_time": 17.379,
+          "end_time": 17.439
+        },
+        {
+          "text": "project",
+          "start_time": 17.44,
+          "end_time": 17.819
+        }
+      ]
+    },
+    {
+      "text": "approaches gesture and movement as",
+      "start_time": 17.92,
+      "end_time": 20.139,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "approaches",
+          "start_time": 17.92,
+          "end_time": 18.42
+        },
+        {
+          "text": " ",
+          "start_time": 18.42,
+          "end_time": 18.52
+        },
+        {
+          "text": "gesture",
+          "start_time": 18.52,
+          "end_time": 18.939
+        },
+        {
+          "text": " ",
+          "start_time": 18.939,
+          "end_time": 18.999
+        },
+        {
+          "text": "and",
+          "start_time": 19.0,
+          "end_time": 19.139
+        },
+        {
+          "text": " ",
+          "start_time": 19.139,
+          "end_time": 19.279
+        },
+        {
+          "text": "movement",
+          "start_time": 19.279,
+          "end_time": 19.76
+        },
+        {
+          "text": " ",
+          "start_time": 19.76,
+          "end_time": 20.039
+        },
+        {
+          "text": "as",
+          "start_time": 20.039,
+          "end_time": 20.139
+        }
+      ]
+    },
+    {
+      "text": "fundamental forms of language.",
+      "start_time": 20.279,
+      "end_time": 22.199,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "fundamental",
+          "start_time": 20.279,
+          "end_time": 21.079
+        },
+        {
+          "text": " ",
+          "start_time": 21.079,
+          "end_time": 21.139
+        },
+        {
+          "text": "forms",
+          "start_time": 21.139,
+          "end_time": 21.399
+        },
+        {
+          "text": " ",
+          "start_time": 21.399,
+          "end_time": 21.439
+        },
+        {
+          "text": "of",
+          "start_time": 21.439,
+          "end_time": 21.5
+        },
+        {
+          "text": " ",
+          "start_time": 21.5,
+          "end_time": 21.579
+        },
+        {
+          "text": "language.",
+          "start_time": 21.579,
+          "end_time": 22.199
+        }
+      ]
+    },
+    {
+      "text": "Drawing on Hangul's geometric structure,",
+      "start_time": 23.659,
+      "end_time": 26.159,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Drawing",
+          "start_time": 23.659,
+          "end_time": 24.059
+        },
+        {
+          "text": " ",
+          "start_time": 24.059,
+          "end_time": 24.119
+        },
+        {
+          "text": "on",
+          "start_time": 24.119,
+          "end_time": 24.199
+        },
+        {
+          "text": " ",
+          "start_time": 24.199,
+          "end_time": 24.299
+        },
+        {
+          "text": "Hangul's",
+          "start_time": 24.299,
+          "end_time": 24.92
+        },
+        {
+          "text": " ",
+          "start_time": 24.92,
+          "end_time": 25.0
+        },
+        {
+          "text": "geometric",
+          "start_time": 25.0,
+          "end_time": 25.579
+        },
+        {
+          "text": " ",
+          "start_time": 25.579,
+          "end_time": 25.659
+        },
+        {
+          "text": "structure,",
+          "start_time": 25.659,
+          "end_time": 26.159
+        }
+      ]
+    },
+    {
+      "text": "linguistic principles are translated into",
+      "start_time": 26.84,
+      "end_time": 29.279,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "linguistic",
+          "start_time": 26.84,
+          "end_time": 27.399
+        },
+        {
+          "text": " ",
+          "start_time": 27.399,
+          "end_time": 27.479
+        },
+        {
+          "text": "principles",
+          "start_time": 27.479,
+          "end_time": 28.159
+        },
+        {
+          "text": " ",
+          "start_time": 28.159,
+          "end_time": 28.199
+        },
+        {
+          "text": "are",
+          "start_time": 28.199,
+          "end_time": 28.279
+        },
+        {
+          "text": " ",
+          "start_time": 28.279,
+          "end_time": 28.339
+        },
+        {
+          "text": "translated",
+          "start_time": 28.34,
+          "end_time": 29.019
+        },
+        {
+          "text": " ",
+          "start_time": 29.019,
+          "end_time": 29.079
+        },
+        {
+          "text": "into",
+          "start_time": 29.079,
+          "end_time": 29.279
+        }
+      ]
+    },
+    {
+      "text": "a modular system that functions as words,",
+      "start_time": 29.34,
+      "end_time": 32.259,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "a",
+          "start_time": 29.34,
+          "end_time": 29.439
+        },
+        {
+          "text": " ",
+          "start_time": 29.439,
+          "end_time": 29.499
+        },
+        {
+          "text": "modular",
+          "start_time": 29.5,
+          "end_time": 29.92
+        },
+        {
+          "text": " ",
+          "start_time": 29.92,
+          "end_time": 30.0
+        },
+        {
+          "text": "system",
+          "start_time": 30.0,
+          "end_time": 30.679
+        },
+        {
+          "text": " ",
+          "start_time": 30.679,
+          "end_time": 30.719
+        },
+        {
+          "text": "that",
+          "start_time": 30.719,
+          "end_time": 30.84
+        },
+        {
+          "text": " ",
+          "start_time": 30.84,
+          "end_time": 30.92
+        },
+        {
+          "text": "functions",
+          "start_time": 30.92,
+          "end_time": 31.479
+        },
+        {
+          "text": " ",
+          "start_time": 31.479,
+          "end_time": 31.539
+        },
+        {
+          "text": "as",
+          "start_time": 31.539,
+          "end_time": 31.639
+        },
+        {
+          "text": " ",
+          "start_time": 31.639,
+          "end_time": 31.76
+        },
+        {
+          "text": "words,",
+          "start_time": 31.76,
+          "end_time": 32.259
+        }
+      ]
+    },
+    {
+      "text": "sculptural forms, or wearable objects.",
+      "start_time": 32.639,
+      "end_time": 35.559,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "sculptural",
+          "start_time": 32.639,
+          "end_time": 33.179
+        },
+        {
+          "text": " ",
+          "start_time": 33.179,
+          "end_time": 33.239
+        },
+        {
+          "text": "forms,",
+          "start_time": 33.239,
+          "end_time": 33.719
+        },
+        {
+          "text": " ",
+          "start_time": 33.719,
+          "end_time": 34.139
+        },
+        {
+          "text": "or",
+          "start_time": 34.139,
+          "end_time": 34.279
+        },
+        {
+          "text": " ",
+          "start_time": 34.279,
+          "end_time": 34.399
+        },
+        {
+          "text": "wearable",
+          "start_time": 34.399,
+          "end_time": 34.819
+        },
+        {
+          "text": " ",
+          "start_time": 34.819,
+          "end_time": 34.899
+        },
+        {
+          "text": "objects.",
+          "start_time": 34.899,
+          "end_time": 35.559
+        }
+      ]
+    },
+    {
+      "text": "Grounded in Korean emotional",
+      "start_time": 36.659,
+      "end_time": 38.579,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Grounded",
+          "start_time": 36.659,
+          "end_time": 37.099
+        },
+        {
+          "text": " ",
+          "start_time": 37.099,
+          "end_time": 37.159
+        },
+        {
+          "text": "in",
+          "start_time": 37.159,
+          "end_time": 37.299
+        },
+        {
+          "text": " ",
+          "start_time": 37.299,
+          "end_time": 37.38
+        },
+        {
+          "text": "Korean",
+          "start_time": 37.38,
+          "end_time": 37.879
+        },
+        {
+          "text": " ",
+          "start_time": 37.879,
+          "end_time": 38.019
+        },
+        {
+          "text": "emotional",
+          "start_time": 38.02,
+          "end_time": 38.579
+        }
+      ]
+    },
+    {
+      "text": "philosophies\u2014jeong, connection;",
+      "start_time": 38.68,
+      "end_time": 41.439,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "philosophies\u2014jeong,",
+          "start_time": 38.68,
+          "end_time": 40.379
+        },
+        {
+          "text": " ",
+          "start_time": 40.379,
+          "end_time": 40.859
+        },
+        {
+          "text": "connection;",
+          "start_time": 40.86,
+          "end_time": 41.439
+        }
+      ]
+    },
+    {
+      "text": "han, endurance; and heum, vitality\u2014the",
+      "start_time": 42.2,
+      "end_time": 47.0,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "han,",
+          "start_time": 42.2,
+          "end_time": 42.559
+        },
+        {
+          "text": " ",
+          "start_time": 42.559,
+          "end_time": 43.039
+        },
+        {
+          "text": "endurance;",
+          "start_time": 43.04,
+          "end_time": 43.759
+        },
+        {
+          "text": " ",
+          "start_time": 43.759,
+          "end_time": 44.219
+        },
+        {
+          "text": "and",
+          "start_time": 44.219,
+          "end_time": 44.34
+        },
+        {
+          "text": " ",
+          "start_time": 44.34,
+          "end_time": 44.459
+        },
+        {
+          "text": "heum,",
+          "start_time": 44.459,
+          "end_time": 44.84
+        },
+        {
+          "text": " ",
+          "start_time": 44.84,
+          "end_time": 45.419
+        },
+        {
+          "text": "vitality\u2014the",
+          "start_time": 45.419,
+          "end_time": 47.0
+        }
+      ]
+    },
+    {
+      "text": "work informs processes of",
+      "start_time": 47.079,
+      "end_time": 48.84,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "work",
+          "start_time": 47.079,
+          "end_time": 47.319
+        },
+        {
+          "text": " ",
+          "start_time": 47.319,
+          "end_time": 47.379
+        },
+        {
+          "text": "informs",
+          "start_time": 47.379,
+          "end_time": 47.919
+        },
+        {
+          "text": " ",
+          "start_time": 47.919,
+          "end_time": 47.979
+        },
+        {
+          "text": "processes",
+          "start_time": 47.979,
+          "end_time": 48.719
+        },
+        {
+          "text": " ",
+          "start_time": 48.719,
+          "end_time": 48.759
+        },
+        {
+          "text": "of",
+          "start_time": 48.759,
+          "end_time": 48.84
+        }
+      ]
+    },
+    {
+      "text": "alignment, tension, play, and repair.",
+      "start_time": 48.919,
+      "end_time": 52.579,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "alignment,",
+          "start_time": 48.919,
+          "end_time": 49.939
+        },
+        {
+          "text": " ",
+          "start_time": 49.939,
+          "end_time": 50.02
+        },
+        {
+          "text": "tension,",
+          "start_time": 50.02,
+          "end_time": 50.919
+        },
+        {
+          "text": " ",
+          "start_time": 50.919,
+          "end_time": 51.0
+        },
+        {
+          "text": "play,",
+          "start_time": 51.0,
+          "end_time": 51.68
+        },
+        {
+          "text": " ",
+          "start_time": 51.68,
+          "end_time": 51.759
+        },
+        {
+          "text": "and",
+          "start_time": 51.759,
+          "end_time": 51.939
+        },
+        {
+          "text": " ",
+          "start_time": 51.939,
+          "end_time": 52.0
+        },
+        {
+          "text": "repair.",
+          "start_time": 52.0,
+          "end_time": 52.579
+        }
+      ]
+    },
+    {
+      "text": "Rather than treating language as a fixed",
+      "start_time": 53.84,
+      "end_time": 56.0,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Rather",
+          "start_time": 53.84,
+          "end_time": 54.099
+        },
+        {
+          "text": " ",
+          "start_time": 54.099,
+          "end_time": 54.139
+        },
+        {
+          "text": "than",
+          "start_time": 54.139,
+          "end_time": 54.279
+        },
+        {
+          "text": " ",
+          "start_time": 54.279,
+          "end_time": 54.36
+        },
+        {
+          "text": "treating",
+          "start_time": 54.36,
+          "end_time": 54.699
+        },
+        {
+          "text": " ",
+          "start_time": 54.699,
+          "end_time": 54.779
+        },
+        {
+          "text": "language",
+          "start_time": 54.779,
+          "end_time": 55.299
+        },
+        {
+          "text": " ",
+          "start_time": 55.299,
+          "end_time": 55.34
+        },
+        {
+          "text": "as",
+          "start_time": 55.34,
+          "end_time": 55.419
+        },
+        {
+          "text": " ",
+          "start_time": 55.419,
+          "end_time": 55.479
+        },
+        {
+          "text": "a",
+          "start_time": 55.479,
+          "end_time": 55.559
+        },
+        {
+          "text": " ",
+          "start_time": 55.559,
+          "end_time": 55.659
+        },
+        {
+          "text": "fixed",
+          "start_time": 55.659,
+          "end_time": 56.0
+        }
+      ]
+    },
+    {
+      "text": "visual system,",
+      "start_time": 56.119,
+      "end_time": 57.059,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "visual",
+          "start_time": 56.119,
+          "end_time": 56.479
+        },
+        {
+          "text": " ",
+          "start_time": 56.479,
+          "end_time": 56.559
+        },
+        {
+          "text": "system,",
+          "start_time": 56.559,
+          "end_time": 57.059
+        }
+      ]
+    },
+    {
+      "text": "meaning emerges through bodily movement,",
+      "start_time": 57.759,
+      "end_time": 60.379,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "meaning",
+          "start_time": 57.759,
+          "end_time": 58.139
+        },
+        {
+          "text": " ",
+          "start_time": 58.139,
+          "end_time": 58.219
+        },
+        {
+          "text": "emerges",
+          "start_time": 58.219,
+          "end_time": 58.779
+        },
+        {
+          "text": " ",
+          "start_time": 58.779,
+          "end_time": 58.84
+        },
+        {
+          "text": "through",
+          "start_time": 58.84,
+          "end_time": 59.079
+        },
+        {
+          "text": " ",
+          "start_time": 59.079,
+          "end_time": 59.139
+        },
+        {
+          "text": "bodily",
+          "start_time": 59.139,
+          "end_time": 59.539
+        },
+        {
+          "text": " ",
+          "start_time": 59.539,
+          "end_time": 59.599
+        },
+        {
+          "text": "movement,",
+          "start_time": 59.599,
+          "end_time": 60.379
+        }
+      ]
+    },
+    {
+      "text": "touch, and reconfiguration.",
+      "start_time": 60.479,
+      "end_time": 62.599,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "touch,",
+          "start_time": 60.479,
+          "end_time": 60.939
+        },
+        {
+          "text": " ",
+          "start_time": 60.939,
+          "end_time": 61.199
+        },
+        {
+          "text": "and",
+          "start_time": 61.199,
+          "end_time": 61.34
+        },
+        {
+          "text": " ",
+          "start_time": 61.34,
+          "end_time": 61.419
+        },
+        {
+          "text": "reconfiguration.",
+          "start_time": 61.419,
+          "end_time": 62.599
+        }
+      ]
+    },
+    {
+      "text": "The final artifacts are constructed using",
+      "start_time": 63.899,
+      "end_time": 66.439,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "The",
+          "start_time": 63.899,
+          "end_time": 64.0
+        },
+        {
+          "text": " ",
+          "start_time": 64.0,
+          "end_time": 64.099
+        },
+        {
+          "text": "final",
+          "start_time": 64.099,
+          "end_time": 64.439
+        },
+        {
+          "text": " ",
+          "start_time": 64.439,
+          "end_time": 64.519
+        },
+        {
+          "text": "artifacts",
+          "start_time": 64.519,
+          "end_time": 65.239
+        },
+        {
+          "text": " ",
+          "start_time": 65.239,
+          "end_time": 65.299
+        },
+        {
+          "text": "are",
+          "start_time": 65.299,
+          "end_time": 65.379
+        },
+        {
+          "text": " ",
+          "start_time": 65.379,
+          "end_time": 65.419
+        },
+        {
+          "text": "constructed",
+          "start_time": 65.419,
+          "end_time": 66.019
+        },
+        {
+          "text": " ",
+          "start_time": 66.019,
+          "end_time": 66.139
+        },
+        {
+          "text": "using",
+          "start_time": 66.139,
+          "end_time": 66.439
+        }
+      ]
+    },
+    {
+      "text": "Korean textiles such as mosi, ramie, and",
+      "start_time": 66.5,
+      "end_time": 70.519,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Korean",
+          "start_time": 66.5,
+          "end_time": 66.919
+        },
+        {
+          "text": " ",
+          "start_time": 66.919,
+          "end_time": 66.979
+        },
+        {
+          "text": "textiles",
+          "start_time": 66.979,
+          "end_time": 67.899
+        },
+        {
+          "text": " ",
+          "start_time": 67.899,
+          "end_time": 67.979
+        },
+        {
+          "text": "such",
+          "start_time": 67.979,
+          "end_time": 68.139
+        },
+        {
+          "text": " ",
+          "start_time": 68.139,
+          "end_time": 68.18
+        },
+        {
+          "text": "as",
+          "start_time": 68.18,
+          "end_time": 68.279
+        },
+        {
+          "text": " ",
+          "start_time": 68.279,
+          "end_time": 68.4
+        },
+        {
+          "text": "mosi,",
+          "start_time": 68.4,
+          "end_time": 69.36
+        },
+        {
+          "text": " ",
+          "start_time": 69.36,
+          "end_time": 69.479
+        },
+        {
+          "text": "ramie,",
+          "start_time": 69.479,
+          "end_time": 70.279
+        },
+        {
+          "text": " ",
+          "start_time": 70.279,
+          "end_time": 70.339
+        },
+        {
+          "text": "and",
+          "start_time": 70.339,
+          "end_time": 70.519
+        }
+      ]
+    },
+    {
+      "text": "oksa,",
+      "start_time": 70.599,
+      "end_time": 71.079,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "oksa,",
+          "start_time": 70.599,
+          "end_time": 71.079
+        }
+      ]
+    },
+    {
+      "text": "silk, combined with transparent acrylic",
+      "start_time": 71.68,
+      "end_time": 74.619,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "silk,",
+          "start_time": 71.68,
+          "end_time": 72.72
+        },
+        {
+          "text": " ",
+          "start_time": 72.72,
+          "end_time": 72.799
+        },
+        {
+          "text": "combined",
+          "start_time": 72.799,
+          "end_time": 73.239
+        },
+        {
+          "text": " ",
+          "start_time": 73.239,
+          "end_time": 73.299
+        },
+        {
+          "text": "with",
+          "start_time": 73.299,
+          "end_time": 73.399
+        },
+        {
+          "text": " ",
+          "start_time": 73.399,
+          "end_time": 73.479
+        },
+        {
+          "text": "transparent",
+          "start_time": 73.479,
+          "end_time": 74.139
+        },
+        {
+          "text": " ",
+          "start_time": 74.139,
+          "end_time": 74.26
+        },
+        {
+          "text": "acrylic",
+          "start_time": 74.26,
+          "end_time": 74.619
+        }
+      ]
+    },
+    {
+      "text": "structures, magnetic connections, and",
+      "start_time": 74.68,
+      "end_time": 77.659,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "structures,",
+          "start_time": 74.68,
+          "end_time": 75.659
+        },
+        {
+          "text": " ",
+          "start_time": 75.659,
+          "end_time": 75.759
+        },
+        {
+          "text": "magnetic",
+          "start_time": 75.759,
+          "end_time": 76.319
+        },
+        {
+          "text": " ",
+          "start_time": 76.319,
+          "end_time": 76.379
+        },
+        {
+          "text": "connections,",
+          "start_time": 76.379,
+          "end_time": 77.079
+        },
+        {
+          "text": " ",
+          "start_time": 77.079,
+          "end_time": 77.499
+        },
+        {
+          "text": "and",
+          "start_time": 77.5,
+          "end_time": 77.659
+        }
+      ]
+    },
+    {
+      "text": "traditional techniques including",
+      "start_time": 77.739,
+      "end_time": 79.719,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "traditional",
+          "start_time": 77.739,
+          "end_time": 78.239
+        },
+        {
+          "text": " ",
+          "start_time": 78.239,
+          "end_time": 78.299
+        },
+        {
+          "text": "techniques",
+          "start_time": 78.299,
+          "end_time": 78.919
+        },
+        {
+          "text": " ",
+          "start_time": 78.919,
+          "end_time": 79.22
+        },
+        {
+          "text": "including",
+          "start_time": 79.22,
+          "end_time": 79.719
+        }
+      ]
+    },
+    {
+      "text": "gamchim-gil hand stitching and poosae,",
+      "start_time": 79.839,
+      "end_time": 82.779,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "gamchim-gil",
+          "start_time": 79.839,
+          "end_time": 80.579
+        },
+        {
+          "text": " ",
+          "start_time": 80.579,
+          "end_time": 80.639
+        },
+        {
+          "text": "hand",
+          "start_time": 80.639,
+          "end_time": 80.9
+        },
+        {
+          "text": " ",
+          "start_time": 80.9,
+          "end_time": 80.959
+        },
+        {
+          "text": "stitching",
+          "start_time": 80.959,
+          "end_time": 81.919
+        },
+        {
+          "text": " ",
+          "start_time": 81.919,
+          "end_time": 81.979
+        },
+        {
+          "text": "and",
+          "start_time": 81.979,
+          "end_time": 82.099
+        },
+        {
+          "text": " ",
+          "start_time": 82.099,
+          "end_time": 82.239
+        },
+        {
+          "text": "poosae,",
+          "start_time": 82.239,
+          "end_time": 82.779
+        }
+      ]
+    },
+    {
+      "text": "rice starch stiffening.",
+      "start_time": 83.339,
+      "end_time": 84.58,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "rice",
+          "start_time": 83.339,
+          "end_time": 83.539
+        },
+        {
+          "text": " ",
+          "start_time": 83.539,
+          "end_time": 83.599
+        },
+        {
+          "text": "starch",
+          "start_time": 83.599,
+          "end_time": 83.979
+        },
+        {
+          "text": " ",
+          "start_time": 83.979,
+          "end_time": 84.039
+        },
+        {
+          "text": "stiffening.",
+          "start_time": 84.04,
+          "end_time": 84.58
+        }
+      ]
+    },
+    {
+      "text": "Language is not only spoken or written; it",
+      "start_time": 86.019,
+      "end_time": 89.039,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Language",
+          "start_time": 86.019,
+          "end_time": 86.479
+        },
+        {
+          "text": " ",
+          "start_time": 86.479,
+          "end_time": 86.519
+        },
+        {
+          "text": "is",
+          "start_time": 86.519,
+          "end_time": 86.719
+        },
+        {
+          "text": " ",
+          "start_time": 86.719,
+          "end_time": 86.759
+        },
+        {
+          "text": "not",
+          "start_time": 86.759,
+          "end_time": 86.979
+        },
+        {
+          "text": " ",
+          "start_time": 86.979,
+          "end_time": 87.079
+        },
+        {
+          "text": "only",
+          "start_time": 87.08,
+          "end_time": 87.339
+        },
+        {
+          "text": " ",
+          "start_time": 87.339,
+          "end_time": 87.439
+        },
+        {
+          "text": "spoken",
+          "start_time": 87.439,
+          "end_time": 87.819
+        },
+        {
+          "text": " ",
+          "start_time": 87.819,
+          "end_time": 87.879
+        },
+        {
+          "text": "or",
+          "start_time": 87.879,
+          "end_time": 87.959
+        },
+        {
+          "text": " ",
+          "start_time": 87.959,
+          "end_time": 88.0
+        },
+        {
+          "text": "written;",
+          "start_time": 88.0,
+          "end_time": 88.9
+        },
+        {
+          "text": " ",
+          "start_time": 88.9,
+          "end_time": 88.939
+        },
+        {
+          "text": "it",
+          "start_time": 88.939,
+          "end_time": 89.039
+        }
+      ]
+    },
+    {
+      "text": "is sensed, worn, and remembered",
+      "start_time": 89.079,
+      "end_time": 91.819,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "is",
+          "start_time": 89.079,
+          "end_time": 89.279
+        },
+        {
+          "text": " ",
+          "start_time": 89.279,
+          "end_time": 89.339
+        },
+        {
+          "text": "sensed,",
+          "start_time": 89.339,
+          "end_time": 89.819
+        },
+        {
+          "text": " ",
+          "start_time": 89.819,
+          "end_time": 90.199
+        },
+        {
+          "text": "worn,",
+          "start_time": 90.199,
+          "end_time": 90.899
+        },
+        {
+          "text": " ",
+          "start_time": 90.899,
+          "end_time": 91.0
+        },
+        {
+          "text": "and",
+          "start_time": 91.0,
+          "end_time": 91.22
+        },
+        {
+          "text": " ",
+          "start_time": 91.22,
+          "end_time": 91.279
+        },
+        {
+          "text": "remembered",
+          "start_time": 91.279,
+          "end_time": 91.819
+        }
+      ]
+    }
+  ]
+}

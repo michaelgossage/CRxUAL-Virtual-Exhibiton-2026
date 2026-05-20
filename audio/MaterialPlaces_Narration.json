@@ -1,0 +1,1605 @@
+{
+  "language_code": null,
+  "segments": [
+    {
+      "text": "This project investigates a sense of place",
+      "start_time": 0.14,
+      "end_time": 2.759,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "This",
+          "start_time": 0.14,
+          "end_time": 0.319
+        },
+        {
+          "text": " ",
+          "start_time": 0.319,
+          "end_time": 0.399
+        },
+        {
+          "text": "project",
+          "start_time": 0.399,
+          "end_time": 0.819
+        },
+        {
+          "text": " ",
+          "start_time": 0.819,
+          "end_time": 0.919
+        },
+        {
+          "text": "investigates",
+          "start_time": 0.919,
+          "end_time": 1.559
+        },
+        {
+          "text": " ",
+          "start_time": 1.559,
+          "end_time": 1.619
+        },
+        {
+          "text": "a",
+          "start_time": 1.62,
+          "end_time": 1.639
+        },
+        {
+          "text": " ",
+          "start_time": 1.639,
+          "end_time": 1.74
+        },
+        {
+          "text": "sense",
+          "start_time": 1.74,
+          "end_time": 1.979
+        },
+        {
+          "text": " ",
+          "start_time": 1.979,
+          "end_time": 2.019
+        },
+        {
+          "text": "of",
+          "start_time": 2.019,
+          "end_time": 2.119
+        },
+        {
+          "text": " ",
+          "start_time": 2.119,
+          "end_time": 2.219
+        },
+        {
+          "text": "place",
+          "start_time": 2.22,
+          "end_time": 2.759
+        }
+      ]
+    },
+    {
+      "text": "through materiality.",
+      "start_time": 2.799,
+      "end_time": 3.98,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "through",
+          "start_time": 2.799,
+          "end_time": 2.939
+        },
+        {
+          "text": " ",
+          "start_time": 2.939,
+          "end_time": 3.019
+        },
+        {
+          "text": "materiality.",
+          "start_time": 3.019,
+          "end_time": 3.98
+        }
+      ]
+    },
+    {
+      "text": "Taking an exploratory approach, Niamh Beal",
+      "start_time": 5.019,
+      "end_time": 8.079,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Taking",
+          "start_time": 5.019,
+          "end_time": 5.38
+        },
+        {
+          "text": " ",
+          "start_time": 5.38,
+          "end_time": 5.42
+        },
+        {
+          "text": "an",
+          "start_time": 5.42,
+          "end_time": 5.48
+        },
+        {
+          "text": " ",
+          "start_time": 5.48,
+          "end_time": 5.579
+        },
+        {
+          "text": "exploratory",
+          "start_time": 5.579,
+          "end_time": 6.279
+        },
+        {
+          "text": " ",
+          "start_time": 6.279,
+          "end_time": 6.359
+        },
+        {
+          "text": "approach,",
+          "start_time": 6.359,
+          "end_time": 6.899
+        },
+        {
+          "text": " ",
+          "start_time": 6.899,
+          "end_time": 7.339
+        },
+        {
+          "text": "Niamh",
+          "start_time": 7.339,
+          "end_time": 7.579
+        },
+        {
+          "text": " ",
+          "start_time": 7.579,
+          "end_time": 7.659
+        },
+        {
+          "text": "Beal",
+          "start_time": 7.659,
+          "end_time": 8.079
+        }
+      ]
+    },
+    {
+      "text": "walked along areas of the River Thames",
+      "start_time": 8.22,
+      "end_time": 10.279,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "walked",
+          "start_time": 8.22,
+          "end_time": 8.479
+        },
+        {
+          "text": " ",
+          "start_time": 8.479,
+          "end_time": 8.539
+        },
+        {
+          "text": "along",
+          "start_time": 8.539,
+          "end_time": 8.76
+        },
+        {
+          "text": " ",
+          "start_time": 8.76,
+          "end_time": 8.859
+        },
+        {
+          "text": "areas",
+          "start_time": 8.859,
+          "end_time": 9.22
+        },
+        {
+          "text": " ",
+          "start_time": 9.22,
+          "end_time": 9.26
+        },
+        {
+          "text": "of",
+          "start_time": 9.26,
+          "end_time": 9.359
+        },
+        {
+          "text": " ",
+          "start_time": 9.359,
+          "end_time": 9.399
+        },
+        {
+          "text": "the",
+          "start_time": 9.399,
+          "end_time": 9.46
+        },
+        {
+          "text": " ",
+          "start_time": 9.46,
+          "end_time": 9.519
+        },
+        {
+          "text": "River",
+          "start_time": 9.519,
+          "end_time": 9.679
+        },
+        {
+          "text": " ",
+          "start_time": 9.679,
+          "end_time": 9.779
+        },
+        {
+          "text": "Thames",
+          "start_time": 9.779,
+          "end_time": 10.279
+        }
+      ]
+    },
+    {
+      "text": "and the coast of the Isle of Wight,",
+      "start_time": 10.619,
+      "end_time": 12.179,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "and",
+          "start_time": 10.619,
+          "end_time": 10.679
+        },
+        {
+          "text": " ",
+          "start_time": 10.679,
+          "end_time": 10.719
+        },
+        {
+          "text": "the",
+          "start_time": 10.719,
+          "end_time": 10.8
+        },
+        {
+          "text": " ",
+          "start_time": 10.8,
+          "end_time": 10.88
+        },
+        {
+          "text": "coast",
+          "start_time": 10.88,
+          "end_time": 11.179
+        },
+        {
+          "text": " ",
+          "start_time": 11.179,
+          "end_time": 11.219
+        },
+        {
+          "text": "of",
+          "start_time": 11.219,
+          "end_time": 11.279
+        },
+        {
+          "text": " ",
+          "start_time": 11.279,
+          "end_time": 11.34
+        },
+        {
+          "text": "the",
+          "start_time": 11.34,
+          "end_time": 11.38
+        },
+        {
+          "text": " ",
+          "start_time": 11.38,
+          "end_time": 11.46
+        },
+        {
+          "text": "Isle",
+          "start_time": 11.46,
+          "end_time": 11.619
+        },
+        {
+          "text": " ",
+          "start_time": 11.619,
+          "end_time": 11.659
+        },
+        {
+          "text": "of",
+          "start_time": 11.659,
+          "end_time": 11.719
+        },
+        {
+          "text": " ",
+          "start_time": 11.719,
+          "end_time": 11.799
+        },
+        {
+          "text": "Wight,",
+          "start_time": 11.8,
+          "end_time": 12.179
+        }
+      ]
+    },
+    {
+      "text": "collecting various wild clays and other",
+      "start_time": 12.639,
+      "end_time": 15.579,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "collecting",
+          "start_time": 12.639,
+          "end_time": 13.239
+        },
+        {
+          "text": " ",
+          "start_time": 13.239,
+          "end_time": 13.319
+        },
+        {
+          "text": "various",
+          "start_time": 13.319,
+          "end_time": 13.819
+        },
+        {
+          "text": " ",
+          "start_time": 13.819,
+          "end_time": 13.939
+        },
+        {
+          "text": "wild",
+          "start_time": 13.939,
+          "end_time": 14.359
+        },
+        {
+          "text": " ",
+          "start_time": 14.359,
+          "end_time": 14.42
+        },
+        {
+          "text": "clays",
+          "start_time": 14.42,
+          "end_time": 15.099
+        },
+        {
+          "text": " ",
+          "start_time": 15.099,
+          "end_time": 15.159
+        },
+        {
+          "text": "and",
+          "start_time": 15.159,
+          "end_time": 15.279
+        },
+        {
+          "text": " ",
+          "start_time": 15.279,
+          "end_time": 15.419
+        },
+        {
+          "text": "other",
+          "start_time": 15.42,
+          "end_time": 15.579
+        }
+      ]
+    },
+    {
+      "text": "natural materials to create two distinct",
+      "start_time": 15.639,
+      "end_time": 18.719,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "natural",
+          "start_time": 15.639,
+          "end_time": 15.96
+        },
+        {
+          "text": " ",
+          "start_time": 15.96,
+          "end_time": 16.039
+        },
+        {
+          "text": "materials",
+          "start_time": 16.039,
+          "end_time": 16.739
+        },
+        {
+          "text": " ",
+          "start_time": 16.739,
+          "end_time": 17.059
+        },
+        {
+          "text": "to",
+          "start_time": 17.059,
+          "end_time": 17.159
+        },
+        {
+          "text": " ",
+          "start_time": 17.159,
+          "end_time": 17.239
+        },
+        {
+          "text": "create",
+          "start_time": 17.239,
+          "end_time": 17.659
+        },
+        {
+          "text": " ",
+          "start_time": 17.659,
+          "end_time": 17.719
+        },
+        {
+          "text": "two",
+          "start_time": 17.719,
+          "end_time": 17.959
+        },
+        {
+          "text": " ",
+          "start_time": 17.959,
+          "end_time": 18.119
+        },
+        {
+          "text": "distinct",
+          "start_time": 18.119,
+          "end_time": 18.719
+        }
+      ]
+    },
+    {
+      "text": "collections of pots.",
+      "start_time": 18.779,
+      "end_time": 19.999,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "collections",
+          "start_time": 18.779,
+          "end_time": 19.279
+        },
+        {
+          "text": " ",
+          "start_time": 19.279,
+          "end_time": 19.319
+        },
+        {
+          "text": "of",
+          "start_time": 19.319,
+          "end_time": 19.399
+        },
+        {
+          "text": " ",
+          "start_time": 19.399,
+          "end_time": 19.519
+        },
+        {
+          "text": "pots.",
+          "start_time": 19.52,
+          "end_time": 19.999
+        }
+      ]
+    },
+    {
+      "text": "A key focus of this project is finding",
+      "start_time": 21.039,
+      "end_time": 23.699,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "A",
+          "start_time": 21.039,
+          "end_time": 21.119
+        },
+        {
+          "text": " ",
+          "start_time": 21.119,
+          "end_time": 21.219
+        },
+        {
+          "text": "key",
+          "start_time": 21.219,
+          "end_time": 21.459
+        },
+        {
+          "text": " ",
+          "start_time": 21.459,
+          "end_time": 21.539
+        },
+        {
+          "text": "focus",
+          "start_time": 21.539,
+          "end_time": 21.879
+        },
+        {
+          "text": " ",
+          "start_time": 21.879,
+          "end_time": 21.92
+        },
+        {
+          "text": "of",
+          "start_time": 21.92,
+          "end_time": 22.0
+        },
+        {
+          "text": " ",
+          "start_time": 22.0,
+          "end_time": 22.039
+        },
+        {
+          "text": "this",
+          "start_time": 22.039,
+          "end_time": 22.199
+        },
+        {
+          "text": " ",
+          "start_time": 22.199,
+          "end_time": 22.259
+        },
+        {
+          "text": "project",
+          "start_time": 22.26,
+          "end_time": 22.719
+        },
+        {
+          "text": " ",
+          "start_time": 22.719,
+          "end_time": 23.019
+        },
+        {
+          "text": "is",
+          "start_time": 23.019,
+          "end_time": 23.119
+        },
+        {
+          "text": " ",
+          "start_time": 23.119,
+          "end_time": 23.219
+        },
+        {
+          "text": "finding",
+          "start_time": 23.219,
+          "end_time": 23.699
+        }
+      ]
+    },
+    {
+      "text": "innovative ways to use found materials",
+      "start_time": 23.76,
+      "end_time": 26.599,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "innovative",
+          "start_time": 23.76,
+          "end_time": 24.239
+        },
+        {
+          "text": " ",
+          "start_time": 24.239,
+          "end_time": 24.299
+        },
+        {
+          "text": "ways",
+          "start_time": 24.299,
+          "end_time": 24.699
+        },
+        {
+          "text": " ",
+          "start_time": 24.699,
+          "end_time": 24.739
+        },
+        {
+          "text": "to",
+          "start_time": 24.739,
+          "end_time": 24.84
+        },
+        {
+          "text": " ",
+          "start_time": 24.84,
+          "end_time": 24.979
+        },
+        {
+          "text": "use",
+          "start_time": 24.979,
+          "end_time": 25.139
+        },
+        {
+          "text": " ",
+          "start_time": 25.139,
+          "end_time": 25.279
+        },
+        {
+          "text": "found",
+          "start_time": 25.279,
+          "end_time": 25.559
+        },
+        {
+          "text": " ",
+          "start_time": 25.559,
+          "end_time": 25.639
+        },
+        {
+          "text": "materials",
+          "start_time": 25.639,
+          "end_time": 26.599
+        }
+      ]
+    },
+    {
+      "text": "while reducing waste.",
+      "start_time": 26.68,
+      "end_time": 28.119,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "while",
+          "start_time": 26.68,
+          "end_time": 26.84
+        },
+        {
+          "text": " ",
+          "start_time": 26.84,
+          "end_time": 26.899
+        },
+        {
+          "text": "reducing",
+          "start_time": 26.899,
+          "end_time": 27.519
+        },
+        {
+          "text": " ",
+          "start_time": 27.519,
+          "end_time": 27.619
+        },
+        {
+          "text": "waste.",
+          "start_time": 27.619,
+          "end_time": 28.119
+        }
+      ]
+    },
+    {
+      "text": "It replaces conventional commercial",
+      "start_time": 29.26,
+      "end_time": 31.239,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "It",
+          "start_time": 29.26,
+          "end_time": 29.34
+        },
+        {
+          "text": " ",
+          "start_time": 29.34,
+          "end_time": 29.399
+        },
+        {
+          "text": "replaces",
+          "start_time": 29.399,
+          "end_time": 29.979
+        },
+        {
+          "text": " ",
+          "start_time": 29.979,
+          "end_time": 30.079
+        },
+        {
+          "text": "conventional",
+          "start_time": 30.079,
+          "end_time": 30.719
+        },
+        {
+          "text": " ",
+          "start_time": 30.719,
+          "end_time": 30.779
+        },
+        {
+          "text": "commercial",
+          "start_time": 30.779,
+          "end_time": 31.239
+        }
+      ]
+    },
+    {
+      "text": "materials commonly used in the ceramics",
+      "start_time": 31.319,
+      "end_time": 33.719,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "materials",
+          "start_time": 31.319,
+          "end_time": 32.0
+        },
+        {
+          "text": " ",
+          "start_time": 32.0,
+          "end_time": 32.34
+        },
+        {
+          "text": "commonly",
+          "start_time": 32.34,
+          "end_time": 32.719
+        },
+        {
+          "text": " ",
+          "start_time": 32.719,
+          "end_time": 32.839
+        },
+        {
+          "text": "used",
+          "start_time": 32.84,
+          "end_time": 33.04
+        },
+        {
+          "text": " ",
+          "start_time": 33.04,
+          "end_time": 33.079
+        },
+        {
+          "text": "in",
+          "start_time": 33.079,
+          "end_time": 33.119
+        },
+        {
+          "text": " ",
+          "start_time": 33.119,
+          "end_time": 33.18
+        },
+        {
+          "text": "the",
+          "start_time": 33.18,
+          "end_time": 33.22
+        },
+        {
+          "text": " ",
+          "start_time": 33.22,
+          "end_time": 33.299
+        },
+        {
+          "text": "ceramics",
+          "start_time": 33.299,
+          "end_time": 33.719
+        }
+      ]
+    },
+    {
+      "text": "industry with a wide variety of waste",
+      "start_time": 33.779,
+      "end_time": 36.479,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "industry",
+          "start_time": 33.779,
+          "end_time": 34.34
+        },
+        {
+          "text": " ",
+          "start_time": 34.34,
+          "end_time": 34.739
+        },
+        {
+          "text": "with",
+          "start_time": 34.739,
+          "end_time": 34.819
+        },
+        {
+          "text": " ",
+          "start_time": 34.819,
+          "end_time": 34.88
+        },
+        {
+          "text": "a",
+          "start_time": 34.88,
+          "end_time": 34.979
+        },
+        {
+          "text": " ",
+          "start_time": 34.979,
+          "end_time": 35.059
+        },
+        {
+          "text": "wide",
+          "start_time": 35.059,
+          "end_time": 35.299
+        },
+        {
+          "text": " ",
+          "start_time": 35.299,
+          "end_time": 35.36
+        },
+        {
+          "text": "variety",
+          "start_time": 35.36,
+          "end_time": 35.939
+        },
+        {
+          "text": " ",
+          "start_time": 35.939,
+          "end_time": 36.0
+        },
+        {
+          "text": "of",
+          "start_time": 36.0,
+          "end_time": 36.099
+        },
+        {
+          "text": " ",
+          "start_time": 36.099,
+          "end_time": 36.199
+        },
+        {
+          "text": "waste",
+          "start_time": 36.2,
+          "end_time": 36.479
+        }
+      ]
+    },
+    {
+      "text": "materials, such as clay from construction",
+      "start_time": 36.54,
+      "end_time": 39.259,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "materials,",
+          "start_time": 36.54,
+          "end_time": 37.239
+        },
+        {
+          "text": " ",
+          "start_time": 37.239,
+          "end_time": 37.619
+        },
+        {
+          "text": "such",
+          "start_time": 37.619,
+          "end_time": 37.819
+        },
+        {
+          "text": " ",
+          "start_time": 37.819,
+          "end_time": 37.879
+        },
+        {
+          "text": "as",
+          "start_time": 37.879,
+          "end_time": 37.959
+        },
+        {
+          "text": " ",
+          "start_time": 37.959,
+          "end_time": 38.079
+        },
+        {
+          "text": "clay",
+          "start_time": 38.079,
+          "end_time": 38.379
+        },
+        {
+          "text": " ",
+          "start_time": 38.379,
+          "end_time": 38.479
+        },
+        {
+          "text": "from",
+          "start_time": 38.479,
+          "end_time": 38.619
+        },
+        {
+          "text": " ",
+          "start_time": 38.619,
+          "end_time": 38.659
+        },
+        {
+          "text": "construction",
+          "start_time": 38.659,
+          "end_time": 39.259
+        }
+      ]
+    },
+    {
+      "text": "sites, broken pieces of glass, and ash",
+      "start_time": 39.319,
+      "end_time": 42.639,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "sites,",
+          "start_time": 39.319,
+          "end_time": 39.779
+        },
+        {
+          "text": " ",
+          "start_time": 39.779,
+          "end_time": 40.239
+        },
+        {
+          "text": "broken",
+          "start_time": 40.239,
+          "end_time": 40.619
+        },
+        {
+          "text": " ",
+          "start_time": 40.619,
+          "end_time": 40.68
+        },
+        {
+          "text": "pieces",
+          "start_time": 40.68,
+          "end_time": 40.979
+        },
+        {
+          "text": " ",
+          "start_time": 40.979,
+          "end_time": 41.02
+        },
+        {
+          "text": "of",
+          "start_time": 41.02,
+          "end_time": 41.119
+        },
+        {
+          "text": " ",
+          "start_time": 41.119,
+          "end_time": 41.18
+        },
+        {
+          "text": "glass,",
+          "start_time": 41.18,
+          "end_time": 41.68
+        },
+        {
+          "text": " ",
+          "start_time": 41.68,
+          "end_time": 42.059
+        },
+        {
+          "text": "and",
+          "start_time": 42.059,
+          "end_time": 42.219
+        },
+        {
+          "text": " ",
+          "start_time": 42.219,
+          "end_time": 42.359
+        },
+        {
+          "text": "ash",
+          "start_time": 42.36,
+          "end_time": 42.639
+        }
+      ]
+    },
+    {
+      "text": "from various sources.",
+      "start_time": 42.719,
+      "end_time": 44.0,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "from",
+          "start_time": 42.719,
+          "end_time": 42.86
+        },
+        {
+          "text": " ",
+          "start_time": 42.86,
+          "end_time": 42.939
+        },
+        {
+          "text": "various",
+          "start_time": 42.939,
+          "end_time": 43.319
+        },
+        {
+          "text": " ",
+          "start_time": 43.319,
+          "end_time": 43.379
+        },
+        {
+          "text": "sources.",
+          "start_time": 43.379,
+          "end_time": 44.0
+        }
+      ]
+    },
+    {
+      "text": "Honoring her own cultural identity,",
+      "start_time": 45.18,
+      "end_time": 47.379,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Honoring",
+          "start_time": 45.18,
+          "end_time": 45.539
+        },
+        {
+          "text": " ",
+          "start_time": 45.539,
+          "end_time": 45.619
+        },
+        {
+          "text": "her",
+          "start_time": 45.619,
+          "end_time": 45.779
+        },
+        {
+          "text": " ",
+          "start_time": 45.779,
+          "end_time": 45.899
+        },
+        {
+          "text": "own",
+          "start_time": 45.899,
+          "end_time": 46.099
+        },
+        {
+          "text": " ",
+          "start_time": 46.099,
+          "end_time": 46.199
+        },
+        {
+          "text": "cultural",
+          "start_time": 46.2,
+          "end_time": 46.599
+        },
+        {
+          "text": " ",
+          "start_time": 46.599,
+          "end_time": 46.699
+        },
+        {
+          "text": "identity,",
+          "start_time": 46.7,
+          "end_time": 47.379
+        }
+      ]
+    },
+    {
+      "text": "growing up between London and the Isle of",
+      "start_time": 47.84,
+      "end_time": 49.799,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "growing",
+          "start_time": 47.84,
+          "end_time": 48.099
+        },
+        {
+          "text": " ",
+          "start_time": 48.099,
+          "end_time": 48.159
+        },
+        {
+          "text": "up",
+          "start_time": 48.159,
+          "end_time": 48.36
+        },
+        {
+          "text": " ",
+          "start_time": 48.36,
+          "end_time": 48.399
+        },
+        {
+          "text": "between",
+          "start_time": 48.399,
+          "end_time": 48.7
+        },
+        {
+          "text": " ",
+          "start_time": 48.7,
+          "end_time": 48.779
+        },
+        {
+          "text": "London",
+          "start_time": 48.779,
+          "end_time": 49.2
+        },
+        {
+          "text": " ",
+          "start_time": 49.2,
+          "end_time": 49.239
+        },
+        {
+          "text": "and",
+          "start_time": 49.239,
+          "end_time": 49.319
+        },
+        {
+          "text": " ",
+          "start_time": 49.319,
+          "end_time": 49.379
+        },
+        {
+          "text": "the",
+          "start_time": 49.379,
+          "end_time": 49.459
+        },
+        {
+          "text": " ",
+          "start_time": 49.459,
+          "end_time": 49.559
+        },
+        {
+          "text": "Isle",
+          "start_time": 49.559,
+          "end_time": 49.659
+        },
+        {
+          "text": " ",
+          "start_time": 49.659,
+          "end_time": 49.7
+        },
+        {
+          "text": "of",
+          "start_time": 49.7,
+          "end_time": 49.799
+        }
+      ]
+    },
+    {
+      "text": "Wight, she draws on the historical",
+      "start_time": 49.879,
+      "end_time": 52.279,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Wight,",
+          "start_time": 49.879,
+          "end_time": 50.279
+        },
+        {
+          "text": " ",
+          "start_time": 50.279,
+          "end_time": 50.779
+        },
+        {
+          "text": "she",
+          "start_time": 50.779,
+          "end_time": 50.939
+        },
+        {
+          "text": " ",
+          "start_time": 50.939,
+          "end_time": 51.0
+        },
+        {
+          "text": "draws",
+          "start_time": 51.0,
+          "end_time": 51.38
+        },
+        {
+          "text": " ",
+          "start_time": 51.38,
+          "end_time": 51.399
+        },
+        {
+          "text": "on",
+          "start_time": 51.399,
+          "end_time": 51.479
+        },
+        {
+          "text": " ",
+          "start_time": 51.479,
+          "end_time": 51.5
+        },
+        {
+          "text": "the",
+          "start_time": 51.5,
+          "end_time": 51.559
+        },
+        {
+          "text": " ",
+          "start_time": 51.559,
+          "end_time": 51.619
+        },
+        {
+          "text": "historical",
+          "start_time": 51.619,
+          "end_time": 52.279
+        }
+      ]
+    },
+    {
+      "text": "significance of ceramics in these areas.",
+      "start_time": 52.34,
+      "end_time": 54.759,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "significance",
+          "start_time": 52.34,
+          "end_time": 53.0
+        },
+        {
+          "text": " ",
+          "start_time": 53.0,
+          "end_time": 53.039
+        },
+        {
+          "text": "of",
+          "start_time": 53.039,
+          "end_time": 53.099
+        },
+        {
+          "text": " ",
+          "start_time": 53.099,
+          "end_time": 53.199
+        },
+        {
+          "text": "ceramics",
+          "start_time": 53.199,
+          "end_time": 53.759
+        },
+        {
+          "text": " ",
+          "start_time": 53.759,
+          "end_time": 53.799
+        },
+        {
+          "text": "in",
+          "start_time": 53.799,
+          "end_time": 53.899
+        },
+        {
+          "text": " ",
+          "start_time": 53.899,
+          "end_time": 53.939
+        },
+        {
+          "text": "these",
+          "start_time": 53.939,
+          "end_time": 54.119
+        },
+        {
+          "text": " ",
+          "start_time": 54.119,
+          "end_time": 54.219
+        },
+        {
+          "text": "areas.",
+          "start_time": 54.219,
+          "end_time": 54.759
+        }
+      ]
+    },
+    {
+      "text": "The primary forms are inspired by Roman",
+      "start_time": 55.879,
+      "end_time": 58.34,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "The",
+          "start_time": 55.879,
+          "end_time": 55.959
+        },
+        {
+          "text": " ",
+          "start_time": 55.959,
+          "end_time": 56.02
+        },
+        {
+          "text": "primary",
+          "start_time": 56.02,
+          "end_time": 56.479
+        },
+        {
+          "text": " ",
+          "start_time": 56.479,
+          "end_time": 56.539
+        },
+        {
+          "text": "forms",
+          "start_time": 56.539,
+          "end_time": 56.939
+        },
+        {
+          "text": " ",
+          "start_time": 56.939,
+          "end_time": 57.02
+        },
+        {
+          "text": "are",
+          "start_time": 57.02,
+          "end_time": 57.079
+        },
+        {
+          "text": " ",
+          "start_time": 57.079,
+          "end_time": 57.099
+        },
+        {
+          "text": "inspired",
+          "start_time": 57.099,
+          "end_time": 57.68
+        },
+        {
+          "text": " ",
+          "start_time": 57.68,
+          "end_time": 57.759
+        },
+        {
+          "text": "by",
+          "start_time": 57.759,
+          "end_time": 57.86
+        },
+        {
+          "text": " ",
+          "start_time": 57.86,
+          "end_time": 58.02
+        },
+        {
+          "text": "Roman",
+          "start_time": 58.02,
+          "end_time": 58.34
+        }
+      ]
+    },
+    {
+      "text": "vessels discovered in both locations,",
+      "start_time": 58.419,
+      "end_time": 61.02,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "vessels",
+          "start_time": 58.419,
+          "end_time": 59.079
+        },
+        {
+          "text": " ",
+          "start_time": 59.079,
+          "end_time": 59.139
+        },
+        {
+          "text": "discovered",
+          "start_time": 59.139,
+          "end_time": 59.619
+        },
+        {
+          "text": " ",
+          "start_time": 59.619,
+          "end_time": 59.659
+        },
+        {
+          "text": "in",
+          "start_time": 59.659,
+          "end_time": 59.819
+        },
+        {
+          "text": " ",
+          "start_time": 59.819,
+          "end_time": 59.859
+        },
+        {
+          "text": "both",
+          "start_time": 59.859,
+          "end_time": 60.099
+        },
+        {
+          "text": " ",
+          "start_time": 60.099,
+          "end_time": 60.18
+        },
+        {
+          "text": "locations,",
+          "start_time": 60.18,
+          "end_time": 61.02
+        }
+      ]
+    },
+    {
+      "text": "while the range of finishes reflects the",
+      "start_time": 61.599,
+      "end_time": 63.919,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "while",
+          "start_time": 61.599,
+          "end_time": 61.759
+        },
+        {
+          "text": " ",
+          "start_time": 61.759,
+          "end_time": 61.799
+        },
+        {
+          "text": "the",
+          "start_time": 61.799,
+          "end_time": 61.879
+        },
+        {
+          "text": " ",
+          "start_time": 61.879,
+          "end_time": 61.939
+        },
+        {
+          "text": "range",
+          "start_time": 61.939,
+          "end_time": 62.199
+        },
+        {
+          "text": " ",
+          "start_time": 62.199,
+          "end_time": 62.239
+        },
+        {
+          "text": "of",
+          "start_time": 62.239,
+          "end_time": 62.379
+        },
+        {
+          "text": " ",
+          "start_time": 62.379,
+          "end_time": 62.439
+        },
+        {
+          "text": "finishes",
+          "start_time": 62.439,
+          "end_time": 63.239
+        },
+        {
+          "text": " ",
+          "start_time": 63.239,
+          "end_time": 63.299
+        },
+        {
+          "text": "reflects",
+          "start_time": 63.299,
+          "end_time": 63.759
+        },
+        {
+          "text": " ",
+          "start_time": 63.759,
+          "end_time": 63.819
+        },
+        {
+          "text": "the",
+          "start_time": 63.819,
+          "end_time": 63.919
+        }
+      ]
+    },
+    {
+      "text": "differing tactile qualities of each place.",
+      "start_time": 63.959,
+      "end_time": 66.619,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "differing",
+          "start_time": 63.959,
+          "end_time": 64.4
+        },
+        {
+          "text": " ",
+          "start_time": 64.4,
+          "end_time": 64.459
+        },
+        {
+          "text": "tactile",
+          "start_time": 64.459,
+          "end_time": 64.959
+        },
+        {
+          "text": " ",
+          "start_time": 64.959,
+          "end_time": 65.04
+        },
+        {
+          "text": "qualities",
+          "start_time": 65.04,
+          "end_time": 65.659
+        },
+        {
+          "text": " ",
+          "start_time": 65.659,
+          "end_time": 65.699
+        },
+        {
+          "text": "of",
+          "start_time": 65.699,
+          "end_time": 65.819
+        },
+        {
+          "text": " ",
+          "start_time": 65.819,
+          "end_time": 65.919
+        },
+        {
+          "text": "each",
+          "start_time": 65.919,
+          "end_time": 66.099
+        },
+        {
+          "text": " ",
+          "start_time": 66.099,
+          "end_time": 66.199
+        },
+        {
+          "text": "place.",
+          "start_time": 66.199,
+          "end_time": 66.619
+        }
+      ]
+    }
+  ]
+}

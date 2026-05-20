@@ -1,0 +1,899 @@
+{
+  "language_code": null,
+  "segments": [
+    {
+      "text": "This project is about the black swan.",
+      "start_time": 0.14,
+      "end_time": 2.5,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "This",
+          "start_time": 0.14,
+          "end_time": 0.299
+        },
+        {
+          "text": " ",
+          "start_time": 0.299,
+          "end_time": 0.399
+        },
+        {
+          "text": "project",
+          "start_time": 0.399,
+          "end_time": 0.919
+        },
+        {
+          "text": " ",
+          "start_time": 0.919,
+          "end_time": 1.059
+        },
+        {
+          "text": "is",
+          "start_time": 1.059,
+          "end_time": 1.139
+        },
+        {
+          "text": " ",
+          "start_time": 1.139,
+          "end_time": 1.179
+        },
+        {
+          "text": "about",
+          "start_time": 1.179,
+          "end_time": 1.419
+        },
+        {
+          "text": " ",
+          "start_time": 1.419,
+          "end_time": 1.479
+        },
+        {
+          "text": "the",
+          "start_time": 1.48,
+          "end_time": 1.519
+        },
+        {
+          "text": " ",
+          "start_time": 1.519,
+          "end_time": 1.599
+        },
+        {
+          "text": "black",
+          "start_time": 1.599,
+          "end_time": 1.939
+        },
+        {
+          "text": " ",
+          "start_time": 1.939,
+          "end_time": 2.059
+        },
+        {
+          "text": "swan.",
+          "start_time": 2.059,
+          "end_time": 2.5
+        }
+      ]
+    },
+    {
+      "text": "Of all animals, I've always been",
+      "start_time": 3.46,
+      "end_time": 5.38,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Of",
+          "start_time": 3.46,
+          "end_time": 3.579
+        },
+        {
+          "text": " ",
+          "start_time": 3.579,
+          "end_time": 3.659
+        },
+        {
+          "text": "all",
+          "start_time": 3.659,
+          "end_time": 3.799
+        },
+        {
+          "text": " ",
+          "start_time": 3.799,
+          "end_time": 3.919
+        },
+        {
+          "text": "animals,",
+          "start_time": 3.919,
+          "end_time": 4.4
+        },
+        {
+          "text": " ",
+          "start_time": 4.4,
+          "end_time": 4.559
+        },
+        {
+          "text": "I've",
+          "start_time": 4.559,
+          "end_time": 4.719
+        },
+        {
+          "text": " ",
+          "start_time": 4.719,
+          "end_time": 4.779
+        },
+        {
+          "text": "always",
+          "start_time": 4.779,
+          "end_time": 5.079
+        },
+        {
+          "text": " ",
+          "start_time": 5.079,
+          "end_time": 5.139
+        },
+        {
+          "text": "been",
+          "start_time": 5.139,
+          "end_time": 5.38
+        }
+      ]
+    },
+    {
+      "text": "particularly afraid of birds,",
+      "start_time": 5.44,
+      "end_time": 7.379,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "particularly",
+          "start_time": 5.44,
+          "end_time": 6.139
+        },
+        {
+          "text": " ",
+          "start_time": 6.139,
+          "end_time": 6.259
+        },
+        {
+          "text": "afraid",
+          "start_time": 6.259,
+          "end_time": 6.599
+        },
+        {
+          "text": " ",
+          "start_time": 6.599,
+          "end_time": 6.619
+        },
+        {
+          "text": "of",
+          "start_time": 6.619,
+          "end_time": 6.719
+        },
+        {
+          "text": " ",
+          "start_time": 6.719,
+          "end_time": 6.879
+        },
+        {
+          "text": "birds,",
+          "start_time": 6.879,
+          "end_time": 7.379
+        }
+      ]
+    },
+    {
+      "text": "but swans are the only ones that have ever",
+      "start_time": 8.079,
+      "end_time": 10.439,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "but",
+          "start_time": 8.079,
+          "end_time": 8.199
+        },
+        {
+          "text": " ",
+          "start_time": 8.199,
+          "end_time": 8.359
+        },
+        {
+          "text": "swans",
+          "start_time": 8.359,
+          "end_time": 8.859
+        },
+        {
+          "text": " ",
+          "start_time": 8.859,
+          "end_time": 8.92
+        },
+        {
+          "text": "are",
+          "start_time": 8.92,
+          "end_time": 9.0
+        },
+        {
+          "text": " ",
+          "start_time": 9.0,
+          "end_time": 9.039
+        },
+        {
+          "text": "the",
+          "start_time": 9.039,
+          "end_time": 9.159
+        },
+        {
+          "text": " ",
+          "start_time": 9.159,
+          "end_time": 9.279
+        },
+        {
+          "text": "only",
+          "start_time": 9.279,
+          "end_time": 9.46
+        },
+        {
+          "text": " ",
+          "start_time": 9.46,
+          "end_time": 9.579
+        },
+        {
+          "text": "ones",
+          "start_time": 9.579,
+          "end_time": 9.819
+        },
+        {
+          "text": " ",
+          "start_time": 9.819,
+          "end_time": 9.88
+        },
+        {
+          "text": "that",
+          "start_time": 9.88,
+          "end_time": 9.96
+        },
+        {
+          "text": " ",
+          "start_time": 9.96,
+          "end_time": 10.0
+        },
+        {
+          "text": "have",
+          "start_time": 10.0,
+          "end_time": 10.18
+        },
+        {
+          "text": " ",
+          "start_time": 10.18,
+          "end_time": 10.239
+        },
+        {
+          "text": "ever",
+          "start_time": 10.239,
+          "end_time": 10.439
+        }
+      ]
+    },
+    {
+      "text": "helped me overcome that fear.",
+      "start_time": 10.479,
+      "end_time": 11.979,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "helped",
+          "start_time": 10.479,
+          "end_time": 10.739
+        },
+        {
+          "text": " ",
+          "start_time": 10.739,
+          "end_time": 10.8
+        },
+        {
+          "text": "me",
+          "start_time": 10.8,
+          "end_time": 10.939
+        },
+        {
+          "text": " ",
+          "start_time": 10.939,
+          "end_time": 11.039
+        },
+        {
+          "text": "overcome",
+          "start_time": 11.039,
+          "end_time": 11.42
+        },
+        {
+          "text": " ",
+          "start_time": 11.42,
+          "end_time": 11.479
+        },
+        {
+          "text": "that",
+          "start_time": 11.479,
+          "end_time": 11.6
+        },
+        {
+          "text": " ",
+          "start_time": 11.6,
+          "end_time": 11.719
+        },
+        {
+          "text": "fear.",
+          "start_time": 11.719,
+          "end_time": 11.979
+        }
+      ]
+    },
+    {
+      "text": "So I was intrigued to research them.",
+      "start_time": 12.739,
+      "end_time": 14.759,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "So",
+          "start_time": 12.739,
+          "end_time": 13.099
+        },
+        {
+          "text": " ",
+          "start_time": 13.099,
+          "end_time": 13.219
+        },
+        {
+          "text": "I",
+          "start_time": 13.219,
+          "end_time": 13.239
+        },
+        {
+          "text": " ",
+          "start_time": 13.239,
+          "end_time": 13.299
+        },
+        {
+          "text": "was",
+          "start_time": 13.299,
+          "end_time": 13.38
+        },
+        {
+          "text": " ",
+          "start_time": 13.38,
+          "end_time": 13.42
+        },
+        {
+          "text": "intrigued",
+          "start_time": 13.42,
+          "end_time": 13.9
+        },
+        {
+          "text": " ",
+          "start_time": 13.9,
+          "end_time": 13.92
+        },
+        {
+          "text": "to",
+          "start_time": 13.92,
+          "end_time": 14.02
+        },
+        {
+          "text": " ",
+          "start_time": 14.02,
+          "end_time": 14.039
+        },
+        {
+          "text": "research",
+          "start_time": 14.039,
+          "end_time": 14.5
+        },
+        {
+          "text": " ",
+          "start_time": 14.5,
+          "end_time": 14.559
+        },
+        {
+          "text": "them.",
+          "start_time": 14.559,
+          "end_time": 14.759
+        }
+      ]
+    },
+    {
+      "text": "I didn't even know that black swans",
+      "start_time": 15.819,
+      "end_time": 17.659,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "I",
+          "start_time": 15.819,
+          "end_time": 15.88
+        },
+        {
+          "text": " ",
+          "start_time": 15.88,
+          "end_time": 15.92
+        },
+        {
+          "text": "didn't",
+          "start_time": 15.92,
+          "end_time": 16.159
+        },
+        {
+          "text": " ",
+          "start_time": 16.159,
+          "end_time": 16.219
+        },
+        {
+          "text": "even",
+          "start_time": 16.219,
+          "end_time": 16.479
+        },
+        {
+          "text": " ",
+          "start_time": 16.479,
+          "end_time": 16.5
+        },
+        {
+          "text": "know",
+          "start_time": 16.5,
+          "end_time": 16.739
+        },
+        {
+          "text": " ",
+          "start_time": 16.739,
+          "end_time": 16.779
+        },
+        {
+          "text": "that",
+          "start_time": 16.779,
+          "end_time": 16.92
+        },
+        {
+          "text": " ",
+          "start_time": 16.92,
+          "end_time": 16.94
+        },
+        {
+          "text": "black",
+          "start_time": 16.94,
+          "end_time": 17.199
+        },
+        {
+          "text": " ",
+          "start_time": 17.199,
+          "end_time": 17.299
+        },
+        {
+          "text": "swans",
+          "start_time": 17.299,
+          "end_time": 17.659
+        }
+      ]
+    },
+    {
+      "text": "existed before,",
+      "start_time": 17.76,
+      "end_time": 18.799,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "existed",
+          "start_time": 17.76,
+          "end_time": 18.299
+        },
+        {
+          "text": " ",
+          "start_time": 18.299,
+          "end_time": 18.34
+        },
+        {
+          "text": "before,",
+          "start_time": 18.34,
+          "end_time": 18.799
+        }
+      ]
+    },
+    {
+      "text": "and I was fascinated to discover this",
+      "start_time": 19.439,
+      "end_time": 21.559,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "and",
+          "start_time": 19.439,
+          "end_time": 19.559
+        },
+        {
+          "text": " ",
+          "start_time": 19.559,
+          "end_time": 19.699
+        },
+        {
+          "text": "I",
+          "start_time": 19.699,
+          "end_time": 19.719
+        },
+        {
+          "text": " ",
+          "start_time": 19.719,
+          "end_time": 19.779
+        },
+        {
+          "text": "was",
+          "start_time": 19.779,
+          "end_time": 19.899
+        },
+        {
+          "text": " ",
+          "start_time": 19.899,
+          "end_time": 20.059
+        },
+        {
+          "text": "fascinated",
+          "start_time": 20.059,
+          "end_time": 20.739
+        },
+        {
+          "text": " ",
+          "start_time": 20.739,
+          "end_time": 20.779
+        },
+        {
+          "text": "to",
+          "start_time": 20.779,
+          "end_time": 20.86
+        },
+        {
+          "text": " ",
+          "start_time": 20.86,
+          "end_time": 20.879
+        },
+        {
+          "text": "discover",
+          "start_time": 20.879,
+          "end_time": 21.34
+        },
+        {
+          "text": " ",
+          "start_time": 21.34,
+          "end_time": 21.399
+        },
+        {
+          "text": "this",
+          "start_time": 21.399,
+          "end_time": 21.559
+        }
+      ]
+    },
+    {
+      "text": "species of swan.",
+      "start_time": 21.639,
+      "end_time": 22.619,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "species",
+          "start_time": 21.639,
+          "end_time": 22.04
+        },
+        {
+          "text": " ",
+          "start_time": 22.04,
+          "end_time": 22.059
+        },
+        {
+          "text": "of",
+          "start_time": 22.059,
+          "end_time": 22.139
+        },
+        {
+          "text": " ",
+          "start_time": 22.139,
+          "end_time": 22.219
+        },
+        {
+          "text": "swan.",
+          "start_time": 22.219,
+          "end_time": 22.619
+        }
+      ]
+    },
+    {
+      "text": "The black swan, with its dark mood and",
+      "start_time": 23.6,
+      "end_time": 25.92,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "The",
+          "start_time": 23.6,
+          "end_time": 23.64
+        },
+        {
+          "text": " ",
+          "start_time": 23.64,
+          "end_time": 23.719
+        },
+        {
+          "text": "black",
+          "start_time": 23.719,
+          "end_time": 23.959
+        },
+        {
+          "text": " ",
+          "start_time": 23.959,
+          "end_time": 24.059
+        },
+        {
+          "text": "swan,",
+          "start_time": 24.059,
+          "end_time": 24.619
+        },
+        {
+          "text": " ",
+          "start_time": 24.619,
+          "end_time": 24.679
+        },
+        {
+          "text": "with",
+          "start_time": 24.68,
+          "end_time": 24.78
+        },
+        {
+          "text": " ",
+          "start_time": 24.78,
+          "end_time": 24.799
+        },
+        {
+          "text": "its",
+          "start_time": 24.799,
+          "end_time": 24.979
+        },
+        {
+          "text": " ",
+          "start_time": 24.979,
+          "end_time": 25.039
+        },
+        {
+          "text": "dark",
+          "start_time": 25.039,
+          "end_time": 25.34
+        },
+        {
+          "text": " ",
+          "start_time": 25.34,
+          "end_time": 25.459
+        },
+        {
+          "text": "mood",
+          "start_time": 25.459,
+          "end_time": 25.719
+        },
+        {
+          "text": " ",
+          "start_time": 25.719,
+          "end_time": 25.76
+        },
+        {
+          "text": "and",
+          "start_time": 25.76,
+          "end_time": 25.92
+        }
+      ]
+    },
+    {
+      "text": "color, really appealed to me.",
+      "start_time": 26.0,
+      "end_time": 28.039,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "color,",
+          "start_time": 26.0,
+          "end_time": 26.299
+        },
+        {
+          "text": " ",
+          "start_time": 26.299,
+          "end_time": 26.859
+        },
+        {
+          "text": "really",
+          "start_time": 26.859,
+          "end_time": 27.159
+        },
+        {
+          "text": " ",
+          "start_time": 27.159,
+          "end_time": 27.279
+        },
+        {
+          "text": "appealed",
+          "start_time": 27.279,
+          "end_time": 27.639
+        },
+        {
+          "text": " ",
+          "start_time": 27.639,
+          "end_time": 27.679
+        },
+        {
+          "text": "to",
+          "start_time": 27.68,
+          "end_time": 27.739
+        },
+        {
+          "text": " ",
+          "start_time": 27.739,
+          "end_time": 27.819
+        },
+        {
+          "text": "me.",
+          "start_time": 27.819,
+          "end_time": 28.039
+        }
+      ]
+    },
+    {
+      "text": "So I decided to make it the focus of my",
+      "start_time": 28.739,
+      "end_time": 31.02,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "So",
+          "start_time": 28.739,
+          "end_time": 29.039
+        },
+        {
+          "text": " ",
+          "start_time": 29.039,
+          "end_time": 29.159
+        },
+        {
+          "text": "I",
+          "start_time": 29.159,
+          "end_time": 29.18
+        },
+        {
+          "text": " ",
+          "start_time": 29.18,
+          "end_time": 29.219
+        },
+        {
+          "text": "decided",
+          "start_time": 29.219,
+          "end_time": 29.68
+        },
+        {
+          "text": " ",
+          "start_time": 29.68,
+          "end_time": 29.699
+        },
+        {
+          "text": "to",
+          "start_time": 29.699,
+          "end_time": 29.799
+        },
+        {
+          "text": " ",
+          "start_time": 29.799,
+          "end_time": 29.819
+        },
+        {
+          "text": "make",
+          "start_time": 29.819,
+          "end_time": 30.0
+        },
+        {
+          "text": " ",
+          "start_time": 30.0,
+          "end_time": 30.019
+        },
+        {
+          "text": "it",
+          "start_time": 30.019,
+          "end_time": 30.139
+        },
+        {
+          "text": " ",
+          "start_time": 30.139,
+          "end_time": 30.159
+        },
+        {
+          "text": "the",
+          "start_time": 30.159,
+          "end_time": 30.26
+        },
+        {
+          "text": " ",
+          "start_time": 30.26,
+          "end_time": 30.319
+        },
+        {
+          "text": "focus",
+          "start_time": 30.319,
+          "end_time": 30.76
+        },
+        {
+          "text": " ",
+          "start_time": 30.76,
+          "end_time": 30.799
+        },
+        {
+          "text": "of",
+          "start_time": 30.799,
+          "end_time": 30.92
+        },
+        {
+          "text": " ",
+          "start_time": 30.92,
+          "end_time": 30.939
+        },
+        {
+          "text": "my",
+          "start_time": 30.939,
+          "end_time": 31.02
+        }
+      ]
+    },
+    {
+      "text": "project.",
+      "start_time": 31.119,
+      "end_time": 31.659,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "project.",
+          "start_time": 31.119,
+          "end_time": 31.659
+        }
+      ]
+    }
+  ]
+}
