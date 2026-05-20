@@ -1,0 +1,393 @@
+{
+  "language_code": null,
+  "segments": [
+    {
+      "text": "Nailed transforms nail salon waste into a",
+      "start_time": 0.239,
+      "end_time": 3.159,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Nailed",
+          "start_time": 0.239,
+          "end_time": 0.799
+        },
+        {
+          "text": " ",
+          "start_time": 0.799,
+          "end_time": 0.859
+        },
+        {
+          "text": "transforms",
+          "start_time": 0.859,
+          "end_time": 1.5
+        },
+        {
+          "text": " ",
+          "start_time": 1.5,
+          "end_time": 1.599
+        },
+        {
+          "text": "nail",
+          "start_time": 1.599,
+          "end_time": 1.839
+        },
+        {
+          "text": " ",
+          "start_time": 1.839,
+          "end_time": 1.939
+        },
+        {
+          "text": "salon",
+          "start_time": 1.939,
+          "end_time": 2.24
+        },
+        {
+          "text": " ",
+          "start_time": 2.24,
+          "end_time": 2.319
+        },
+        {
+          "text": "waste",
+          "start_time": 2.319,
+          "end_time": 2.759
+        },
+        {
+          "text": " ",
+          "start_time": 2.759,
+          "end_time": 2.819
+        },
+        {
+          "text": "into",
+          "start_time": 2.819,
+          "end_time": 3.0
+        },
+        {
+          "text": " ",
+          "start_time": 3.0,
+          "end_time": 3.039
+        },
+        {
+          "text": "a",
+          "start_time": 3.039,
+          "end_time": 3.159
+        }
+      ]
+    },
+    {
+      "text": "3D printing filament used to create",
+      "start_time": 3.399,
+      "end_time": 6.019,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "3D",
+          "start_time": 3.399,
+          "end_time": 3.659
+        },
+        {
+          "text": " ",
+          "start_time": 3.659,
+          "end_time": 3.779
+        },
+        {
+          "text": "printing",
+          "start_time": 3.779,
+          "end_time": 4.159
+        },
+        {
+          "text": " ",
+          "start_time": 4.159,
+          "end_time": 4.279
+        },
+        {
+          "text": "filament",
+          "start_time": 4.279,
+          "end_time": 4.739
+        },
+        {
+          "text": " ",
+          "start_time": 4.739,
+          "end_time": 5.279
+        },
+        {
+          "text": "used",
+          "start_time": 5.279,
+          "end_time": 5.579
+        },
+        {
+          "text": " ",
+          "start_time": 5.579,
+          "end_time": 5.619
+        },
+        {
+          "text": "to",
+          "start_time": 5.619,
+          "end_time": 5.719
+        },
+        {
+          "text": " ",
+          "start_time": 5.719,
+          "end_time": 5.759
+        },
+        {
+          "text": "create",
+          "start_time": 5.759,
+          "end_time": 6.019
+        }
+      ]
+    },
+    {
+      "text": "sculptural nails inspired by botanical",
+      "start_time": 6.139,
+      "end_time": 8.579,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "sculptural",
+          "start_time": 6.139,
+          "end_time": 6.679
+        },
+        {
+          "text": " ",
+          "start_time": 6.679,
+          "end_time": 6.759
+        },
+        {
+          "text": "nails",
+          "start_time": 6.759,
+          "end_time": 7.259
+        },
+        {
+          "text": " ",
+          "start_time": 7.259,
+          "end_time": 7.319
+        },
+        {
+          "text": "inspired",
+          "start_time": 7.319,
+          "end_time": 7.919
+        },
+        {
+          "text": " ",
+          "start_time": 7.919,
+          "end_time": 7.939
+        },
+        {
+          "text": "by",
+          "start_time": 7.94,
+          "end_time": 8.039
+        },
+        {
+          "text": " ",
+          "start_time": 8.039,
+          "end_time": 8.079
+        },
+        {
+          "text": "botanical",
+          "start_time": 8.079,
+          "end_time": 8.579
+        }
+      ]
+    },
+    {
+      "text": "drawings.",
+      "start_time": 8.659,
+      "end_time": 9.279,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "drawings.",
+          "start_time": 8.659,
+          "end_time": 9.279
+        }
+      ]
+    },
+    {
+      "text": "The project explores beauty, waste, and",
+      "start_time": 10.5,
+      "end_time": 13.259,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "The",
+          "start_time": 10.5,
+          "end_time": 10.579
+        },
+        {
+          "text": " ",
+          "start_time": 10.579,
+          "end_time": 10.619
+        },
+        {
+          "text": "project",
+          "start_time": 10.619,
+          "end_time": 11.119
+        },
+        {
+          "text": " ",
+          "start_time": 11.119,
+          "end_time": 11.219
+        },
+        {
+          "text": "explores",
+          "start_time": 11.219,
+          "end_time": 11.64
+        },
+        {
+          "text": " ",
+          "start_time": 11.64,
+          "end_time": 11.759
+        },
+        {
+          "text": "beauty,",
+          "start_time": 11.759,
+          "end_time": 12.22
+        },
+        {
+          "text": " ",
+          "start_time": 12.22,
+          "end_time": 12.579
+        },
+        {
+          "text": "waste,",
+          "start_time": 12.579,
+          "end_time": 12.979
+        },
+        {
+          "text": " ",
+          "start_time": 12.979,
+          "end_time": 13.139
+        },
+        {
+          "text": "and",
+          "start_time": 13.139,
+          "end_time": 13.259
+        }
+      ]
+    },
+    {
+      "text": "material reuse,",
+      "start_time": 13.34,
+      "end_time": 14.539,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "material",
+          "start_time": 13.34,
+          "end_time": 13.859
+        },
+        {
+          "text": " ",
+          "start_time": 13.859,
+          "end_time": 13.96
+        },
+        {
+          "text": "reuse,",
+          "start_time": 13.96,
+          "end_time": 14.539
+        }
+      ]
+    },
+    {
+      "text": "reimagining synthetic leftovers as future",
+      "start_time": 15.219,
+      "end_time": 17.979,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "reimagining",
+          "start_time": 15.219,
+          "end_time": 15.859
+        },
+        {
+          "text": " ",
+          "start_time": 15.859,
+          "end_time": 15.979
+        },
+        {
+          "text": "synthetic",
+          "start_time": 15.979,
+          "end_time": 16.44
+        },
+        {
+          "text": " ",
+          "start_time": 16.44,
+          "end_time": 16.539
+        },
+        {
+          "text": "leftovers",
+          "start_time": 16.539,
+          "end_time": 17.399
+        },
+        {
+          "text": " ",
+          "start_time": 17.399,
+          "end_time": 17.459
+        },
+        {
+          "text": "as",
+          "start_time": 17.459,
+          "end_time": 17.579
+        },
+        {
+          "text": " ",
+          "start_time": 17.579,
+          "end_time": 17.68
+        },
+        {
+          "text": "future",
+          "start_time": 17.68,
+          "end_time": 17.979
+        }
+      ]
+    },
+    {
+      "text": "design materials",
+      "start_time": 18.079,
+      "end_time": 19.159,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "design",
+          "start_time": 18.079,
+          "end_time": 18.399
+        },
+        {
+          "text": " ",
+          "start_time": 18.399,
+          "end_time": 18.44
+        },
+        {
+          "text": "materials",
+          "start_time": 18.44,
+          "end_time": 19.159
+        }
+      ]
+    }
+  ]
+}

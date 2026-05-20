@@ -103,6 +103,7 @@ export class World {
           this._focusedExperience.onDrag(dx);
         } else if (this._modelDrag.modelRoot) {
           this._modelDrag.modelRoot.rotateY(dx * 0.007);
+          this.renderer.gl.shadowMap.needsUpdate = true;
         }
         this._modelDrag.lastX = e.clientX;
       }
@@ -124,6 +125,7 @@ export class World {
     });
 
     this.screenManager.onHit = (obj) => {
+      if (this.locations.isMoving) return;
       // Route clicks to the active experience first
       if (this._focusedExperience) {
         const result = this._focusedExperience.onHit?.(obj);
@@ -200,6 +202,7 @@ export class World {
 
       // Pause any playing video/audio and restore poster
       this.screenManager.deactivateVideo(this._focusedScreen);
+      this.screenManager.setActiveFluids(null);
       this._deactivateNarration();
       this.infoPanel.hide();
       this.infoPanel.hideVideoControls();
@@ -360,116 +363,46 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     }).catch(console.error);
     */
 
-    //const Lobby = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/Building/ChanceryRosewood-Lobby-V1.glb").then((gltf) => {
-    const Lobby = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/Building/Chancery Rosewood_LOBBY_BAKE_V4.glb").then((gltf) => {
-      const model1 = gltf.scene;
-      model1.traverse((child) => {
-        if (child.isMesh) {
-          // Baked GLBs export MeshBasicMaterial which ignores scene.environment.
-          // Swap to MeshStandardMaterial, preserving the baked texture map.
-          if (child.material.isMeshBasicMaterial) {
-            const prev = child.material;
-            child.material = new MeshStandardMaterial({
-              map: prev.map,
-              side: prev.side,
-              roughness: 1.0,
-              metalness: 0.0,
-            });
-            prev.dispose();
+    const _loadEnvGLB = (url, fogColor = 0x800000) => {
+      return loadGLTFWithAnimations(url).then((gltf) => {
+        const model1 = gltf.scene;
+        model1.traverse((child) => {
+          if (child.isMesh) {
+            // Baked GLBs export MeshBasicMaterial which ignores scene.environment.
+            // Swap to MeshStandardMaterial, preserving the baked texture map.
+            if (child.material.isMeshBasicMaterial) {
+              const prev = child.material;
+              child.material = new MeshStandardMaterial({
+                map: prev.map,
+                side: prev.side,
+                roughness: 1.0,
+                metalness: 0.0,
+              });
+              prev.dispose();
+            }
+            child.material.envMapIntensity = 1.0;
+            child.receiveShadow = true;
+            applyProximityRevealToMaterial(child.material, this.proximityReveal, { fogColor });
+            this._envMeshes.push(child);
           }
-          child.material.envMapIntensity = 1.0;
-          child.receiveShadow = true;
-          applyProximityRevealToMaterial(child.material, this.proximityReveal, { fogColor: 0x800000 });
-          this._envMeshes.push(child);
-        }
-      });
-      model1.scale.set(1.0, 1.0, 1.0);
-      model1.position.set(0.0, -4.0, 16.0);
-      this.scene.add(model1);
-    }).catch(console.error);
+        });
+        model1.scale.set(1.0, 1.0, 1.0);
+        model1.position.set(0.0, -4.0, 16.0);
+        this.scene.add(model1);
+      }).catch(console.error);
+    };
 
-    const LobbyFurniture = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/Building/Chancery Rosewood_LOBBY_FURNITURE_BAKE_V4.glb").then((gltf) => {
-      const model1 = gltf.scene;
-      model1.traverse((child) => {
-        if (child.isMesh) {
-          // Baked GLBs export MeshBasicMaterial which ignores scene.environment.
-          // Swap to MeshStandardMaterial, preserving the baked texture map.
-          if (child.material.isMeshBasicMaterial) {
-            const prev = child.material;
-            child.material = new MeshStandardMaterial({
-              map: prev.map,
-              side: prev.side,
-              roughness: 1.0,
-              metalness: 0.0,
-            });
-            prev.dispose();
-          }
-          child.material.envMapIntensity = 1.0;
-          child.receiveShadow = true;
-          applyProximityRevealToMaterial(child.material, this.proximityReveal, { fogColor: 0x800000 });
-          this._envMeshes.push(child);
-        }
-      });
-      model1.scale.set(1.0, 1.0, 1.0);
-      model1.position.set(0.0, -4.0, 16.0);
-      this.scene.add(model1);
-    }).catch(console.error);
+    const base = import.meta.env.BASE_URL;
+    const Lobby          = _loadEnvGLB(base + "/art/Building/Chancery Rosewood_LOBBY_BAKE_V4.glb");
+    const LobbyFurniture = _loadEnvGLB(base + "/art/Building/Chancery Rosewood_LOBBY_FURNITURE_BAKE_V4.glb");
+    const WestPavillion  = _loadEnvGLB(base + "/art/Building/Chancery Rosewood_Pavilion_BAKE_V4.glb");
+    const EagleBar       = _loadEnvGLB(base + "/art/Building/Chancery Rosewood_EagleBar_V1.glb");
 
-    const WestPavillion = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/Building/Chancery Rosewood_Pavilion_BAKE_V4.glb").then((gltf) => {
-      const model1 = gltf.scene;
-      model1.traverse((child) => {
-        if (child.isMesh) {
-          // Baked GLBs export MeshBasicMaterial which ignores scene.environment.
-          // Swap to MeshStandardMaterial, preserving the baked texture map.
-          if (child.material.isMeshBasicMaterial) {
-            const prev = child.material;
-            child.material = new MeshStandardMaterial({
-              map: prev.map,
-              side: prev.side,
-              roughness: 1.0,
-              metalness: 0.0,
-            });
-            prev.dispose();
-          }
-          child.material.envMapIntensity = 1.0;
-          child.receiveShadow = true;
-          applyProximityRevealToMaterial(child.material, this.proximityReveal, { fogColor: 0x800000 });
-          this._envMeshes.push(child);
-        }
-      });
-      model1.scale.set(1.0, 1.0, 1.0);
-      model1.position.set(0.0, -4.0, 16.0);
-      this.scene.add(model1);
-    }).catch(console.error);
-
-
-    //const EagleBar = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/EagleBar_V1.glb").then((gltf) => {
-      const EagleBar = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/Building/Chancery Rosewood_EagleBar_V1.glb").then((gltf) => {
-      const model1 = gltf.scene;
-      model1.traverse((child) => {
-        if (child.isMesh) {
-          // Baked GLBs export MeshBasicMaterial which ignores scene.environment.
-          // Swap to MeshStandardMaterial, preserving the baked texture map.
-          if (child.material.isMeshBasicMaterial) {
-            const prev = child.material;
-            child.material = new MeshStandardMaterial({
-              map: prev.map,
-              side: prev.side,
-              roughness: 1.0,
-              metalness: 0.0,
-            });
-            prev.dispose();
-          }
-          child.material.envMapIntensity = 1.0;
-          child.receiveShadow = true;
-          applyProximityRevealToMaterial(child.material, this.proximityReveal, { fogColor: 0x800000 });
-          this._envMeshes.push(child);
-        }
-      });
-      model1.scale.set(1.0, 1.0, 1.0);
-      model1.position.set(0.0, -4.0, 16.0);
-      this.scene.add(model1);
-    }).catch(console.error);
+    // Trigger one shadow-map render pass after all static geometry is in the scene.
+    // autoUpdate is disabled in Renderer so this is the only pass for static content.
+    Promise.allSettled([Lobby, LobbyFurniture, WestPavillion, EagleBar]).then(() => {
+      this.renderer.gl.shadowMap.needsUpdate = true;
+    });
 
     // add environment (a simple room for now, but could be more complex later)
     applyHDRI({
@@ -556,67 +489,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       unrenderedCarousel._clickables = this.screenManager.clickables;
     }).catch(console.error);
 
-      //left side, middle front desk
-      /*
-    this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/SelfFinish_BeatriceElAsmar/SF_02.jpg.avif`,
-      width: 1.8,
-      height: 1.3,
-      position: [-8.4, 0.8, -1.5],
-      rotation: [0, 90, 0],
-      clickable: true,
-      offsetClick: 0.0,
-      text: "Image Screen",
-      location: 'lobby',
-      artworkInfo: {
-        title: "Self-Finish",
-        artist: "Beatrice El Asmar",
-        description: "This series of self-portraits was created using slit scan technology, mostly known for its use for photo-finish in racing sports, thus reclaiming a patriarchal automation which judges, measures and commodifies linear speed and \'progress\'. Subverting our expectations of how time and space occupy the photographic image, the work highlights how the supposedly linear progression of human rights, especially for cis and trans women, is being eroded to the extent that it is actually moving backwards. A fragmented portrait of one of the two female photo-finish operators in the UK, this work invites a different kind of embodied photographic seeing.",
-        narration: `${baseURL}audio/Self-Finish_Narration.mp3`,
-        narrationCues: `${baseURL}audio/Self-Finish_Narration.json`
-      },
-      plinthVisible: false,
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
-      }
-    }));
-    */
-
-    /*
-    this._registerArtwork(this.screenManager.addFluidContentScreen({
-      location: 'lobby',
-      content: {
-        title: "Self-Finish",
-        artist: "Beatrice El Asmar",
-        bio: "This series of self-portraits was created using slit scan technology, mostly known for its use for photo-finish in racing sports, thus reclaiming a patriarchal automation which judges, measures and commodifies linear speed and \'progress\'. Subverting our expectations of how time and space occupy the photographic image, the work highlights how the supposedly linear progression of human rights, especially for cis and trans women, is being eroded to the extent that it is actually moving backwards. A fragmented portrait of one of the two female photo-finish operators in the UK, this work invites a different kind of embodied photographic seeing.",
-        images: [
-          `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF_02.jpg.avif`,
-          `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF-01.jpg`,
-          `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF_03.jpg`,
-          `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF_04.jpg`,
-          `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF_08.jpg`
-
-        ],
-        narration: `${baseURL}audio/Self-Finish_Narration.mp3`,
-        narrationCues: `${baseURL}audio/Self-Finish_Narration.json`
-      },
-      width: 1.8,
-      height: 1.3,
-      position: [-8.4, 0.8, -1.5],
-      rotation: [0, 90, 0],
-      offsetClick: 0.0,
-      infoWidth: 1.6,
-      infoHeight: 1.2,
-      infoOffset: [0, -1.7, 0.55],
-      clickableSize: [2.2, 2.2],
-      clickable: true,
-      plinthVisible: false,
-      infoPanel: false,
-
-      //transition
-      transitionDuration: 0.35,
-    }).screenMesh);
-    */
+     
 
     //left side right front desk
     this._registerArtwork(this.screenManager.addScreen({
@@ -661,7 +534,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       artworkInfo: {
         title: "Yellow Hand",
         artist: "Sanne Winderickx",
-        description: "Yellow Hand is a 3D model of a hand that serves as a companion piece to the video work of The Noös-∞."
+        description: "Yellow Hand is a 3D model of a hand that serves as a companion piece to the video work of The Noös-∞.",
+        narration: `${baseURL}audio/TheNoos_Narration.mp3`,
+        narrationCues: `${baseURL}audio/TheNoos_Narration.json`
       }
     });
 
@@ -777,8 +652,10 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       artworkInfo: {
         title: "3D Works",
         artist: "Genevieve Carr",
-        description: "A rotating carousel of 3D works. Use prev / next to cycle through each piece.",
-        link: "https://ualshowcase.arts.ac.uk/@genevievefkcarr"
+        description: "Nailed transforms nail salon waste into a 3D printing filament, used to create sculptural nails inspired by botanical drawings. The project explores beauty, waste, and material reuse—reimagining synthetic leftovers as future design materials.",
+        link: "https://ualshowcase.arts.ac.uk/@genevievefkcarr",
+        narration: `${baseURL}audio/Nailed_Narration.mp3`,
+        narrationCues: `${baseURL}audio/Nailed_Narration.json`
       },
       models: [
         {
@@ -865,7 +742,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         title: "Self-Finish",
         artist: "Beatrice El Asmar",
         description: "This series of self-portraits was created using slit scan technology, mostly known for its use for photo-finish in racing sports, thus reclaiming a patriarchal automation which judges, measures and commodifies linear speed and \'progress\'. Subverting our expectations of how time and space occupy the photographic image, the work highlights how the supposedly linear progression of human rights, especially for cis and trans women, is being eroded to the extent that it is actually moving backwards. A fragmented portrait of one of the two female photo-finish operators in the UK, this work invites a different kind of embodied photographic seeing.",
-        link: "https://ualshowcase.arts.ac.uk/project/682951/cover"
+        link: "https://ualshowcase.arts.ac.uk/project/682951/cover",
+        narration: `${baseURL}audio/Self-Finish_Narration.mp3`,
+        narrationCues: `${baseURL}audio/Self-Finish_Narration.json`
       },
       images: [
         {
@@ -909,29 +788,39 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
 
   //West Pavilion
 
-  //left of entrance way
-  this._registerArtwork(this.screenManager.addScreen({
-      url: `${baseURL}art/EMBODIED_VeepraMishra/20251114_Veepra0132-1-1.webp`,
-      width: 1.3,
-      height: 1.74,
-      position: [-28.2, 0.9, -17.0],   // e.g. on/near carousel A
+  //left of entrance way — EMBODIED ModelCarousel
+    const veepraCarousel = new ModelCarousel({
+      scene: this.scene,
+      position: [-28.2, 0.5, -17.0],
       rotation: [0, 180, 0],
-      clickable: true,
-      offsetClick: .1,
-      clickableSize: [2.0, 2.0], // make click area bigger than screen size to include podium
-      text: "",
-      plinthVisible: true,
-      location: 'WestPavillion',
+      radius: 1.5,
+      normalizeTo: 0.6,
+      debugOn: this._debug,
       artworkInfo: {
         title: "EMBODIED",
         artist: "Veepra Mishra",
         description: "It began with the slightest gesture: my mother hiding her cane behind her back every time a camera appeared, as if the object were never meant to speak for her. This project turns toward that silence and wonders how assistive devices might become sites of cultural expression rather than symbols of concealment. In the realm of assistive design and fashion, such moments reveal how deeply aesthetics and embodiment intertwine, particularly for disabled people of colour whose identities are shaped through layered histories of visibility and belonging. Guided by co-design conversations with two South Asian participants and informed by critical disabilities, material culture, and cultural symbolism, I developed usable prototypes that merge function with cultural resonance. These artefacts, rooted in traditions, memory, agency, and empowerment, ask what happens when assistive devices are culturally expressive artefacts that hold beauty, heritage, and emotional truth. The work demonstrates that when disabled people of colour shape the instruments that support them, assistive devices shift from clinical symbols into objects of affirmation and pride. The process illuminated both the challenges and possibilities of designing across distance, culture, and lived experience. It reveals how identity and functionality are inseparable. Ultimately, the project suggests that inclusive futures emerge when design listens closely, honours complexity, and treats assistive devices not as objects that should be hidden, but as sites of beauty, cultural identity, and empowerment.",
-        link: "https://ualshowcase.arts.ac.uk/@veepramishra"
+        link: "https://ualshowcase.arts.ac.uk/@veepramishra",
+        narration: `${baseURL}audio/Embodied_Narration.mp3`,
+        narrationCues: `${baseURL}audio/Embodied_Narration.json`
       },
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
-      }
-    }));
+      models: [
+        { url: `${baseURL}art/EMBODIED_VeepraMishra/Optimized 3D/VeepraMishra-Ear-01.glb`, artworkInfo: { title: "Ear Study 01", artist: "Veepra Mishra" } },
+        { url: `${baseURL}art/EMBODIED_VeepraMishra/Optimized 3D/VeepraMishra-Ear-02.glb`, artworkInfo: { title: "Ear Study 02", artist: "Veepra Mishra" } },
+        { url: `${baseURL}art/EMBODIED_VeepraMishra/Optimized 3D/VeepraMishra-Ear-03.glb`, artworkInfo: { title: "Ear Study 03", artist: "Veepra Mishra" } },
+        { url: `${baseURL}art/EMBODIED_VeepraMishra/Optimized 3D/VeepraMishra-Ear-04.glb`, artworkInfo: { title: "Ear Study 04", artist: "Veepra Mishra" } },
+        { url: `${baseURL}art/EMBODIED_VeepraMishra/Optimized 3D/VeepraMishra-Ear-05.glb`, artworkInfo: { title: "Ear Study 05", artist: "Veepra Mishra" } },
+        { url: `${baseURL}art/EMBODIED_VeepraMishra/Optimized 3D/VeepraMishra-Ear-06.glb`, artworkInfo: { title: "Ear Study 06", artist: "Veepra Mishra" } },
+        { url: `${baseURL}art/EMBODIED_VeepraMishra/Optimized 3D/VeepraMishra-Ear-07.glb`, artworkInfo: { title: "Ear Study 07", artist: "Veepra Mishra" } },
+        { url: `${baseURL}art/EMBODIED_VeepraMishra/Optimized 3D/VeepraMishra-Ear-08.glb`, artworkInfo: { title: "Ear Study 08", artist: "Veepra Mishra" } },
+        { url: `${baseURL}art/EMBODIED_VeepraMishra/Optimized 3D/VeepraMishra-Ear-09.glb`, artworkInfo: { title: "Ear Study 09", artist: "Veepra Mishra" } },
+      ],
+    });
+    veepraCarousel.load().then(() => {
+      veepraCarousel.hitbox.userData.location = 'WestPavillion';
+      this._registerExperience(veepraCarousel);
+      veepraCarousel._clickables = this.screenManager.clickables;
+    }).catch(console.error);
 
     // ── Black Swan — ImmersiveCarousel ──────────────────────────────────────
     const blackSwanCarousel = new ImmersiveCarousel({
@@ -946,7 +835,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         title: "Black Swan",
         artist: "Jieun Sung",
         description: "This project is about the black swan. Of all animals, I've always been particularly afraid of birds, but swans are the only ones that have ever helped me overcome that fear. So, I was intrigued to research them. I didn't even know that black swans existed before, and I was fascinated to discover this species of swan. The black swan, with its dark mood and colour, really appealed to me, so I decided to make it the focus of my project.",
-        link: "https://ualshowcase.arts.ac.uk/project/645817/cover"
+        link: "https://ualshowcase.arts.ac.uk/project/645817/cover",
+        narration: `${baseURL}audio/BlackSwan_Narration.mp3`,
+        narrationCues: `${baseURL}audio/BlackSwan_Narration.json`
       },
       images: [
         { url: `${baseURL}art/BlackSwan-JieunSung/IMG_5414-2.png.avif` },
@@ -975,7 +866,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         title: "Dehumanized",
         artist: "Chi An Chou",
         description: "In this era of artificial intelligence, automation and highly mature technology, the definition of human is gradually disintegrating, and machines and technology are infiltrating and dominating our daily lives. Dehumanized is a conceptual exploration of a future world in which technology no longer centers on human nature, but instead gradually controls, holds power, and eventually replaces humanity. When digital systems take over judgment, aesthetics become algorithmically defined, and the body is transformed into a tool that prioritizes efficiency, emotions and individual consciousness begin to be seen as redundant residues. This project want to use visual language to present a imaginary future worldview: redesigned organisms, individuality erased, and a void beneath the human shell. Is Dehumanized a dystopian fantasy world, or is it a mirror held up to our present? In the wave of rapid innovation, what may ultimately be sacrificed is the very essence of what makes us human.",
-        link: "https://ualshowcase.arts.ac.uk/@chiannj"
+        link: "https://ualshowcase.arts.ac.uk/@chiannj",
+        narration: `${baseURL}audio/Dehumanized_Narration.mp3`,
+        narrationCues: `${baseURL}audio/Dehumanized_Narration.json`
       },
       images: [
         { url: `${baseURL}art/Dehumanized_ChiAnChou/IMG_7018-Large.jpeg.avif` },
@@ -1045,7 +938,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         title: "Let Me Eat Cake",
         artist: "Suzanna Teal",
         description: "Let Me Eat Cake is a multimedia installation that explores the relationship between food, memory, and identity. Through a combination of sculpture, video, and interactive elements, the work invites viewers to reflect on their own experiences with food and the stories they tell about it. The installation features a series of sculptural cakes that respond to viewer interaction, creating a dynamic and engaging experience that blurs the line between art and culinary tradition. ",
-        link: "https://ualshowcase.arts.ac.uk/project/616847/cover"
+        link: "https://ualshowcase.arts.ac.uk/project/616847/cover",
+        narration: `${baseURL}audio/LetMeEatCake_Narration.mp3`,
+        narrationCues: `${baseURL}audio/LetMeEatCake_Narration.json`
       }
   }).then((modelRoot) => {
     this.statue = modelRoot;
@@ -1061,9 +956,11 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       artist: "Suzanna Teal",
       description: "Let Me Eat Cake is a multimedia installation that explores the relationship between food, memory, and identity. Through a combination of sculpture, video, and interactive elements, the work invites viewers to reflect on their own experiences with food and the stories they tell about it. The installation features a series of sculptural cakes that respond to viewer interaction, creating a dynamic and engaging experience that blurs the line between art and culinary tradition.",
       link: "https://ualshowcase.arts.ac.uk/project/616847/cover",
+      narration: `${baseURL}audio/LetMeEatCake_Narration.mp3`,
+      narrationCues: `${baseURL}audio/LetMeEatCake_Narration.json`
     },
-    entryPosition: [-29.0, 0.0, -22.0],
-    entryHitboxSize: [8, 2.5, 3],
+    entryPosition: [-29.0, 0.0, -21.0],
+    entryHitboxSize: [2.4, 2.4, 1.4],
     arrowOffset: 1.0,
     arrowHeight: 0.0,
     arrowSize: 0.5,
@@ -1150,7 +1047,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         title: "Embodied Memories",
         artist: "Yoon Ju Chung",
         description: "Embodied Memories explores Hangul, the Korean alphabet, as an embodied and relational language through modular wearable artefacts. Originating from experiences of non-verbal communication with the artist's hearing-impaired aunt, the project approaches gesture and movement as fundamental forms of language. Drawing on Hangul's geometric structure, linguistic principles are translated into a modular system that functions as words, sculptural forms, or wearable objects. Grounded in Korean emotional philosophies—Jeong (connection), Han (endurance), and Heung (vitality)—the work informs processes of alignment, tension, play, and repair. Rather than treating language as a fixed visual system, meaning emerges through bodily movement, touch, and reconfiguration. The final artefacts are constructed using Korean textiles such as Mosi (ramie) and Oksa (silk), combined with transparent acrylic structures, magnetic connections, and traditional techniques including Gamchimgil hand-stitching and Pusae (rice starch stiffening).  Language is not only spoken or written; it is sensed, worn, and remembered.",
-        link: "https://ualshowcase.arts.ac.uk/@yoonjuchung"
+        link: "https://ualshowcase.arts.ac.uk/@yoonjuchung",
+        narration: `${baseURL}audio/EmbodiedMemories_Narration.mp3`,
+        narrationCues: `${baseURL}audio/EmbodiedMemories_Narration.json`
       }
   }).then((modelRoot) => {
     this.statue = modelRoot;
@@ -1173,7 +1072,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       artworkInfo: {
         title: "Synesthetic Skin：A Posthuman Visual Narrative",
         artist: "Jianing Ding",
-        description: "A conceptual and experimental platform—an art-philosophy construct designed to utilize digital space as a medium for examining the interplay between reality and virtuality, embodied and digital identities",
+        description: "This project explores how the human body is shaped by socio-technical influences within the context of Future Human–Machine Intelligence, and investigates how we might use this “bodily structure” to form new relationships in the future. Through mediums such as virtual digital humans, visual narratives, and AR masks, the work creates a visual experimental space that invites viewers to reflect on their own position within the digital environment. Drawing on Doreen Massey’s (2005) theory of “space as process,” the project understands space as a dynamic field co-generated by body and technology. From this perspective, it begins with the fluidity between virtual and real, breaking down binary oppositions and presenting a state of symbiotic and continuous perception—guiding audiences to recognise that they too exist within a life network composed of data and code. Ultimately, the project constructs a visual experiment of human–machine symbiosis and posthuman perception.",
         link: "https://ualshowcase.arts.ac.uk/project/690407/cover"
       },
       onClick: (obj) => {
@@ -1200,7 +1099,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       artworkInfo: {
         title: "Nailed",
         artist: "Genevieve Carr",
-        description: "\"Nailed\" transforms nail salon waste into a 3D printing filament, used to create sculptural nails inspired by botanical drawings. The project explores beauty, waste, and material reuse—reimagining synthetic leftovers as future design materials."
+        description: "\"Nailed\" transforms nail salon waste into a 3D printing filament, used to create sculptural nails inspired by botanical drawings. The project explores beauty, waste, and material reuse—reimagining synthetic leftovers as future design materials.",
+        narration: `${baseURL}audio/Nailed_Narration.mp3`,
+        narrationCues: `${baseURL}audio/Nailed_Narration.json`
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
@@ -1225,8 +1126,10 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       artworkInfo: {
         title: "Faux Flora",
         artist: "Justina Alexandroff",
-        description: "\"Faux Flora\" is a collection of 3D printed plant forms that explore the relationship between natural and artificial environments. The project questions the boundaries between real and simulated ecosystems.",
-        link: "https://ualshowcase.arts.ac.uk/@justinaalexandroff"
+        description: "Urban air pollutants disrupt floral odors, altering the scent of flowers and making it difficult for pollinating insects to locate essential plants. Faux Flora is an artificial flower system designed to guide pollinators toward nearby flower-rich areas. This project is a collaboration with NICE Lab (based in Bangalore) and incorporates Aditi Mishra’s PhD research that an insect pollinator identifies a flower object when it has three traits in combination: radial symmetry, a sweet scent and a reflective surface. I have reimagined these traits through parametric 3D design and printing (for radial symmetry), chemical ecology (for the sweet scent) and nano-cellulose structural colour (for the reflective surface). Acting as visual and olfactory beacons with no nectar reward, insects quickly learn to forage in the surrounding environment. Through artificial chemistry and biomimicry, Faux Flora explores new relationships between species, technology, and cities.",
+        link: "https://ualshowcase.arts.ac.uk/@justinaalexandroff",
+        narration: `${baseURL}audio/FauxFlora_Narration.mp3`,
+        narrationCues: `${baseURL}audio/FauxFlora_Narration.json`
       },
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
@@ -1250,9 +1153,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       //playAnimation: "first",
       location: 'EagleBar',
       artworkInfo: {
-        title: "Yellow Hand",
-        artist: "Sanne Winderickx",
-        description: "Yellow Hand is a 3D model of a hand that serves as a companion piece to the video work Invocation of the Black Flame. The hand is designed to evoke a sense of mysticism and transformation, with its intricate details and symbolic gestures. As viewers interact with the hand, they are encouraged to explore themes of power, identity, and resistance, further deepening their engagement with the concepts presented in the video."
+        title: "Faux Flora",
+        artist: "Justina Alexandroff",
+        description: "Urban air pollutants disrupt floral odors, altering the scent of flowers and making it difficult for pollinating insects to locate essential plants. Faux Flora is an artificial flower system designed to guide pollinators toward nearby flower-rich areas. This project is a collaboration with NICE Lab (based in Bangalore) and incorporates Aditi Mishra’s PhD research that an insect pollinator identifies a flower object when it has three traits in combination: radial symmetry, a sweet scent and a reflective surface. I have reimagined these traits through parametric 3D design and printing (for radial symmetry), chemical ecology (for the sweet scent) and nano-cellulose structural colour (for the reflective surface). Acting as visual and olfactory beacons with no nectar reward, insects quickly learn to forage in the surrounding environment. Through artificial chemistry and biomimicry, Faux Flora explores new relationships between species, technology, and cities."
       }
     });
 
@@ -1273,9 +1176,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       //playAnimation: "first",
       location: 'EagleBar',
       artworkInfo: {
-        title: "Yellow Hand",
-        artist: "Sanne Winderickx",
-        description: "Yellow Hand is a 3D model of a hand that serves as a companion piece to the video work Invocation of the Black Flame. The hand is designed to evoke a sense of mysticism and transformation, with its intricate details and symbolic gestures. As viewers interact with the hand, they are encouraged to explore themes of power, identity, and resistance, further deepening their engagement with the concepts presented in the video."
+        title: "",
+        artist: "",
+        description: ""
       }
     });
 
@@ -1296,7 +1199,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       artworkInfo: {
         title: "Lust Feels Like Bad Luck",
         artist: "Julia Pytko",
-        description: "\"Lust Feels Like Bad Luck\" is a multimedia installation that explores the intersection of desire and consequence in the digital age.",
+        description: "Lust Feels Like Bad Luck is an experimental, community-driven exploration of sound, identity, and interactivity. Centred on a four-track EP of experimental electronica, the project expands into a constellation of interconnected works including music videos, a text-based video game and a MetaHuman performance. Together, these elements form an evolving environment where sound, image, and participation flow into one another. The project approaches sound as a living language, a way of listening, reflecting, and connecting. Through collaboration and experimentation across digital and physical spaces, Lust Feels Like Bad Luck reimagines music as a shared process of attention and care, inviting audiences to engage not just as listeners but as participants in an unfolding ecology of experience.",
         link: "https://ualshowcase.arts.ac.uk/@juliapytko"
       },
       onClick: (obj) => {
@@ -1348,7 +1251,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     artworkInfo: {
       title: "Be Not Afraid",
       artist: "Rysia Anna Kaczmar",
-      description: "A 3D sculptural work rendered in real-time. Rotate and explore the form from any angle."
+      description: "Be Not Afraid is a sculptural sound work inspired by biblically accurate angels and childhood comfort objects. Constructed from plush fabric and embedded with a speaker in place of an eye, the piece features six oversized wings in various states of motion. It explores the intersection of sacred imagery and emotional attachment, questioning how tenderness and terror can coexist within a single form. Sound pulses through the speaker to activate the work sonically and symbolically. Drawing from religious aesthetics while acknowledging the erosion of moral certainty in contemporary life, Be Not Afraid invites reflection on how belief, fear, and care shape the way we encounter the unknown.",
     }
   }).then((modelRoot) => {
     this.statue = modelRoot;
@@ -1365,7 +1268,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       artworkInfo: {
         title: "Material Place",
         artist: "Neve Beill",
-        description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
+        description: "This project investigates a sense of place through materiality. Taking an exploratory approach, Neve Beill walked along areas of the River Thames and the coast of the Isle of Wight, collecting various wild clays and other natural materials to create two distinct collections of pots. A key focus of this project is finding innovative ways to use found materials while reducing waste. It replaces conventional commercial materials commonly used in the ceramics industry with a wide variety of waste materials, such as clay from construction sites, broken pieces of glass, and ash from various sources. Honouring her own cultural identity, growing up between London and the Isle of Wight, she draws on the historical significance of ceramics in these areas. The primary forms are inspired by Roman vessels discovered in both locations, while the range of finishes reflects the differing tactile qualities of each place.",
+        narration: `${baseURL}audio/MaterialPlaces_Narration.mp3`,
+        narrationCues: `${baseURL}audio/MaterialPlaces_Narration.json`
       },
       entryPosition: [0.0, .1, -4.0],
       entryHitboxSize: [4.5, 1.5, 2.0],
@@ -1380,8 +1285,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
           normalizeTo: 0.25,
           artworkInfo: {
             title: "Material Place — I",
-            artist: "Neve Beill",
-            description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
+            artist: "Neve Beill"
+            
           },
         },
         {
@@ -1391,8 +1296,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
           normalizeTo: 0.25,
           artworkInfo: {
             title: "Material Place — II",
-            artist: "Neve Beill",
-            description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
+            artist: "Neve Beill"
+            
           },
         },
         {
@@ -1402,8 +1307,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
           normalizeTo: 0.25,
           artworkInfo: {
             title: "Material Place — III",
-            artist: "Neve Beill",
-            description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
+            artist: "Neve Beill"
+            
           },
         },
         {
@@ -1413,8 +1318,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
           normalizeTo: 0.25,
           artworkInfo: {
             title: "Material Place — IV",
-            artist: "Neve Beill",
-            description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
+            artist: "Neve Beill"
+            
           },
         },
         {
@@ -1424,8 +1329,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
           normalizeTo: 0.25,
           artworkInfo: {
             title: "Material Place — V",
-            artist: "Neve Beill",
-            description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
+            artist: "Neve Beill"
+            
           },
         },
         {
@@ -1435,8 +1340,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
           normalizeTo: 0.25,
           artworkInfo: {
             title: "Material Place — VI",
-            artist: "Neve Beill",
-            description: "\"Material Place\" explores the intersection of natural and synthetic materials, questioning the boundaries between real and simulated environments.",
+            artist: "Neve Beill"
+            
           },
         },
       ],
@@ -1669,6 +1574,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
 
     this._focusedScreen = target;
     this._lastRevealedScreen = revealTarget;
+    this.screenManager.setActiveFluids(target);
 
     // Permanently reveal colour around this artwork in the environment
     const artworkWorldPos = new Vector3();
@@ -1876,6 +1782,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
   // Adds the experience's hitbox to ScreenManager's click list and tags it.
   _registerExperience(exp) {
     exp.hitbox.userData.experience = exp;
+    exp.hitbox.userData.hitBox = exp.hitbox; // prevent _registerArtwork following focusTarget → root
     this.screenManager.clickables.push(exp.hitbox);
 
     if (exp.modelHitboxes?.length) {

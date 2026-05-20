@@ -1,0 +1,1287 @@
+{
+  "language_code": null,
+  "segments": [
+    {
+      "text": "Lust Feels Like Bad Luck is an",
+      "start_time": 0.14,
+      "end_time": 2.18,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Lust",
+          "start_time": 0.14,
+          "end_time": 0.439
+        },
+        {
+          "text": " ",
+          "start_time": 0.439,
+          "end_time": 0.539
+        },
+        {
+          "text": "Feels",
+          "start_time": 0.539,
+          "end_time": 0.759
+        },
+        {
+          "text": " ",
+          "start_time": 0.759,
+          "end_time": 0.839
+        },
+        {
+          "text": "Like",
+          "start_time": 0.839,
+          "end_time": 0.979
+        },
+        {
+          "text": " ",
+          "start_time": 0.979,
+          "end_time": 1.099
+        },
+        {
+          "text": "Bad",
+          "start_time": 1.1,
+          "end_time": 1.339
+        },
+        {
+          "text": " ",
+          "start_time": 1.339,
+          "end_time": 1.399
+        },
+        {
+          "text": "Luck",
+          "start_time": 1.399,
+          "end_time": 1.699
+        },
+        {
+          "text": " ",
+          "start_time": 1.699,
+          "end_time": 1.999
+        },
+        {
+          "text": "is",
+          "start_time": 2.0,
+          "end_time": 2.099
+        },
+        {
+          "text": " ",
+          "start_time": 2.099,
+          "end_time": 2.139
+        },
+        {
+          "text": "an",
+          "start_time": 2.139,
+          "end_time": 2.18
+        }
+      ]
+    },
+    {
+      "text": "experimental, community-driven exploration",
+      "start_time": 2.299,
+      "end_time": 5.259,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "experimental,",
+          "start_time": 2.299,
+          "end_time": 3.24
+        },
+        {
+          "text": " ",
+          "start_time": 3.24,
+          "end_time": 3.459
+        },
+        {
+          "text": "community-driven",
+          "start_time": 3.46,
+          "end_time": 4.379
+        },
+        {
+          "text": " ",
+          "start_time": 4.379,
+          "end_time": 4.46
+        },
+        {
+          "text": "exploration",
+          "start_time": 4.46,
+          "end_time": 5.259
+        }
+      ]
+    },
+    {
+      "text": "of sound, identity, and interactivity.",
+      "start_time": 5.359,
+      "end_time": 8.279,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "of",
+          "start_time": 5.359,
+          "end_time": 5.519
+        },
+        {
+          "text": " ",
+          "start_time": 5.519,
+          "end_time": 5.619
+        },
+        {
+          "text": "sound,",
+          "start_time": 5.619,
+          "end_time": 5.96
+        },
+        {
+          "text": " ",
+          "start_time": 5.96,
+          "end_time": 6.339
+        },
+        {
+          "text": "identity,",
+          "start_time": 6.339,
+          "end_time": 6.96
+        },
+        {
+          "text": " ",
+          "start_time": 6.96,
+          "end_time": 7.239
+        },
+        {
+          "text": "and",
+          "start_time": 7.239,
+          "end_time": 7.299
+        },
+        {
+          "text": " ",
+          "start_time": 7.299,
+          "end_time": 7.399
+        },
+        {
+          "text": "interactivity.",
+          "start_time": 7.399,
+          "end_time": 8.279
+        }
+      ]
+    },
+    {
+      "text": "Centered on a four-track EP of",
+      "start_time": 9.579,
+      "end_time": 11.699,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Centered",
+          "start_time": 9.579,
+          "end_time": 10.0
+        },
+        {
+          "text": " ",
+          "start_time": 10.0,
+          "end_time": 10.039
+        },
+        {
+          "text": "on",
+          "start_time": 10.039,
+          "end_time": 10.099
+        },
+        {
+          "text": " ",
+          "start_time": 10.099,
+          "end_time": 10.159
+        },
+        {
+          "text": "a",
+          "start_time": 10.159,
+          "end_time": 10.279
+        },
+        {
+          "text": " ",
+          "start_time": 10.279,
+          "end_time": 10.34
+        },
+        {
+          "text": "four-track",
+          "start_time": 10.34,
+          "end_time": 10.979
+        },
+        {
+          "text": " ",
+          "start_time": 10.979,
+          "end_time": 11.079
+        },
+        {
+          "text": "EP",
+          "start_time": 11.079,
+          "end_time": 11.579
+        },
+        {
+          "text": " ",
+          "start_time": 11.579,
+          "end_time": 11.639
+        },
+        {
+          "text": "of",
+          "start_time": 11.639,
+          "end_time": 11.699
+        }
+      ]
+    },
+    {
+      "text": "experimental electronica,",
+      "start_time": 11.819,
+      "end_time": 13.38,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "experimental",
+          "start_time": 11.819,
+          "end_time": 12.559
+        },
+        {
+          "text": " ",
+          "start_time": 12.559,
+          "end_time": 12.659
+        },
+        {
+          "text": "electronica,",
+          "start_time": 12.659,
+          "end_time": 13.38
+        }
+      ]
+    },
+    {
+      "text": "the project expands into a constellation",
+      "start_time": 14.039,
+      "end_time": 16.6,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "the",
+          "start_time": 14.039,
+          "end_time": 14.119
+        },
+        {
+          "text": " ",
+          "start_time": 14.119,
+          "end_time": 14.179
+        },
+        {
+          "text": "project",
+          "start_time": 14.179,
+          "end_time": 14.559
+        },
+        {
+          "text": " ",
+          "start_time": 14.559,
+          "end_time": 14.679
+        },
+        {
+          "text": "expands",
+          "start_time": 14.679,
+          "end_time": 15.279
+        },
+        {
+          "text": " ",
+          "start_time": 15.279,
+          "end_time": 15.359
+        },
+        {
+          "text": "into",
+          "start_time": 15.359,
+          "end_time": 15.539
+        },
+        {
+          "text": " ",
+          "start_time": 15.539,
+          "end_time": 15.579
+        },
+        {
+          "text": "a",
+          "start_time": 15.579,
+          "end_time": 15.639
+        },
+        {
+          "text": " ",
+          "start_time": 15.639,
+          "end_time": 15.739
+        },
+        {
+          "text": "constellation",
+          "start_time": 15.739,
+          "end_time": 16.6
+        }
+      ]
+    },
+    {
+      "text": "of interconnected works, including music",
+      "start_time": 16.659,
+      "end_time": 19.239,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "of",
+          "start_time": 16.659,
+          "end_time": 16.739
+        },
+        {
+          "text": " ",
+          "start_time": 16.739,
+          "end_time": 16.859
+        },
+        {
+          "text": "interconnected",
+          "start_time": 16.859,
+          "end_time": 17.52
+        },
+        {
+          "text": " ",
+          "start_time": 17.52,
+          "end_time": 17.639
+        },
+        {
+          "text": "works,",
+          "start_time": 17.639,
+          "end_time": 18.059
+        },
+        {
+          "text": " ",
+          "start_time": 18.059,
+          "end_time": 18.399
+        },
+        {
+          "text": "including",
+          "start_time": 18.399,
+          "end_time": 18.84
+        },
+        {
+          "text": " ",
+          "start_time": 18.84,
+          "end_time": 18.959
+        },
+        {
+          "text": "music",
+          "start_time": 18.959,
+          "end_time": 19.239
+        }
+      ]
+    },
+    {
+      "text": "videos, a text-based video game, and a",
+      "start_time": 19.319,
+      "end_time": 22.719,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "videos,",
+          "start_time": 19.319,
+          "end_time": 19.859
+        },
+        {
+          "text": " ",
+          "start_time": 19.859,
+          "end_time": 20.319
+        },
+        {
+          "text": "a",
+          "start_time": 20.319,
+          "end_time": 20.379
+        },
+        {
+          "text": " ",
+          "start_time": 20.379,
+          "end_time": 20.459
+        },
+        {
+          "text": "text-based",
+          "start_time": 20.459,
+          "end_time": 21.1
+        },
+        {
+          "text": " ",
+          "start_time": 21.1,
+          "end_time": 21.18
+        },
+        {
+          "text": "video",
+          "start_time": 21.18,
+          "end_time": 21.459
+        },
+        {
+          "text": " ",
+          "start_time": 21.459,
+          "end_time": 21.579
+        },
+        {
+          "text": "game,",
+          "start_time": 21.579,
+          "end_time": 21.84
+        },
+        {
+          "text": " ",
+          "start_time": 21.84,
+          "end_time": 22.359
+        },
+        {
+          "text": "and",
+          "start_time": 22.359,
+          "end_time": 22.559
+        },
+        {
+          "text": " ",
+          "start_time": 22.559,
+          "end_time": 22.659
+        },
+        {
+          "text": "a",
+          "start_time": 22.659,
+          "end_time": 22.719
+        }
+      ]
+    },
+    {
+      "text": "meta-human performance.",
+      "start_time": 22.799,
+      "end_time": 24.26,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "meta-human",
+          "start_time": 22.799,
+          "end_time": 23.459
+        },
+        {
+          "text": " ",
+          "start_time": 23.459,
+          "end_time": 23.519
+        },
+        {
+          "text": "performance.",
+          "start_time": 23.519,
+          "end_time": 24.26
+        }
+      ]
+    },
+    {
+      "text": "Together, these elements form an evolving",
+      "start_time": 25.26,
+      "end_time": 27.859,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Together,",
+          "start_time": 25.26,
+          "end_time": 25.799
+        },
+        {
+          "text": " ",
+          "start_time": 25.799,
+          "end_time": 26.159
+        },
+        {
+          "text": "these",
+          "start_time": 26.159,
+          "end_time": 26.379
+        },
+        {
+          "text": " ",
+          "start_time": 26.379,
+          "end_time": 26.459
+        },
+        {
+          "text": "elements",
+          "start_time": 26.459,
+          "end_time": 26.92
+        },
+        {
+          "text": " ",
+          "start_time": 26.92,
+          "end_time": 27.039
+        },
+        {
+          "text": "form",
+          "start_time": 27.039,
+          "end_time": 27.199
+        },
+        {
+          "text": " ",
+          "start_time": 27.199,
+          "end_time": 27.239
+        },
+        {
+          "text": "an",
+          "start_time": 27.239,
+          "end_time": 27.299
+        },
+        {
+          "text": " ",
+          "start_time": 27.299,
+          "end_time": 27.359
+        },
+        {
+          "text": "evolving",
+          "start_time": 27.359,
+          "end_time": 27.859
+        }
+      ]
+    },
+    {
+      "text": "environment where sound, image, and",
+      "start_time": 27.92,
+      "end_time": 30.719,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "environment",
+          "start_time": 27.92,
+          "end_time": 28.559
+        },
+        {
+          "text": " ",
+          "start_time": 28.559,
+          "end_time": 28.859
+        },
+        {
+          "text": "where",
+          "start_time": 28.859,
+          "end_time": 29.039
+        },
+        {
+          "text": " ",
+          "start_time": 29.039,
+          "end_time": 29.179
+        },
+        {
+          "text": "sound,",
+          "start_time": 29.179,
+          "end_time": 29.559
+        },
+        {
+          "text": " ",
+          "start_time": 29.559,
+          "end_time": 30.0
+        },
+        {
+          "text": "image,",
+          "start_time": 30.0,
+          "end_time": 30.379
+        },
+        {
+          "text": " ",
+          "start_time": 30.379,
+          "end_time": 30.639
+        },
+        {
+          "text": "and",
+          "start_time": 30.639,
+          "end_time": 30.719
+        }
+      ]
+    },
+    {
+      "text": "participation flow into one another.",
+      "start_time": 30.819,
+      "end_time": 33.139,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "participation",
+          "start_time": 30.819,
+          "end_time": 31.719
+        },
+        {
+          "text": " ",
+          "start_time": 31.719,
+          "end_time": 31.899
+        },
+        {
+          "text": "flow",
+          "start_time": 31.899,
+          "end_time": 32.259
+        },
+        {
+          "text": " ",
+          "start_time": 32.259,
+          "end_time": 32.319
+        },
+        {
+          "text": "into",
+          "start_time": 32.319,
+          "end_time": 32.559
+        },
+        {
+          "text": " ",
+          "start_time": 32.559,
+          "end_time": 32.619
+        },
+        {
+          "text": "one",
+          "start_time": 32.619,
+          "end_time": 32.72
+        },
+        {
+          "text": " ",
+          "start_time": 32.72,
+          "end_time": 32.759
+        },
+        {
+          "text": "another.",
+          "start_time": 32.759,
+          "end_time": 33.139
+        }
+      ]
+    },
+    {
+      "text": "The project approaches sound as a living",
+      "start_time": 34.399,
+      "end_time": 36.739,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "The",
+          "start_time": 34.399,
+          "end_time": 34.459
+        },
+        {
+          "text": " ",
+          "start_time": 34.459,
+          "end_time": 34.539
+        },
+        {
+          "text": "project",
+          "start_time": 34.54,
+          "end_time": 34.919
+        },
+        {
+          "text": " ",
+          "start_time": 34.919,
+          "end_time": 35.039
+        },
+        {
+          "text": "approaches",
+          "start_time": 35.04,
+          "end_time": 35.52
+        },
+        {
+          "text": " ",
+          "start_time": 35.52,
+          "end_time": 35.639
+        },
+        {
+          "text": "sound",
+          "start_time": 35.639,
+          "end_time": 36.04
+        },
+        {
+          "text": " ",
+          "start_time": 36.04,
+          "end_time": 36.099
+        },
+        {
+          "text": "as",
+          "start_time": 36.099,
+          "end_time": 36.2
+        },
+        {
+          "text": " ",
+          "start_time": 36.2,
+          "end_time": 36.259
+        },
+        {
+          "text": "a",
+          "start_time": 36.259,
+          "end_time": 36.279
+        },
+        {
+          "text": " ",
+          "start_time": 36.279,
+          "end_time": 36.439
+        },
+        {
+          "text": "living",
+          "start_time": 36.439,
+          "end_time": 36.739
+        }
+      ]
+    },
+    {
+      "text": "language, a way of listening, reflecting,",
+      "start_time": 36.799,
+      "end_time": 39.739,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "language,",
+          "start_time": 36.799,
+          "end_time": 37.399
+        },
+        {
+          "text": " ",
+          "start_time": 37.399,
+          "end_time": 37.799
+        },
+        {
+          "text": "a",
+          "start_time": 37.799,
+          "end_time": 37.819
+        },
+        {
+          "text": " ",
+          "start_time": 37.819,
+          "end_time": 37.899
+        },
+        {
+          "text": "way",
+          "start_time": 37.899,
+          "end_time": 38.0
+        },
+        {
+          "text": " ",
+          "start_time": 38.0,
+          "end_time": 38.04
+        },
+        {
+          "text": "of",
+          "start_time": 38.04,
+          "end_time": 38.139
+        },
+        {
+          "text": " ",
+          "start_time": 38.139,
+          "end_time": 38.219
+        },
+        {
+          "text": "listening,",
+          "start_time": 38.219,
+          "end_time": 38.719
+        },
+        {
+          "text": " ",
+          "start_time": 38.719,
+          "end_time": 39.02
+        },
+        {
+          "text": "reflecting,",
+          "start_time": 39.02,
+          "end_time": 39.739
+        }
+      ]
+    },
+    {
+      "text": "and connecting.",
+      "start_time": 39.899,
+      "end_time": 40.68,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "and",
+          "start_time": 39.899,
+          "end_time": 40.0
+        },
+        {
+          "text": " ",
+          "start_time": 40.0,
+          "end_time": 40.04
+        },
+        {
+          "text": "connecting.",
+          "start_time": 40.04,
+          "end_time": 40.68
+        }
+      ]
+    },
+    {
+      "text": "Through collaboration and experimentation",
+      "start_time": 41.52,
+      "end_time": 44.02,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Through",
+          "start_time": 41.52,
+          "end_time": 41.739
+        },
+        {
+          "text": " ",
+          "start_time": 41.739,
+          "end_time": 41.799
+        },
+        {
+          "text": "collaboration",
+          "start_time": 41.799,
+          "end_time": 42.659
+        },
+        {
+          "text": " ",
+          "start_time": 42.659,
+          "end_time": 42.7
+        },
+        {
+          "text": "and",
+          "start_time": 42.7,
+          "end_time": 42.779
+        },
+        {
+          "text": " ",
+          "start_time": 42.779,
+          "end_time": 42.879
+        },
+        {
+          "text": "experimentation",
+          "start_time": 42.879,
+          "end_time": 44.02
+        }
+      ]
+    },
+    {
+      "text": "across digital and physical spaces,",
+      "start_time": 44.139,
+      "end_time": 46.419,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "across",
+          "start_time": 44.139,
+          "end_time": 44.399
+        },
+        {
+          "text": " ",
+          "start_time": 44.399,
+          "end_time": 44.519
+        },
+        {
+          "text": "digital",
+          "start_time": 44.52,
+          "end_time": 45.039
+        },
+        {
+          "text": " ",
+          "start_time": 45.039,
+          "end_time": 45.079
+        },
+        {
+          "text": "and",
+          "start_time": 45.079,
+          "end_time": 45.259
+        },
+        {
+          "text": " ",
+          "start_time": 45.259,
+          "end_time": 45.319
+        },
+        {
+          "text": "physical",
+          "start_time": 45.319,
+          "end_time": 45.68
+        },
+        {
+          "text": " ",
+          "start_time": 45.68,
+          "end_time": 45.779
+        },
+        {
+          "text": "spaces,",
+          "start_time": 45.779,
+          "end_time": 46.419
+        }
+      ]
+    },
+    {
+      "text": "Lust Feels Like Bad Luck reimagines music",
+      "start_time": 47.02,
+      "end_time": 50.34,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Lust",
+          "start_time": 47.02,
+          "end_time": 47.299
+        },
+        {
+          "text": " ",
+          "start_time": 47.299,
+          "end_time": 47.419
+        },
+        {
+          "text": "Feels",
+          "start_time": 47.419,
+          "end_time": 47.639
+        },
+        {
+          "text": " ",
+          "start_time": 47.639,
+          "end_time": 47.7
+        },
+        {
+          "text": "Like",
+          "start_time": 47.7,
+          "end_time": 47.86
+        },
+        {
+          "text": " ",
+          "start_time": 47.86,
+          "end_time": 47.979
+        },
+        {
+          "text": "Bad",
+          "start_time": 47.979,
+          "end_time": 48.219
+        },
+        {
+          "text": " ",
+          "start_time": 48.219,
+          "end_time": 48.339
+        },
+        {
+          "text": "Luck",
+          "start_time": 48.34,
+          "end_time": 48.859
+        },
+        {
+          "text": " ",
+          "start_time": 48.859,
+          "end_time": 48.979
+        },
+        {
+          "text": "reimagines",
+          "start_time": 48.979,
+          "end_time": 49.619
+        },
+        {
+          "text": " ",
+          "start_time": 49.619,
+          "end_time": 49.739
+        },
+        {
+          "text": "music",
+          "start_time": 49.739,
+          "end_time": 50.34
+        }
+      ]
+    },
+    {
+      "text": "as a shared process of attention and care,",
+      "start_time": 50.399,
+      "end_time": 53.119,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "as",
+          "start_time": 50.399,
+          "end_time": 50.459
+        },
+        {
+          "text": " ",
+          "start_time": 50.459,
+          "end_time": 50.539
+        },
+        {
+          "text": "a",
+          "start_time": 50.539,
+          "end_time": 50.679
+        },
+        {
+          "text": " ",
+          "start_time": 50.679,
+          "end_time": 50.739
+        },
+        {
+          "text": "shared",
+          "start_time": 50.739,
+          "end_time": 51.059
+        },
+        {
+          "text": " ",
+          "start_time": 51.059,
+          "end_time": 51.139
+        },
+        {
+          "text": "process",
+          "start_time": 51.139,
+          "end_time": 51.599
+        },
+        {
+          "text": " ",
+          "start_time": 51.599,
+          "end_time": 51.619
+        },
+        {
+          "text": "of",
+          "start_time": 51.619,
+          "end_time": 51.68
+        },
+        {
+          "text": " ",
+          "start_time": 51.68,
+          "end_time": 51.819
+        },
+        {
+          "text": "attention",
+          "start_time": 51.819,
+          "end_time": 52.459
+        },
+        {
+          "text": " ",
+          "start_time": 52.459,
+          "end_time": 52.5
+        },
+        {
+          "text": "and",
+          "start_time": 52.5,
+          "end_time": 52.659
+        },
+        {
+          "text": " ",
+          "start_time": 52.659,
+          "end_time": 52.759
+        },
+        {
+          "text": "care,",
+          "start_time": 52.759,
+          "end_time": 53.119
+        }
+      ]
+    },
+    {
+      "text": "inviting audiences to engage not just as",
+      "start_time": 53.779,
+      "end_time": 56.479,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "inviting",
+          "start_time": 53.779,
+          "end_time": 54.299
+        },
+        {
+          "text": " ",
+          "start_time": 54.299,
+          "end_time": 54.379
+        },
+        {
+          "text": "audiences",
+          "start_time": 54.379,
+          "end_time": 54.959
+        },
+        {
+          "text": " ",
+          "start_time": 54.959,
+          "end_time": 55.02
+        },
+        {
+          "text": "to",
+          "start_time": 55.02,
+          "end_time": 55.099
+        },
+        {
+          "text": " ",
+          "start_time": 55.099,
+          "end_time": 55.119
+        },
+        {
+          "text": "engage",
+          "start_time": 55.119,
+          "end_time": 55.879
+        },
+        {
+          "text": " ",
+          "start_time": 55.879,
+          "end_time": 55.939
+        },
+        {
+          "text": "not",
+          "start_time": 55.939,
+          "end_time": 56.119
+        },
+        {
+          "text": " ",
+          "start_time": 56.119,
+          "end_time": 56.18
+        },
+        {
+          "text": "just",
+          "start_time": 56.18,
+          "end_time": 56.34
+        },
+        {
+          "text": " ",
+          "start_time": 56.34,
+          "end_time": 56.379
+        },
+        {
+          "text": "as",
+          "start_time": 56.379,
+          "end_time": 56.479
+        }
+      ]
+    },
+    {
+      "text": "listeners, but as participants in an",
+      "start_time": 56.579,
+      "end_time": 59.119,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "listeners,",
+          "start_time": 56.579,
+          "end_time": 57.159
+        },
+        {
+          "text": " ",
+          "start_time": 57.159,
+          "end_time": 57.619
+        },
+        {
+          "text": "but",
+          "start_time": 57.619,
+          "end_time": 57.68
+        },
+        {
+          "text": " ",
+          "start_time": 57.68,
+          "end_time": 57.739
+        },
+        {
+          "text": "as",
+          "start_time": 57.739,
+          "end_time": 57.86
+        },
+        {
+          "text": " ",
+          "start_time": 57.86,
+          "end_time": 57.919
+        },
+        {
+          "text": "participants",
+          "start_time": 57.919,
+          "end_time": 58.84
+        },
+        {
+          "text": " ",
+          "start_time": 58.84,
+          "end_time": 58.879
+        },
+        {
+          "text": "in",
+          "start_time": 58.879,
+          "end_time": 58.959
+        },
+        {
+          "text": " ",
+          "start_time": 58.959,
+          "end_time": 58.979
+        },
+        {
+          "text": "an",
+          "start_time": 58.979,
+          "end_time": 59.119
+        }
+      ]
+    },
+    {
+      "text": "unfolding ecology of experience",
+      "start_time": 59.199,
+      "end_time": 61.459,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "unfolding",
+          "start_time": 59.199,
+          "end_time": 59.799
+        },
+        {
+          "text": " ",
+          "start_time": 59.799,
+          "end_time": 59.919
+        },
+        {
+          "text": "ecology",
+          "start_time": 59.919,
+          "end_time": 60.379
+        },
+        {
+          "text": " ",
+          "start_time": 60.379,
+          "end_time": 60.399
+        },
+        {
+          "text": "of",
+          "start_time": 60.399,
+          "end_time": 60.479
+        },
+        {
+          "text": " ",
+          "start_time": 60.479,
+          "end_time": 60.599
+        },
+        {
+          "text": "experience",
+          "start_time": 60.599,
+          "end_time": 61.459
+        }
+      ]
+    }
+  ]
+}

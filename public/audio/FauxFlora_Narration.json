@@ -1,0 +1,1579 @@
+{
+  "language_code": null,
+  "segments": [
+    {
+      "text": "Urban air pollutants disrupt floral odors,",
+      "start_time": 0.119,
+      "end_time": 2.74,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Urban",
+          "start_time": 0.119,
+          "end_time": 0.399
+        },
+        {
+          "text": " ",
+          "start_time": 0.399,
+          "end_time": 0.519
+        },
+        {
+          "text": "air",
+          "start_time": 0.519,
+          "end_time": 0.639
+        },
+        {
+          "text": " ",
+          "start_time": 0.639,
+          "end_time": 0.759
+        },
+        {
+          "text": "pollutants",
+          "start_time": 0.759,
+          "end_time": 1.279
+        },
+        {
+          "text": " ",
+          "start_time": 1.279,
+          "end_time": 1.339
+        },
+        {
+          "text": "disrupt",
+          "start_time": 1.339,
+          "end_time": 1.759
+        },
+        {
+          "text": " ",
+          "start_time": 1.759,
+          "end_time": 1.879
+        },
+        {
+          "text": "floral",
+          "start_time": 1.879,
+          "end_time": 2.2
+        },
+        {
+          "text": " ",
+          "start_time": 2.2,
+          "end_time": 2.339
+        },
+        {
+          "text": "odors,",
+          "start_time": 2.339,
+          "end_time": 2.74
+        }
+      ]
+    },
+    {
+      "text": "altering the scent of flowers and making",
+      "start_time": 3.159,
+      "end_time": 5.4,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "altering",
+          "start_time": 3.159,
+          "end_time": 3.579
+        },
+        {
+          "text": " ",
+          "start_time": 3.579,
+          "end_time": 3.619
+        },
+        {
+          "text": "the",
+          "start_time": 3.619,
+          "end_time": 3.679
+        },
+        {
+          "text": " ",
+          "start_time": 3.679,
+          "end_time": 3.739
+        },
+        {
+          "text": "scent",
+          "start_time": 3.74,
+          "end_time": 3.98
+        },
+        {
+          "text": " ",
+          "start_time": 3.98,
+          "end_time": 4.0
+        },
+        {
+          "text": "of",
+          "start_time": 4.0,
+          "end_time": 4.079
+        },
+        {
+          "text": " ",
+          "start_time": 4.079,
+          "end_time": 4.159
+        },
+        {
+          "text": "flowers",
+          "start_time": 4.159,
+          "end_time": 4.659
+        },
+        {
+          "text": " ",
+          "start_time": 4.659,
+          "end_time": 5.0
+        },
+        {
+          "text": "and",
+          "start_time": 5.0,
+          "end_time": 5.099
+        },
+        {
+          "text": " ",
+          "start_time": 5.099,
+          "end_time": 5.159
+        },
+        {
+          "text": "making",
+          "start_time": 5.159,
+          "end_time": 5.4
+        }
+      ]
+    },
+    {
+      "text": "it difficult for pollinating insects to",
+      "start_time": 5.44,
+      "end_time": 7.46,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "it",
+          "start_time": 5.44,
+          "end_time": 5.539
+        },
+        {
+          "text": " ",
+          "start_time": 5.539,
+          "end_time": 5.579
+        },
+        {
+          "text": "difficult",
+          "start_time": 5.579,
+          "end_time": 6.039
+        },
+        {
+          "text": " ",
+          "start_time": 6.039,
+          "end_time": 6.099
+        },
+        {
+          "text": "for",
+          "start_time": 6.099,
+          "end_time": 6.219
+        },
+        {
+          "text": " ",
+          "start_time": 6.219,
+          "end_time": 6.279
+        },
+        {
+          "text": "pollinating",
+          "start_time": 6.279,
+          "end_time": 6.779
+        },
+        {
+          "text": " ",
+          "start_time": 6.779,
+          "end_time": 6.859
+        },
+        {
+          "text": "insects",
+          "start_time": 6.859,
+          "end_time": 7.359
+        },
+        {
+          "text": " ",
+          "start_time": 7.359,
+          "end_time": 7.399
+        },
+        {
+          "text": "to",
+          "start_time": 7.399,
+          "end_time": 7.46
+        }
+      ]
+    },
+    {
+      "text": "locate essential plants.",
+      "start_time": 7.519,
+      "end_time": 9.139,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "locate",
+          "start_time": 7.519,
+          "end_time": 7.98
+        },
+        {
+          "text": " ",
+          "start_time": 7.98,
+          "end_time": 8.059
+        },
+        {
+          "text": "essential",
+          "start_time": 8.059,
+          "end_time": 8.5
+        },
+        {
+          "text": " ",
+          "start_time": 8.5,
+          "end_time": 8.619
+        },
+        {
+          "text": "plants.",
+          "start_time": 8.619,
+          "end_time": 9.139
+        }
+      ]
+    },
+    {
+      "text": "Faux Flora is an artificial flower system",
+      "start_time": 10.399,
+      "end_time": 13.039,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Faux",
+          "start_time": 10.399,
+          "end_time": 10.579
+        },
+        {
+          "text": " ",
+          "start_time": 10.579,
+          "end_time": 10.699
+        },
+        {
+          "text": "Flora",
+          "start_time": 10.699,
+          "end_time": 11.279
+        },
+        {
+          "text": " ",
+          "start_time": 11.279,
+          "end_time": 11.34
+        },
+        {
+          "text": "is",
+          "start_time": 11.34,
+          "end_time": 11.42
+        },
+        {
+          "text": " ",
+          "start_time": 11.42,
+          "end_time": 11.439
+        },
+        {
+          "text": "an",
+          "start_time": 11.439,
+          "end_time": 11.559
+        },
+        {
+          "text": " ",
+          "start_time": 11.559,
+          "end_time": 11.639
+        },
+        {
+          "text": "artificial",
+          "start_time": 11.639,
+          "end_time": 12.159
+        },
+        {
+          "text": " ",
+          "start_time": 12.159,
+          "end_time": 12.279
+        },
+        {
+          "text": "flower",
+          "start_time": 12.279,
+          "end_time": 12.559
+        },
+        {
+          "text": " ",
+          "start_time": 12.559,
+          "end_time": 12.659
+        },
+        {
+          "text": "system",
+          "start_time": 12.659,
+          "end_time": 13.039
+        }
+      ]
+    },
+    {
+      "text": "designed to guide pollinators toward",
+      "start_time": 13.399,
+      "end_time": 15.279,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "designed",
+          "start_time": 13.399,
+          "end_time": 13.759
+        },
+        {
+          "text": " ",
+          "start_time": 13.759,
+          "end_time": 13.799
+        },
+        {
+          "text": "to",
+          "start_time": 13.799,
+          "end_time": 13.86
+        },
+        {
+          "text": " ",
+          "start_time": 13.86,
+          "end_time": 13.979
+        },
+        {
+          "text": "guide",
+          "start_time": 13.979,
+          "end_time": 14.219
+        },
+        {
+          "text": " ",
+          "start_time": 14.219,
+          "end_time": 14.319
+        },
+        {
+          "text": "pollinators",
+          "start_time": 14.319,
+          "end_time": 14.939
+        },
+        {
+          "text": " ",
+          "start_time": 14.939,
+          "end_time": 14.979
+        },
+        {
+          "text": "toward",
+          "start_time": 14.979,
+          "end_time": 15.279
+        }
+      ]
+    },
+    {
+      "text": "nearby flower-rich areas.",
+      "start_time": 15.359,
+      "end_time": 17.219,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "nearby",
+          "start_time": 15.359,
+          "end_time": 15.779
+        },
+        {
+          "text": " ",
+          "start_time": 15.779,
+          "end_time": 15.939
+        },
+        {
+          "text": "flower-rich",
+          "start_time": 15.939,
+          "end_time": 16.599
+        },
+        {
+          "text": " ",
+          "start_time": 16.599,
+          "end_time": 16.699
+        },
+        {
+          "text": "areas.",
+          "start_time": 16.699,
+          "end_time": 17.219
+        }
+      ]
+    },
+    {
+      "text": "This project is a collaboration with",
+      "start_time": 18.02,
+      "end_time": 19.879,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "This",
+          "start_time": 18.02,
+          "end_time": 18.159
+        },
+        {
+          "text": " ",
+          "start_time": 18.159,
+          "end_time": 18.26
+        },
+        {
+          "text": "project",
+          "start_time": 18.26,
+          "end_time": 18.68
+        },
+        {
+          "text": " ",
+          "start_time": 18.68,
+          "end_time": 18.76
+        },
+        {
+          "text": "is",
+          "start_time": 18.76,
+          "end_time": 18.84
+        },
+        {
+          "text": " ",
+          "start_time": 18.84,
+          "end_time": 18.879
+        },
+        {
+          "text": "a",
+          "start_time": 18.879,
+          "end_time": 18.939
+        },
+        {
+          "text": " ",
+          "start_time": 18.939,
+          "end_time": 18.999
+        },
+        {
+          "text": "collaboration",
+          "start_time": 19.0,
+          "end_time": 19.719
+        },
+        {
+          "text": " ",
+          "start_time": 19.719,
+          "end_time": 19.779
+        },
+        {
+          "text": "with",
+          "start_time": 19.779,
+          "end_time": 19.879
+        }
+      ]
+    },
+    {
+      "text": "N.I.C.E. Lab based in Bangalore and",
+      "start_time": 20.159,
+      "end_time": 23.219,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "N.I.C.E.",
+          "start_time": 20.159,
+          "end_time": 21.02
+        },
+        {
+          "text": " ",
+          "start_time": 21.02,
+          "end_time": 21.139
+        },
+        {
+          "text": "Lab",
+          "start_time": 21.139,
+          "end_time": 21.399
+        },
+        {
+          "text": " ",
+          "start_time": 21.399,
+          "end_time": 21.699
+        },
+        {
+          "text": "based",
+          "start_time": 21.699,
+          "end_time": 21.899
+        },
+        {
+          "text": " ",
+          "start_time": 21.899,
+          "end_time": 21.939
+        },
+        {
+          "text": "in",
+          "start_time": 21.939,
+          "end_time": 22.02
+        },
+        {
+          "text": " ",
+          "start_time": 22.02,
+          "end_time": 22.1
+        },
+        {
+          "text": "Bangalore",
+          "start_time": 22.1,
+          "end_time": 23.059
+        },
+        {
+          "text": " ",
+          "start_time": 23.059,
+          "end_time": 23.119
+        },
+        {
+          "text": "and",
+          "start_time": 23.119,
+          "end_time": 23.219
+        }
+      ]
+    },
+    {
+      "text": "incorporates Aditi Mishra's PhD research",
+      "start_time": 23.279,
+      "end_time": 26.599,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "incorporates",
+          "start_time": 23.279,
+          "end_time": 23.959
+        },
+        {
+          "text": " ",
+          "start_time": 23.959,
+          "end_time": 24.039
+        },
+        {
+          "text": "Aditi",
+          "start_time": 24.039,
+          "end_time": 24.439
+        },
+        {
+          "text": " ",
+          "start_time": 24.439,
+          "end_time": 24.499
+        },
+        {
+          "text": "Mishra's",
+          "start_time": 24.5,
+          "end_time": 25.019
+        },
+        {
+          "text": " ",
+          "start_time": 25.019,
+          "end_time": 25.179
+        },
+        {
+          "text": "PhD",
+          "start_time": 25.18,
+          "end_time": 25.639
+        },
+        {
+          "text": " ",
+          "start_time": 25.639,
+          "end_time": 25.76
+        },
+        {
+          "text": "research",
+          "start_time": 25.76,
+          "end_time": 26.599
+        }
+      ]
+    },
+    {
+      "text": "that an insect pollinator identifies a",
+      "start_time": 26.639,
+      "end_time": 28.979,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "that",
+          "start_time": 26.639,
+          "end_time": 26.76
+        },
+        {
+          "text": " ",
+          "start_time": 26.76,
+          "end_time": 26.819
+        },
+        {
+          "text": "an",
+          "start_time": 26.819,
+          "end_time": 26.919
+        },
+        {
+          "text": " ",
+          "start_time": 26.919,
+          "end_time": 27.0
+        },
+        {
+          "text": "insect",
+          "start_time": 27.0,
+          "end_time": 27.419
+        },
+        {
+          "text": " ",
+          "start_time": 27.419,
+          "end_time": 27.5
+        },
+        {
+          "text": "pollinator",
+          "start_time": 27.5,
+          "end_time": 28.119
+        },
+        {
+          "text": " ",
+          "start_time": 28.119,
+          "end_time": 28.219
+        },
+        {
+          "text": "identifies",
+          "start_time": 28.219,
+          "end_time": 28.819
+        },
+        {
+          "text": " ",
+          "start_time": 28.819,
+          "end_time": 28.899
+        },
+        {
+          "text": "a",
+          "start_time": 28.899,
+          "end_time": 28.979
+        }
+      ]
+    },
+    {
+      "text": "flower object when it has three traits in",
+      "start_time": 29.039,
+      "end_time": 31.42,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "flower",
+          "start_time": 29.039,
+          "end_time": 29.319
+        },
+        {
+          "text": " ",
+          "start_time": 29.319,
+          "end_time": 29.399
+        },
+        {
+          "text": "object",
+          "start_time": 29.399,
+          "end_time": 29.799
+        },
+        {
+          "text": " ",
+          "start_time": 29.799,
+          "end_time": 30.079
+        },
+        {
+          "text": "when",
+          "start_time": 30.079,
+          "end_time": 30.159
+        },
+        {
+          "text": " ",
+          "start_time": 30.159,
+          "end_time": 30.199
+        },
+        {
+          "text": "it",
+          "start_time": 30.199,
+          "end_time": 30.299
+        },
+        {
+          "text": " ",
+          "start_time": 30.299,
+          "end_time": 30.379
+        },
+        {
+          "text": "has",
+          "start_time": 30.379,
+          "end_time": 30.519
+        },
+        {
+          "text": " ",
+          "start_time": 30.519,
+          "end_time": 30.639
+        },
+        {
+          "text": "three",
+          "start_time": 30.639,
+          "end_time": 30.879
+        },
+        {
+          "text": " ",
+          "start_time": 30.879,
+          "end_time": 30.939
+        },
+        {
+          "text": "traits",
+          "start_time": 30.939,
+          "end_time": 31.26
+        },
+        {
+          "text": " ",
+          "start_time": 31.26,
+          "end_time": 31.319
+        },
+        {
+          "text": "in",
+          "start_time": 31.319,
+          "end_time": 31.42
+        }
+      ]
+    },
+    {
+      "text": "combination:",
+      "start_time": 31.479,
+      "end_time": 32.199,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "combination:",
+          "start_time": 31.479,
+          "end_time": 32.199
+        }
+      ]
+    },
+    {
+      "text": "radial symmetry, a sweet scent, and a",
+      "start_time": 32.819,
+      "end_time": 35.599,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "radial",
+          "start_time": 32.819,
+          "end_time": 33.18
+        },
+        {
+          "text": " ",
+          "start_time": 33.18,
+          "end_time": 33.239
+        },
+        {
+          "text": "symmetry,",
+          "start_time": 33.239,
+          "end_time": 34.099
+        },
+        {
+          "text": " ",
+          "start_time": 34.099,
+          "end_time": 34.159
+        },
+        {
+          "text": "a",
+          "start_time": 34.159,
+          "end_time": 34.2
+        },
+        {
+          "text": " ",
+          "start_time": 34.2,
+          "end_time": 34.319
+        },
+        {
+          "text": "sweet",
+          "start_time": 34.319,
+          "end_time": 34.639
+        },
+        {
+          "text": " ",
+          "start_time": 34.639,
+          "end_time": 34.739
+        },
+        {
+          "text": "scent,",
+          "start_time": 34.739,
+          "end_time": 35.059
+        },
+        {
+          "text": " ",
+          "start_time": 35.059,
+          "end_time": 35.459
+        },
+        {
+          "text": "and",
+          "start_time": 35.459,
+          "end_time": 35.54
+        },
+        {
+          "text": " ",
+          "start_time": 35.54,
+          "end_time": 35.579
+        },
+        {
+          "text": "a",
+          "start_time": 35.579,
+          "end_time": 35.599
+        }
+      ]
+    },
+    {
+      "text": "reflective surface.",
+      "start_time": 35.659,
+      "end_time": 36.859,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "reflective",
+          "start_time": 35.659,
+          "end_time": 36.2
+        },
+        {
+          "text": " ",
+          "start_time": 36.2,
+          "end_time": 36.279
+        },
+        {
+          "text": "surface.",
+          "start_time": 36.279,
+          "end_time": 36.859
+        }
+      ]
+    },
+    {
+      "text": "I have reimagined these traits through",
+      "start_time": 37.84,
+      "end_time": 39.619,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "I",
+          "start_time": 37.84,
+          "end_time": 37.879
+        },
+        {
+          "text": " ",
+          "start_time": 37.879,
+          "end_time": 37.939
+        },
+        {
+          "text": "have",
+          "start_time": 37.939,
+          "end_time": 38.059
+        },
+        {
+          "text": " ",
+          "start_time": 38.059,
+          "end_time": 38.119
+        },
+        {
+          "text": "reimagined",
+          "start_time": 38.119,
+          "end_time": 38.659
+        },
+        {
+          "text": " ",
+          "start_time": 38.659,
+          "end_time": 38.719
+        },
+        {
+          "text": "these",
+          "start_time": 38.719,
+          "end_time": 38.919
+        },
+        {
+          "text": " ",
+          "start_time": 38.919,
+          "end_time": 38.979
+        },
+        {
+          "text": "traits",
+          "start_time": 38.979,
+          "end_time": 39.319
+        },
+        {
+          "text": " ",
+          "start_time": 39.319,
+          "end_time": 39.379
+        },
+        {
+          "text": "through",
+          "start_time": 39.379,
+          "end_time": 39.619
+        }
+      ]
+    },
+    {
+      "text": "parametric 3D design and printing for",
+      "start_time": 39.7,
+      "end_time": 42.579,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "parametric",
+          "start_time": 39.7,
+          "end_time": 40.379
+        },
+        {
+          "text": " ",
+          "start_time": 40.379,
+          "end_time": 40.599
+        },
+        {
+          "text": "3D",
+          "start_time": 40.599,
+          "end_time": 40.819
+        },
+        {
+          "text": " ",
+          "start_time": 40.819,
+          "end_time": 40.899
+        },
+        {
+          "text": "design",
+          "start_time": 40.899,
+          "end_time": 41.34
+        },
+        {
+          "text": " ",
+          "start_time": 41.34,
+          "end_time": 41.399
+        },
+        {
+          "text": "and",
+          "start_time": 41.399,
+          "end_time": 41.5
+        },
+        {
+          "text": " ",
+          "start_time": 41.5,
+          "end_time": 41.619
+        },
+        {
+          "text": "printing",
+          "start_time": 41.619,
+          "end_time": 42.419
+        },
+        {
+          "text": " ",
+          "start_time": 42.419,
+          "end_time": 42.5
+        },
+        {
+          "text": "for",
+          "start_time": 42.5,
+          "end_time": 42.579
+        }
+      ]
+    },
+    {
+      "text": "radial symmetry, chemical ecology for the",
+      "start_time": 42.639,
+      "end_time": 45.779,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "radial",
+          "start_time": 42.639,
+          "end_time": 43.02
+        },
+        {
+          "text": " ",
+          "start_time": 43.02,
+          "end_time": 43.079
+        },
+        {
+          "text": "symmetry,",
+          "start_time": 43.079,
+          "end_time": 44.159
+        },
+        {
+          "text": " ",
+          "start_time": 44.159,
+          "end_time": 44.239
+        },
+        {
+          "text": "chemical",
+          "start_time": 44.239,
+          "end_time": 44.639
+        },
+        {
+          "text": " ",
+          "start_time": 44.639,
+          "end_time": 44.739
+        },
+        {
+          "text": "ecology",
+          "start_time": 44.739,
+          "end_time": 45.5
+        },
+        {
+          "text": " ",
+          "start_time": 45.5,
+          "end_time": 45.579
+        },
+        {
+          "text": "for",
+          "start_time": 45.579,
+          "end_time": 45.659
+        },
+        {
+          "text": " ",
+          "start_time": 45.659,
+          "end_time": 45.68
+        },
+        {
+          "text": "the",
+          "start_time": 45.68,
+          "end_time": 45.779
+        }
+      ]
+    },
+    {
+      "text": "sweet scent,",
+      "start_time": 45.84,
+      "end_time": 46.52,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "sweet",
+          "start_time": 45.84,
+          "end_time": 46.099
+        },
+        {
+          "text": " ",
+          "start_time": 46.099,
+          "end_time": 46.18
+        },
+        {
+          "text": "scent,",
+          "start_time": 46.18,
+          "end_time": 46.52
+        }
+      ]
+    },
+    {
+      "text": "and nanocellulose structural color for the",
+      "start_time": 47.139,
+      "end_time": 49.719,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "and",
+          "start_time": 47.139,
+          "end_time": 47.339
+        },
+        {
+          "text": " ",
+          "start_time": 47.339,
+          "end_time": 47.399
+        },
+        {
+          "text": "nanocellulose",
+          "start_time": 47.399,
+          "end_time": 48.299
+        },
+        {
+          "text": " ",
+          "start_time": 48.299,
+          "end_time": 48.36
+        },
+        {
+          "text": "structural",
+          "start_time": 48.36,
+          "end_time": 48.86
+        },
+        {
+          "text": " ",
+          "start_time": 48.86,
+          "end_time": 48.939
+        },
+        {
+          "text": "color",
+          "start_time": 48.939,
+          "end_time": 49.5
+        },
+        {
+          "text": " ",
+          "start_time": 49.5,
+          "end_time": 49.559
+        },
+        {
+          "text": "for",
+          "start_time": 49.559,
+          "end_time": 49.619
+        },
+        {
+          "text": " ",
+          "start_time": 49.619,
+          "end_time": 49.659
+        },
+        {
+          "text": "the",
+          "start_time": 49.659,
+          "end_time": 49.719
+        }
+      ]
+    },
+    {
+      "text": "reflective surface.",
+      "start_time": 49.759,
+      "end_time": 50.939,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "reflective",
+          "start_time": 49.759,
+          "end_time": 50.299
+        },
+        {
+          "text": " ",
+          "start_time": 50.299,
+          "end_time": 50.36
+        },
+        {
+          "text": "surface.",
+          "start_time": 50.36,
+          "end_time": 50.939
+        }
+      ]
+    },
+    {
+      "text": "Acting as visual and olfactory beacons",
+      "start_time": 51.939,
+      "end_time": 54.34,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Acting",
+          "start_time": 51.939,
+          "end_time": 52.319
+        },
+        {
+          "text": " ",
+          "start_time": 52.319,
+          "end_time": 52.379
+        },
+        {
+          "text": "as",
+          "start_time": 52.379,
+          "end_time": 52.479
+        },
+        {
+          "text": " ",
+          "start_time": 52.479,
+          "end_time": 52.579
+        },
+        {
+          "text": "visual",
+          "start_time": 52.579,
+          "end_time": 52.979
+        },
+        {
+          "text": " ",
+          "start_time": 52.979,
+          "end_time": 53.02
+        },
+        {
+          "text": "and",
+          "start_time": 53.02,
+          "end_time": 53.139
+        },
+        {
+          "text": " ",
+          "start_time": 53.139,
+          "end_time": 53.199
+        },
+        {
+          "text": "olfactory",
+          "start_time": 53.199,
+          "end_time": 53.819
+        },
+        {
+          "text": " ",
+          "start_time": 53.819,
+          "end_time": 53.879
+        },
+        {
+          "text": "beacons",
+          "start_time": 53.879,
+          "end_time": 54.34
+        }
+      ]
+    },
+    {
+      "text": "with no nectar reward, insects quickly",
+      "start_time": 54.399,
+      "end_time": 57.119,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "with",
+          "start_time": 54.399,
+          "end_time": 54.599
+        },
+        {
+          "text": " ",
+          "start_time": 54.599,
+          "end_time": 54.659
+        },
+        {
+          "text": "no",
+          "start_time": 54.659,
+          "end_time": 54.799
+        },
+        {
+          "text": " ",
+          "start_time": 54.799,
+          "end_time": 54.899
+        },
+        {
+          "text": "nectar",
+          "start_time": 54.899,
+          "end_time": 55.219
+        },
+        {
+          "text": " ",
+          "start_time": 55.219,
+          "end_time": 55.259
+        },
+        {
+          "text": "reward,",
+          "start_time": 55.259,
+          "end_time": 55.719
+        },
+        {
+          "text": " ",
+          "start_time": 55.719,
+          "end_time": 56.199
+        },
+        {
+          "text": "insects",
+          "start_time": 56.199,
+          "end_time": 56.739
+        },
+        {
+          "text": " ",
+          "start_time": 56.739,
+          "end_time": 56.819
+        },
+        {
+          "text": "quickly",
+          "start_time": 56.819,
+          "end_time": 57.119
+        }
+      ]
+    },
+    {
+      "text": "learn to forage in the surrounding",
+      "start_time": 57.219,
+      "end_time": 58.659,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "learn",
+          "start_time": 57.219,
+          "end_time": 57.459
+        },
+        {
+          "text": " ",
+          "start_time": 57.459,
+          "end_time": 57.5
+        },
+        {
+          "text": "to",
+          "start_time": 57.5,
+          "end_time": 57.619
+        },
+        {
+          "text": " ",
+          "start_time": 57.619,
+          "end_time": 57.68
+        },
+        {
+          "text": "forage",
+          "start_time": 57.68,
+          "end_time": 58.0
+        },
+        {
+          "text": " ",
+          "start_time": 58.0,
+          "end_time": 58.039
+        },
+        {
+          "text": "in",
+          "start_time": 58.039,
+          "end_time": 58.099
+        },
+        {
+          "text": " ",
+          "start_time": 58.099,
+          "end_time": 58.139
+        },
+        {
+          "text": "the",
+          "start_time": 58.139,
+          "end_time": 58.219
+        },
+        {
+          "text": " ",
+          "start_time": 58.219,
+          "end_time": 58.279
+        },
+        {
+          "text": "surrounding",
+          "start_time": 58.279,
+          "end_time": 58.659
+        }
+      ]
+    },
+    {
+      "text": "environment.",
+      "start_time": 58.699,
+      "end_time": 59.359,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "environment.",
+          "start_time": 58.699,
+          "end_time": 59.359
+        }
+      ]
+    },
+    {
+      "text": "Through artificial chemistry and",
+      "start_time": 60.299,
+      "end_time": 61.959,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Through",
+          "start_time": 60.299,
+          "end_time": 60.559
+        },
+        {
+          "text": " ",
+          "start_time": 60.559,
+          "end_time": 60.639
+        },
+        {
+          "text": "artificial",
+          "start_time": 60.639,
+          "end_time": 61.18
+        },
+        {
+          "text": " ",
+          "start_time": 61.18,
+          "end_time": 61.219
+        },
+        {
+          "text": "chemistry",
+          "start_time": 61.219,
+          "end_time": 61.759
+        },
+        {
+          "text": " ",
+          "start_time": 61.759,
+          "end_time": 61.799
+        },
+        {
+          "text": "and",
+          "start_time": 61.799,
+          "end_time": 61.959
+        }
+      ]
+    },
+    {
+      "text": "biomimicry, Faux Flora explores new",
+      "start_time": 62.02,
+      "end_time": 64.919,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "biomimicry,",
+          "start_time": 62.02,
+          "end_time": 62.84
+        },
+        {
+          "text": " ",
+          "start_time": 62.84,
+          "end_time": 63.419
+        },
+        {
+          "text": "Faux",
+          "start_time": 63.419,
+          "end_time": 63.599
+        },
+        {
+          "text": " ",
+          "start_time": 63.599,
+          "end_time": 63.739
+        },
+        {
+          "text": "Flora",
+          "start_time": 63.739,
+          "end_time": 64.119
+        },
+        {
+          "text": " ",
+          "start_time": 64.119,
+          "end_time": 64.239
+        },
+        {
+          "text": "explores",
+          "start_time": 64.239,
+          "end_time": 64.659
+        },
+        {
+          "text": " ",
+          "start_time": 64.659,
+          "end_time": 64.799
+        },
+        {
+          "text": "new",
+          "start_time": 64.799,
+          "end_time": 64.919
+        }
+      ]
+    },
+    {
+      "text": "relationships between species, technology,",
+      "start_time": 64.959,
+      "end_time": 67.519,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "relationships",
+          "start_time": 64.959,
+          "end_time": 65.639
+        },
+        {
+          "text": " ",
+          "start_time": 65.639,
+          "end_time": 65.699
+        },
+        {
+          "text": "between",
+          "start_time": 65.699,
+          "end_time": 66.059
+        },
+        {
+          "text": " ",
+          "start_time": 66.059,
+          "end_time": 66.119
+        },
+        {
+          "text": "species,",
+          "start_time": 66.119,
+          "end_time": 66.819
+        },
+        {
+          "text": " ",
+          "start_time": 66.819,
+          "end_time": 66.899
+        },
+        {
+          "text": "technology,",
+          "start_time": 66.9,
+          "end_time": 67.519
+        }
+      ]
+    },
+    {
+      "text": "and cities.",
+      "start_time": 67.739,
+      "end_time": 68.439,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "and",
+          "start_time": 67.739,
+          "end_time": 67.9
+        },
+        {
+          "text": " ",
+          "start_time": 67.9,
+          "end_time": 67.959
+        },
+        {
+          "text": "cities.",
+          "start_time": 67.959,
+          "end_time": 68.439
+        }
+      ]
+    }
+  ]
+}

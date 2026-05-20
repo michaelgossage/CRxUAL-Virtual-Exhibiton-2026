@@ -115,6 +115,7 @@ export class ImmersiveCarousel {
               _computeContainScale(img.naturalWidth / img.naturalHeight, SA);
           }
         });
+        tex.colorSpace = THREE.SRGBColorSpace;
         material = makeRevealMaterial({ map: tex, revealMap: revealTex });
         material.uniforms.uReveal.value = 0.0; // start visible, like all other artworks
         material.side = THREE.FrontSide;
@@ -125,6 +126,7 @@ export class ImmersiveCarousel {
           const img = loaded.image;
           if (img?.naturalWidth > 0) _applyCoverFit(tex, img.naturalWidth / img.naturalHeight, SA);
         });
+        tex.colorSpace = THREE.SRGBColorSpace;
         tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
         material = new THREE.MeshBasicMaterial({
           map: tex,
@@ -189,8 +191,8 @@ export class ImmersiveCarousel {
     this._bakeFocusPose();
 
     // ── 3D arrow planes ──────────────────────────────────────────────────────
-    this.arrowPrev = _makeArrowPlane("‹");
-    this.arrowNext = _makeArrowPlane("›");
+    this.arrowPrev = _makeArrowPlane("›");
+    this.arrowNext = _makeArrowPlane("‹");
 
     const ax = W / 2 + 0.55;
     const az = R - 0.05;

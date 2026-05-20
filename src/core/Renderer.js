@@ -20,7 +20,8 @@ export class Renderer {
 
     //shadows
     this.gl.shadowMap.enabled = true;
-    this.gl.shadowMap.type = 2; //PCFSoftShadowMap
+    this.gl.shadowMap.type = 1; // PCFShadowMap — 4 taps vs PCFSoft's 9, sufficient for gallery
+    this.gl.shadowMap.autoUpdate = false; // scene is static; needsUpdate triggered manually after load
 
     //color space
     this.gl.outputColorSpace = "srgb";

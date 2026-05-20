@@ -1,0 +1,1657 @@
+{
+  "language_code": null,
+  "segments": [
+    {
+      "text": "In this era of artificial intelligence,",
+      "start_time": 0.119,
+      "end_time": 2.539,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "In",
+          "start_time": 0.119,
+          "end_time": 0.239
+        },
+        {
+          "text": " ",
+          "start_time": 0.239,
+          "end_time": 0.299
+        },
+        {
+          "text": "this",
+          "start_time": 0.299,
+          "end_time": 0.56
+        },
+        {
+          "text": " ",
+          "start_time": 0.56,
+          "end_time": 0.639
+        },
+        {
+          "text": "era",
+          "start_time": 0.639,
+          "end_time": 0.979
+        },
+        {
+          "text": " ",
+          "start_time": 0.979,
+          "end_time": 1.039
+        },
+        {
+          "text": "of",
+          "start_time": 1.039,
+          "end_time": 1.139
+        },
+        {
+          "text": " ",
+          "start_time": 1.139,
+          "end_time": 1.24
+        },
+        {
+          "text": "artificial",
+          "start_time": 1.24,
+          "end_time": 1.719
+        },
+        {
+          "text": " ",
+          "start_time": 1.719,
+          "end_time": 1.799
+        },
+        {
+          "text": "intelligence,",
+          "start_time": 1.799,
+          "end_time": 2.539
+        }
+      ]
+    },
+    {
+      "text": "automation, and highly mature technology,",
+      "start_time": 2.96,
+      "end_time": 5.739,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "automation,",
+          "start_time": 2.96,
+          "end_time": 3.699
+        },
+        {
+          "text": " ",
+          "start_time": 3.699,
+          "end_time": 4.059
+        },
+        {
+          "text": "and",
+          "start_time": 4.059,
+          "end_time": 4.199
+        },
+        {
+          "text": " ",
+          "start_time": 4.199,
+          "end_time": 4.279
+        },
+        {
+          "text": "highly",
+          "start_time": 4.279,
+          "end_time": 4.599
+        },
+        {
+          "text": " ",
+          "start_time": 4.599,
+          "end_time": 4.679
+        },
+        {
+          "text": "mature",
+          "start_time": 4.679,
+          "end_time": 5.0
+        },
+        {
+          "text": " ",
+          "start_time": 5.0,
+          "end_time": 5.099
+        },
+        {
+          "text": "technology,",
+          "start_time": 5.099,
+          "end_time": 5.739
+        }
+      ]
+    },
+    {
+      "text": "the definition of human is gradually",
+      "start_time": 6.299,
+      "end_time": 8.38,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "the",
+          "start_time": 6.299,
+          "end_time": 6.399
+        },
+        {
+          "text": " ",
+          "start_time": 6.399,
+          "end_time": 6.459
+        },
+        {
+          "text": "definition",
+          "start_time": 6.46,
+          "end_time": 6.96
+        },
+        {
+          "text": " ",
+          "start_time": 6.96,
+          "end_time": 7.0
+        },
+        {
+          "text": "of",
+          "start_time": 7.0,
+          "end_time": 7.079
+        },
+        {
+          "text": " ",
+          "start_time": 7.079,
+          "end_time": 7.199
+        },
+        {
+          "text": "human",
+          "start_time": 7.199,
+          "end_time": 7.579
+        },
+        {
+          "text": " ",
+          "start_time": 7.579,
+          "end_time": 7.779
+        },
+        {
+          "text": "is",
+          "start_time": 7.779,
+          "end_time": 7.899
+        },
+        {
+          "text": " ",
+          "start_time": 7.899,
+          "end_time": 7.979
+        },
+        {
+          "text": "gradually",
+          "start_time": 7.98,
+          "end_time": 8.38
+        }
+      ]
+    },
+    {
+      "text": "disintegrating, and machines and",
+      "start_time": 8.46,
+      "end_time": 10.52,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "disintegrating,",
+          "start_time": 8.46,
+          "end_time": 9.359
+        },
+        {
+          "text": " ",
+          "start_time": 9.359,
+          "end_time": 9.84
+        },
+        {
+          "text": "and",
+          "start_time": 9.84,
+          "end_time": 9.92
+        },
+        {
+          "text": " ",
+          "start_time": 9.92,
+          "end_time": 9.979
+        },
+        {
+          "text": "machines",
+          "start_time": 9.979,
+          "end_time": 10.42
+        },
+        {
+          "text": " ",
+          "start_time": 10.42,
+          "end_time": 10.46
+        },
+        {
+          "text": "and",
+          "start_time": 10.46,
+          "end_time": 10.52
+        }
+      ]
+    },
+    {
+      "text": "technology are infiltrating and dominating",
+      "start_time": 10.619,
+      "end_time": 13.559,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "technology",
+          "start_time": 10.619,
+          "end_time": 11.479
+        },
+        {
+          "text": " ",
+          "start_time": 11.479,
+          "end_time": 11.539
+        },
+        {
+          "text": "are",
+          "start_time": 11.539,
+          "end_time": 11.659
+        },
+        {
+          "text": " ",
+          "start_time": 11.659,
+          "end_time": 11.739
+        },
+        {
+          "text": "infiltrating",
+          "start_time": 11.739,
+          "end_time": 12.679
+        },
+        {
+          "text": " ",
+          "start_time": 12.679,
+          "end_time": 12.739
+        },
+        {
+          "text": "and",
+          "start_time": 12.739,
+          "end_time": 12.86
+        },
+        {
+          "text": " ",
+          "start_time": 12.86,
+          "end_time": 12.96
+        },
+        {
+          "text": "dominating",
+          "start_time": 12.96,
+          "end_time": 13.559
+        }
+      ]
+    },
+    {
+      "text": "our daily lives.",
+      "start_time": 13.619,
+      "end_time": 14.699,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "our",
+          "start_time": 13.619,
+          "end_time": 13.739
+        },
+        {
+          "text": " ",
+          "start_time": 13.739,
+          "end_time": 13.799
+        },
+        {
+          "text": "daily",
+          "start_time": 13.799,
+          "end_time": 14.039
+        },
+        {
+          "text": " ",
+          "start_time": 14.039,
+          "end_time": 14.139
+        },
+        {
+          "text": "lives.",
+          "start_time": 14.139,
+          "end_time": 14.699
+        }
+      ]
+    },
+    {
+      "text": "Dehumanized is a conceptual exploration of",
+      "start_time": 15.539,
+      "end_time": 18.379,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Dehumanized",
+          "start_time": 15.539,
+          "end_time": 16.399
+        },
+        {
+          "text": " ",
+          "start_time": 16.399,
+          "end_time": 16.459
+        },
+        {
+          "text": "is",
+          "start_time": 16.459,
+          "end_time": 16.54
+        },
+        {
+          "text": " ",
+          "start_time": 16.54,
+          "end_time": 16.579
+        },
+        {
+          "text": "a",
+          "start_time": 16.579,
+          "end_time": 16.619
+        },
+        {
+          "text": " ",
+          "start_time": 16.619,
+          "end_time": 16.679
+        },
+        {
+          "text": "conceptual",
+          "start_time": 16.68,
+          "end_time": 17.34
+        },
+        {
+          "text": " ",
+          "start_time": 17.34,
+          "end_time": 17.42
+        },
+        {
+          "text": "exploration",
+          "start_time": 17.42,
+          "end_time": 18.26
+        },
+        {
+          "text": " ",
+          "start_time": 18.26,
+          "end_time": 18.299
+        },
+        {
+          "text": "of",
+          "start_time": 18.299,
+          "end_time": 18.379
+        }
+      ]
+    },
+    {
+      "text": "a future world in which technology no",
+      "start_time": 18.459,
+      "end_time": 21.059,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "a",
+          "start_time": 18.459,
+          "end_time": 18.479
+        },
+        {
+          "text": " ",
+          "start_time": 18.479,
+          "end_time": 18.639
+        },
+        {
+          "text": "future",
+          "start_time": 18.639,
+          "end_time": 18.979
+        },
+        {
+          "text": " ",
+          "start_time": 18.979,
+          "end_time": 19.079
+        },
+        {
+          "text": "world",
+          "start_time": 19.079,
+          "end_time": 19.459
+        },
+        {
+          "text": " ",
+          "start_time": 19.459,
+          "end_time": 19.779
+        },
+        {
+          "text": "in",
+          "start_time": 19.779,
+          "end_time": 19.859
+        },
+        {
+          "text": " ",
+          "start_time": 19.859,
+          "end_time": 19.919
+        },
+        {
+          "text": "which",
+          "start_time": 19.92,
+          "end_time": 20.119
+        },
+        {
+          "text": " ",
+          "start_time": 20.119,
+          "end_time": 20.179
+        },
+        {
+          "text": "technology",
+          "start_time": 20.18,
+          "end_time": 20.859
+        },
+        {
+          "text": " ",
+          "start_time": 20.859,
+          "end_time": 20.939
+        },
+        {
+          "text": "no",
+          "start_time": 20.939,
+          "end_time": 21.059
+        }
+      ]
+    },
+    {
+      "text": "longer centers on human nature, but",
+      "start_time": 21.139,
+      "end_time": 23.619,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "longer",
+          "start_time": 21.139,
+          "end_time": 21.399
+        },
+        {
+          "text": " ",
+          "start_time": 21.399,
+          "end_time": 21.479
+        },
+        {
+          "text": "centers",
+          "start_time": 21.479,
+          "end_time": 21.959
+        },
+        {
+          "text": " ",
+          "start_time": 21.959,
+          "end_time": 22.0
+        },
+        {
+          "text": "on",
+          "start_time": 22.0,
+          "end_time": 22.079
+        },
+        {
+          "text": " ",
+          "start_time": 22.079,
+          "end_time": 22.199
+        },
+        {
+          "text": "human",
+          "start_time": 22.199,
+          "end_time": 22.479
+        },
+        {
+          "text": " ",
+          "start_time": 22.479,
+          "end_time": 22.539
+        },
+        {
+          "text": "nature,",
+          "start_time": 22.539,
+          "end_time": 22.999
+        },
+        {
+          "text": " ",
+          "start_time": 22.999,
+          "end_time": 23.5
+        },
+        {
+          "text": "but",
+          "start_time": 23.5,
+          "end_time": 23.619
+        }
+      ]
+    },
+    {
+      "text": "instead gradually controls, holds power,",
+      "start_time": 23.68,
+      "end_time": 26.959,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "instead",
+          "start_time": 23.68,
+          "end_time": 24.219
+        },
+        {
+          "text": " ",
+          "start_time": 24.219,
+          "end_time": 24.639
+        },
+        {
+          "text": "gradually",
+          "start_time": 24.639,
+          "end_time": 25.079
+        },
+        {
+          "text": " ",
+          "start_time": 25.079,
+          "end_time": 25.119
+        },
+        {
+          "text": "controls,",
+          "start_time": 25.119,
+          "end_time": 25.84
+        },
+        {
+          "text": " ",
+          "start_time": 25.84,
+          "end_time": 26.219
+        },
+        {
+          "text": "holds",
+          "start_time": 26.219,
+          "end_time": 26.519
+        },
+        {
+          "text": " ",
+          "start_time": 26.519,
+          "end_time": 26.599
+        },
+        {
+          "text": "power,",
+          "start_time": 26.599,
+          "end_time": 26.959
+        }
+      ]
+    },
+    {
+      "text": "and eventually replaces humanity.",
+      "start_time": 27.5,
+      "end_time": 29.439,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "and",
+          "start_time": 27.5,
+          "end_time": 27.579
+        },
+        {
+          "text": " ",
+          "start_time": 27.579,
+          "end_time": 27.68
+        },
+        {
+          "text": "eventually",
+          "start_time": 27.68,
+          "end_time": 28.119
+        },
+        {
+          "text": " ",
+          "start_time": 28.119,
+          "end_time": 28.179
+        },
+        {
+          "text": "replaces",
+          "start_time": 28.18,
+          "end_time": 28.739
+        },
+        {
+          "text": " ",
+          "start_time": 28.739,
+          "end_time": 28.819
+        },
+        {
+          "text": "humanity.",
+          "start_time": 28.819,
+          "end_time": 29.439
+        }
+      ]
+    },
+    {
+      "text": "When digital systems take over judgment,",
+      "start_time": 30.239,
+      "end_time": 32.599,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "When",
+          "start_time": 30.239,
+          "end_time": 30.36
+        },
+        {
+          "text": " ",
+          "start_time": 30.36,
+          "end_time": 30.459
+        },
+        {
+          "text": "digital",
+          "start_time": 30.459,
+          "end_time": 30.799
+        },
+        {
+          "text": " ",
+          "start_time": 30.799,
+          "end_time": 30.92
+        },
+        {
+          "text": "systems",
+          "start_time": 30.92,
+          "end_time": 31.419
+        },
+        {
+          "text": " ",
+          "start_time": 31.419,
+          "end_time": 31.479
+        },
+        {
+          "text": "take",
+          "start_time": 31.479,
+          "end_time": 31.679
+        },
+        {
+          "text": " ",
+          "start_time": 31.679,
+          "end_time": 31.779
+        },
+        {
+          "text": "over",
+          "start_time": 31.779,
+          "end_time": 31.979
+        },
+        {
+          "text": " ",
+          "start_time": 31.979,
+          "end_time": 32.059
+        },
+        {
+          "text": "judgment,",
+          "start_time": 32.059,
+          "end_time": 32.599
+        }
+      ]
+    },
+    {
+      "text": "aesthetics become algorithmically defined,",
+      "start_time": 33.099,
+      "end_time": 35.719,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "aesthetics",
+          "start_time": 33.099,
+          "end_time": 33.84
+        },
+        {
+          "text": " ",
+          "start_time": 33.84,
+          "end_time": 33.88
+        },
+        {
+          "text": "become",
+          "start_time": 33.88,
+          "end_time": 34.219
+        },
+        {
+          "text": " ",
+          "start_time": 34.219,
+          "end_time": 34.339
+        },
+        {
+          "text": "algorithmically",
+          "start_time": 34.34,
+          "end_time": 35.079
+        },
+        {
+          "text": " ",
+          "start_time": 35.079,
+          "end_time": 35.139
+        },
+        {
+          "text": "defined,",
+          "start_time": 35.139,
+          "end_time": 35.719
+        }
+      ]
+    },
+    {
+      "text": "and the body is transformed into a tool",
+      "start_time": 36.2,
+      "end_time": 38.759,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "and",
+          "start_time": 36.2,
+          "end_time": 36.279
+        },
+        {
+          "text": " ",
+          "start_time": 36.279,
+          "end_time": 36.319
+        },
+        {
+          "text": "the",
+          "start_time": 36.319,
+          "end_time": 36.419
+        },
+        {
+          "text": " ",
+          "start_time": 36.419,
+          "end_time": 36.479
+        },
+        {
+          "text": "body",
+          "start_time": 36.479,
+          "end_time": 36.939
+        },
+        {
+          "text": " ",
+          "start_time": 36.939,
+          "end_time": 37.0
+        },
+        {
+          "text": "is",
+          "start_time": 37.0,
+          "end_time": 37.119
+        },
+        {
+          "text": " ",
+          "start_time": 37.119,
+          "end_time": 37.18
+        },
+        {
+          "text": "transformed",
+          "start_time": 37.18,
+          "end_time": 37.939
+        },
+        {
+          "text": " ",
+          "start_time": 37.939,
+          "end_time": 38.0
+        },
+        {
+          "text": "into",
+          "start_time": 38.0,
+          "end_time": 38.18
+        },
+        {
+          "text": " ",
+          "start_time": 38.18,
+          "end_time": 38.239
+        },
+        {
+          "text": "a",
+          "start_time": 38.239,
+          "end_time": 38.299
+        },
+        {
+          "text": " ",
+          "start_time": 38.299,
+          "end_time": 38.379
+        },
+        {
+          "text": "tool",
+          "start_time": 38.379,
+          "end_time": 38.759
+        }
+      ]
+    },
+    {
+      "text": "that prioritizes efficiency. Emotions and",
+      "start_time": 39.159,
+      "end_time": 42.439,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "that",
+          "start_time": 39.159,
+          "end_time": 39.279
+        },
+        {
+          "text": " ",
+          "start_time": 39.279,
+          "end_time": 39.36
+        },
+        {
+          "text": "prioritizes",
+          "start_time": 39.36,
+          "end_time": 40.18
+        },
+        {
+          "text": " ",
+          "start_time": 40.18,
+          "end_time": 40.279
+        },
+        {
+          "text": "efficiency.",
+          "start_time": 40.279,
+          "end_time": 41.079
+        },
+        {
+          "text": " ",
+          "start_time": 41.079,
+          "end_time": 41.519
+        },
+        {
+          "text": "Emotions",
+          "start_time": 41.52,
+          "end_time": 42.279
+        },
+        {
+          "text": " ",
+          "start_time": 42.279,
+          "end_time": 42.34
+        },
+        {
+          "text": "and",
+          "start_time": 42.34,
+          "end_time": 42.439
+        }
+      ]
+    },
+    {
+      "text": "individual consciousness begin to be seen",
+      "start_time": 42.559,
+      "end_time": 45.159,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "individual",
+          "start_time": 42.559,
+          "end_time": 43.119
+        },
+        {
+          "text": " ",
+          "start_time": 43.119,
+          "end_time": 43.2
+        },
+        {
+          "text": "consciousness",
+          "start_time": 43.2,
+          "end_time": 43.899
+        },
+        {
+          "text": " ",
+          "start_time": 43.899,
+          "end_time": 44.199
+        },
+        {
+          "text": "begin",
+          "start_time": 44.2,
+          "end_time": 44.5
+        },
+        {
+          "text": " ",
+          "start_time": 44.5,
+          "end_time": 44.539
+        },
+        {
+          "text": "to",
+          "start_time": 44.539,
+          "end_time": 44.599
+        },
+        {
+          "text": " ",
+          "start_time": 44.599,
+          "end_time": 44.659
+        },
+        {
+          "text": "be",
+          "start_time": 44.659,
+          "end_time": 44.779
+        },
+        {
+          "text": " ",
+          "start_time": 44.779,
+          "end_time": 44.86
+        },
+        {
+          "text": "seen",
+          "start_time": 44.86,
+          "end_time": 45.159
+        }
+      ]
+    },
+    {
+      "text": "as redundant residues.",
+      "start_time": 45.219,
+      "end_time": 46.819,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "as",
+          "start_time": 45.219,
+          "end_time": 45.319
+        },
+        {
+          "text": " ",
+          "start_time": 45.319,
+          "end_time": 45.379
+        },
+        {
+          "text": "redundant",
+          "start_time": 45.379,
+          "end_time": 45.979
+        },
+        {
+          "text": " ",
+          "start_time": 45.979,
+          "end_time": 46.059
+        },
+        {
+          "text": "residues.",
+          "start_time": 46.059,
+          "end_time": 46.819
+        }
+      ]
+    },
+    {
+      "text": "This project want to use visual language",
+      "start_time": 47.559,
+      "end_time": 49.68,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "This",
+          "start_time": 47.559,
+          "end_time": 47.7
+        },
+        {
+          "text": " ",
+          "start_time": 47.7,
+          "end_time": 47.799
+        },
+        {
+          "text": "project",
+          "start_time": 47.799,
+          "end_time": 48.239
+        },
+        {
+          "text": " ",
+          "start_time": 48.239,
+          "end_time": 48.299
+        },
+        {
+          "text": "want",
+          "start_time": 48.299,
+          "end_time": 48.439
+        },
+        {
+          "text": " ",
+          "start_time": 48.439,
+          "end_time": 48.479
+        },
+        {
+          "text": "to",
+          "start_time": 48.479,
+          "end_time": 48.559
+        },
+        {
+          "text": " ",
+          "start_time": 48.559,
+          "end_time": 48.639
+        },
+        {
+          "text": "use",
+          "start_time": 48.639,
+          "end_time": 48.759
+        },
+        {
+          "text": " ",
+          "start_time": 48.759,
+          "end_time": 48.879
+        },
+        {
+          "text": "visual",
+          "start_time": 48.879,
+          "end_time": 49.18
+        },
+        {
+          "text": " ",
+          "start_time": 49.18,
+          "end_time": 49.239
+        },
+        {
+          "text": "language",
+          "start_time": 49.239,
+          "end_time": 49.68
+        }
+      ]
+    },
+    {
+      "text": "to present a imaginary future worldview,",
+      "start_time": 49.759,
+      "end_time": 52.379,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "to",
+          "start_time": 49.759,
+          "end_time": 49.819
+        },
+        {
+          "text": " ",
+          "start_time": 49.819,
+          "end_time": 49.879
+        },
+        {
+          "text": "present",
+          "start_time": 49.879,
+          "end_time": 50.299
+        },
+        {
+          "text": " ",
+          "start_time": 50.299,
+          "end_time": 50.419
+        },
+        {
+          "text": "a",
+          "start_time": 50.419,
+          "end_time": 50.479
+        },
+        {
+          "text": " ",
+          "start_time": 50.479,
+          "end_time": 50.639
+        },
+        {
+          "text": "imaginary",
+          "start_time": 50.639,
+          "end_time": 51.279
+        },
+        {
+          "text": " ",
+          "start_time": 51.279,
+          "end_time": 51.36
+        },
+        {
+          "text": "future",
+          "start_time": 51.36,
+          "end_time": 51.699
+        },
+        {
+          "text": " ",
+          "start_time": 51.699,
+          "end_time": 51.759
+        },
+        {
+          "text": "worldview,",
+          "start_time": 51.759,
+          "end_time": 52.379
+        }
+      ]
+    },
+    {
+      "text": "redesigned organisms, individuality",
+      "start_time": 53.039,
+      "end_time": 55.779,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "redesigned",
+          "start_time": 53.039,
+          "end_time": 53.619
+        },
+        {
+          "text": " ",
+          "start_time": 53.619,
+          "end_time": 53.719
+        },
+        {
+          "text": "organisms,",
+          "start_time": 53.719,
+          "end_time": 54.459
+        },
+        {
+          "text": " ",
+          "start_time": 54.459,
+          "end_time": 54.899
+        },
+        {
+          "text": "individuality",
+          "start_time": 54.899,
+          "end_time": 55.779
+        }
+      ]
+    },
+    {
+      "text": "erased, and a void beneath the human",
+      "start_time": 55.84,
+      "end_time": 58.639,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "erased,",
+          "start_time": 55.84,
+          "end_time": 56.479
+        },
+        {
+          "text": " ",
+          "start_time": 56.479,
+          "end_time": 56.86
+        },
+        {
+          "text": "and",
+          "start_time": 56.86,
+          "end_time": 56.939
+        },
+        {
+          "text": " ",
+          "start_time": 56.939,
+          "end_time": 56.959
+        },
+        {
+          "text": "a",
+          "start_time": 56.959,
+          "end_time": 57.079
+        },
+        {
+          "text": " ",
+          "start_time": 57.079,
+          "end_time": 57.159
+        },
+        {
+          "text": "void",
+          "start_time": 57.159,
+          "end_time": 57.759
+        },
+        {
+          "text": " ",
+          "start_time": 57.759,
+          "end_time": 57.819
+        },
+        {
+          "text": "beneath",
+          "start_time": 57.819,
+          "end_time": 58.139
+        },
+        {
+          "text": " ",
+          "start_time": 58.139,
+          "end_time": 58.159
+        },
+        {
+          "text": "the",
+          "start_time": 58.159,
+          "end_time": 58.259
+        },
+        {
+          "text": " ",
+          "start_time": 58.259,
+          "end_time": 58.319
+        },
+        {
+          "text": "human",
+          "start_time": 58.319,
+          "end_time": 58.639
+        }
+      ]
+    },
+    {
+      "text": "shell.",
+      "start_time": 58.719,
+      "end_time": 59.079,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "shell.",
+          "start_time": 58.719,
+          "end_time": 59.079
+        }
+      ]
+    },
+    {
+      "text": "Is Dehumanized a dystopian fantasy world,",
+      "start_time": 59.979,
+      "end_time": 62.779,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Is",
+          "start_time": 59.979,
+          "end_time": 60.159
+        },
+        {
+          "text": " ",
+          "start_time": 60.159,
+          "end_time": 60.259
+        },
+        {
+          "text": "Dehumanized",
+          "start_time": 60.259,
+          "end_time": 61.059
+        },
+        {
+          "text": " ",
+          "start_time": 61.059,
+          "end_time": 61.119
+        },
+        {
+          "text": "a",
+          "start_time": 61.119,
+          "end_time": 61.159
+        },
+        {
+          "text": " ",
+          "start_time": 61.159,
+          "end_time": 61.199
+        },
+        {
+          "text": "dystopian",
+          "start_time": 61.199,
+          "end_time": 61.84
+        },
+        {
+          "text": " ",
+          "start_time": 61.84,
+          "end_time": 61.899
+        },
+        {
+          "text": "fantasy",
+          "start_time": 61.899,
+          "end_time": 62.34
+        },
+        {
+          "text": " ",
+          "start_time": 62.34,
+          "end_time": 62.399
+        },
+        {
+          "text": "world,",
+          "start_time": 62.399,
+          "end_time": 62.779
+        }
+      ]
+    },
+    {
+      "text": "or is it a mirror held up to our present?",
+      "start_time": 63.379,
+      "end_time": 66.239,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "or",
+          "start_time": 63.379,
+          "end_time": 63.579
+        },
+        {
+          "text": " ",
+          "start_time": 63.579,
+          "end_time": 63.879
+        },
+        {
+          "text": "is",
+          "start_time": 63.879,
+          "end_time": 63.959
+        },
+        {
+          "text": " ",
+          "start_time": 63.959,
+          "end_time": 63.979
+        },
+        {
+          "text": "it",
+          "start_time": 63.979,
+          "end_time": 64.079
+        },
+        {
+          "text": " ",
+          "start_time": 64.079,
+          "end_time": 64.139
+        },
+        {
+          "text": "a",
+          "start_time": 64.139,
+          "end_time": 64.279
+        },
+        {
+          "text": " ",
+          "start_time": 64.279,
+          "end_time": 64.339
+        },
+        {
+          "text": "mirror",
+          "start_time": 64.339,
+          "end_time": 64.879
+        },
+        {
+          "text": " ",
+          "start_time": 64.879,
+          "end_time": 64.939
+        },
+        {
+          "text": "held",
+          "start_time": 64.939,
+          "end_time": 65.159
+        },
+        {
+          "text": " ",
+          "start_time": 65.159,
+          "end_time": 65.219
+        },
+        {
+          "text": "up",
+          "start_time": 65.22,
+          "end_time": 65.379
+        },
+        {
+          "text": " ",
+          "start_time": 65.379,
+          "end_time": 65.419
+        },
+        {
+          "text": "to",
+          "start_time": 65.419,
+          "end_time": 65.499
+        },
+        {
+          "text": " ",
+          "start_time": 65.499,
+          "end_time": 65.539
+        },
+        {
+          "text": "our",
+          "start_time": 65.54,
+          "end_time": 65.679
+        },
+        {
+          "text": " ",
+          "start_time": 65.679,
+          "end_time": 65.719
+        },
+        {
+          "text": "present?",
+          "start_time": 65.72,
+          "end_time": 66.239
+        }
+      ]
+    },
+    {
+      "text": "In the wave of rapid innovation, what may",
+      "start_time": 67.159,
+      "end_time": 70.019,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "In",
+          "start_time": 67.159,
+          "end_time": 67.259
+        },
+        {
+          "text": " ",
+          "start_time": 67.259,
+          "end_time": 67.299
+        },
+        {
+          "text": "the",
+          "start_time": 67.299,
+          "end_time": 67.339
+        },
+        {
+          "text": " ",
+          "start_time": 67.339,
+          "end_time": 67.439
+        },
+        {
+          "text": "wave",
+          "start_time": 67.439,
+          "end_time": 67.72
+        },
+        {
+          "text": " ",
+          "start_time": 67.72,
+          "end_time": 67.779
+        },
+        {
+          "text": "of",
+          "start_time": 67.779,
+          "end_time": 67.879
+        },
+        {
+          "text": " ",
+          "start_time": 67.879,
+          "end_time": 67.979
+        },
+        {
+          "text": "rapid",
+          "start_time": 67.979,
+          "end_time": 68.339
+        },
+        {
+          "text": " ",
+          "start_time": 68.339,
+          "end_time": 68.379
+        },
+        {
+          "text": "innovation,",
+          "start_time": 68.379,
+          "end_time": 69.119
+        },
+        {
+          "text": " ",
+          "start_time": 69.119,
+          "end_time": 69.619
+        },
+        {
+          "text": "what",
+          "start_time": 69.619,
+          "end_time": 69.739
+        },
+        {
+          "text": " ",
+          "start_time": 69.739,
+          "end_time": 69.819
+        },
+        {
+          "text": "may",
+          "start_time": 69.819,
+          "end_time": 70.019
+        }
+      ]
+    },
+    {
+      "text": "ultimately be sacrificed is the very",
+      "start_time": 70.099,
+      "end_time": 72.439,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "ultimately",
+          "start_time": 70.099,
+          "end_time": 70.579
+        },
+        {
+          "text": " ",
+          "start_time": 70.579,
+          "end_time": 70.619
+        },
+        {
+          "text": "be",
+          "start_time": 70.619,
+          "end_time": 70.679
+        },
+        {
+          "text": " ",
+          "start_time": 70.679,
+          "end_time": 70.779
+        },
+        {
+          "text": "sacrificed",
+          "start_time": 70.779,
+          "end_time": 71.779
+        },
+        {
+          "text": " ",
+          "start_time": 71.779,
+          "end_time": 71.819
+        },
+        {
+          "text": "is",
+          "start_time": 71.819,
+          "end_time": 71.939
+        },
+        {
+          "text": " ",
+          "start_time": 71.939,
+          "end_time": 71.959
+        },
+        {
+          "text": "the",
+          "start_time": 71.959,
+          "end_time": 72.079
+        },
+        {
+          "text": " ",
+          "start_time": 72.079,
+          "end_time": 72.119
+        },
+        {
+          "text": "very",
+          "start_time": 72.119,
+          "end_time": 72.439
+        }
+      ]
+    },
+    {
+      "text": "essence of what makes us human.",
+      "start_time": 72.5,
+      "end_time": 74.279,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "essence",
+          "start_time": 72.5,
+          "end_time": 73.039
+        },
+        {
+          "text": " ",
+          "start_time": 73.039,
+          "end_time": 73.059
+        },
+        {
+          "text": "of",
+          "start_time": 73.059,
+          "end_time": 73.159
+        },
+        {
+          "text": " ",
+          "start_time": 73.159,
+          "end_time": 73.199
+        },
+        {
+          "text": "what",
+          "start_time": 73.199,
+          "end_time": 73.319
+        },
+        {
+          "text": " ",
+          "start_time": 73.319,
+          "end_time": 73.399
+        },
+        {
+          "text": "makes",
+          "start_time": 73.4,
+          "end_time": 73.619
+        },
+        {
+          "text": " ",
+          "start_time": 73.619,
+          "end_time": 73.659
+        },
+        {
+          "text": "us",
+          "start_time": 73.659,
+          "end_time": 73.779
+        },
+        {
+          "text": " ",
+          "start_time": 73.779,
+          "end_time": 73.879
+        },
+        {
+          "text": "human.",
+          "start_time": 73.879,
+          "end_time": 74.279
+        }
+      ]
+    }
+  ]
+}

@@ -81,9 +81,11 @@ export class ScreenManager {
     this._btnMat    = new THREE.MeshBasicMaterial({ visible: false });
 
     // fluid carousel tracking
-    this._fluidRecords = [];   // { record, fluidSim, hitBox, state }
+    this._fluidRecords = [];   // { record, fluidSim, hitBox, state, active }
     this._fluidMouse      = new THREE.Vector2(0, 0);
     this._fluidMousePrev  = new THREE.Vector2(0, 0);
+    this._mouseDelta      = new THREE.Vector2(); // reused per frame to avoid allocation
+    this._ndcScratch      = new THREE.Vector2(); // reused in pointer handlers
     this._fluidMouseActive = false;
     this._fluidActiveRecord = null;
     this._fluidDragStartX = 0;
@@ -758,7 +760,7 @@ export class ScreenManager {
     };
 
     // 5) Register fluid record for update loop
-    const fr = { record, fluidSim, hitBox: record.hitBox, state: carousel, screenMesh, _transition: null };
+    const fr = { record, fluidSim, hitBox: record.hitBox, state: carousel, screenMesh, _transition: null, active: false };
     this._fluidRecords.push(fr);
 
     // 6) Add pointer listeners for fluid drag + swipe
@@ -798,16 +800,19 @@ export class ScreenManager {
   // Per-frame update: steps fluid sims, updates uSim + uTime uniforms
   update(dt) {
     if (!this.renderer || !this._fluidRecords.length) return;
-    const mouseDelta = new THREE.Vector2();
     for (const fr of this._fluidRecords) {
       const { fluidSim, record } = fr;
       const uniforms = record.material?.uniforms;
       if (!uniforms) continue;
 
-      const isActive = this._fluidMouseActive && this._fluidActiveRecord === fr;
-      mouseDelta.subVectors(this._fluidMouse, this._fluidMousePrev).multiplyScalar(120);
+      // Skip GPU fluid sim for carousels that aren't currently focused.
+      // Transition ticks still run so a cross-fade completes after unfocus.
+      if (!fr.active && !fr._transition) continue;
 
-      fluidSim.update(dt, this.renderer, this._fluidMouse, mouseDelta, isActive);
+      const isActive = this._fluidMouseActive && this._fluidActiveRecord === fr;
+      this._mouseDelta.subVectors(this._fluidMouse, this._fluidMousePrev).multiplyScalar(120);
+
+      fluidSim.update(dt, this.renderer, this._fluidMouse, this._mouseDelta, isActive);
 
       if (fluidSim.texture) uniforms.uSim.value = fluidSim.texture;
       uniforms.uTime.value += dt;
@@ -839,6 +844,14 @@ export class ScreenManager {
     }
   }
 
+  // Mark the fluid record matching this hitBox as active (focused), all others inactive.
+  // Call with null to deactivate all (on unfocus / return home).
+  setActiveFluids(hitBox) {
+    for (const fr of this._fluidRecords) {
+      fr.active = fr.hitBox === hitBox;
+    }
+  }
+
   _onPointerMove(e) {
     if (!this._fluidMouseActive || !this._fluidActiveRecord) return;
     const fr = this._fluidActiveRecord;
@@ -846,7 +859,8 @@ export class ScreenManager {
     const rect = this.domElement.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
     const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-    this.raycaster.setFromCamera(new THREE.Vector2(x, y), this.camera);
+    this._ndcScratch.set(x, y);
+    this.raycaster.setFromCamera(this._ndcScratch, this.camera);
     const hits = this.raycaster.intersectObject(fr.hitBox, false);
     if (hits.length > 0) {
       const uv = hits[0].uv;

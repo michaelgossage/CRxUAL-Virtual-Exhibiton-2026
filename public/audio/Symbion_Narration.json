@@ -1,0 +1,1173 @@
+{
+  "language_code": null,
+  "segments": [
+    {
+      "text": "Symbion is a conceptual model for",
+      "start_time": 0.14,
+      "end_time": 2.279,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Symbion",
+          "start_time": 0.14,
+          "end_time": 0.799
+        },
+        {
+          "text": " ",
+          "start_time": 0.799,
+          "end_time": 0.839
+        },
+        {
+          "text": "is",
+          "start_time": 0.839,
+          "end_time": 0.939
+        },
+        {
+          "text": " ",
+          "start_time": 0.939,
+          "end_time": 0.959
+        },
+        {
+          "text": "a",
+          "start_time": 0.959,
+          "end_time": 1.019
+        },
+        {
+          "text": " ",
+          "start_time": 1.019,
+          "end_time": 1.059
+        },
+        {
+          "text": "conceptual",
+          "start_time": 1.059,
+          "end_time": 1.639
+        },
+        {
+          "text": " ",
+          "start_time": 1.639,
+          "end_time": 1.759
+        },
+        {
+          "text": "model",
+          "start_time": 1.759,
+          "end_time": 2.139
+        },
+        {
+          "text": " ",
+          "start_time": 2.139,
+          "end_time": 2.199
+        },
+        {
+          "text": "for",
+          "start_time": 2.2,
+          "end_time": 2.279
+        }
+      ]
+    },
+    {
+      "text": "human-embodied AI collaboration that",
+      "start_time": 2.399,
+      "end_time": 5.42,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "human-embodied",
+          "start_time": 2.399,
+          "end_time": 3.46
+        },
+        {
+          "text": " ",
+          "start_time": 3.46,
+          "end_time": 3.579
+        },
+        {
+          "text": "AI",
+          "start_time": 3.579,
+          "end_time": 3.899
+        },
+        {
+          "text": " ",
+          "start_time": 3.899,
+          "end_time": 3.999
+        },
+        {
+          "text": "collaboration",
+          "start_time": 4.0,
+          "end_time": 4.819
+        },
+        {
+          "text": " ",
+          "start_time": 4.819,
+          "end_time": 5.299
+        },
+        {
+          "text": "that",
+          "start_time": 5.299,
+          "end_time": 5.42
+        }
+      ]
+    },
+    {
+      "text": "centers on a novel human-AI relationship",
+      "start_time": 5.48,
+      "end_time": 8.46,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "centers",
+          "start_time": 5.48,
+          "end_time": 5.96
+        },
+        {
+          "text": " ",
+          "start_time": 5.96,
+          "end_time": 6.019
+        },
+        {
+          "text": "on",
+          "start_time": 6.019,
+          "end_time": 6.099
+        },
+        {
+          "text": " ",
+          "start_time": 6.099,
+          "end_time": 6.159
+        },
+        {
+          "text": "a",
+          "start_time": 6.159,
+          "end_time": 6.199
+        },
+        {
+          "text": " ",
+          "start_time": 6.199,
+          "end_time": 6.299
+        },
+        {
+          "text": "novel",
+          "start_time": 6.299,
+          "end_time": 6.639
+        },
+        {
+          "text": " ",
+          "start_time": 6.639,
+          "end_time": 6.98
+        },
+        {
+          "text": "human-AI",
+          "start_time": 6.98,
+          "end_time": 7.779
+        },
+        {
+          "text": " ",
+          "start_time": 7.779,
+          "end_time": 7.859
+        },
+        {
+          "text": "relationship",
+          "start_time": 7.859,
+          "end_time": 8.46
+        }
+      ]
+    },
+    {
+      "text": "spectrum,",
+      "start_time": 8.539,
+      "end_time": 9.039,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "spectrum,",
+          "start_time": 8.539,
+          "end_time": 9.039
+        }
+      ]
+    },
+    {
+      "text": "under which a biomimetic robotic hand",
+      "start_time": 9.699,
+      "end_time": 12.819,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "under",
+          "start_time": 9.699,
+          "end_time": 9.939
+        },
+        {
+          "text": " ",
+          "start_time": 9.939,
+          "end_time": 10.0
+        },
+        {
+          "text": "which",
+          "start_time": 10.0,
+          "end_time": 10.319
+        },
+        {
+          "text": " ",
+          "start_time": 10.319,
+          "end_time": 10.679
+        },
+        {
+          "text": "a",
+          "start_time": 10.679,
+          "end_time": 10.779
+        },
+        {
+          "text": " ",
+          "start_time": 10.779,
+          "end_time": 10.84
+        },
+        {
+          "text": "biomimetic",
+          "start_time": 10.84,
+          "end_time": 11.719
+        },
+        {
+          "text": " ",
+          "start_time": 11.719,
+          "end_time": 11.819
+        },
+        {
+          "text": "robotic",
+          "start_time": 11.819,
+          "end_time": 12.279
+        },
+        {
+          "text": " ",
+          "start_time": 12.279,
+          "end_time": 12.399
+        },
+        {
+          "text": "hand",
+          "start_time": 12.399,
+          "end_time": 12.819
+        }
+      ]
+    },
+    {
+      "text": "operates.",
+      "start_time": 12.899,
+      "end_time": 13.599,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "operates.",
+          "start_time": 12.899,
+          "end_time": 13.599
+        }
+      ]
+    },
+    {
+      "text": "The spectrum spans five modes:",
+      "start_time": 14.859,
+      "end_time": 17.039,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "The",
+          "start_time": 14.859,
+          "end_time": 14.92
+        },
+        {
+          "text": " ",
+          "start_time": 14.92,
+          "end_time": 15.0
+        },
+        {
+          "text": "spectrum",
+          "start_time": 15.0,
+          "end_time": 15.519
+        },
+        {
+          "text": " ",
+          "start_time": 15.519,
+          "end_time": 15.659
+        },
+        {
+          "text": "spans",
+          "start_time": 15.659,
+          "end_time": 16.02
+        },
+        {
+          "text": " ",
+          "start_time": 16.02,
+          "end_time": 16.159
+        },
+        {
+          "text": "five",
+          "start_time": 16.159,
+          "end_time": 16.459
+        },
+        {
+          "text": " ",
+          "start_time": 16.459,
+          "end_time": 16.559
+        },
+        {
+          "text": "modes:",
+          "start_time": 16.559,
+          "end_time": 17.039
+        }
+      ]
+    },
+    {
+      "text": "manual,",
+      "start_time": 17.799,
+      "end_time": 18.199,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "manual,",
+          "start_time": 17.799,
+          "end_time": 18.199
+        }
+      ]
+    },
+    {
+      "text": "training,",
+      "start_time": 19.02,
+      "end_time": 19.559,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "training,",
+          "start_time": 19.02,
+          "end_time": 19.559
+        }
+      ]
+    },
+    {
+      "text": "collaboration,",
+      "start_time": 20.299,
+      "end_time": 21.18,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "collaboration,",
+          "start_time": 20.299,
+          "end_time": 21.18
+        }
+      ]
+    },
+    {
+      "text": "guidance, and automated,",
+      "start_time": 22.02,
+      "end_time": 24.319,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "guidance,",
+          "start_time": 22.02,
+          "end_time": 22.699
+        },
+        {
+          "text": " ",
+          "start_time": 22.699,
+          "end_time": 23.299
+        },
+        {
+          "text": "and",
+          "start_time": 23.299,
+          "end_time": 23.5
+        },
+        {
+          "text": " ",
+          "start_time": 23.5,
+          "end_time": 23.579
+        },
+        {
+          "text": "automated,",
+          "start_time": 23.579,
+          "end_time": 24.319
+        }
+      ]
+    },
+    {
+      "text": "each reflecting a different balance of",
+      "start_time": 25.299,
+      "end_time": 27.139,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "each",
+          "start_time": 25.299,
+          "end_time": 25.479
+        },
+        {
+          "text": " ",
+          "start_time": 25.479,
+          "end_time": 25.539
+        },
+        {
+          "text": "reflecting",
+          "start_time": 25.539,
+          "end_time": 26.059
+        },
+        {
+          "text": " ",
+          "start_time": 26.059,
+          "end_time": 26.119
+        },
+        {
+          "text": "a",
+          "start_time": 26.119,
+          "end_time": 26.199
+        },
+        {
+          "text": " ",
+          "start_time": 26.199,
+          "end_time": 26.259
+        },
+        {
+          "text": "different",
+          "start_time": 26.26,
+          "end_time": 26.579
+        },
+        {
+          "text": " ",
+          "start_time": 26.579,
+          "end_time": 26.639
+        },
+        {
+          "text": "balance",
+          "start_time": 26.639,
+          "end_time": 27.0
+        },
+        {
+          "text": " ",
+          "start_time": 27.0,
+          "end_time": 27.059
+        },
+        {
+          "text": "of",
+          "start_time": 27.059,
+          "end_time": 27.139
+        }
+      ]
+    },
+    {
+      "text": "control and learning between human and AI.",
+      "start_time": 27.199,
+      "end_time": 30.499,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "control",
+          "start_time": 27.199,
+          "end_time": 27.799
+        },
+        {
+          "text": " ",
+          "start_time": 27.799,
+          "end_time": 27.879
+        },
+        {
+          "text": "and",
+          "start_time": 27.879,
+          "end_time": 28.079
+        },
+        {
+          "text": " ",
+          "start_time": 28.079,
+          "end_time": 28.18
+        },
+        {
+          "text": "learning",
+          "start_time": 28.18,
+          "end_time": 28.599
+        },
+        {
+          "text": " ",
+          "start_time": 28.599,
+          "end_time": 28.739
+        },
+        {
+          "text": "between",
+          "start_time": 28.739,
+          "end_time": 29.119
+        },
+        {
+          "text": " ",
+          "start_time": 29.119,
+          "end_time": 29.199
+        },
+        {
+          "text": "human",
+          "start_time": 29.199,
+          "end_time": 29.639
+        },
+        {
+          "text": " ",
+          "start_time": 29.639,
+          "end_time": 29.719
+        },
+        {
+          "text": "and",
+          "start_time": 29.719,
+          "end_time": 29.92
+        },
+        {
+          "text": " ",
+          "start_time": 29.92,
+          "end_time": 30.099
+        },
+        {
+          "text": "AI.",
+          "start_time": 30.099,
+          "end_time": 30.499
+        }
+      ]
+    },
+    {
+      "text": "Within this framework, the robotic hand",
+      "start_time": 31.659,
+      "end_time": 34.139,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Within",
+          "start_time": 31.659,
+          "end_time": 31.899
+        },
+        {
+          "text": " ",
+          "start_time": 31.899,
+          "end_time": 31.959
+        },
+        {
+          "text": "this",
+          "start_time": 31.959,
+          "end_time": 32.119
+        },
+        {
+          "text": " ",
+          "start_time": 32.119,
+          "end_time": 32.219
+        },
+        {
+          "text": "framework,",
+          "start_time": 32.219,
+          "end_time": 32.819
+        },
+        {
+          "text": " ",
+          "start_time": 32.819,
+          "end_time": 33.139
+        },
+        {
+          "text": "the",
+          "start_time": 33.139,
+          "end_time": 33.18
+        },
+        {
+          "text": " ",
+          "start_time": 33.18,
+          "end_time": 33.239
+        },
+        {
+          "text": "robotic",
+          "start_time": 33.239,
+          "end_time": 33.719
+        },
+        {
+          "text": " ",
+          "start_time": 33.719,
+          "end_time": 33.779
+        },
+        {
+          "text": "hand",
+          "start_time": 33.779,
+          "end_time": 34.139
+        }
+      ]
+    },
+    {
+      "text": "is designed to collaborate seamlessly with",
+      "start_time": 34.18,
+      "end_time": 36.52,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "is",
+          "start_time": 34.18,
+          "end_time": 34.279
+        },
+        {
+          "text": " ",
+          "start_time": 34.279,
+          "end_time": 34.34
+        },
+        {
+          "text": "designed",
+          "start_time": 34.34,
+          "end_time": 34.88
+        },
+        {
+          "text": " ",
+          "start_time": 34.88,
+          "end_time": 34.899
+        },
+        {
+          "text": "to",
+          "start_time": 34.899,
+          "end_time": 35.0
+        },
+        {
+          "text": " ",
+          "start_time": 35.0,
+          "end_time": 35.04
+        },
+        {
+          "text": "collaborate",
+          "start_time": 35.04,
+          "end_time": 35.599
+        },
+        {
+          "text": " ",
+          "start_time": 35.599,
+          "end_time": 35.799
+        },
+        {
+          "text": "seamlessly",
+          "start_time": 35.799,
+          "end_time": 36.319
+        },
+        {
+          "text": " ",
+          "start_time": 36.319,
+          "end_time": 36.399
+        },
+        {
+          "text": "with",
+          "start_time": 36.399,
+          "end_time": 36.52
+        }
+      ]
+    },
+    {
+      "text": "humans in existing ergonomic contexts",
+      "start_time": 36.599,
+      "end_time": 39.479,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "humans",
+          "start_time": 36.599,
+          "end_time": 37.279
+        },
+        {
+          "text": " ",
+          "start_time": 37.279,
+          "end_time": 37.34
+        },
+        {
+          "text": "in",
+          "start_time": 37.34,
+          "end_time": 37.399
+        },
+        {
+          "text": " ",
+          "start_time": 37.399,
+          "end_time": 37.479
+        },
+        {
+          "text": "existing",
+          "start_time": 37.479,
+          "end_time": 38.04
+        },
+        {
+          "text": " ",
+          "start_time": 38.04,
+          "end_time": 38.139
+        },
+        {
+          "text": "ergonomic",
+          "start_time": 38.139,
+          "end_time": 38.699
+        },
+        {
+          "text": " ",
+          "start_time": 38.699,
+          "end_time": 38.759
+        },
+        {
+          "text": "contexts",
+          "start_time": 38.759,
+          "end_time": 39.479
+        }
+      ]
+    },
+    {
+      "text": "while expressing movements in ways that",
+      "start_time": 39.939,
+      "end_time": 42.059,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "while",
+          "start_time": 39.939,
+          "end_time": 40.059
+        },
+        {
+          "text": " ",
+          "start_time": 40.059,
+          "end_time": 40.139
+        },
+        {
+          "text": "expressing",
+          "start_time": 40.139,
+          "end_time": 40.68
+        },
+        {
+          "text": " ",
+          "start_time": 40.68,
+          "end_time": 40.739
+        },
+        {
+          "text": "movements",
+          "start_time": 40.739,
+          "end_time": 41.18
+        },
+        {
+          "text": " ",
+          "start_time": 41.18,
+          "end_time": 41.239
+        },
+        {
+          "text": "in",
+          "start_time": 41.239,
+          "end_time": 41.36
+        },
+        {
+          "text": " ",
+          "start_time": 41.36,
+          "end_time": 41.419
+        },
+        {
+          "text": "ways",
+          "start_time": 41.419,
+          "end_time": 41.919
+        },
+        {
+          "text": " ",
+          "start_time": 41.919,
+          "end_time": 41.959
+        },
+        {
+          "text": "that",
+          "start_time": 41.959,
+          "end_time": 42.059
+        }
+      ]
+    },
+    {
+      "text": "are naturally intuitive and easy to",
+      "start_time": 42.099,
+      "end_time": 44.439,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "are",
+          "start_time": 42.099,
+          "end_time": 42.219
+        },
+        {
+          "text": " ",
+          "start_time": 42.219,
+          "end_time": 42.259
+        },
+        {
+          "text": "naturally",
+          "start_time": 42.259,
+          "end_time": 42.759
+        },
+        {
+          "text": " ",
+          "start_time": 42.759,
+          "end_time": 42.819
+        },
+        {
+          "text": "intuitive",
+          "start_time": 42.819,
+          "end_time": 43.679
+        },
+        {
+          "text": " ",
+          "start_time": 43.679,
+          "end_time": 43.739
+        },
+        {
+          "text": "and",
+          "start_time": 43.739,
+          "end_time": 43.899
+        },
+        {
+          "text": " ",
+          "start_time": 43.899,
+          "end_time": 44.019
+        },
+        {
+          "text": "easy",
+          "start_time": 44.02,
+          "end_time": 44.34
+        },
+        {
+          "text": " ",
+          "start_time": 44.34,
+          "end_time": 44.379
+        },
+        {
+          "text": "to",
+          "start_time": 44.379,
+          "end_time": 44.439
+        }
+      ]
+    },
+    {
+      "text": "interpret.",
+      "start_time": 44.479,
+      "end_time": 45.2,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "interpret.",
+          "start_time": 44.479,
+          "end_time": 45.2
+        }
+      ]
+    },
+    {
+      "text": "Together, these elements create a unified",
+      "start_time": 46.219,
+      "end_time": 49.079,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Together,",
+          "start_time": 46.219,
+          "end_time": 46.659
+        },
+        {
+          "text": " ",
+          "start_time": 46.659,
+          "end_time": 47.079
+        },
+        {
+          "text": "these",
+          "start_time": 47.079,
+          "end_time": 47.319
+        },
+        {
+          "text": " ",
+          "start_time": 47.319,
+          "end_time": 47.379
+        },
+        {
+          "text": "elements",
+          "start_time": 47.379,
+          "end_time": 47.84
+        },
+        {
+          "text": " ",
+          "start_time": 47.84,
+          "end_time": 47.919
+        },
+        {
+          "text": "create",
+          "start_time": 47.919,
+          "end_time": 48.299
+        },
+        {
+          "text": " ",
+          "start_time": 48.299,
+          "end_time": 48.379
+        },
+        {
+          "text": "a",
+          "start_time": 48.379,
+          "end_time": 48.459
+        },
+        {
+          "text": " ",
+          "start_time": 48.459,
+          "end_time": 48.599
+        },
+        {
+          "text": "unified",
+          "start_time": 48.599,
+          "end_time": 49.079
+        }
+      ]
+    },
+    {
+      "text": "environment for exploring how embodied AI",
+      "start_time": 49.119,
+      "end_time": 52.339,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "environment",
+          "start_time": 49.119,
+          "end_time": 50.019
+        },
+        {
+          "text": " ",
+          "start_time": 50.019,
+          "end_time": 50.079
+        },
+        {
+          "text": "for",
+          "start_time": 50.079,
+          "end_time": 50.139
+        },
+        {
+          "text": " ",
+          "start_time": 50.139,
+          "end_time": 50.239
+        },
+        {
+          "text": "exploring",
+          "start_time": 50.239,
+          "end_time": 50.88
+        },
+        {
+          "text": " ",
+          "start_time": 50.88,
+          "end_time": 50.979
+        },
+        {
+          "text": "how",
+          "start_time": 50.979,
+          "end_time": 51.099
+        },
+        {
+          "text": " ",
+          "start_time": 51.099,
+          "end_time": 51.18
+        },
+        {
+          "text": "embodied",
+          "start_time": 51.18,
+          "end_time": 51.759
+        },
+        {
+          "text": " ",
+          "start_time": 51.759,
+          "end_time": 51.939
+        },
+        {
+          "text": "AI",
+          "start_time": 51.939,
+          "end_time": 52.339
+        }
+      ]
+    },
+    {
+      "text": "and humans can learn from one another,",
+      "start_time": 52.439,
+      "end_time": 55.159,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "and",
+          "start_time": 52.439,
+          "end_time": 52.619
+        },
+        {
+          "text": " ",
+          "start_time": 52.619,
+          "end_time": 52.759
+        },
+        {
+          "text": "humans",
+          "start_time": 52.759,
+          "end_time": 53.459
+        },
+        {
+          "text": " ",
+          "start_time": 53.459,
+          "end_time": 53.52
+        },
+        {
+          "text": "can",
+          "start_time": 53.52,
+          "end_time": 53.639
+        },
+        {
+          "text": " ",
+          "start_time": 53.639,
+          "end_time": 53.739
+        },
+        {
+          "text": "learn",
+          "start_time": 53.739,
+          "end_time": 53.959
+        },
+        {
+          "text": " ",
+          "start_time": 53.959,
+          "end_time": 54.0
+        },
+        {
+          "text": "from",
+          "start_time": 54.0,
+          "end_time": 54.119
+        },
+        {
+          "text": " ",
+          "start_time": 54.119,
+          "end_time": 54.159
+        },
+        {
+          "text": "one",
+          "start_time": 54.159,
+          "end_time": 54.259
+        },
+        {
+          "text": " ",
+          "start_time": 54.259,
+          "end_time": 54.299
+        },
+        {
+          "text": "another,",
+          "start_time": 54.299,
+          "end_time": 55.159
+        }
+      ]
+    },
+    {
+      "text": "share control, and work in synergy.",
+      "start_time": 55.279,
+      "end_time": 58.039,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "share",
+          "start_time": 55.279,
+          "end_time": 55.479
+        },
+        {
+          "text": " ",
+          "start_time": 55.479,
+          "end_time": 55.539
+        },
+        {
+          "text": "control,",
+          "start_time": 55.539,
+          "end_time": 56.119
+        },
+        {
+          "text": " ",
+          "start_time": 56.119,
+          "end_time": 56.539
+        },
+        {
+          "text": "and",
+          "start_time": 56.539,
+          "end_time": 56.739
+        },
+        {
+          "text": " ",
+          "start_time": 56.739,
+          "end_time": 56.819
+        },
+        {
+          "text": "work",
+          "start_time": 56.819,
+          "end_time": 57.239
+        },
+        {
+          "text": " ",
+          "start_time": 57.239,
+          "end_time": 57.299
+        },
+        {
+          "text": "in",
+          "start_time": 57.299,
+          "end_time": 57.479
+        },
+        {
+          "text": " ",
+          "start_time": 57.479,
+          "end_time": 57.539
+        },
+        {
+          "text": "synergy.",
+          "start_time": 57.539,
+          "end_time": 58.039
+        }
+      ]
+    }
+  ]
+}

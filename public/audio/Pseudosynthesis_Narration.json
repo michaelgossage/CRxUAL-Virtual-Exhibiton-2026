@@ -1,0 +1,1029 @@
+{
+  "language_code": null,
+  "segments": [
+    {
+      "text": "This project investigates whether",
+      "start_time": 0.079,
+      "end_time": 1.779,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "This",
+          "start_time": 0.079,
+          "end_time": 0.299
+        },
+        {
+          "text": " ",
+          "start_time": 0.299,
+          "end_time": 0.339
+        },
+        {
+          "text": "project",
+          "start_time": 0.34,
+          "end_time": 0.819
+        },
+        {
+          "text": " ",
+          "start_time": 0.819,
+          "end_time": 0.879
+        },
+        {
+          "text": "investigates",
+          "start_time": 0.879,
+          "end_time": 1.48
+        },
+        {
+          "text": " ",
+          "start_time": 1.48,
+          "end_time": 1.539
+        },
+        {
+          "text": "whether",
+          "start_time": 1.539,
+          "end_time": 1.779
+        }
+      ]
+    },
+    {
+      "text": "AI-generated performers can authentically",
+      "start_time": 1.899,
+      "end_time": 4.619,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "AI-generated",
+          "start_time": 1.899,
+          "end_time": 2.779
+        },
+        {
+          "text": " ",
+          "start_time": 2.779,
+          "end_time": 2.879
+        },
+        {
+          "text": "performers",
+          "start_time": 2.879,
+          "end_time": 3.5
+        },
+        {
+          "text": " ",
+          "start_time": 3.5,
+          "end_time": 3.779
+        },
+        {
+          "text": "can",
+          "start_time": 3.779,
+          "end_time": 3.879
+        },
+        {
+          "text": " ",
+          "start_time": 3.879,
+          "end_time": 3.919
+        },
+        {
+          "text": "authentically",
+          "start_time": 3.919,
+          "end_time": 4.619
+        }
+      ]
+    },
+    {
+      "text": "replicate human emotional expression in",
+      "start_time": 4.659,
+      "end_time": 7.179,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "replicate",
+          "start_time": 4.659,
+          "end_time": 5.279
+        },
+        {
+          "text": " ",
+          "start_time": 5.279,
+          "end_time": 5.359
+        },
+        {
+          "text": "human",
+          "start_time": 5.359,
+          "end_time": 5.659
+        },
+        {
+          "text": " ",
+          "start_time": 5.659,
+          "end_time": 5.859
+        },
+        {
+          "text": "emotional",
+          "start_time": 5.859,
+          "end_time": 6.279
+        },
+        {
+          "text": " ",
+          "start_time": 6.279,
+          "end_time": 6.379
+        },
+        {
+          "text": "expression",
+          "start_time": 6.379,
+          "end_time": 7.0
+        },
+        {
+          "text": " ",
+          "start_time": 7.0,
+          "end_time": 7.059
+        },
+        {
+          "text": "in",
+          "start_time": 7.059,
+          "end_time": 7.179
+        }
+      ]
+    },
+    {
+      "text": "dance and performance.",
+      "start_time": 7.239,
+      "end_time": 8.5,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "dance",
+          "start_time": 7.239,
+          "end_time": 7.559
+        },
+        {
+          "text": " ",
+          "start_time": 7.559,
+          "end_time": 7.619
+        },
+        {
+          "text": "and",
+          "start_time": 7.619,
+          "end_time": 7.699
+        },
+        {
+          "text": " ",
+          "start_time": 7.699,
+          "end_time": 7.759
+        },
+        {
+          "text": "performance.",
+          "start_time": 7.759,
+          "end_time": 8.5
+        }
+      ]
+    },
+    {
+      "text": "Through interviews with dancers and motion",
+      "start_time": 9.599,
+      "end_time": 11.84,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Through",
+          "start_time": 9.599,
+          "end_time": 9.84
+        },
+        {
+          "text": " ",
+          "start_time": 9.84,
+          "end_time": 9.899
+        },
+        {
+          "text": "interviews",
+          "start_time": 9.899,
+          "end_time": 10.38
+        },
+        {
+          "text": " ",
+          "start_time": 10.38,
+          "end_time": 10.439
+        },
+        {
+          "text": "with",
+          "start_time": 10.439,
+          "end_time": 10.539
+        },
+        {
+          "text": " ",
+          "start_time": 10.539,
+          "end_time": 10.639
+        },
+        {
+          "text": "dancers",
+          "start_time": 10.639,
+          "end_time": 11.199
+        },
+        {
+          "text": " ",
+          "start_time": 11.199,
+          "end_time": 11.259
+        },
+        {
+          "text": "and",
+          "start_time": 11.259,
+          "end_time": 11.38
+        },
+        {
+          "text": " ",
+          "start_time": 11.38,
+          "end_time": 11.539
+        },
+        {
+          "text": "motion",
+          "start_time": 11.539,
+          "end_time": 11.84
+        }
+      ]
+    },
+    {
+      "text": "capture experiments, it identifies three",
+      "start_time": 11.88,
+      "end_time": 14.699,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "capture",
+          "start_time": 11.88,
+          "end_time": 12.179
+        },
+        {
+          "text": " ",
+          "start_time": 12.179,
+          "end_time": 12.279
+        },
+        {
+          "text": "experiments,",
+          "start_time": 12.279,
+          "end_time": 12.92
+        },
+        {
+          "text": " ",
+          "start_time": 12.92,
+          "end_time": 13.38
+        },
+        {
+          "text": "it",
+          "start_time": 13.38,
+          "end_time": 13.46
+        },
+        {
+          "text": " ",
+          "start_time": 13.46,
+          "end_time": 13.619
+        },
+        {
+          "text": "identifies",
+          "start_time": 13.619,
+          "end_time": 14.42
+        },
+        {
+          "text": " ",
+          "start_time": 14.42,
+          "end_time": 14.479
+        },
+        {
+          "text": "three",
+          "start_time": 14.479,
+          "end_time": 14.699
+        }
+      ]
+    },
+    {
+      "text": "stages of human emotion:",
+      "start_time": 14.819,
+      "end_time": 16.42,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "stages",
+          "start_time": 14.819,
+          "end_time": 15.319
+        },
+        {
+          "text": " ",
+          "start_time": 15.319,
+          "end_time": 15.399
+        },
+        {
+          "text": "of",
+          "start_time": 15.399,
+          "end_time": 15.479
+        },
+        {
+          "text": " ",
+          "start_time": 15.479,
+          "end_time": 15.579
+        },
+        {
+          "text": "human",
+          "start_time": 15.579,
+          "end_time": 15.799
+        },
+        {
+          "text": " ",
+          "start_time": 15.799,
+          "end_time": 15.879
+        },
+        {
+          "text": "emotion:",
+          "start_time": 15.88,
+          "end_time": 16.42
+        }
+      ]
+    },
+    {
+      "text": "raw, mechanical, controlled,",
+      "start_time": 17.059,
+      "end_time": 19.26,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "raw,",
+          "start_time": 17.059,
+          "end_time": 17.34
+        },
+        {
+          "text": " ",
+          "start_time": 17.34,
+          "end_time": 17.719
+        },
+        {
+          "text": "mechanical,",
+          "start_time": 17.719,
+          "end_time": 18.359
+        },
+        {
+          "text": " ",
+          "start_time": 18.359,
+          "end_time": 18.639
+        },
+        {
+          "text": "controlled,",
+          "start_time": 18.639,
+          "end_time": 19.26
+        }
+      ]
+    },
+    {
+      "text": "and argues that AI is limited to mimicry",
+      "start_time": 20.039,
+      "end_time": 22.859,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "and",
+          "start_time": 20.039,
+          "end_time": 20.159
+        },
+        {
+          "text": " ",
+          "start_time": 20.159,
+          "end_time": 20.299
+        },
+        {
+          "text": "argues",
+          "start_time": 20.299,
+          "end_time": 20.68
+        },
+        {
+          "text": " ",
+          "start_time": 20.68,
+          "end_time": 20.719
+        },
+        {
+          "text": "that",
+          "start_time": 20.719,
+          "end_time": 20.879
+        },
+        {
+          "text": " ",
+          "start_time": 20.879,
+          "end_time": 21.059
+        },
+        {
+          "text": "AI",
+          "start_time": 21.059,
+          "end_time": 21.34
+        },
+        {
+          "text": " ",
+          "start_time": 21.34,
+          "end_time": 21.42
+        },
+        {
+          "text": "is",
+          "start_time": 21.42,
+          "end_time": 21.52
+        },
+        {
+          "text": " ",
+          "start_time": 21.52,
+          "end_time": 21.659
+        },
+        {
+          "text": "limited",
+          "start_time": 21.659,
+          "end_time": 22.059
+        },
+        {
+          "text": " ",
+          "start_time": 22.059,
+          "end_time": 22.119
+        },
+        {
+          "text": "to",
+          "start_time": 22.119,
+          "end_time": 22.199
+        },
+        {
+          "text": " ",
+          "start_time": 22.199,
+          "end_time": 22.319
+        },
+        {
+          "text": "mimicry",
+          "start_time": 22.319,
+          "end_time": 22.859
+        }
+      ]
+    },
+    {
+      "text": "due to its lack of consciousness,",
+      "start_time": 23.219,
+      "end_time": 24.94,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "due",
+          "start_time": 23.219,
+          "end_time": 23.379
+        },
+        {
+          "text": " ",
+          "start_time": 23.379,
+          "end_time": 23.42
+        },
+        {
+          "text": "to",
+          "start_time": 23.42,
+          "end_time": 23.5
+        },
+        {
+          "text": " ",
+          "start_time": 23.5,
+          "end_time": 23.539
+        },
+        {
+          "text": "its",
+          "start_time": 23.539,
+          "end_time": 23.68
+        },
+        {
+          "text": " ",
+          "start_time": 23.68,
+          "end_time": 23.779
+        },
+        {
+          "text": "lack",
+          "start_time": 23.779,
+          "end_time": 23.979
+        },
+        {
+          "text": " ",
+          "start_time": 23.979,
+          "end_time": 24.039
+        },
+        {
+          "text": "of",
+          "start_time": 24.039,
+          "end_time": 24.159
+        },
+        {
+          "text": " ",
+          "start_time": 24.159,
+          "end_time": 24.239
+        },
+        {
+          "text": "consciousness,",
+          "start_time": 24.239,
+          "end_time": 24.94
+        }
+      ]
+    },
+    {
+      "text": "embodiment, and lived experience.",
+      "start_time": 25.219,
+      "end_time": 27.579,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "embodiment,",
+          "start_time": 25.219,
+          "end_time": 25.899
+        },
+        {
+          "text": " ",
+          "start_time": 25.899,
+          "end_time": 26.199
+        },
+        {
+          "text": "and",
+          "start_time": 26.199,
+          "end_time": 26.34
+        },
+        {
+          "text": " ",
+          "start_time": 26.34,
+          "end_time": 26.459
+        },
+        {
+          "text": "lived",
+          "start_time": 26.459,
+          "end_time": 26.68
+        },
+        {
+          "text": " ",
+          "start_time": 26.68,
+          "end_time": 26.779
+        },
+        {
+          "text": "experience.",
+          "start_time": 26.779,
+          "end_time": 27.579
+        }
+      ]
+    },
+    {
+      "text": "Drawing on Judith Butler's theories, it",
+      "start_time": 29.119,
+      "end_time": 31.579,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "Drawing",
+          "start_time": 29.119,
+          "end_time": 29.479
+        },
+        {
+          "text": " ",
+          "start_time": 29.479,
+          "end_time": 29.539
+        },
+        {
+          "text": "on",
+          "start_time": 29.539,
+          "end_time": 29.639
+        },
+        {
+          "text": " ",
+          "start_time": 29.639,
+          "end_time": 29.759
+        },
+        {
+          "text": "Judith",
+          "start_time": 29.76,
+          "end_time": 30.079
+        },
+        {
+          "text": " ",
+          "start_time": 30.079,
+          "end_time": 30.159
+        },
+        {
+          "text": "Butler's",
+          "start_time": 30.159,
+          "end_time": 30.519
+        },
+        {
+          "text": " ",
+          "start_time": 30.519,
+          "end_time": 30.579
+        },
+        {
+          "text": "theories,",
+          "start_time": 30.579,
+          "end_time": 31.059
+        },
+        {
+          "text": " ",
+          "start_time": 31.059,
+          "end_time": 31.459
+        },
+        {
+          "text": "it",
+          "start_time": 31.459,
+          "end_time": 31.579
+        }
+      ]
+    },
+    {
+      "text": "contrasts human performativity, fluid,",
+      "start_time": 31.599,
+      "end_time": 34.52,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "contrasts",
+          "start_time": 31.599,
+          "end_time": 32.239
+        },
+        {
+          "text": " ",
+          "start_time": 32.239,
+          "end_time": 32.359
+        },
+        {
+          "text": "human",
+          "start_time": 32.36,
+          "end_time": 32.7
+        },
+        {
+          "text": " ",
+          "start_time": 32.7,
+          "end_time": 32.739
+        },
+        {
+          "text": "performativity,",
+          "start_time": 32.739,
+          "end_time": 33.619
+        },
+        {
+          "text": " ",
+          "start_time": 33.619,
+          "end_time": 34.159
+        },
+        {
+          "text": "fluid,",
+          "start_time": 34.159,
+          "end_time": 34.52
+        }
+      ]
+    },
+    {
+      "text": "culturally embedded, with AI's programmed",
+      "start_time": 34.84,
+      "end_time": 37.759,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "culturally",
+          "start_time": 34.84,
+          "end_time": 35.259
+        },
+        {
+          "text": " ",
+          "start_time": 35.259,
+          "end_time": 35.279
+        },
+        {
+          "text": "embedded,",
+          "start_time": 35.279,
+          "end_time": 35.779
+        },
+        {
+          "text": " ",
+          "start_time": 35.779,
+          "end_time": 36.299
+        },
+        {
+          "text": "with",
+          "start_time": 36.299,
+          "end_time": 36.419
+        },
+        {
+          "text": " ",
+          "start_time": 36.419,
+          "end_time": 36.579
+        },
+        {
+          "text": "AI's",
+          "start_time": 36.579,
+          "end_time": 37.099
+        },
+        {
+          "text": " ",
+          "start_time": 37.099,
+          "end_time": 37.18
+        },
+        {
+          "text": "programmed",
+          "start_time": 37.18,
+          "end_time": 37.759
+        }
+      ]
+    },
+    {
+      "text": "rigidity.",
+      "start_time": 37.819,
+      "end_time": 38.459,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "rigidity.",
+          "start_time": 37.819,
+          "end_time": 38.459
+        }
+      ]
+    },
+    {
+      "text": "The work also explores queering digital",
+      "start_time": 39.599,
+      "end_time": 42.139,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "The",
+          "start_time": 39.599,
+          "end_time": 39.659
+        },
+        {
+          "text": " ",
+          "start_time": 39.659,
+          "end_time": 39.739
+        },
+        {
+          "text": "work",
+          "start_time": 39.739,
+          "end_time": 40.0
+        },
+        {
+          "text": " ",
+          "start_time": 40.0,
+          "end_time": 40.099
+        },
+        {
+          "text": "also",
+          "start_time": 40.099,
+          "end_time": 40.399
+        },
+        {
+          "text": " ",
+          "start_time": 40.399,
+          "end_time": 40.479
+        },
+        {
+          "text": "explores",
+          "start_time": 40.479,
+          "end_time": 40.939
+        },
+        {
+          "text": " ",
+          "start_time": 40.939,
+          "end_time": 41.079
+        },
+        {
+          "text": "queering",
+          "start_time": 41.079,
+          "end_time": 41.699
+        },
+        {
+          "text": " ",
+          "start_time": 41.699,
+          "end_time": 41.739
+        },
+        {
+          "text": "digital",
+          "start_time": 41.739,
+          "end_time": 42.139
+        }
+      ]
+    },
+    {
+      "text": "avatars, critiques the commodification of",
+      "start_time": 42.2,
+      "end_time": 44.819,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "avatars,",
+          "start_time": 42.2,
+          "end_time": 42.799
+        },
+        {
+          "text": " ",
+          "start_time": 42.799,
+          "end_time": 43.299
+        },
+        {
+          "text": "critiques",
+          "start_time": 43.299,
+          "end_time": 43.72
+        },
+        {
+          "text": " ",
+          "start_time": 43.72,
+          "end_time": 43.759
+        },
+        {
+          "text": "the",
+          "start_time": 43.759,
+          "end_time": 43.86
+        },
+        {
+          "text": " ",
+          "start_time": 43.86,
+          "end_time": 43.879
+        },
+        {
+          "text": "commodification",
+          "start_time": 43.879,
+          "end_time": 44.7
+        },
+        {
+          "text": " ",
+          "start_time": 44.7,
+          "end_time": 44.7
+        },
+        {
+          "text": "of",
+          "start_time": 44.7,
+          "end_time": 44.819
+        }
+      ]
+    },
+    {
+      "text": "bodies, and uses a 3D fashion film to",
+      "start_time": 44.879,
+      "end_time": 48.36,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "bodies,",
+          "start_time": 44.879,
+          "end_time": 45.36
+        },
+        {
+          "text": " ",
+          "start_time": 45.36,
+          "end_time": 45.86
+        },
+        {
+          "text": "and",
+          "start_time": 45.86,
+          "end_time": 46.0
+        },
+        {
+          "text": " ",
+          "start_time": 46.0,
+          "end_time": 46.099
+        },
+        {
+          "text": "uses",
+          "start_time": 46.099,
+          "end_time": 46.459
+        },
+        {
+          "text": " ",
+          "start_time": 46.459,
+          "end_time": 46.5
+        },
+        {
+          "text": "a",
+          "start_time": 46.5,
+          "end_time": 46.619
+        },
+        {
+          "text": " ",
+          "start_time": 46.619,
+          "end_time": 46.899
+        },
+        {
+          "text": "3D",
+          "start_time": 46.899,
+          "end_time": 47.159
+        },
+        {
+          "text": " ",
+          "start_time": 47.159,
+          "end_time": 47.299
+        },
+        {
+          "text": "fashion",
+          "start_time": 47.299,
+          "end_time": 47.68
+        },
+        {
+          "text": " ",
+          "start_time": 47.68,
+          "end_time": 47.739
+        },
+        {
+          "text": "film",
+          "start_time": 47.739,
+          "end_time": 48.259
+        },
+        {
+          "text": " ",
+          "start_time": 48.259,
+          "end_time": 48.299
+        },
+        {
+          "text": "to",
+          "start_time": 48.299,
+          "end_time": 48.36
+        }
+      ]
+    },
+    {
+      "text": "visualize the human-machine divide.",
+      "start_time": 48.479,
+      "end_time": 50.68,
+      "speaker": {
+        "id": "speaker_0",
+        "name": "Speaker 0"
+      },
+      "words": [
+        {
+          "text": "visualize",
+          "start_time": 48.479,
+          "end_time": 49.04
+        },
+        {
+          "text": " ",
+          "start_time": 49.04,
+          "end_time": 49.099
+        },
+        {
+          "text": "the",
+          "start_time": 49.099,
+          "end_time": 49.219
+        },
+        {
+          "text": " ",
+          "start_time": 49.219,
+          "end_time": 49.279
+        },
+        {
+          "text": "human-machine",
+          "start_time": 49.279,
+          "end_time": 50.119
+        },
+        {
+          "text": " ",
+          "start_time": 50.119,
+          "end_time": 50.159
+        },
+        {
+          "text": "divide.",
+          "start_time": 50.159,
+          "end_time": 50.68
+        }
+      ]
+    }
+  ]
+}

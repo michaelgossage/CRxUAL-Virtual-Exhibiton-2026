@@ -27,7 +27,7 @@ const GPU_EDGE_HARDNESS    = 0.02; // 0..0.5 — 0 = perfectly hard step, 0.5 = 
 const DEBUG_SHOW_NOISE     = false; // true = render raw noise texture as surface colour (gpu mode only)
 const DEBUG_FOG            = false; // true = use DEBUG_FOG_COLOR instead of production fog colour
 const DEBUG_FOG_COLOR      = 0x800000; // red — visible debug fog
-const PRODUCTION_FOG_COLOR = 0xdddddd; // white — production fog
+const PRODUCTION_FOG_COLOR = 0xeeeeee; // white — production fog
 // Gold ring normal map
 const GOLD_NORMAL_TILE_SCALE = .25; // tiles per world unit
 const GOLD_NORMAL_STRENGTH   = 4.0;  // 0 = off, higher = stronger bump
@@ -105,7 +105,6 @@ float _edge    = _settled * smoothstep(uGoldEdgeWidth, 0.0, _settledRaw);
 float _goldAmt  = clamp(_gold + _edge * uGoldEdgeMult, 0.0, 1.0);
 // Gold ring punches through fog so it's visible at the hidden boundary
 float _reveal   = max(_settled, max(_temp, max(_gold, _goldAmt)));
-// vec3  _colored  = mix(diffuseColor.rgb, uGoldColor, _goldAmt);
 vec3  _colored  = mix(diffuseColor.rgb, uGoldColor, max(_goldAmt, _temp));
 
 diffuseColor.rgb = mix(uFogColor, _colored, _reveal);
@@ -407,15 +406,21 @@ export class ProximityRevealSystem {
 
     const now = performance.now();
 
-    // Fade-in permanent reveals
+    // Fade-in permanent reveals — only repaint when the quantised byte value changes
     if (this.features.permanentFadeIn && this._activeFade.length > 0) {
+      let dirty = false;
       for (let i = this._activeFade.length - 1; i >= 0; i--) {
         const f     = this._activeFade[i];
         const alpha = Math.min((now - f.t0) / FADE_IN_DUR_MS, 1.0);
-        this._paint(this._texData, f.x, f.y, f.z, alpha, this.features.edgeNoise && NOISE_MODE === 'cpu');
+        const byte  = Math.round(alpha * 255);
+        if (byte !== (f._lastByte ?? -1)) {
+          f._lastByte = byte;
+          this._paint(this._texData, f.x, f.y, f.z, alpha, this.features.edgeNoise && NOISE_MODE === 'cpu');
+          dirty = true;
+        }
         if (alpha >= 1.0) this._activeFade.splice(i, 1);
       }
-      this.texture.needsUpdate = true;
+      if (dirty) this.texture.needsUpdate = true;
     }
 
     // Gold expansion — fades out, leaving in-shader edge ring behind
