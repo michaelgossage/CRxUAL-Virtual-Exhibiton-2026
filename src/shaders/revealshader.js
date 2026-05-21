@@ -109,13 +109,16 @@ export function makeRevealMaterial({
 
         // reveal mask always uses the full-plane vUv so the radial wipe covers everything
         float maskValue = texture2D(uRevealMap, vUv).r;
-        float alpha = smoothstep(r - uSoft, r + uSoft, maskValue);
+        // remap r so 0→-uSoft and 1→1+uSoft, ensuring clean opaque/transparent at endpoints
+        float rExt = r * (1.0 + 2.0 * uSoft) - uSoft;
+        float alpha = smoothstep(rExt - uSoft, rExt + uSoft, maskValue);
 
         float a = color.a * alpha;
         if (a < 0.001) discard;
 
         // Colour reveal: sweeps from grayscale to full colour driven by the reveal map
-        float colorAmt = 1.0 - smoothstep(uColorReveal - uSoft, uColorReveal + uSoft, maskValue);
+        float cExt = uColorReveal * (1.0 + 2.0 * uSoft) - uSoft;
+        float colorAmt = 1.0 - smoothstep(cExt - uSoft, cExt + uSoft, maskValue);
         float luma = dot(color.rgb, vec3(0.2126, 0.7152, 0.0722));
         color.rgb = mix(vec3(luma), color.rgb, colorAmt);
 
@@ -254,7 +257,8 @@ export function makeCarouselMaterial({ map, revealMap }) {
         // focus reveal
         float r = uReveal * uReveal * (3.0 - 2.0 * uReveal);
         float maskValue = texture2D(uRevealMap, vUv).r;
-        float alpha = smoothstep(r - uSoft, r + uSoft, maskValue);
+        float rExt = r * (1.0 + 2.0 * uSoft) - uSoft;
+        float alpha = smoothstep(rExt - uSoft, rExt + uSoft, maskValue);
 
         float a = col.a * alpha;
         if (a < 0.001) discard;

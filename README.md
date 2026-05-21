@@ -240,7 +240,7 @@ All constants are at the top of `src/shaders/proximityRevealMaterial.js`:
 
 | Constant | Default | What it controls |
 |---|---|---|
-| `REVEAL_RADIUS` | `5.0` | World-unit radius of camera trail / permanent circles |
+| `REVEAL_RADIUS` | `5.0` | World-unit radius of camera trail **and** artwork-focus permanent circles |
 | `TEMP_REVEAL_RADIUS` | `2.5` | World-unit radius of tap/click/mouse-trail circles |
 | `SAMPLE_DIST` | `0.2` | How far the camera must move before a new trail point is painted |
 | `TEX_W` / `TEX_D` | `192` | Horizontal voxel resolution (X and Z axes) |
@@ -249,6 +249,8 @@ All constants are at the top of `src/shaders/proximityRevealMaterial.js`:
 | `TEMP_FADE_IN_MS` | `300` | How long tap/mouse reveals take to fade in (ms) |
 | `TEMP_REVEAL_DUR` | `4.0` | How long temporary reveals stay visible before fading out (seconds) |
 | `GOLD_DUR_MS` | `3000` | How long the gold burst lasts after a permanent reveal (ms) |
+| `UNLIT_FOG` | `true` | `true` = unrevealed areas are flat/unlit grey; `false` = unrevealed areas still lit by scene lights |
+| `FOG_LIT_BLEND` | `0.08` | 0–1: how much scene lighting bleeds into the fog. `0` = fully flat, `0.08` = subtle ambient glow, `1` = fully lit (only meaningful when `UNLIT_FOG = true`) |
 
 ### Feature flags
 

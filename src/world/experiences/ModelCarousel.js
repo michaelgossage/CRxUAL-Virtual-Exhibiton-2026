@@ -87,6 +87,8 @@ export class ModelCarousel {
     normalizeTo = null,
     artworkInfo = {},
     debugOn = false,
+    materialOverride = null,   // { color?, metalness?, roughness?, envMapIntensity? } — replaces all mesh materials
+    showSpinToggle = false,    // show the auto-spin toggle button when focused
   }) {
     this.scene = scene;
     this._modelDefs = models;
@@ -95,6 +97,8 @@ export class ModelCarousel {
     this._normalizeTo = normalizeTo;
     this.artworkInfo = artworkInfo;
     this._debugOn = debugOn;
+    this._materialOverride = materialOverride;
+    this._showSpinToggle = showSpinToggle;
 
     const deg = Math.PI / 180;
     this._baseAngle = rotation[1] * deg;
@@ -145,6 +149,8 @@ export class ModelCarousel {
         const sv = Array.isArray(def.scale) ? def.scale : [s, s, s];
         modelRoot.scale.multiply(new THREE.Vector3(...sv));
       }
+
+      if (this._materialOverride) this._applyMaterialOverride(modelRoot);
 
       // Fixed ring position — model 0 at +Z (front, toward camera)
       const deg = Math.PI / 180;
@@ -262,11 +268,11 @@ export class ModelCarousel {
     if (this._arrowPrev) {
       this._arrowPrev.visible = true;
       this._arrowNext.visible = true;
-      this._spinToggle.visible = true;
+      this._spinToggle.visible = this._showSpinToggle;
       if (this._clickables) {
-        if (!this._clickables.includes(this._arrowPrev))   this._clickables.push(this._arrowPrev);
-        if (!this._clickables.includes(this._arrowNext))   this._clickables.push(this._arrowNext);
-        if (!this._clickables.includes(this._spinToggle))  this._clickables.push(this._spinToggle);
+        if (!this._clickables.includes(this._arrowPrev))  this._clickables.push(this._arrowPrev);
+        if (!this._clickables.includes(this._arrowNext))  this._clickables.push(this._arrowNext);
+        if (this._showSpinToggle && !this._clickables.includes(this._spinToggle)) this._clickables.push(this._spinToggle);
       }
       this._updateArrows();
     }
@@ -295,7 +301,7 @@ export class ModelCarousel {
       if (this._clickables) {
         _removeFrom(this._clickables, this._arrowPrev);
         _removeFrom(this._clickables, this._arrowNext);
-        _removeFrom(this._clickables, this._spinToggle);
+        if (this._showSpinToggle) _removeFrom(this._clickables, this._spinToggle);
       }
     }
   }
@@ -443,5 +449,23 @@ export class ModelCarousel {
     const center = box.getCenter(new THREE.Vector3());
     model.position.sub(center);
     model.scale.multiplyScalar(targetSize / maxAxis);
+  }
+
+  _applyMaterialOverride(modelRoot) {
+    const o = this._materialOverride;
+    const mat = new THREE.MeshStandardMaterial({
+      color:            o.color            ?? 0xC8C8C8,
+      metalness:        o.metalness        ?? 1.0,
+      roughness:        o.roughness        ?? 0.15,
+      envMapIntensity:  o.envMapIntensity  ?? 1.5,
+    });
+    modelRoot.traverse(child => {
+      if (!child.isMesh) return;
+      if (Array.isArray(child.material)) {
+        child.material = child.material.map(() => mat);
+      } else {
+        child.material = mat;
+      }
+    });
   }
 }

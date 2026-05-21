@@ -234,9 +234,9 @@ export class ImmersiveCarousel {
     // Greyscale → colour on the front panel (only animates once; stays colour after)
     const frontMat = this._panels[0].material;
     const fromColor = frontMat.uniforms.uColorReveal.value;
-    if (fromColor < 1.0) {
+    if (fromColor < 1.2) {
       this._colorTween = makeTween01({
-        from: fromColor, to: 1.0, duration: 1.5,
+        from: fromColor, to: 1.2, duration: 1.5,
         onUpdate: (v) => { frontMat.uniforms.uColorReveal.value = v; },
       });
     }

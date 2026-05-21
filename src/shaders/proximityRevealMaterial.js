@@ -1,16 +1,16 @@
 import * as THREE from "three";
 
 // ─── Tunable constants ────────────────────────────────────────────────────────
-const REVEAL_RADIUS      = 5.0;  // world units — radius of permanent/camera reveal spheres
+const REVEAL_RADIUS      = 6.0;  // world units — radius of permanent/camera reveal spheres
 const TEMP_REVEAL_RADIUS = 2.5;  // world units — radius of tap reveal spheres (smaller)
 const SAMPLE_DIST        = 0.2;  // world units the camera must move before a new sample
 const TEX_W              = 192;  // voxel volume width  (X) — matches 2D resolution for smooth trail
 const TEX_H              = 64;   // voxel volume height (Y) — gallery is not very tall
 const TEX_D              = 192;  // voxel volume depth  (Z) — matches 2D resolution for smooth trail
-const FADE_IN_DUR_MS     = 900;  // ms for permanent reveals to fade in
+const FADE_IN_DUR_MS     = 1800;  // ms for permanent reveals to fade in
 const TEMP_FADE_IN_MS    = 300;  // ms for tap reveals to fade in
 const TEMP_REVEAL_DUR    = 4.0;  // seconds for tap reveals to fade out (default)
-const GOLD_DUR_MS        = 3000; // ms for gold expansion to fade out after a permanent reveal
+const GOLD_DUR_MS        = 9000; // ms for gold expansion to fade out after a permanent reveal
 const GOLD_EDGE_WIDTH    = 0.7; // 0..1 — width of the persistent gold ring
 const GOLD_EDGE_MULT     = 5.7;  // 0..1 — brightness of the persistent gold edge ring
 // ─── Edge noise mode ──────────────────────────────────────────────────────────
@@ -27,7 +27,14 @@ const GPU_EDGE_HARDNESS    = 0.02; // 0..0.5 — 0 = perfectly hard step, 0.5 = 
 const DEBUG_SHOW_NOISE     = false; // true = render raw noise texture as surface colour (gpu mode only)
 const DEBUG_FOG            = false; // true = use DEBUG_FOG_COLOR instead of production fog colour
 const DEBUG_FOG_COLOR      = 0x800000; // red — visible debug fog
-const PRODUCTION_FOG_COLOR = 0xeeeeee; // white — production fog
+//const PRODUCTION_FOG_COLOR = 0xefefef; // white — production fog
+const PRODUCTION_FOG_COLOR = 0xefefef; // white — production fog
+// false = fog blended into diffuseColor (unrevealed areas still lit by scene lights)
+// true  = fog applied flat after lighting (unrevealed areas are pure unlit grey)
+const UNLIT_FOG            = true;
+// 0.0 = fully flat/unlit fog colour, 1.0 = fully lit by scene lights.
+// Small values (0.05–0.2) give a subtle ambient glow in unrevealed areas.
+const FOG_LIT_BLEND        = 0.2;
 // Gold ring normal map
 const GOLD_NORMAL_TILE_SCALE = .25; // tiles per world unit
 const GOLD_NORMAL_STRENGTH   = 4.0;  // 0 = off, higher = stronger bump
@@ -107,7 +114,10 @@ float _goldAmt  = clamp(_gold + _edge * uGoldEdgeMult, 0.0, 1.0);
 float _reveal   = max(_settled, max(_temp, max(_gold, _goldAmt)));
 vec3  _colored  = mix(diffuseColor.rgb, uGoldColor, max(_goldAmt, _temp));
 
-diffuseColor.rgb = mix(uFogColor, _colored, _reveal);
+${UNLIT_FOG
+  ? 'diffuseColor.rgb = _colored;'
+  : 'diffuseColor.rgb = mix(uFogColor, _colored, _reveal);'
+}
 ` + (NOISE_MODE === 'gpu' ? /* glsl */`
 // Debug — show raw noise texture as surface colour
 diffuseColor.rgb = mix(diffuseColor.rgb, vec3(_noiseSample), uDebugNoise);
@@ -145,6 +155,18 @@ function _injectReveal(shader, mat, texture, tempTexture, goldTexture, noiseText
   shader.fragmentShader = shader.fragmentShader.replace(
     "#include <color_fragment>", _fragReveal
   );
+
+  // UNLIT_FOG: apply fog flat after all lighting so unrevealed areas are pure unlit grey.
+  // Three.js r160 uses #include <opaque_fragment> (not output_fragment) to write gl_FragColor.
+  if (UNLIT_FOG) {
+    shader.fragmentShader = shader.fragmentShader.replace(
+      "#include <opaque_fragment>",
+      `#include <opaque_fragment>
+       float _litLuma = dot(gl_FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
+       vec3 _fogTarget = mix(uFogColor, vec3(_litLuma), ${FOG_LIT_BLEND.toFixed(4)});
+       gl_FragColor.rgb = mix(_fogTarget, gl_FragColor.rgb, _reveal);`
+    );
+  }
 
   // Drive PBR roughness/metalness in gold areas — _goldAmt is in scope above.
   // Only MeshStandardMaterial has these chunks — guard so Lambert materials are unaffected.

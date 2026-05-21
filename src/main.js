@@ -17,10 +17,6 @@ DefaultLoadingManager.onProgress = (url, loaded, total) => {
   if (IMAGE_EXTS.test(url) && !EXCLUDE_PATHS.test(url)) titleScreen.addImage(url);
 };
 
-DefaultLoadingManager.onLoad = () => {
-  titleScreen.setReady();
-};
-
 // ─── App — deferred until after first paint ───────────────────────────────
 // requestAnimationFrame guarantees the browser has painted the title screen
 // (solid white background) before the Three.js canvas is even created.
@@ -29,6 +25,12 @@ requestAnimationFrame(() => {
   window.__APP__ = app;
 
   app.world.controls.autoRotate = false;
+
+  // Signal ready only after all geometry is loaded AND all shaders compiled.
+  // Previously used DefaultLoadingManager.onLoad which fires before compileAsync finishes.
+  app.world.waitForReady().then(() => {
+    titleScreen.setReady();
+  });
 
   titleScreen.onStart = () => {
     app.world.controls.autoRotate = true;

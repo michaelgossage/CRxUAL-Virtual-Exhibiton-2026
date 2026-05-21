@@ -45,6 +45,7 @@ export class World {
     this._focusedExperience = null;
     this._exitingExperience = null; // experience playing its exit animation after unfocus
     this._focusedScreen = null;
+    this._focusedHitbox = null;
     this._lastfocusedScreen = null;
     this._lastRevealedScreen = null;
     this._activeNarration = null; // { audio: HTMLAudioElement, obj }
@@ -62,6 +63,10 @@ export class World {
 
     // proximity reveal system for environment geometry
     this.proximityReveal = new ProximityRevealSystem();
+
+    // Tracks all async loading promises (models, experiences, env GLBs).
+    // waitForReady() resolves only after all of these complete + final compileAsync.
+    this._loadingPromises = [];
 
     // Location completion reveal — tracks which artworks have been seen
     this._seenArtworkIndices  = new Set();  // Set<number> — registry indices focused this session
@@ -103,7 +108,7 @@ export class World {
           this._focusedExperience.onDrag(dx);
         } else if (this._modelDrag.modelRoot) {
           this._modelDrag.modelRoot.rotateY(dx * 0.007);
-          this.renderer.gl.shadowMap.needsUpdate = true;
+          this.renderer.shadowMap.needsUpdate = true;
         }
         this._modelDrag.lastX = e.clientX;
       }
@@ -211,8 +216,14 @@ export class World {
       // 🔥 HIDE animation
       this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.3);
       this._animateReveal(this._lastRevealedScreen, 0.0, 1.0, 0.3);
+      if (this._focusedHitbox?.userData.experienceChildren) {
+        for (const child of this._focusedHitbox.userData.experienceChildren) {
+          this._animateReveal(child.userData?.screenMesh ?? child, 0.0, 1.0, 0.3);
+        }
+      }
       // clear focused screen immediately so you can click the same one again if you want
       this._focusedScreen = null;
+      this._focusedHitbox = null;
       this._lastRevealedScreen = null;
       
     };
@@ -231,8 +242,8 @@ export class World {
 
     // start location
     //this.locations.goTo("lobby", { duration: 0.01 });
-    //this.locations.goTo("lobby", { duration: 0.01 });
-    this.locations.goTo("WestPavillion", { duration: 0.01 });
+    this.locations.goTo("lobby", { duration: 0.01 });
+    //this.locations.goTo("WestPavillion", { duration: 0.01 });
 
       // make a path between 2 lodcations
   this.locations.setPathBidirectional("lobby", "EagleBar", [   
@@ -400,9 +411,11 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
 
     // Trigger one shadow-map render pass after all static geometry is in the scene.
     // autoUpdate is disabled in Renderer so this is the only pass for static content.
-    Promise.allSettled([Lobby, LobbyFurniture, WestPavillion, EagleBar]).then(() => {
-      this.renderer.gl.shadowMap.needsUpdate = true;
-    });
+    this._loadingPromises.push(
+      Promise.allSettled([Lobby, LobbyFurniture, WestPavillion, EagleBar]).then(() => {
+        this.renderer.shadowMap.needsUpdate = true;
+      })
+    );
 
     // add environment (a simple room for now, but could be more complex later)
     applyHDRI({
@@ -483,16 +496,16 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         { url: `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-6-2.jpg` },
       ],
     });
-    unrenderedCarousel.load().then(() => {
+    this._loadingPromises.push(unrenderedCarousel.load().then(() => {
       unrenderedCarousel.hitbox.userData.location = 'lobby';
       this._registerExperience(unrenderedCarousel);
       unrenderedCarousel._clickables = this.screenManager.clickables;
-    }).catch(console.error);
+    }).catch(console.error));
 
      
 
     //left side right front desk
-    this._registerArtwork(this.screenManager.addScreen({
+    const noosScreen = this.screenManager.addScreen({
       url: "https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/Invocation%20of%20the%20Black%20flame_MB.mp4",
       poster: `${baseURL}art/TheNoos-SanneWinderickx/IMG_4879-final-sRGB_Ratio-HQ-landscape-fill-1_1.jpg`,
       width: 2.8,
@@ -513,15 +526,15 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
-    }));
+    });
+    this._registerArtwork(noosScreen);
 
-    this.screenManager.addModel({
+    this._loadingPromises.push(this.screenManager.addModel({
       url: `${baseURL}art/TheNoos-SanneWinderickx/TheNoos_yellowHand.glb`,
       position: [-4.3, 22.3, 18.0],
       rotation: [0, 100, 0],
       normalizeTo: 0.8,
-      clickable: true,
-      onClick: (obj, hit) => console.log("Model clicked:", obj),
+      clickable: false,
       text: "",
       textOffset: [0, -0.1, 0.9],
       hitboxSize: [1.8, 1.5, 1.8],
@@ -529,16 +542,10 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       plinthVisible:true,
       plinthOffset: [0, -0.5, 0],
       plinthSize: [1.0, 0.5, 1.0],
-      //playAnimation: "first",
       location: 'EagleBar',
-      artworkInfo: {
-        title: "Yellow Hand",
-        artist: "Sanne Winderickx",
-        description: "Yellow Hand is a 3D model of a hand that serves as a companion piece to the video work of The Noös-∞.",
-        narration: `${baseURL}audio/TheNoos_Narration.mp3`,
-        narrationCues: `${baseURL}audio/TheNoos_Narration.json`
-      }
-    });
+    }).then((modelRoot) => {
+      (noosScreen.userData.hitBox ?? noosScreen).userData.experienceChildren = [modelRoot];
+    }).catch(console.error));
 
     //right side, right front desk
     const whimsyCarousel = new ImmersiveCarousel({
@@ -564,11 +571,11 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         { url: `${baseURL}art/WhimsyThroughTheWindow_SarahAbdi/20250510_104607.jpg` },
       ],
     });
-    whimsyCarousel.load().then(() => {
+    this._loadingPromises.push(whimsyCarousel.load().then(() => {
       whimsyCarousel.hitbox.userData.location = 'lobby';
       this._registerExperience(whimsyCarousel);
       whimsyCarousel._clickables = this.screenManager.clickables;
-    }).catch(console.error);
+    }).catch(console.error));
 
     
     //3d models
@@ -576,7 +583,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     //entrance way
     const Experiment58 = import.meta.env.BASE_URL + "/art/Experimentn58-2PositioninSpace_MarieSaintYves/Eperiment58.glb";
 
-    this.screenManager.addModel({
+    this._loadingPromises.push(this.screenManager.addModel({
       url: Experiment58,
       position: [0, 0.3, 8.5],
       rotation: [0, -35, 0],
@@ -601,7 +608,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     }).then((modelRoot) => {
       this.statue = modelRoot;
       this._registerArtwork(modelRoot);
-    }).catch(console.error);
+    }).catch(console.error));
 
     const a=import.meta.env.BASE_URL + "/art/test3d/8 Ultra High Quality Scan_low poly DRACO jpeg (1024).glb";
     
@@ -721,11 +728,11 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       ]
     });
 
-    dummyCarousel.load().then(() => {
+    this._loadingPromises.push(dummyCarousel.load().then(() => {
       dummyCarousel.hitbox.userData.location = 'WestPavillion';
       this._registerExperience(dummyCarousel);
       dummyCarousel._clickables = this.screenManager.clickables;
-    }).catch(console.error);
+    }).catch(console.error));
     // ────────────────────────────────────────────────────────────────────────
 
     // ── Dummy ImmersiveCarousel ──────────────────────────────────────────────
@@ -771,11 +778,11 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       
     });
 
-    dummyImmersive.load().then(() => {
+    this._loadingPromises.push(dummyImmersive.load().then(() => {
       dummyImmersive.hitbox.userData.location = 'lobby';
       this._registerExperience(dummyImmersive);
       dummyImmersive._clickables = this.screenManager.clickables;
-    }).catch(console.error);
+    }).catch(console.error));
     // ────────────────────────────────────────────────────────────────────────
 
     
@@ -796,6 +803,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       radius: 1.5,
       normalizeTo: 0.6,
       debugOn: this._debug,
+      materialOverride: { color: 0xC8C8C8, metalness: 1.0, roughness: 0.15, envMapIntensity: 1.5 },
       artworkInfo: {
         title: "EMBODIED",
         artist: "Veepra Mishra",
@@ -816,11 +824,11 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         { url: `${baseURL}art/EMBODIED_VeepraMishra/Optimized 3D/VeepraMishra-Ear-09.glb`, artworkInfo: { title: "Ear Study 09", artist: "Veepra Mishra" } },
       ],
     });
-    veepraCarousel.load().then(() => {
+    this._loadingPromises.push(veepraCarousel.load().then(() => {
       veepraCarousel.hitbox.userData.location = 'WestPavillion';
       this._registerExperience(veepraCarousel);
       veepraCarousel._clickables = this.screenManager.clickables;
-    }).catch(console.error);
+    }).catch(console.error));
 
     // ── Black Swan — ImmersiveCarousel ──────────────────────────────────────
     const blackSwanCarousel = new ImmersiveCarousel({
@@ -846,11 +854,11 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         { url: `${baseURL}art/BlackSwan-JieunSung/IMG_5435-1.jpg` },
       ],
     });
-    blackSwanCarousel.load().then(() => {
+    this._loadingPromises.push(blackSwanCarousel.load().then(() => {
       blackSwanCarousel.hitbox.userData.location = 'WestPavillion';
       this._registerExperience(blackSwanCarousel);
       blackSwanCarousel._clickables = this.screenManager.clickables;
-    }).catch(console.error);
+    }).catch(console.error));
     // ────────────────────────────────────────────────────────────────────────
 
     // ── Dehumanized — Chi An Chou (EagleBar) ────────────────────────────────────
@@ -884,11 +892,11 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       ],
     });
 
-    dehumanizedCarousel.load().then(() => {
+    this._loadingPromises.push(dehumanizedCarousel.load().then(() => {
       dehumanizedCarousel.hitbox.userData.location = 'EagleBar';
       this._registerExperience(dehumanizedCarousel);
       dehumanizedCarousel._clickables = this.screenManager.clickables;
-    }).catch(console.error);
+    }).catch(console.error));
     // ─────────────────────────────────────────────────────────────────────────────
 
     //on the wall in to the dining room
@@ -918,14 +926,13 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
 
 
 
-  this.screenManager.addModel({
+  this._loadingPromises.push(this.screenManager.addModel({
     url: import.meta.env.BASE_URL + "/art/LetMeEatCake_SuzannaTeal/CakeTable_NoCake.glb",
     position: [-29.0, -1.0, -21.0],   // e.g. on/near carousel A
       rotation: [0, -90, 0],
     rotationOffset: 90,
     normalizeTo: 2.2,
-    clickable: true,
-    onClick: (obj, hit) => console.log("Model clicked:", obj),
+    clickable: false,
     text: "",
     textOffset: [0, -0.7, 0.9],
     hitboxSize: [1.8, 1.2, 1.6],
@@ -934,18 +941,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     plinthOffset: [0, -0.8, 0],
     playAnimation: "first",
     location: 'WestPavillion',
-    artworkInfo: {
-        title: "Let Me Eat Cake",
-        artist: "Suzanna Teal",
-        description: "Let Me Eat Cake is a multimedia installation that explores the relationship between food, memory, and identity. Through a combination of sculpture, video, and interactive elements, the work invites viewers to reflect on their own experiences with food and the stories they tell about it. The installation features a series of sculptural cakes that respond to viewer interaction, creating a dynamic and engaging experience that blurs the line between art and culinary tradition. ",
-        link: "https://ualshowcase.arts.ac.uk/project/616847/cover",
-        narration: `${baseURL}audio/LetMeEatCake_Narration.mp3`,
-        narrationCues: `${baseURL}audio/LetMeEatCake_Narration.json`
-      }
-  }).then((modelRoot) => {
-    this.statue = modelRoot;
-    this._registerArtwork(modelRoot);
-  }).catch(console.error);
+  }).catch(console.error));
 
   // ── Let Me Eat Cake — ModelGalleryWalk ────────────────────────────────────
   const cakeWalk = new ModelGalleryWalk({
@@ -1015,17 +1011,17 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       },
     ],
   });
-  cakeWalk.load().then(() => {
+  this._loadingPromises.push(cakeWalk.load().then(() => {
     cakeWalk.hitbox.userData.location = 'WestPavillion';
     this._registerExperience(cakeWalk);
     cakeWalk._clickables = this.screenManager.clickables;
-  }).catch(console.error);
+  }).catch(console.error));
   // ──────────────────────────────────────────────────────────────────────────
 
     //window corner
         const c=import.meta.env.BASE_URL + "/art/EmbodiedMemories_YoonJuChung/JU CHUNG_V2.glb";
 
-  this.screenManager.addModel({
+  this._loadingPromises.push(this.screenManager.addModel({
     url: c,
     position: [-40.8, 1.0, -25.2],
     //position: [-4, 1.0, -4],
@@ -1054,7 +1050,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
   }).then((modelRoot) => {
     this.statue = modelRoot;
     this._registerArtwork(modelRoot);
-  }).catch(console.error);
+  }).catch(console.error));
 
     //wall in the window corner
     this._registerArtwork(this.screenManager.addScreen({
@@ -1110,18 +1106,36 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
 
     
 
-    //right side outside
-    this._registerArtwork(this.screenManager.addScreen({
+    //right side outside — Faux Flora: 3D model is primary, screen + arrangement are children
+    const fauxFloraChildren = [];
+    const fauxFloraScreen = this.screenManager.addScreen({
       url: `${baseURL}art/FauxFlora_JustinaAlexandrof/Justina_Alexandroff_2-2.jpg`,
       width: 1.5,
       height: 2.0,
       position: [5.5, 23, 16.5],
       rotation: [0, -135, 0],
-      clickable: true,
+      clickable: false,
       offsetClick: 0.5,
       clickableSize: [2.2, 2.5],
       text: "Image Screen",
       plinthVisible: false,
+      location: 'EagleBar',
+    });
+    fauxFloraChildren.push(fauxFloraScreen);
+
+    this._loadingPromises.push(this.screenManager.addModel({
+      url: `${baseURL}art/FauxFlora_JustinaAlexandrof/FauxFlora01.glb`,
+      position: [5.0, 22.5, 16.0],
+      rotation: [0, -135, 0],
+      normalizeTo: 0.8,
+      clickable: true,
+      text: "",
+      textOffset: [0, -0.1, 0.9],
+      hitboxSize: [1.4, 1.4, 1.4],
+      offsetClick: -0.3,
+      plinthVisible:true,
+      plinthOffset: [0, -0.3, 0],
+      plinthSize: [0.8, 0.8, 0.8],
       location: 'EagleBar',
       artworkInfo: {
         title: "Faux Flora",
@@ -1130,42 +1144,18 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         link: "https://ualshowcase.arts.ac.uk/@justinaalexandroff",
         narration: `${baseURL}audio/FauxFlora_Narration.mp3`,
         narrationCues: `${baseURL}audio/FauxFlora_Narration.json`
-      },
-      onClick: (obj) => {
-        console.log("Clicked screen/podium", obj);
       }
-    }));
+    }).then((modelRoot) => {
+      this._registerArtwork(modelRoot);
+      modelRoot.userData.experienceChildren = fauxFloraChildren;
+    }).catch(console.error));
 
-    this.screenManager.addModel({
-      url: `${baseURL}art/FauxFlora_JustinaAlexandrof/FauxFlora01.glb`,
-      position: [5.0, 22.5, 16.0],
-      rotation: [0, -135, 0],
-      normalizeTo: 0.8,
-      clickable: true,
-      onClick: (obj, hit) => console.log("Model clicked:", obj),
-      text: "",
-      textOffset: [0, -0.1, 0.9],
-      hitboxSize: [1.4, 1.4, 1.4],
-      offsetClick: -0.3,
-      plinthVisible:true,
-      plinthOffset: [0, -0.3, 0],
-      plinthSize: [0.8, 0.8, 0.8],
-      //playAnimation: "first",
-      location: 'EagleBar',
-      artworkInfo: {
-        title: "Faux Flora",
-        artist: "Justina Alexandroff",
-        description: "Urban air pollutants disrupt floral odors, altering the scent of flowers and making it difficult for pollinating insects to locate essential plants. Faux Flora is an artificial flower system designed to guide pollinators toward nearby flower-rich areas. This project is a collaboration with NICE Lab (based in Bangalore) and incorporates Aditi Mishra’s PhD research that an insect pollinator identifies a flower object when it has three traits in combination: radial symmetry, a sweet scent and a reflective surface. I have reimagined these traits through parametric 3D design and printing (for radial symmetry), chemical ecology (for the sweet scent) and nano-cellulose structural colour (for the reflective surface). Acting as visual and olfactory beacons with no nectar reward, insects quickly learn to forage in the surrounding environment. Through artificial chemistry and biomimicry, Faux Flora explores new relationships between species, technology, and cities."
-      }
-    });
-
-    this.screenManager.addModel({
+    this._loadingPromises.push(this.screenManager.addModel({
       url: `${baseURL}art/FauxFlora_JustinaAlexandrof/FauxFloraArrangement.glb`,
       position: [4.1, 21.3, 17.0],
       rotation: [0, -135, 0],
       normalizeTo: 2.5,
       clickable: false,
-      onClick: (obj, hit) => console.log("Model clicked:", obj),
       text: "",
       textOffset: [0, -0.1, 0.9],
       hitboxSize: [1.8, 1.5, 1.8],
@@ -1173,14 +1163,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       plinthVisible:false,
       plinthOffset: [0, -0.5, 0],
       plinthSize: [1.0, 1.0, 1.0],
-      //playAnimation: "first",
       location: 'EagleBar',
-      artworkInfo: {
-        title: "",
-        artist: "",
-        description: ""
-      }
-    });
+    }).then((m) => { fauxFloraChildren.push(m); }).catch(console.error));
 
     //right side of bar
     this._registerArtwork(this.screenManager.addScreen({
@@ -1209,7 +1193,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
 
    
     //left outside tunnel
-    this._registerArtwork(this.screenManager.addScreen({
+    const beNotAfraidScreen = this.screenManager.addScreen({
       url: ` https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/Be%20Not%20Afraid.mp4`,
       poster: `${baseURL}art/BeNotAfraid-RysiaAnnaKaczmar/9T0A5893_1.jpg`,
       width: 1.8,
@@ -1231,16 +1215,16 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
-    }));
+    });
+    this._registerArtwork(beNotAfraidScreen);
 
-    
-     this.screenManager.addModel({
+
+     this._loadingPromises.push(this.screenManager.addModel({
     url: `${baseURL}art/BeNotAfraid-RysiaAnnaKaczmar/BeNotAfraid_Artwork3D.glb`,
     position: [-4.5, 22.4, 11.2],
     rotation: [0, 90, 0],
     normalizeTo: 0.8,
-    clickable: true,
-    onClick: (obj, hit) => console.log("Model clicked:", obj),
+    clickable: false,
     text: "STATUE_01",
     textOffset: [0, -0.5, 0.9],
     hitboxSize: [0.6, 1.4, 0.6],
@@ -1248,15 +1232,11 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     plinthVisible: false,
     playAnimation: "first",
     location: 'EagleBar',
-    artworkInfo: {
-      title: "Be Not Afraid",
-      artist: "Rysia Anna Kaczmar",
-      description: "Be Not Afraid is a sculptural sound work inspired by biblically accurate angels and childhood comfort objects. Constructed from plush fabric and embedded with a speaker in place of an eye, the piece features six oversized wings in various states of motion. It explores the intersection of sacred imagery and emotional attachment, questioning how tenderness and terror can coexist within a single form. Sound pulses through the speaker to activate the work sonically and symbolically. Drawing from religious aesthetics while acknowledging the erosion of moral certainty in contemporary life, Be Not Afraid invites reflection on how belief, fear, and care shape the way we encounter the unknown.",
-    }
   }).then((modelRoot) => {
     this.statue = modelRoot;
     //this._registerArtwork(modelRoot);
-  }).catch(console.error);
+    (beNotAfraidScreen.userData.hitBox ?? beNotAfraidScreen).userData.experienceChildren = [modelRoot];
+  }).catch(console.error));
 
   //on the bar
   
@@ -1346,15 +1326,15 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         },
       ],
     });
-    materialPlaceWalk.load().then(() => {
+    this._loadingPromises.push(materialPlaceWalk.load().then(() => {
       materialPlaceWalk.hitbox.userData.location = 'lobby';
       this._registerExperience(materialPlaceWalk);
       materialPlaceWalk._clickables = this.screenManager.clickables;
-    }).catch(console.error);
+    }).catch(console.error));
     // ─────────────────────────────────────────────────────────────────────────
 
     //left wall from bar
-    this._registerArtwork(this.screenManager.addScreen({
+    const symbionScreen = this.screenManager.addScreen({
       url: `https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/Show_Video_ShuyangWang_MB.mp4`,
       poster: `${baseURL}art/Symbion/hero_img-3.jpg-2.avif`,
       width: 1.8,
@@ -1376,15 +1356,15 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
-    }));
+    });
+    this._registerArtwork(symbionScreen);
 
-     this.screenManager.addModel({
+     this._loadingPromises.push(this.screenManager.addModel({
     url: `${baseURL}art/Symbion/symbionHand.glb`,
     position: [0.8, 22.6, 5.0],
     rotation: [0, -90, 0],
     normalizeTo: 0.8,
-    clickable: true,
-    onClick: (obj, hit) => console.log("Model clicked:", obj),
+    clickable: false,
     text: "",
     textOffset: [0, -0.5, 0.9],
     hitboxSize: [0.6, 1.4, 0.6],
@@ -1392,15 +1372,11 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     plinthVisible: false,
     playAnimation: "first",
     location: 'EagleBar',
-    artworkInfo: {
-      title: "Symbion",
-      artist: "Shuyang Wang",
-      description: ""
-    }
   }).then((modelRoot) => {
     this.statue = modelRoot;
     //this._registerArtwork(modelRoot);
-  }).catch(console.error);
+    (symbionScreen.userData.hitBox ?? symbionScreen).userData.experienceChildren = [modelRoot];
+  }).catch(console.error));
 
     // Belt-and-suspenders: hide sync-registered artworks not in the starting location.
     // Async registrations are handled by _registerArtwork itself.
@@ -1517,6 +1493,29 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     this.proximityReveal.update(this.camera.position);
   }
 
+  // Resolves after all async loads (models, experiences, env GLBs) complete and a
+  // final compileAsync pass ensures no shader is left uncompiled before user entry.
+  async waitForReady() {
+    await Promise.allSettled(this._loadingPromises);
+
+    // compileAsync and render() both use traverseVisible + frustum culling, so they
+    // skip invisible objects. Temporarily force everything on so ALL geometry is
+    // warmed up before the user enters — canvas is hidden behind the loading overlay.
+    const wasHidden = [];
+    const wasCulled = [];
+    this.scene.traverse(obj => {
+      if (!obj.visible)            { wasHidden.push(obj); obj.visible = true; }
+      if (obj.isMesh && obj.frustumCulled) { wasCulled.push(obj); obj.frustumCulled = false; }
+    });
+
+    await this.renderer.compileAsync(this.scene, this.camera);
+    this.renderer.render(this.scene, this.camera); // uploads VBOs to GPU
+
+    // Restore location-based visibility
+    for (const obj of wasHidden) obj.visible = false;
+    for (const obj of wasCulled) obj.frustumCulled = true;
+  }
+
   onResize() {
     // optional: any world-specific resize logic
   }
@@ -1573,6 +1572,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     }
 
     this._focusedScreen = target;
+    this._focusedHitbox = obj;
     this._lastRevealedScreen = revealTarget;
     this.screenManager.setActiveFluids(target);
 
@@ -1585,6 +1585,11 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       this._animateReveal(target, 1.0, 0.0, 0.4);
       this._animateReveal(revealTarget, 1.0, 0.0, 0.4);
       this._lastfocusedScreen = this._focusedScreen;
+      if (obj.userData.experienceChildren) {
+        for (const child of obj.userData.experienceChildren) {
+          this._animateReveal(child.userData?.screenMesh ?? child, 1.0, 0.0, 0.4);
+        }
+      }
     }
 
     // Animate grayscale → colour — only if not already colourised
@@ -1884,7 +1889,13 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         this.infoPanel.hideAudioControls();
         this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.15);
         this._animateReveal(this._lastRevealedScreen, 0.0, 1.0, 0.15);
+        if (this._focusedHitbox?.userData.experienceChildren) {
+          for (const child of this._focusedHitbox.userData.experienceChildren) {
+            this._animateReveal(child.userData?.screenMesh ?? child, 0.0, 1.0, 0.15);
+          }
+        }
         this._focusedScreen = null;
+        this._focusedHitbox = null;
         this._lastRevealedScreen = null;
         this._exitFocusMode();
         this._focusState = "idle";
@@ -1907,7 +1918,13 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       this.infoPanel.hideAudioControls();
       this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.15);
       this._animateReveal(this._lastRevealedScreen, 0.0, 1.0, 0.15);
+      if (this._focusedHitbox?.userData.experienceChildren) {
+        for (const child of this._focusedHitbox.userData.experienceChildren) {
+          this._animateReveal(child.userData?.screenMesh ?? child, 0.0, 1.0, 0.15);
+        }
+      }
       this._focusedScreen = null;
+      this._focusedHitbox = null;
       this._lastRevealedScreen = null;
       this._exitFocusMode();
       this._focusState = "idle";

@@ -222,7 +222,10 @@ export class ScreenManager {
       material.uniforms.uContainScale.value.set(sx, sy);
     };
 
-    if (isVideo) {
+    if (isVideo && !poster) {
+      // With a poster, its own load callback sets the initial containScale.
+      // Without a poster, the video texture is shown immediately so we need
+      // its dimensions to set containScale correctly.
       const applyVideoScale = () => {
         if (video.videoWidth > 0) setContainScale(video.videoWidth / video.videoHeight);
       };
