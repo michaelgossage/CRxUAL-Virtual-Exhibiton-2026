@@ -219,7 +219,7 @@ export class World {
       const _expMiss = this._resolveExperienceChildren(this._focusedHitbox, this._focusedScreen);
       if (_expMiss) {
         for (const child of _expMiss) {
-          this._animateReveal(child.userData?.screenMesh ?? child, 0.0, 1.0, 0.3);
+          this._animateExperienceChild(child, false);
         }
       }
       // clear focused screen immediately so you can click the same one again if you want
@@ -350,7 +350,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     
 
     //import environment models
-    const gridMat = makeArchGridMaterial({ });
+    //const gridMat = makeArchGridMaterial({ });
     /*
     const room01 = loadGLTFWithAnimations(import.meta.env.BASE_URL + "art/test3d/Chancery Rosewood_V8_.glb").then((gltf) => {
       const model = gltf.scene;
@@ -406,14 +406,18 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
 
     const base = import.meta.env.BASE_URL;
     const Lobby          = _loadEnvGLB(base + "art/Building/Chancery Rosewood_LOBBY_BAKE_V4.glb");
-    const LobbyFurniture = _loadEnvGLB(base + "art/Building/Chancery Rosewood_LOBBY_FURNITURE_BAKE_V4.glb");
+    const LobbyFurniture = _loadEnvGLB(base + "art/Building/Chancery Rosewood_LOBBY_FURNITURE_BAKE_V5.glb");
     const WestPavillion  = _loadEnvGLB(base + "art/Building/Chancery Rosewood_Pavilion_BAKE_V4.glb");
     const EagleBar       = _loadEnvGLB(base + "art/Building/Chancery Rosewood_EagleBar_V1.glb");
+    const PavillionFurniture = _loadEnvGLB(base + "art/Building/Chancery Rosewood_Pavillion_FURNITURE_BAKE_V4.glb");
+    const EagleBarFurniture = _loadEnvGLB(base + "art/Building/Chancery Rosewood_Bar_FURNITURE_BAKE_V4.glb");
+    const EagleBarOutsideFurniture = _loadEnvGLB(base + "art/Building/Chancery Rosewood_Bar_OutsideFURNITURE_BAKE_V4.glb");
+    const EagleBarBottles = _loadEnvGLB(base + "art/Building/Chancery Rosewood_Bar_bottles_BAKE_V4.glb");
 
     // Trigger one shadow-map render pass after all static geometry is in the scene.
     // autoUpdate is disabled in Renderer so this is the only pass for static content.
     this._loadingPromises.push(
-      Promise.allSettled([Lobby, LobbyFurniture, WestPavillion, EagleBar]).then(() => {
+      Promise.allSettled([Lobby, LobbyFurniture, WestPavillion, EagleBar, PavillionFurniture, EagleBarFurniture, EagleBarOutsideFurniture]).then(() => {
         this.renderer.shadowMap.needsUpdate = true;
       })
     );
@@ -1165,7 +1169,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       plinthOffset: [0, -0.5, 0],
       plinthSize: [1.0, 1.0, 1.0],
       location: 'EagleBar',
-    }).then((m) => { fauxFloraChildren.push(m); }).catch(console.error));
+    }).then((m) => {
+      fauxFloraChildren.push(m);
+    }).catch(console.error));
 
     //right side of bar
     this._registerArtwork(this.screenManager.addScreen({
@@ -1590,7 +1596,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       const _expFocus = this._resolveExperienceChildren(obj, target);
       if (_expFocus) {
         for (const child of _expFocus) {
-          this._animateReveal(child.userData?.screenMesh ?? child, 1.0, 0.0, 0.4);
+          this._animateExperienceChild(child, true);
         }
       }
     }
@@ -1895,7 +1901,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         const _expNav1 = this._resolveExperienceChildren(this._focusedHitbox, this._focusedScreen);
         if (_expNav1) {
           for (const child of _expNav1) {
-            this._animateReveal(child.userData?.screenMesh ?? child, 0.0, 1.0, 0.15);
+            this._animateExperienceChild(child, false);
           }
         }
         this._focusedScreen = null;
@@ -1925,7 +1931,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       const _expNav2 = this._resolveExperienceChildren(this._focusedHitbox, this._focusedScreen);
       if (_expNav2) {
         for (const child of _expNav2) {
-          this._animateReveal(child.userData?.screenMesh ?? child, 0.0, 1.0, 0.15);
+          this._animateExperienceChild(child, false);
         }
       }
       this._focusedScreen = null;
@@ -1993,8 +1999,21 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     this._tweens.push(tween);
   }
 
+  // Reveal an experienceChild on parent focus — one-way, permanent. Unfocus is a no-op.
+  _animateExperienceChild(child, focusing) {
+    if (!focusing) return;
+    const mesh = child.userData?.screenMesh ?? child;
+    if (mesh.userData?.revealMaterial) {
+      const current = mesh.userData.revealMaterial.uniforms.uColorReveal?.value ?? 0;
+      this._animateColorReveal(mesh, current, 1.2, 1.5);
+    } else {
+      mesh.visible = true;
+      (mesh.userData.associatedMeshes ?? []).forEach(m => { m.visible = true; });
+    }
+  }
 
-  
+
+
 
 }
 
