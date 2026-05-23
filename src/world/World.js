@@ -352,7 +352,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     //import environment models
     const gridMat = makeArchGridMaterial({ });
     /*
-    const room01 = loadGLTFWithAnimations(import.meta.env.BASE_URL + "/art/test3d/Chancery Rosewood_V8_.glb").then((gltf) => {
+    const room01 = loadGLTFWithAnimations(import.meta.env.BASE_URL + "art/test3d/Chancery Rosewood_V8_.glb").then((gltf) => {
       const model = gltf.scene;
       model.traverse((child) => {
         if (child.isMesh) {
@@ -405,10 +405,10 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     };
 
     const base = import.meta.env.BASE_URL;
-    const Lobby          = _loadEnvGLB(base + "/art/Building/Chancery Rosewood_LOBBY_BAKE_V4.glb");
-    const LobbyFurniture = _loadEnvGLB(base + "/art/Building/Chancery Rosewood_LOBBY_FURNITURE_BAKE_V4.glb");
-    const WestPavillion  = _loadEnvGLB(base + "/art/Building/Chancery Rosewood_Pavilion_BAKE_V4.glb");
-    const EagleBar       = _loadEnvGLB(base + "/art/Building/Chancery Rosewood_EagleBar_V1.glb");
+    const Lobby          = _loadEnvGLB(base + "art/Building/Chancery Rosewood_LOBBY_BAKE_V4.glb");
+    const LobbyFurniture = _loadEnvGLB(base + "art/Building/Chancery Rosewood_LOBBY_FURNITURE_BAKE_V4.glb");
+    const WestPavillion  = _loadEnvGLB(base + "art/Building/Chancery Rosewood_Pavilion_BAKE_V4.glb");
+    const EagleBar       = _loadEnvGLB(base + "art/Building/Chancery Rosewood_EagleBar_V1.glb");
 
     // Trigger one shadow-map render pass after all static geometry is in the scene.
     // autoUpdate is disabled in Renderer so this is the only pass for static content.
@@ -488,13 +488,13 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         narrationCues: `${baseURL}audio/Unrendered_Narration.json`
       },
       images: [
-        { url: `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-2-1.jpg.avif` },
-        { url: `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-3-2.jpg` },
-        { url: `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-3-3.jpg` },
-        { url: `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-4.jpg` },
-        { url: `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-5-4.jpg` },
-        { url: `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-5-5.jpg` },
-        { url: `${baseURL}/art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-6-2.jpg` },
+        { url: `${baseURL}art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-2-1.jpg.avif` },
+        { url: `${baseURL}art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-3-2.jpg` },
+        { url: `${baseURL}art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-3-3.jpg` },
+        { url: `${baseURL}art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-4.jpg` },
+        { url: `${baseURL}art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-5-4.jpg` },
+        { url: `${baseURL}art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-5-5.jpg` },
+        { url: `${baseURL}art/Unrendered_MarieLisetteCropp/25.10.17.-Marie-cropp-6-2.jpg` },
       ],
     });
     this._loadingPromises.push(unrenderedCarousel.load().then(() => {
@@ -582,7 +582,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     //3d models
 
     //entrance way
-    const Experiment58 = import.meta.env.BASE_URL + "/art/Experimentn58-2PositioninSpace_MarieSaintYves/Eperiment58.glb";
+    const Experiment58 = import.meta.env.BASE_URL + "art/Experimentn58-2PositioninSpace_MarieSaintYves/Eperiment58.glb";
 
     this._loadingPromises.push(this.screenManager.addModel({
       url: Experiment58,
@@ -611,7 +611,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       this._registerArtwork(modelRoot);
     }).catch(console.error));
 
-    const a=import.meta.env.BASE_URL + "/art/test3d/8 Ultra High Quality Scan_low poly DRACO jpeg (1024).glb";
+    const a=import.meta.env.BASE_URL + "art/test3d/8 Ultra High Quality Scan_low poly DRACO jpeg (1024).glb";
     
   
 
@@ -756,23 +756,23 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       },
       images: [
         {
-          url: `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF_02.jpg.avif`,
+          url: `${baseURL}art/SelfFinish_BeatriceElAsmar/SF_02.jpg.avif`,
           
         },
         {
-          url: `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF-01.jpg`,
+          url: `${baseURL}art/SelfFinish_BeatriceElAsmar/SF-01.jpg`,
           
         },
         {
-          url: `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF_03.jpg`,
+          url: `${baseURL}art/SelfFinish_BeatriceElAsmar/SF_03.jpg`,
           
         },
         {
-          url: `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF_04.jpg`,
+          url: `${baseURL}art/SelfFinish_BeatriceElAsmar/SF_04.jpg`,
           
         },
         {
-          url: `${baseURL}/art/SelfFinish_BeatriceElAsmar/SF_08.jpg`,
+          url: `${baseURL}art/SelfFinish_BeatriceElAsmar/SF_08.jpg`,
           
         },
       ],
@@ -928,7 +928,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
 
 
   this._loadingPromises.push(this.screenManager.addModel({
-    url: import.meta.env.BASE_URL + "/art/LetMeEatCake_SuzannaTeal/CakeTable_NoCake.glb",
+    url: import.meta.env.BASE_URL + "art/LetMeEatCake_SuzannaTeal/CakeTable_NoCake.glb",
     position: [-29.0, -1.0, -21.0],   // e.g. on/near carousel A
       rotation: [0, -90, 0],
     rotationOffset: 90,
@@ -1020,7 +1020,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
   // ──────────────────────────────────────────────────────────────────────────
 
     //window corner
-        const c=import.meta.env.BASE_URL + "/art/EmbodiedMemories_YoonJuChung/JU CHUNG_V2.glb";
+        const c=import.meta.env.BASE_URL + "art/EmbodiedMemories_YoonJuChung/JU CHUNG_V2.glb";
 
   this._loadingPromises.push(this.screenManager.addModel({
     url: c,
