@@ -216,8 +216,9 @@ export class World {
       // 🔥 HIDE animation
       this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.3);
       this._animateReveal(this._lastRevealedScreen, 0.0, 1.0, 0.3);
-      if (this._focusedHitbox?.userData.experienceChildren) {
-        for (const child of this._focusedHitbox.userData.experienceChildren) {
+      const _expMiss = this._resolveExperienceChildren(this._focusedHitbox, this._focusedScreen);
+      if (_expMiss) {
+        for (const child of _expMiss) {
           this._animateReveal(child.userData?.screenMesh ?? child, 0.0, 1.0, 0.3);
         }
       }
@@ -628,7 +629,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       clickable: true,
       offsetClick: 0.0,
       clickableSize: [2.2, 2.2],
-      //text: "Image Screen",
+      //text: "",
       location: 'lobby',
       artworkInfo: {
         title: "No Longer Us",
@@ -910,7 +911,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       clickable: true,
       offsetClick: 0.0,
       clickableSize: [5.2, 2.45], // make click area bigger than screen size to include podium
-      text: "Image Screen",
+      text: "",
       plinthVisible: false,
       location: 'WestPavillion',
       artworkInfo: {
@@ -1063,7 +1064,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       clickable: true,
       plinthVisible: false,
       offsetClick: 0.0,
-      text: "Image Screen",
+      text: "",
       location: 'WestPavillion',
       artworkInfo: {
         title: "Synesthetic Skin：A Posthuman Visual Narrative",
@@ -1089,7 +1090,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       clickable: true,
       offsetClick: 0.5,
       clickableSize: [2.2, 2.5],
-      text: "Image Screen",
+      text: "",
       plinthVisible: false,
       location: 'WestPavillion',
       artworkInfo: {
@@ -1117,7 +1118,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       clickable: false,
       offsetClick: 0.5,
       clickableSize: [2.2, 2.5],
-      text: "Image Screen",
+      text: "",
       plinthVisible: false,
       location: 'EagleBar',
     });
@@ -1177,7 +1178,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       clickable: true,
       offsetClick: 0.5,
       clickableSize: [2.2, 2.5],
-      text: "Image Screen",
+      text: "",
       plinthVisible: false,
       location: 'EagleBar',
       artworkInfo: {
@@ -1203,7 +1204,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       clickable: true,
       offsetClick: 0.0,
       clickableSize: [2.2, 1.0],
-      text: "Image Screen",
+      text: "",
       plinthVisible: false,
       location: 'EagleBar',
       artworkInfo: {
@@ -1585,8 +1586,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       this._animateReveal(target, 1.0, 0.0, 0.4);
       this._animateReveal(revealTarget, 1.0, 0.0, 0.4);
       this._lastfocusedScreen = this._focusedScreen;
-      if (obj.userData.experienceChildren) {
-        for (const child of obj.userData.experienceChildren) {
+      const _expFocus = this._resolveExperienceChildren(obj, target);
+      if (_expFocus) {
+        for (const child of _expFocus) {
           this._animateReveal(child.userData?.screenMesh ?? child, 1.0, 0.0, 0.4);
         }
       }
@@ -1889,8 +1891,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         this.infoPanel.hideAudioControls();
         this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.15);
         this._animateReveal(this._lastRevealedScreen, 0.0, 1.0, 0.15);
-        if (this._focusedHitbox?.userData.experienceChildren) {
-          for (const child of this._focusedHitbox.userData.experienceChildren) {
+        const _expNav1 = this._resolveExperienceChildren(this._focusedHitbox, this._focusedScreen);
+        if (_expNav1) {
+          for (const child of _expNav1) {
             this._animateReveal(child.userData?.screenMesh ?? child, 0.0, 1.0, 0.15);
           }
         }
@@ -1918,8 +1921,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       this.infoPanel.hideAudioControls();
       this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.15);
       this._animateReveal(this._lastRevealedScreen, 0.0, 1.0, 0.15);
-      if (this._focusedHitbox?.userData.experienceChildren) {
-        for (const child of this._focusedHitbox.userData.experienceChildren) {
+      const _expNav2 = this._resolveExperienceChildren(this._focusedHitbox, this._focusedScreen);
+      if (_expNav2) {
+        for (const child of _expNav2) {
           this._animateReveal(child.userData?.screenMesh ?? child, 0.0, 1.0, 0.15);
         }
       }
@@ -1959,6 +1963,13 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
 
     tween.mesh = mesh;
     this._tweens.push(tween);
+  }
+
+  _resolveExperienceChildren(hitbox, focusTarget) {
+    return hitbox?.userData.experienceChildren
+      ?? hitbox?.userData.revealTarget?.userData.experienceChildren
+      ?? focusTarget?.userData.experienceChildren
+      ?? null;
   }
 
   _setColorReveal(mesh, v) {

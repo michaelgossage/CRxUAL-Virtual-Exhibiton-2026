@@ -5,6 +5,16 @@ const SUBTITLE   = "Virtual Exhibition 2026";
 const DISCLAIMER = "By entering this exhibition you agree to our terms of use. All artworks are the property of their respective artists. Unauthorised reproduction is prohibited.";
 const INSTRUCTIONS = "Click on artworks to focus. Drag to look around. Use the menu to move between spaces.";
 
+// ─── CREDITS — add or remove entries here ─────────────────────────────────────
+const CREDITS = [
+  { role: "Curator",          name: "Name Here" },
+  { role: "Co-curator",       name: "Name Here" },
+  { role: "Exhibition Design",name: "Name Here" },
+  { role: "Web Development",  name: "Name Here" },
+  // add more { role, name } entries below
+];
+// ─────────────────────────────────────────────────────────────────────────────
+
 // Carousel
 const ROW_BASE_SPEED    = 38;   // px/s for the first row
 const ROW_SPEED_STEP    = 14;   // px/s added per row (creates subtle parallax)
@@ -136,6 +146,7 @@ export class TitleScreen {
 
           <p class="ts-instructions">${INSTRUCTIONS}</p>
           <p class="ts-disclaimer">${DISCLAIMER}</p>
+          <button class="ts-credits-btn" type="button">Credits</button>
 
         </div>
       </div>
@@ -154,7 +165,51 @@ export class TitleScreen {
       this._onStart?.();
     });
 
+    this._buildCreditsModal(root);
+
     return root;
+  }
+
+  _buildCreditsModal(root) {
+    const modal = document.createElement("div");
+    modal.className = "ts-credits-modal";
+
+    const backdrop = document.createElement("div");
+    backdrop.className = "ts-credits-backdrop";
+    modal.appendChild(backdrop);
+
+    const card = document.createElement("div");
+    card.className = "ts-credits-card";
+
+    const header = document.createElement("div");
+    header.className = "ts-credits-header";
+    header.innerHTML = `<span class="ts-credits-heading">Credits</span>`;
+
+    const closeBtn = document.createElement("button");
+    closeBtn.className = "ts-credits-close";
+    closeBtn.setAttribute("aria-label", "Close credits");
+    closeBtn.textContent = "✕";
+    header.appendChild(closeBtn);
+    card.appendChild(header);
+
+    const list = document.createElement("div");
+    list.className = "ts-credits-list";
+    for (const { role, name } of CREDITS) {
+      const item = document.createElement("div");
+      item.className = "ts-credits-item";
+      item.innerHTML = `<span class="ts-credits-role">${role}</span><span class="ts-credits-name">${name}</span>`;
+      list.appendChild(item);
+    }
+    card.appendChild(list);
+    modal.appendChild(card);
+    root.appendChild(modal);
+
+    const open  = () => modal.classList.add("ts-credits-modal--visible");
+    const close = () => modal.classList.remove("ts-credits-modal--visible");
+
+    root.querySelector(".ts-credits-btn").addEventListener("click", open);
+    backdrop.addEventListener("click", close);
+    closeBtn.addEventListener("click", close);
   }
 
   _buildCarousel(container) {

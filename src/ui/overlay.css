@@ -662,3 +662,117 @@ canvas { width: 100%; height: 100%; display:block; }
 @media (max-width: 500px) {
   .ts-panel { padding: 28px 22px 24px; gap: 12px; }
 }
+
+/* ─── Credits Modal ─────────────────────────────────────────── */
+.ts-credits-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  font-size: 0.72em;
+  color: rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 120ms ease;
+}
+.ts-credits-btn:hover { color: rgba(0, 0, 0, 0.70); }
+
+.ts-credits-modal {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.ts-credits-modal--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ts-credits-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(245, 243, 239, 0.70);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.ts-credits-card {
+  position: relative;
+  background: rgba(245, 243, 239, 0.96);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  padding: 28px 36px 32px;
+  max-width: 380px;
+  width: 100%;
+  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.14);
+  box-sizing: border-box;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.ts-credits-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.ts-credits-heading {
+  font: 700 0.78em system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(0, 0, 0, 0.45);
+}
+.ts-credits-close {
+  background: rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.10);
+  color: rgba(0, 0, 0, 0.45);
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  font-size: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 120ms ease, color 120ms ease;
+  flex-shrink: 0;
+}
+.ts-credits-close:hover {
+  background: rgba(0, 0, 0, 0.12);
+  color: #111;
+}
+
+.ts-credits-list {
+  display: flex;
+  flex-direction: column;
+}
+.ts-credits-item {
+  display: flex;
+  gap: 16px;
+  padding: 9px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  align-items: baseline;
+}
+.ts-credits-item:last-child { border-bottom: none; }
+
+.ts-credits-role {
+  font-size: 0.72em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: rgba(0, 0, 0, 0.38);
+  min-width: 110px;
+  flex-shrink: 0;
+}
+.ts-credits-name {
+  font-size: 0.88em;
+  color: rgba(0, 0, 0, 0.75);
+  font-weight: 500;
+}
