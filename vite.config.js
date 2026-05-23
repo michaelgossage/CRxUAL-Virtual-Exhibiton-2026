@@ -8,6 +8,5 @@ export default defineConfig({
     https: true,
     port: 8457
   },
-  base: "/CRxUAL-Virtual-Exhibiton-2026/"
 
 });
