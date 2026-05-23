@@ -1207,6 +1207,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       text: "",
       plinthVisible: false,
       location: 'EagleBar',
+      exposure: 1.0,
       artworkInfo: {
         title: "Be Not Afraid",
         artist: "Rysia Anna Kaczmar",
@@ -1968,6 +1969,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
   _resolveExperienceChildren(hitbox, focusTarget) {
     return hitbox?.userData.experienceChildren
       ?? hitbox?.userData.revealTarget?.userData.experienceChildren
+      ?? hitbox?.userData.modelRoot?.userData.experienceChildren
       ?? focusTarget?.userData.experienceChildren
       ?? null;
   }

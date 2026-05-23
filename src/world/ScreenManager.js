@@ -161,6 +161,7 @@ export class ScreenManager {
     poster = null,    // still image URL shown when not focused (video screens only)
     skipReveal = true, // true = always fully visible, no radial wipe animation
     location = null,  // location ID this artwork belongs to (null = always visible)
+    exposure = 1.0,   // per-artwork brightness multiplier (1.0 = no change)
   }) {
 
     if (this.debugOn) {
@@ -215,6 +216,7 @@ export class ScreenManager {
     const material = makeRevealMaterial({ map: texture, revealMap: revealTex });
     material.userData = { uReveal: skipReveal ? 0.0 : 1.0 };
     if (skipReveal) material.uniforms.uReveal.value = 0.0;
+    material.uniforms.uExposure.value = exposure;
 
     // Auto-detect media aspect ratio and set contain scale on material
     const setContainScale = (mediaAspect) => {

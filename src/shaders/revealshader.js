@@ -59,7 +59,6 @@ export function makeRevealMaterial({
   return new THREE.ShaderMaterial({
     transparent: true,
     depthWrite: false,
-    toneMapped: false,
     uniforms: {
       uMap:          { value: map },
       uMapNext:      { value: mapNext },
@@ -69,6 +68,7 @@ export function makeRevealMaterial({
       uBlend:        { value: 0.0 },
       uContainScale: { value: new THREE.Vector2(1, 1) }, // (1,1) = fill (no bars)
       uColorReveal:  { value: 0.0 },  // 0 = grayscale, 1 = full colour
+      uExposure:     { value: 1.0 },
     },
     vertexShader: /* glsl */ `
       varying vec2 vUv;
@@ -86,6 +86,7 @@ export function makeRevealMaterial({
       uniform float uBlend;
       uniform vec2  uContainScale;
       uniform float uColorReveal;
+      uniform float uExposure;
 
       varying vec2 vUv;
 
@@ -122,7 +123,9 @@ export function makeRevealMaterial({
         float luma = dot(color.rgb, vec3(0.2126, 0.7152, 0.0722));
         color.rgb = mix(vec3(luma), color.rgb, colorAmt);
 
-        gl_FragColor = vec4(color.rgb, a);
+        gl_FragColor = vec4(color.rgb * uExposure, a);
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
       }
     `
   });
@@ -142,7 +145,6 @@ export function makeCarouselMaterial({ map, revealMap }) {
   return new THREE.ShaderMaterial({
     transparent: true,
     depthWrite: false,
-    toneMapped: false,
     uniforms: {
       uMap:             { value: map },
       uMapNext:         { value: map },
@@ -156,6 +158,7 @@ export function makeCarouselMaterial({ map, revealMap }) {
       uWipeOrigin:      { value: new THREE.Vector2(0, 0) },
       uContainScale:    { value: new THREE.Vector2(1, 1) },
       uTime:            { value: 0.0 },
+      uExposure:        { value: 1.0 },
     },
     vertexShader: /* glsl */ `
       varying vec2 vUv;
@@ -178,6 +181,7 @@ export function makeCarouselMaterial({ map, revealMap }) {
       uniform vec2  uWipeOrigin;
       uniform vec2  uContainScale;
       uniform float uTime;
+      uniform float uExposure;
 
       varying vec2 vUv;
 
@@ -262,7 +266,9 @@ export function makeCarouselMaterial({ map, revealMap }) {
 
         float a = col.a * alpha;
         if (a < 0.001) discard;
-        gl_FragColor = vec4(col.rgb, a);
+        gl_FragColor = vec4(col.rgb * uExposure, a);
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
       }
     `
   });

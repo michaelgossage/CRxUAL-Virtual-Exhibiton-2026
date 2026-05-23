@@ -1,4 +1,4 @@
-import { WebGLRenderer } from "three";
+import { WebGLRenderer, ACESFilmicToneMapping } from "three";
 
 export class Renderer {
   constructor({ mount, sizes }) {
@@ -25,6 +25,8 @@ export class Renderer {
 
     //color space
     this.gl.outputColorSpace = "srgb";
+    this.gl.toneMapping = ACESFilmicToneMapping;
+    this.gl.toneMappingExposure = 1.0;
   }
 
   onResize(sizes) {
