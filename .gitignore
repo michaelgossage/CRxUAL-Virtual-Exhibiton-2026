@@ -12,5 +12,3 @@ dist/
 # system
 .DS_Store
 
-#local data
-public/art/
