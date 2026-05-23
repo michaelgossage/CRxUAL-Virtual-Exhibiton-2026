@@ -1130,7 +1130,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       rotation: [0, -135, 0],
       normalizeTo: 0.8,
       clickable: true,
-      text: "",
+      //text: "",
       textOffset: [0, -0.1, 0.9],
       hitboxSize: [1.4, 1.4, 1.4],
       offsetClick: -0.3,
