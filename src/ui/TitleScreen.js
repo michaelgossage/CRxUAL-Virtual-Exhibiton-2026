@@ -1,16 +1,16 @@
 // ─── CONFIGURE THESE ─────────────────────────────────────────────────────────
 const LOGO_SRC   = "/CRxUAL-Virtual-Exhibiton-2026/art/images/logo.png";
-const TITLE      = "CRxUAL";
+const TITLE      = "The Chancery Rosewood Award for Creative Transformation";
 const SUBTITLE   = "Virtual Exhibition 2026";
 const DISCLAIMER = "By entering this exhibition you agree to our terms of use. All artworks are the property of their respective artists. Unauthorised reproduction is prohibited.";
 const INSTRUCTIONS = "Click on artworks to focus. Drag to look around. Use the menu to move between spaces.";
 
 // ─── CREDITS — add or remove entries here ─────────────────────────────────────
 const CREDITS = [
-  { role: "Curator",          name: "Name Here" },
-  { role: "Co-curator",       name: "Name Here" },
-  { role: "Exhibition Design",name: "Name Here" },
-  { role: "Web Development",  name: "Name Here" },
+  { role: "Artwork Curation",          name: "Rachel Segal Hamilton" },
+  { role: "Event Curation",       name: "Siyan Zhang" },
+  { role: "Producer",name: "Stephanie Barker-Fry" },
+  { role: "Web Development",  name: "Michael Gossage" },
   // add more { role, name } entries below
 ];
 // ─────────────────────────────────────────────────────────────────────────────
