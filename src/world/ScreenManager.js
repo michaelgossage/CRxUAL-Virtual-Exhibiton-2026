@@ -884,7 +884,7 @@ export class ScreenManager {
 
       // swipe detection
       const dx = e.clientX - this._fluidDragStartX;
-      if (Math.abs(dx) > 40) {
+      if (Math.abs(dx) > 25) {
         const rect = this.domElement.getBoundingClientRect();
         const ox = ((e.clientX - rect.left) / rect.width) * 2 - 1;
         const oy = -(((e.clientY - rect.top) / rect.height) * 2 - 1);

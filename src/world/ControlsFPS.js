@@ -41,6 +41,7 @@ export class ControlsFPS {
     this.INERTIA_DECAY = 3.5;
 
     this._isDown = false;
+    this._isTouch = false;
     this._activePointerId = null;
     this._lastX = 0;
     this._lastY = 0;
@@ -71,6 +72,7 @@ export class ControlsFPS {
     canvas.addEventListener("pointerdown", (e) => {
       if (!this.dragToLook) return;
       this._isDown = true;
+      this._isTouch = (e.pointerType === "touch");
       this._activePointerId = e.pointerId;
       this._lastX = e.clientX;
       this._lastY = e.clientY;
@@ -125,8 +127,9 @@ export class ControlsFPS {
 
     // ── Drag (direct + inertia) ─────────────────────────────
     if (this._isDown && (this._accumDx !== 0 || this._accumDy !== 0)) {
-      const dyaw   = this._accumDx * this.SENS_YAW   * 1.4;
-      const dpitch = this._accumDy * this.SENS_PITCH  * 1.2;
+      const ts     = this._isTouch ? 0.75 : 1.0;
+      const dyaw   = this._accumDx * this.SENS_YAW   * 1.4 * ts;
+      const dpitch = this._accumDy * this.SENS_PITCH  * 1.2 * ts;
 
       this.yawTotal += dyaw;
       this.pitch = THREE.MathUtils.clamp(

@@ -94,6 +94,11 @@ export class InfoPanel {
 
     // Prevent description scroll from bubbling to 3D scene when showing transcript
     this.descEl.addEventListener("pointerdown", e => e.stopPropagation());
+
+    // Mobile top-bar header
+    this._mobileHeader      = document.getElementById("mobile-artwork-header");
+    this._mobileHeaderTitle  = this._mobileHeader?.querySelector(".mobile-artwork-header__title");
+    this._mobileHeaderArtist = this._mobileHeader?.querySelector(".mobile-artwork-header__artist");
   }
 
   show({ title = "", artist = "", description = "", link = "" } = {}) {
@@ -116,12 +121,20 @@ export class InfoPanel {
 
     this.el.classList.add("info-panel--visible");
 
+    // Mobile: show title/artist in top bar instead of bottom panel
+    if (this._mobileHeader && window.innerWidth < 640) {
+      this._mobileHeaderTitle.textContent  = title  ?? "";
+      this._mobileHeaderArtist.textContent = artist ?? "";
+      this._mobileHeader.classList.add("mobile-artwork-header--visible");
+    }
+
     this.descEl.scrollTop = 0;
     requestAnimationFrame(() => this._updateMask());
   }
 
   hide() {
     this.el.classList.remove("info-panel--visible");
+    this._mobileHeader?.classList.remove("mobile-artwork-header--visible");
     this._closeList();
   }
 

@@ -39,6 +39,12 @@ export class World {
       onNav: (dir) => this._navigateArtwork(dir),
       onJumpTo: (idx) => this._navigateToIndex(idx)
     });
+
+    // DOM carousel nav buttons (visible on all screen sizes)
+    this._carouselPrevBtn = document.getElementById("carousel-prev");
+    this._carouselNextBtn = document.getElementById("carousel-next");
+    this._carouselPrevBtn?.addEventListener("click", () => this._handleCarouselNav(-1));
+    this._carouselNextBtn?.addEventListener("click", () => this._handleCarouselNav(1));
     this._controlsSaved = null;
     this._focusState = "idle"; // idle | focusing | focused | returning
     this._focusCooldown = 0;
@@ -80,11 +86,15 @@ export class World {
     this._mouseRevealDirty   = false;   // true when pointermove fired since last update
     this._lastMouseRevealPos = null;    // Vector3 — world pos of last mouse trail reveal
     this._modelDrag = null;             // { lastX, modelRoot } while drag-rotating a focused model
+    this._swipeStartX = 0;
+    this._swipeStartY = 0;
     this.renderer.domElement.addEventListener('pointerdown', (e) => {
       this._lastNDC.set(
         (e.clientX / this.sizes.width)  * 2 - 1,
        -(e.clientY / this.sizes.height) * 2 + 1
       );
+      this._swipeStartX = e.clientX;
+      this._swipeStartY = e.clientY;
       // Start model drag if focused on a 3D model or experience
       if (this._focusState === "focused") {
         if (this._focusedExperience?.onDrag) {
@@ -113,8 +123,21 @@ export class World {
         this._modelDrag.lastX = e.clientX;
       }
     });
-    this.renderer.domElement.addEventListener('pointerup', () => {
+    this.renderer.domElement.addEventListener('pointerup', (e) => {
       this._modelDrag = null;
+      // Swipe carousel/experience navigation when focused
+      if (this._focusState === "focused") {
+        const dx = e.clientX - this._swipeStartX;
+        const dy = e.clientY - this._swipeStartY;
+        if (Math.abs(dx) >= 30 && Math.abs(dx) > Math.abs(dy)) {
+          const car = this._focusedScreen?.userData?.contentCarousel;
+          if (car) { dx < 0 ? car.next() : car.prev(); return; }
+          if (this._focusedExperience?.onNav) {
+            const result = this._focusedExperience.onNav(dx < 0 ? 1 : -1);
+            if (result?.artworkInfo) this.infoPanel.show(result.artworkInfo);
+          }
+        }
+      }
     }, { passive: true });
     
 
@@ -212,6 +235,7 @@ export class World {
       this.infoPanel.hide();
       this.infoPanel.hideVideoControls();
       this.infoPanel.hideAudioControls();
+      this._setCarouselButtons(false);
 
       // 🔥 HIDE animation
       this._animateReveal(this._focusedScreen, 0.0, 1.0, 0.3);
@@ -1682,6 +1706,24 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       // so the large central box would intercept clicks meant for the per-model hitboxes.
       this._removeExperienceHitbox(_exp);
     }
+
+    // Show carousel nav buttons when focused on a carousel or navigable experience
+    const hasCarousel = !!(target?.userData?.contentCarousel || this._focusedExperience?.onNav);
+    this._setCarouselButtons(hasCarousel);
+  }
+
+  _handleCarouselNav(dir) {
+    const car = this._focusedScreen?.userData?.contentCarousel;
+    if (car) { dir < 0 ? car.prev() : car.next(); return; }
+    if (this._focusedExperience?.onNav) {
+      const result = this._focusedExperience.onNav(dir);
+      if (result?.artworkInfo) this.infoPanel.show(result.artworkInfo);
+    }
+  }
+
+  _setCarouselButtons(show) {
+    this._carouselPrevBtn?.classList.toggle("carousel-nav-btn--visible", show);
+    this._carouselNextBtn?.classList.toggle("carousel-nav-btn--visible", show);
   }
 
   _removeExperienceHitbox(exp) {
@@ -1909,6 +1951,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         this._lastRevealedScreen = null;
         this._exitFocusMode();
         this._focusState = "idle";
+        this._setCarouselButtons(false);
       }
       this.locations.goTo(targetLocation, { duration: 3.0 });
       this._pendingFocusIndex = idx;
@@ -1939,6 +1982,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       this._lastRevealedScreen = null;
       this._exitFocusMode();
       this._focusState = "idle";
+      this._setCarouselButtons(false);
       // Stop any in-progress focus tween and clear saved home so returnHome
       // won't snap back to the old location after travelling
       this.focus.isMoving = false;
