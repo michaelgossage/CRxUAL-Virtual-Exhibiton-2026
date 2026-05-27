@@ -1135,6 +1135,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
 
     
 
+    /* ORIGINAL Faux Flora — single model + screen + arrangement (commented out, swap back if needed)
     //right side outside — Faux Flora: 3D model is primary, screen + arrangement are children
     const fauxFloraChildren = [];
     const fauxFloraScreen = this.screenManager.addScreen({
@@ -1148,7 +1149,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       clickableSize: [2.2, 2.5],
       text: "",
       plinthVisible: false,
-      location: 'EagleBar',
+      location: ‘EagleBar’,
     });
     fauxFloraChildren.push(fauxFloraScreen);
 
@@ -1165,7 +1166,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       plinthVisible:true,
       plinthOffset: [0, -0.3, 0],
       plinthSize: [0.8, 0.8, 0.8],
-      location: 'EagleBar',
+      location: ‘EagleBar’,
       artworkInfo: {
         title: "Faux Flora",
         artist: "Justina Alexandroff",
@@ -1192,9 +1193,93 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       plinthVisible:false,
       plinthOffset: [0, -0.5, 0],
       plinthSize: [1.0, 1.0, 1.0],
+      location: ‘EagleBar’,
+    }).then((m) => {
+      fauxFloraChildren.push(m);
+    }).catch(console.error));
+    */
+
+    // ── Faux Flora — children (screen + arrangement) shared with the walk below ─
+    const fauxFloraChildren = [];
+    const fauxFloraScreen = this.screenManager.addScreen({
+      url: `${baseURL}art/FauxFlora_JustinaAlexandrof/Justina_Alexandroff_2-2.jpg`,
+      width: 1.5,
+      height: 2.0,
+      position: [5.5, 23, 16.5],
+      rotation: [0, -135, 0],
+      clickable: false,
+      offsetClick: 0.5,
+      clickableSize: [2.2, 2.5],
+      text: "",
+      plinthVisible: false,
+      location: 'EagleBar',
+    });
+    fauxFloraChildren.push(fauxFloraScreen);
+
+    this._loadingPromises.push(this.screenManager.addModel({
+      url: `${baseURL}art/FauxFlora_JustinaAlexandrof/FauxFloraArrangement.glb`,
+      position: [4.1, 21.3, 17.0],
+      rotation: [0, -135, 0],
+      normalizeTo: 2.5,
+      clickable: false,
+      text: "",
+      textOffset: [0, -0.1, 0.9],
+      hitboxSize: [1.8, 1.5, 1.8],
+      offsetClick: 0.2,
+      plinthVisible: false,
+      plinthOffset: [0, -0.5, 0],
+      plinthSize: [1.0, 1.0, 1.0],
       location: 'EagleBar',
     }).then((m) => {
       fauxFloraChildren.push(m);
+    }).catch(console.error));
+
+    // ── Faux Flora — ModelGalleryWalk (Barnacle · Flora · Coral) ─────────────
+    const fauxFloraWalk = new ModelGalleryWalk({
+      scene: this.scene,
+      debugOn: this._debug,
+      artworkInfo: {
+        title: "Faux Flora",
+        artist: "Justina Alexandroff",
+        description: "Urban air pollutants disrupt floral odors, altering the scent of flowers and making it difficult for pollinating insects to locate essential plants. Faux Flora is an artificial flower system designed to guide pollinators toward nearby flower-rich areas. This project is a collaboration with NICE Lab (based in Bangalore) and incorporates Aditi Mishra’s PhD research that an insect pollinator identifies a flower object when it has three traits in combination: radial symmetry, a sweet scent and a reflective surface. I have reimagined these traits through parametric 3D design and printing (for radial symmetry), chemical ecology (for the sweet scent) and nano-cellulose structural colour (for the reflective surface). Acting as visual and olfactory beacons with no nectar reward, insects quickly learn to forage in the surrounding environment. Through artificial chemistry and biomimicry, Faux Flora explores new relationships between species, technology, and cities.",
+        link: "https://ualshowcase.arts.ac.uk/@justinaalexandroff",
+        narration: `${baseURL}audio/FauxFlora_Narration.mp3`,
+        narrationCues: `${baseURL}audio/FauxFlora_Narration.json`
+      },
+      entryPosition: [5.0, 22.5, 16.0],
+      entryHitboxSize: [2.0, 2.0, 2.0],
+      arrowOffset: 0.5,
+      arrowHeight: 0.0,
+      arrowSize: 0.35,
+      models: [
+        {
+          url: `${baseURL}art/FauxFlora_JustinaAlexandrof/Barnacle_lowres.glb`,
+          position: [5.0, 22.5, 16.0],
+          rotation: [0, -135, 0],
+          normalizeTo: 0.8,
+          artworkInfo: { title: "Faux Flora — Barnacle", artist: "Justina Alexandroff" },
+        },
+        {
+          url: `${baseURL}art/FauxFlora_JustinaAlexandrof/Floral_lowres.glb`,
+          position: [3.2, 22.5, 14.5],
+          rotation: [0, -135, 0],
+          normalizeTo: 0.8,
+          artworkInfo: { title: "Faux Flora — Flora", artist: "Justina Alexandroff" },
+        },
+        {
+          url: `${baseURL}art/FauxFlora_JustinaAlexandrof/Coral_lowres.glb`,
+          position: [6.8, 22.5, 14.5],
+          rotation: [0, -135, 0],
+          normalizeTo: 0.8,
+          artworkInfo: { title: "Faux Flora — Coral", artist: "Justina Alexandroff" },
+        },
+      ],
+    });
+    this._loadingPromises.push(fauxFloraWalk.load().then(() => {
+      fauxFloraWalk.hitbox.userData.location = 'EagleBar';
+      fauxFloraWalk.hitbox.userData.experienceChildren = fauxFloraChildren;
+      this._registerExperience(fauxFloraWalk);
+      fauxFloraWalk._clickables = this.screenManager.clickables;
     }).catch(console.error));
 
     //right side of bar
@@ -1717,6 +1802,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     if (car) { dir < 0 ? car.prev() : car.next(); return; }
     if (this._focusedExperience?.onNav) {
       const result = this._focusedExperience.onNav(dir);
+      if (result?.focusTarget) {
+        this.focus.focusOn({ targetObject: result.focusTarget, distance: "fit", duration: 0.6, padding: 1 });
+      }
       if (result?.artworkInfo) this.infoPanel.show(result.artworkInfo);
     }
   }

@@ -99,6 +99,8 @@ export class InfoPanel {
     this._mobileHeader      = document.getElementById("mobile-artwork-header");
     this._mobileHeaderTitle  = this._mobileHeader?.querySelector(".mobile-artwork-header__title");
     this._mobileHeaderArtist = this._mobileHeader?.querySelector(".mobile-artwork-header__artist");
+    this._mobileHeader?.querySelector(".mobile-artwork-header__close")
+      ?.addEventListener("click", () => { this.hide(); if (typeof onClose === "function") onClose(); });
   }
 
   show({ title = "", artist = "", description = "", link = "" } = {}) {
