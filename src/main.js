@@ -1,5 +1,8 @@
 import "./ui/overlay.css";
 import { DefaultLoadingManager } from "three";
+
+document.fonts.load("400 16px 'Swiss721BT'");
+document.fonts.load("700 16px 'Swiss721BT'");
 import { TitleScreen } from "./ui/TitleScreen.js";
 import { App } from "./core/App.js";
 
@@ -25,10 +28,12 @@ requestAnimationFrame(() => {
   window.__APP__ = app;
 
   app.world.controls.autoRotate = false;
+  app.time.stop(); // pause render loop while canvas is hidden — frees GPU for shader compilation
 
   // Signal ready only after all geometry is loaded AND all shaders compiled.
   // Previously used DefaultLoadingManager.onLoad which fires before compileAsync finishes.
   app.world.waitForReady().then(() => {
+    app.time.start(); // resume before enabling the button
     titleScreen.setReady();
   });
 

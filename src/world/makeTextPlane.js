@@ -19,7 +19,7 @@ export function makeTextPlane(text, {
   ctx.fillRect(0, 0, c.width, c.height);
 
   ctx.fillStyle = `rgb(${textColor.r}, ${textColor.g}, ${textColor.b})`;
-  ctx.font = `700 ${fontsize}px system-ui, -apple-system, Segoe UI, Roboto, Arial`;
+  ctx.font = `700 ${fontsize}px 'Swiss721BT', system-ui, sans-serif`;
   ctx.textBaseline = "middle";
   ctx.fillText(text, padding, c.height / 2);
 

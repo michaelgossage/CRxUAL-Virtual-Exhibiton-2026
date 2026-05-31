@@ -2,8 +2,41 @@ import * as THREE from "three";
 import { loadGLTFWithAnimations } from "../../utils/gltfLoader.js";
 import { makeTween01 } from "../../utils/tween.js";
 
+function _makePlinthMarbleMaterial() {
+  const mat = new THREE.MeshStandardMaterial({
+    color: 0xf5f2ee,
+    roughness: 0.32,
+    metalness: 0.0,
+    envMapIntensity: 0.6,
+  });
+  mat.onBeforeCompile = (shader) => {
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <worldpos_vertex>',
+      `#include <worldpos_vertex>
+       vWorldPos = (modelMatrix * vec4(transformed, 1.0)).xyz;`
+    );
+    shader.vertexShader = 'varying vec3 vWorldPos;\n' + shader.vertexShader;
+    shader.fragmentShader = 'varying vec3 vWorldPos;\n' + shader.fragmentShader;
+    shader.fragmentShader = shader.fragmentShader.replace(
+      '#include <color_fragment>',
+      /* glsl */`
+      #include <color_fragment>
+      vec3 p = vWorldPos * 1.8;
+      float v = sin(p.x * 1.1 + p.y * 0.4 + sin(p.z * 0.9 + p.x * 0.6) * 2.2) * 0.5 + 0.5;
+      v = pow(v, 3.5);
+      float vein = smoothstep(0.55, 0.72, v);
+      vec3 veinColor = vec3(0.72, 0.74, 0.76);
+      diffuseColor.rgb = mix(diffuseColor.rgb, veinColor, vein * 0.55);
+      `
+    );
+  };
+  return mat;
+}
+
 const _WORLD_UP  = new THREE.Vector3(0, 1, 0);
 const _mergeInfo = (base, override) => ({ ...base, ...(override ?? {}) });
+const _easeInOut = (t) => t * t * (3 - 2 * t);
+const _clamp01   = (t) => Math.max(0, Math.min(1, t));
 
 function _makeArrowPlane(symbol) {
   const size   = 128;
@@ -89,6 +122,9 @@ export class ModelCarousel {
     debugOn = false,
     materialOverride = null,   // { color?, metalness?, roughness?, envMapIntensity? } — replaces all mesh materials
     showSpinToggle = false,    // show the auto-spin toggle button when focused
+    plinthVisible = false,
+    plinthSize    = null,      // [w, h, d] — defaults to normalizeTo-based footprint
+    plinthOffset  = [0, 0, 0],
   }) {
     this.scene = scene;
     this._modelDefs = models;
@@ -99,6 +135,10 @@ export class ModelCarousel {
     this._debugOn = debugOn;
     this._materialOverride = materialOverride;
     this._showSpinToggle = showSpinToggle;
+    this._plinthVisible = plinthVisible;
+    this._plinthSize    = plinthSize;
+    this._plinthOffset  = plinthOffset;
+    this._plinthMesh    = null;
 
     const deg = Math.PI / 180;
     this._baseAngle = rotation[1] * deg;
@@ -126,6 +166,11 @@ export class ModelCarousel {
     this._spinEnabled = true;
     this._spinSpeed   = 0.5;   // radians/second
     this._spinToggle  = null;
+
+    this._revealTweens    = [];   // staggered scale-in on entry
+    this._exitScaleTweens = [];   // scale-out on exit
+    this._exitSpinTween   = null; // ring spin-back on exit
+    this._isExiting       = false;
   }
 
   async load() {
@@ -187,8 +232,14 @@ export class ModelCarousel {
       // Tag all mesh descendants for experience routing in World.js
       modelRoot.traverse(child => { child.userData.experienceOwner = this; });
 
-      this._models.push({ root: modelRoot, mixer, artworkInfo: _mergeInfo(this.artworkInfo, def.artworkInfo) });
+      this._models.push({ root: modelRoot, mixer, artworkInfo: _mergeInfo(this.artworkInfo, def.artworkInfo), baseScale: modelRoot.scale.clone() });
       this.root.add(modelRoot);
+
+      // Non-front models start hidden for GPU optimisation
+      if (i > 0) {
+        modelRoot.visible = false;
+        modelRoot.scale.setScalar(0);
+      }
 
       // Compute ACTUAL geometry bounds after the model is placed in the ring so
       // the hitbox wraps real visible geometry, not just the pivot position.
@@ -219,6 +270,27 @@ export class ModelCarousel {
 
       this.root.add(hb); // child of root — rotates with ring
       this.modelHitboxes.push(hb);
+    }
+
+    // Plinth — static platform aligned under the front (model 0) position
+    if (this._plinthVisible && this._models.length > 0) {
+      this.root.updateWorldMatrix(true, true);
+      const frontWorldPos = new THREE.Vector3();
+      this._models[0].root.getWorldPosition(frontWorldPos);
+
+      const normSize = this._normalizeTo ?? 1.0;
+      const [pw, ph, pd] = this._plinthSize ?? [normSize * 1.4, 0.3, normSize * 1.4];
+      const geo = new THREE.BoxGeometry(pw, ph, pd);
+      this._plinthMesh = new THREE.Mesh(geo, _makePlinthMarbleMaterial());
+      this._plinthMesh.position.set(
+        frontWorldPos.x + this._plinthOffset[0],
+        this._position[1] + this._plinthOffset[1],
+        frontWorldPos.z + this._plinthOffset[2]
+      );
+      this._plinthMesh.rotation.y   = this._baseAngle;
+      this._plinthMesh.receiveShadow = true;
+      this._plinthMesh.castShadow    = true;
+      this.scene.add(this._plinthMesh);
     }
 
     // Central invisible hitbox in world space — entry point only.
@@ -259,6 +331,8 @@ export class ModelCarousel {
   // ── Experience interface ────────────────────────────────────────────────────
 
   onFocus(camera) {
+    if (this._isExiting) this._cancelExit();
+
     this._isFocused = true;
     this._camera    = camera;
     // Hide central hitbox so it can't block clicks on the model hitboxes behind it
@@ -266,34 +340,31 @@ export class ModelCarousel {
     const m = this._models[this.activeIndex];
     if (m?.mixer) m.mixer.timeScale = 1;
     if (this._arrowPrev) {
-      this._arrowPrev.visible = true;
-      this._arrowNext.visible = true;
       this._spinToggle.visible = this._showSpinToggle;
       if (this._clickables) {
-        if (!this._clickables.includes(this._arrowPrev))  this._clickables.push(this._arrowPrev);
-        if (!this._clickables.includes(this._arrowNext))  this._clickables.push(this._arrowNext);
         if (this._showSpinToggle && !this._clickables.includes(this._spinToggle)) this._clickables.push(this._spinToggle);
       }
       this._updateArrows();
+    }
+
+    // Staggered scale-in for non-front models
+    this._revealTweens = [];
+    for (let i = 1; i < this._models.length; i++) {
+      this._revealTweens.push({
+        root:      this._models[i].root,
+        baseScale: this._models[i].baseScale,
+        elapsed:   -(i * 0.08),
+        duration:  0.4,
+      });
     }
   }
 
   onUnfocus() {
     this._isFocused = false;
     this._camera    = null;
-    // Restore central hitbox so the carousel is clickable from the gallery again
-    this.hitbox.visible = true;
     for (const m of this._models) {
       if (m?.mixer) m.mixer.timeScale = 0;
     }
-    // Snap ring back to index 0 silently for next entry
-    this.activeIndex   = 0;
-    this._currentAngle = this._baseAngle;
-    this._targetAngle  = this._baseAngle;
-    this.root.rotation.y = this._baseAngle;
-    this._rotTween = null;
-    this.hitbox.userData.focusTarget     = this.root;
-    this.hitbox.userData.artworkInfo     = _mergeInfo(this.artworkInfo, this._models[0]?.artworkInfo);
     if (this._arrowPrev) {
       this._arrowPrev.visible  = false;
       this._arrowNext.visible  = false;
@@ -304,6 +375,60 @@ export class ModelCarousel {
         if (this._showSpinToggle) _removeFrom(this._clickables, this._spinToggle);
       }
     }
+
+    // Cancel any in-progress entry tweens
+    this._revealTweens = [];
+    this._rotTween     = null;
+    this._isExiting    = true;
+
+    // Scale out all non-front visible models
+    this._exitScaleTweens = [];
+    for (let i = 1; i < this._models.length; i++) {
+      const m = this._models[i];
+      if (!m.root.visible) continue;
+      this._exitScaleTweens.push({
+        root:       m.root,
+        startScale: m.root.scale.clone(),
+        elapsed:    0,
+        duration:   0.35,
+      });
+    }
+
+    // Spin ring back to baseAngle (nearest whole-revolution return)
+    const TwoPI      = 2 * Math.PI;
+    const offset     = this._currentAngle - this._baseAngle;
+    const targetAngle = this._baseAngle + Math.round(offset / TwoPI) * TwoPI;
+    const spinDur    = Math.max(0.45, Math.abs(targetAngle - this._currentAngle) * 0.55);
+    this._exitSpinTween = makeTween01({
+      from: this._currentAngle, to: targetAngle, duration: spinDur,
+      onUpdate: (v) => { this._currentAngle = v; this.root.rotation.y = v; },
+      onDone:   () => this._finishExit(),
+    });
+  }
+
+  _finishExit() {
+    this._isExiting     = false;
+    this._exitSpinTween = null;
+    this._exitScaleTweens = [];
+    for (let i = 1; i < this._models.length; i++) {
+      const m = this._models[i];
+      m.root.visible = false;
+      m.root.scale.setScalar(0);
+    }
+    this.activeIndex      = 0;
+    this._currentAngle    = this._baseAngle;
+    this._targetAngle     = this._baseAngle;
+    this.root.rotation.y  = this._baseAngle;
+    this.hitbox.userData.focusTarget = this.root;
+    this.hitbox.userData.artworkInfo = _mergeInfo(this.artworkInfo, this._models[0]?.artworkInfo);
+    this.hitbox.visible = true;
+  }
+
+  _cancelExit() {
+    this._isExiting     = false;
+    this._exitSpinTween = null;
+    this._exitScaleTweens = [];
+    this.hitbox.visible = false;
   }
 
   // Clicking empty space always exits (no deeper state to return from)
@@ -379,6 +504,41 @@ export class ModelCarousel {
       this._rotTween.update(dt);
       if (this._rotTween.done) this._rotTween = null;
     }
+
+    // Entry: staggered scale-in for non-front models
+    for (let i = this._revealTweens.length - 1; i >= 0; i--) {
+      const t = this._revealTweens[i];
+      t.elapsed += dt;
+      if (t.elapsed < 0) continue;
+      if (!t.root.visible) t.root.visible = true;
+      const a = _easeInOut(_clamp01(t.elapsed / t.duration));
+      t.root.scale.copy(t.baseScale).multiplyScalar(a);
+      if (t.elapsed >= t.duration) {
+        t.root.scale.copy(t.baseScale);
+        this._revealTweens.splice(i, 1);
+      }
+    }
+
+    // Exit: scale-out for non-front models
+    for (let i = this._exitScaleTweens.length - 1; i >= 0; i--) {
+      const t = this._exitScaleTweens[i];
+      t.elapsed += dt;
+      const a = _easeInOut(_clamp01(t.elapsed / t.duration));
+      t.root.scale.copy(t.startScale).multiplyScalar(1 - a);
+      if (t.elapsed >= t.duration) {
+        t.root.scale.setScalar(0);
+        t.root.visible = false;
+        this._exitScaleTweens.splice(i, 1);
+      }
+    }
+
+    // Exit: ring spin-back
+    if (this._exitSpinTween) {
+      const tw = this._exitSpinTween;
+      tw.update(dt);
+      if (tw.done) this._exitSpinTween = null;
+    }
+
     if (this._isFocused) {
       const active = this._models[this.activeIndex];
       if (active?.mixer) active.mixer.update(dt);

@@ -146,7 +146,10 @@ export class TitleScreen {
 
           <p class="ts-instructions">${INSTRUCTIONS}</p>
           <p class="ts-disclaimer">${DISCLAIMER}</p>
-          <button class="ts-credits-btn" type="button">Credits</button>
+          <div class="ts-footer-btns">
+            <button class="ts-credits-btn" type="button">Credits</button>
+            <button class="ts-terms-btn"   type="button">Terms of Use</button>
+          </div>
 
         </div>
       </div>
@@ -166,6 +169,7 @@ export class TitleScreen {
     });
 
     this._buildCreditsModal(root);
+    this._buildTermsModal(root);
 
     return root;
   }
@@ -208,6 +212,67 @@ export class TitleScreen {
     const close = () => modal.classList.remove("ts-credits-modal--visible");
 
     root.querySelector(".ts-credits-btn").addEventListener("click", open);
+    backdrop.addEventListener("click", close);
+    closeBtn.addEventListener("click", close);
+  }
+
+  _buildTermsModal(root) {
+    const modal = document.createElement("div");
+    modal.className = "ts-terms-modal";
+
+    const backdrop = document.createElement("div");
+    backdrop.className = "ts-terms-backdrop";
+    modal.appendChild(backdrop);
+
+    const card = document.createElement("div");
+    card.className = "ts-terms-card";
+
+    const header = document.createElement("div");
+    header.className = "ts-terms-header";
+    header.innerHTML = `<span class="ts-terms-heading">Terms of Use</span>`;
+
+    const closeBtn = document.createElement("button");
+    closeBtn.className = "ts-terms-close";
+    closeBtn.setAttribute("aria-label", "Close terms");
+    closeBtn.textContent = "✕";
+    header.appendChild(closeBtn);
+    card.appendChild(header);
+
+    const body = document.createElement("div");
+    body.className = "ts-terms-body";
+    body.innerHTML = `
+      <p><strong>1. Use of this Site</strong><br>
+      These Terms govern your access to The Chancery Rosewood Award for Creative Transformation Virtual Exhibition. By entering this exhibition you agree to be bound by these Terms. If you do not agree, please do not proceed.</p>
+
+      <p><strong>2. Permitted Use</strong><br>
+      You may access this exhibition for personal, non-commercial viewing only. No part of this exhibition may be reproduced, distributed, publicly displayed, or commercially exploited without prior written consent from the relevant rights holder.</p>
+
+      <p><strong>3. Artist Copyright</strong><br>
+      All artworks displayed in this exhibition remain the exclusive copyright and intellectual property of the individual artist, in accordance with the Copyright, Designs and Patents Act 1988. The Chancery Rosewood Award claims no ownership or reproduction rights in any exhibited artwork. Any citation or reproduction of artwork must include clear attribution to the artist.</p>
+
+      <p><strong>4. Exhibition Content</strong><br>
+      All content in this exhibition — including artworks, 3D environments, and media — is the property of its respective rights holder and is used with permission. You may not reproduce, extract, or distribute any content without consent of the relevant rights holder. You may not reverse-engineer, decompile, or extract source code or 3D assets from this application, nor use automated tools to scrape or harvest content.</p>
+
+      <p><strong>5. Privacy</strong><br>
+      This exhibition does not collect, store, or process any personal data. No cookies or tracking tools are used. All content is rendered locally in your browser.</p>
+
+      <p><strong>6. Disclaimers</strong><br>
+      This exhibition is provided &ldquo;as is&rdquo; without warranties of any kind. We do not guarantee uninterrupted availability or that content is free from errors.</p>
+
+      <p><strong>7. Limitation of Liability</strong><br>
+      To the fullest extent permitted by law, the organisers accept no liability for any loss or damage arising directly or indirectly from use of this exhibition.</p>
+
+      <p><strong>8. Governing Law</strong><br>
+      These Terms are governed by the laws of England and Wales. You agree to submit to the exclusive jurisdiction of the courts of England and Wales in respect of any dispute arising from these Terms.</p>
+    `;
+    card.appendChild(body);
+    modal.appendChild(card);
+    root.appendChild(modal);
+
+    const open  = () => modal.classList.add("ts-terms-modal--visible");
+    const close = () => modal.classList.remove("ts-terms-modal--visible");
+
+    root.querySelector(".ts-terms-btn").addEventListener("click", open);
     backdrop.addEventListener("click", close);
     closeBtn.addEventListener("click", close);
   }

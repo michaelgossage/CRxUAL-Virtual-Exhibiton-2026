@@ -1,10 +1,25 @@
+@font-face {
+  font-family: 'Swiss721BT';
+  src: url('../fonts/swiss-721-bt-condensed.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Swiss721BT';
+  src: url('../fonts/swiss-721-bt-bold-condensed.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 html, body { margin: 0; height: 100%; overflow: hidden; background: #0b0c10; }
 #app { position: fixed; inset: 0; }
 canvas { width: 100%; height: 100%; display:block; }
 
 .hud{
   position: fixed; left: 12px; top: 12px; z-index: 10;
-  font: 12px/1.35 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font: 13px/1.35 'Swiss721BT', 'Swiss721BT', system-ui, sans-serif;
   color: rgba(255,255,255,0.85);
   background: rgba(0,0,0,0.35);
   border: 1px solid rgba(255,255,255,0.12);
@@ -25,29 +40,29 @@ canvas { width: 100%; height: 100%; display:block; }
 
   z-index: 20;
 
-  font: 12px/1.35 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font: 13px/1.35 'Swiss721BT', 'Swiss721BT', system-ui, sans-serif;
   color: rgba(255,255,255,0.85);
   background: rgba(0,0,0,0.35);
   border: 1px solid rgba(255,255,255,0.12);
   border-radius: 12px;
-  padding: 10px 10px;
+  padding: 10px 14px;
   backdrop-filter: blur(8px);
   user-select: none;
-  max-width: 360px;
+  max-width: 480px;
   touch-action: manipulation;
 }
 .menu-title{ color: #fff; font-weight: 700; margin-bottom: 8px; }
-.menu-row{ display:flex; gap: 8px; }
+.menu-row{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
 .btn{
   border: 1px solid rgba(255,255,255,0.14);
   background: rgba(255,255,255,0.06);
   color: rgba(255,255,255,0.9);
-  padding: 8px 10px;
+  padding: 9px 14px;
   border-radius: 10px;
   cursor: pointer;
   transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
-  flex: 1;
   text-align: center;
+  white-space: nowrap;
 }
 .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.10); }
 .btn.active{
@@ -59,7 +74,7 @@ canvas { width: 100%; height: 100%; display:block; }
 
 .hint{
   position: fixed; right: 12px; bottom: 12px; z-index: 10;
-  font: 12px/1.35 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font: 13px/1.35 'Swiss721BT', 'Swiss721BT', system-ui, sans-serif;
   color: rgba(255,255,255,0.8);
   background: rgba(0,0,0,0.28);
   border: 1px solid rgba(255,255,255,0.10);
@@ -90,7 +105,7 @@ canvas { width: 100%; height: 100%; display:block; }
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-top: 1px solid rgba(255, 255, 255, 0.10);
-  font: 14px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font: 14px/1.5 'Swiss721BT', 'Swiss721BT', system-ui, sans-serif;
   color: rgba(255, 255, 255, 0.85);
   user-select: none;
   pointer-events: none;
@@ -190,7 +205,7 @@ canvas { width: 100%; height: 100%; display:block; }
 
 .video-ctrl__time,
 .video-ctrl__duration {
-  font: 12px/1 system-ui, sans-serif;
+  font: 12px/1 'Swiss721BT', system-ui, sans-serif;
   color: rgba(255, 255, 255, 0.55);
   flex-shrink: 0;
   min-width: 34px;
@@ -314,7 +329,7 @@ canvas { width: 100%; height: 100%; display:block; }
   flex-shrink: 0;
 }
 .artwork-list__heading {
-  font: 700 13px/1 system-ui, sans-serif;
+  font: 700 13px/1 'Swiss721BT', system-ui, sans-serif;
   color: #fff;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -344,7 +359,7 @@ canvas { width: 100%; height: 100%; display:block; }
   background: none;
   border: none;
   color: rgba(255, 255, 255, 0.75);
-  font: 14px/1.3 system-ui, sans-serif;
+  font: 14px/1.3 'Swiss721BT', system-ui, sans-serif;
   padding: 10px 18px;
   cursor: pointer;
   gap: 2px;
@@ -391,16 +406,14 @@ canvas { width: 100%; height: 100%; display:block; }
   .menu {
     left: 12px; right: 12px;
     transform: none;
-    max-width: none;
-    padding: 7px 8px;
+    width: auto;
+    padding: 10px 14px;
     bottom: max(12px, calc(12px + env(safe-area-inset-bottom)));
   }
-  .menu-row { flex-wrap: wrap; }
-
   .btn {
-    min-height: 40px; min-width: 40px;
+    min-height: 40px; min-width: 0;
     display: flex; align-items: center; justify-content: center;
-    padding: 8px 10px;
+    padding: 9px 14px;
   }
 
   /* Hide artwork prev/next arrows — must come after .btn to win specificity */
@@ -447,7 +460,7 @@ canvas { width: 100%; height: 100%; display:block; }
   background: rgba(0, 0, 0, 0.72);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  font: 12px/1.35 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font: 12px/1.35 'Swiss721BT', 'Swiss721BT', system-ui, sans-serif;
   padding: 10px 14px;
   padding-top: max(10px, calc(10px + env(safe-area-inset-top)));
   border-bottom: 1px solid rgba(255, 255, 255, 0.10);
@@ -492,6 +505,10 @@ canvas { width: 100%; height: 100%; display:block; }
 .carousel-nav-btn--next { right: max(12px, calc(12px + env(safe-area-inset-right))); }
 .carousel-nav-btn--visible { display: flex; }
 
+@media (min-width: 640px) {
+  .carousel-nav-btn { width: 72px; height: 72px; font-size: 30px; }
+}
+
 @media (max-height: 500px) and (orientation: landscape) {
   .carousel-nav-btn { top: 40%; }
 }
@@ -503,7 +520,7 @@ canvas { width: 100%; height: 100%; display:block; }
   z-index: 100;
   background: #f5f3ef; /* warm white — fully opaque from frame 1, no animation */
   overflow: hidden;
-  font: 14px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font: 14px/1.5 'Swiss721BT', 'Swiss721BT', system-ui, sans-serif;
   color: #1a1a1a;
   transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -740,7 +757,7 @@ canvas { width: 100%; height: 100%; display:block; }
   color: rgba(0, 0, 0, 0.22);
   padding: 13px 0;
   border-radius: 9px;
-  font: 600 0.9em system-ui, sans-serif;
+  font: 600 0.9em 'Swiss721BT', system-ui, sans-serif;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   cursor: not-allowed;
@@ -776,8 +793,15 @@ canvas { width: 100%; height: 100%; display:block; }
   .ts-panel { padding: 28px 22px 24px; gap: 12px; }
 }
 
-/* ─── Credits Modal ─────────────────────────────────────────── */
-.ts-credits-btn {
+/* ─── Credits / Terms buttons ───────────────────────────────── */
+.ts-footer-btns {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.ts-credits-btn, .ts-terms-btn {
   background: none;
   border: 1px solid rgba(0, 0, 0, 0.25);
   border-radius: 4px;
@@ -790,13 +814,13 @@ canvas { width: 100%; height: 100%; display:block; }
   letter-spacing: 0.03em;
   transition: color 120ms ease, border-color 120ms ease, background 120ms ease;
 }
-.ts-credits-btn:hover {
+.ts-credits-btn:hover, .ts-terms-btn:hover {
   color: rgba(0, 0, 0, 0.85);
   border-color: rgba(0, 0, 0, 0.5);
   background: rgba(0, 0, 0, 0.04);
 }
 
-.ts-credits-modal {
+.ts-credits-modal, .ts-terms-modal {
   position: absolute;
   inset: 0;
   z-index: 10;
@@ -809,12 +833,12 @@ canvas { width: 100%; height: 100%; display:block; }
   pointer-events: none;
   transition: opacity 0.25s ease;
 }
-.ts-credits-modal--visible {
+.ts-credits-modal--visible, .ts-terms-modal--visible {
   opacity: 1;
   pointer-events: auto;
 }
 
-.ts-credits-backdrop {
+.ts-credits-backdrop, .ts-terms-backdrop {
   position: absolute;
   inset: 0;
   background: rgba(245, 243, 239, 0.70);
@@ -822,7 +846,7 @@ canvas { width: 100%; height: 100%; display:block; }
   -webkit-backdrop-filter: blur(6px);
 }
 
-.ts-credits-card {
+.ts-credits-card, .ts-terms-card {
   position: relative;
   background: rgba(245, 243, 239, 0.96);
   border: 1px solid rgba(0, 0, 0, 0.08);
@@ -836,19 +860,19 @@ canvas { width: 100%; height: 100%; display:block; }
   overflow-y: auto;
 }
 
-.ts-credits-header {
+.ts-credits-header, .ts-terms-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 18px;
 }
-.ts-credits-heading {
-  font: 700 0.78em system-ui, sans-serif;
+.ts-credits-heading, .ts-terms-heading {
+  font: 700 0.78em 'Swiss721BT', system-ui, sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.14em;
   color: rgba(0, 0, 0, 0.45);
 }
-.ts-credits-close {
+.ts-credits-close, .ts-terms-close {
   background: rgba(0, 0, 0, 0.06);
   border: 1px solid rgba(0, 0, 0, 0.10);
   color: rgba(0, 0, 0, 0.45);
@@ -863,7 +887,7 @@ canvas { width: 100%; height: 100%; display:block; }
   transition: background 120ms ease, color 120ms ease;
   flex-shrink: 0;
 }
-.ts-credits-close:hover {
+.ts-credits-close:hover, .ts-terms-close:hover {
   background: rgba(0, 0, 0, 0.12);
   color: #111;
 }
@@ -893,4 +917,24 @@ canvas { width: 100%; height: 100%; display:block; }
   font-size: 0.88em;
   color: rgba(0, 0, 0, 0.75);
   font-weight: 500;
+}
+
+/* ─── Terms of Use Modal ─────────────────────────────────────── */
+.ts-terms-card {
+  max-width: 480px;
+}
+.ts-terms-body {
+  display: flex;
+  flex-direction: column;
+}
+.ts-terms-body p {
+  font-size: 0.82em;
+  color: rgba(0, 0, 0, 0.65);
+  line-height: 1.6;
+  margin: 0 0 14px;
+}
+.ts-terms-body p:last-child { margin-bottom: 0; }
+.ts-terms-body strong {
+  color: rgba(0, 0, 0, 0.78);
+  font-weight: 600;
 }

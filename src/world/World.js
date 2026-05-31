@@ -1,4 +1,4 @@
-import { Mesh, MeshStandardMaterial, SphereGeometry, Vector3, Raycaster, Vector2 } from "three";
+import { Mesh, MeshStandardMaterial, MeshPhysicalMaterial, SphereGeometry, Vector3, Raycaster, Vector2 } from "three";
 import { makeProximityRevealMaterial, applyProximityRevealToMaterial, ProximityRevealSystem } from "../shaders/proximityRevealMaterial.js";
 import { addDefaultLights } from "./lights.js";
 import { BoxGeometry } from "three";
@@ -132,10 +132,6 @@ export class World {
         if (Math.abs(dx) >= 30 && Math.abs(dx) > Math.abs(dy)) {
           const car = this._focusedScreen?.userData?.contentCarousel;
           if (car) { dx < 0 ? car.next() : car.prev(); return; }
-          if (this._focusedExperience?.onNav) {
-            const result = this._focusedExperience.onNav(dx < 0 ? 1 : -1);
-            if (result?.artworkInfo) this.infoPanel.show(result.artworkInfo);
-          }
         }
       }
     }, { passive: true });
@@ -163,7 +159,7 @@ export class World {
           if (result.focusTarget) {
             this.focus.focusOn({ targetObject: result.focusTarget, distance: "fit", duration: 0.6, padding: 1 });
           }
-          if (result.artworkInfo) this.infoPanel.show(result.artworkInfo);
+          if (result.artworkInfo) this.infoPanel.updateTitle(result.artworkInfo.title, result.artworkInfo.artist);
           return;
         }
       }
@@ -404,6 +400,20 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         const model1 = gltf.scene;
         model1.traverse((child) => {
           if (child.isMesh) {
+            if (child.material.name.toLowerCase().includes("glass")) {
+              child.material.dispose();
+              child.material = new MeshPhysicalMaterial({
+                transmission:    1.0,
+                roughness:       0.05,
+                metalness:       0.0,
+                ior:             1.5,
+                thickness:       0.2,
+                envMapIntensity: 1.5,
+                transparent:     true,
+                depthWrite:      false,
+              });
+              return; // skip proximity reveal + _envMeshes
+            }
             // Baked GLBs export MeshBasicMaterial which ignores scene.environment.
             // Swap to MeshStandardMaterial, preserving the baked texture map.
             if (child.material.isMeshBasicMaterial) {
@@ -610,7 +620,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     //3d models
 
     //entrance way
-    const Experiment58 = import.meta.env.BASE_URL + "art/Experimentn58-2PositioninSpace_MarieSaintYves/Eperiment58.glb";
+    const Experiment58 = import.meta.env.BASE_URL + "art/Experimentn58-2PositioninSpace_MarieSaintYves/Experiment58.glb";
 
     this._loadingPromises.push(this.screenManager.addModel({
       url: Experiment58,
@@ -685,6 +695,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       radius: 1.0,
       normalizeTo: 1.0,
       debugOn: this._debug,
+      plinthVisible: true,
+      plinthSize: [0.8, 1.2, 0.8],
+      plinthOffset: [0, -1.0, 0],
       artworkInfo: {
         title: "3D Works",
         artist: "Genevieve Carr",
@@ -827,11 +840,14 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
   //left of entrance way — EMBODIED ModelCarousel
     const veepraCarousel = new ModelCarousel({
       scene: this.scene,
-      position: [-28.2, 0.5, -17.0],
-      rotation: [0, 180, 0],
+      position: [-4.9, 0.5, -5.5],
+      rotation: [0, 45, 0],
       radius: 1.5,
       normalizeTo: 0.6,
       debugOn: this._debug,
+      plinthVisible: true,
+      plinthSize: [0.8, 1.3, 0.8],
+      plinthOffset: [0, -1.1, 0],
       materialOverride: { color: 0xC8C8C8, metalness: 1.0, roughness: 0.15, envMapIntensity: 1.5 },
       artworkInfo: {
         title: "EMBODIED",
@@ -854,7 +870,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       ],
     });
     this._loadingPromises.push(veepraCarousel.load().then(() => {
-      veepraCarousel.hitbox.userData.location = 'WestPavillion';
+      veepraCarousel.hitbox.userData.location = 'lobby';
       this._registerExperience(veepraCarousel);
       veepraCarousel._clickables = this.screenManager.clickables;
     }).catch(console.error));
@@ -893,12 +909,15 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     // ── Dehumanized — Chi An Chou (EagleBar) ────────────────────────────────────
     const dehumanizedCarousel = new ImmersiveCarousel({
       scene: this.scene,
-      position: [-7.8, 23, 7.0],
+      position: [-7.8, 23, 6.4],
       rotation: [0, -90, 0],
       panelWidth: 1.8,
       panelHeight: 1.35,
       revealMap: this.screenManager._revealTex,
       debugOn: this._debug,
+      plinthVisible: true,
+      plinthSize: [1.0, 0.5, 1.0],
+      plinthOffset: [0, -0.5, 0],
       artworkInfo: {
         title: "Dehumanized",
         artist: "Chi An Chou",
@@ -957,8 +976,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
 
   this._loadingPromises.push(this.screenManager.addModel({
     url: import.meta.env.BASE_URL + "art/LetMeEatCake_SuzannaTeal/CakeTable_NoCake.glb",
-    position: [-29.0, -1.0, -21.0],   // e.g. on/near carousel A
-      rotation: [0, -90, 0],
+    position: [-29.0, -1.0, -19.0],   // e.g. on/near carousel A
+      rotation: [0, 0, 0],
     rotationOffset: 90,
     normalizeTo: 2.2,
     clickable: false,
@@ -984,16 +1003,16 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       narration: `${baseURL}audio/LetMeEatCake_Narration.mp3`,
       narrationCues: `${baseURL}audio/LetMeEatCake_Narration.json`
     },
-    entryPosition: [-29.0, 0.0, -21.0],
-    entryHitboxSize: [2.4, 2.4, 1.4],
+    entryPosition: [-29.0, 0.0, -19.0],
+    entryHitboxSize: [1.4, 2.4, 2.4],
     arrowOffset: 1.0,
     arrowHeight: 0.0,
     arrowSize: 0.5,
     models: [
       {
         url: `${baseURL}art/LetMeEatCake_SuzannaTeal/LetMeEatCake_01.glb`,
-        position: [-29.4, -.04, -21.7],
-        rotation: [0, 30, 0],
+        position: [-29.5, -.04, -19.5],
+        rotation: [0, 150, 0],
         normalizeTo: .5,
         artworkInfo: {
           title: "Let Me Eat Cake — I",
@@ -1004,8 +1023,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       },
       {
         url: `${baseURL}art/LetMeEatCake_SuzannaTeal/LetMeEatCake_02.glb`,
-        position: [-28.7, -.04, -21.7],
-        rotation: [0, 10, 0],
+        position: [-28.6, -.04, -19.5],
+        rotation: [0, -10, 0],
         normalizeTo: .5,
         artworkInfo: {
           title: "Let Me Eat Cake — II",
@@ -1016,8 +1035,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       },
       {
         url: `${baseURL}art/LetMeEatCake_SuzannaTeal/LetMeEatCake_03.glb`,
-        position: [-28.7, -.04, -20.3],
-        rotation: [0, -10, 0],
+        position: [-28.6, -.04, -18.5],
+        rotation: [0, -50, 0],
         normalizeTo: .5,
         artworkInfo: {
           title: "Let Me Eat Cake — III",
@@ -1028,7 +1047,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       },
       {
         url: `${baseURL}art/LetMeEatCake_SuzannaTeal/LetMeEatCake_04.glb`,
-        position: [-29.4, -.04, -20.3],
+        position: [-29.5, -.04, -18.5],
         rotation: [0, -30, 0],
         normalizeTo: .5,
         artworkInfo: {
@@ -1205,7 +1224,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       url: `${baseURL}art/FauxFlora_JustinaAlexandrof/Justina_Alexandroff_2-2.jpg`,
       width: 1.5,
       height: 2.0,
-      position: [5.5, 23, 16.5],
+      position: [7.2, 23, 17.6],
       rotation: [0, -135, 0],
       clickable: false,
       offsetClick: 0.5,
@@ -1218,7 +1237,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
 
     this._loadingPromises.push(this.screenManager.addModel({
       url: `${baseURL}art/FauxFlora_JustinaAlexandrof/FauxFloraArrangement.glb`,
-      position: [4.1, 21.3, 17.0],
+      position: [7.4, 21.3, 15.5],
       rotation: [0, -135, 0],
       normalizeTo: 2.5,
       clickable: false,
@@ -1252,25 +1271,26 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       arrowHeight: 0.0,
       arrowSize: 0.35,
       models: [
-        {
-          url: `${baseURL}art/FauxFlora_JustinaAlexandrof/Barnacle_lowres.glb`,
-          position: [5.0, 22.5, 16.0],
-          rotation: [0, -135, 0],
-          normalizeTo: 0.8,
-          artworkInfo: { title: "Faux Flora — Barnacle", artist: "Justina Alexandroff" },
-        },
+        
         {
           url: `${baseURL}art/FauxFlora_JustinaAlexandrof/Floral_lowres.glb`,
-          position: [3.2, 22.5, 14.5],
+          position: [3.85, 22.0, 15.55],
           rotation: [0, -135, 0],
-          normalizeTo: 0.8,
+          normalizeTo: 0.4,
           artworkInfo: { title: "Faux Flora — Flora", artist: "Justina Alexandroff" },
         },
         {
-          url: `${baseURL}art/FauxFlora_JustinaAlexandrof/Coral_lowres.glb`,
-          position: [6.8, 22.5, 14.5],
+          url: `${baseURL}art/FauxFlora_JustinaAlexandrof/Barnacle_lowres.glb`,
+          position: [3.05, 22.0, 18.0],
           rotation: [0, -135, 0],
-          normalizeTo: 0.8,
+          normalizeTo: 0.4,
+          artworkInfo: { title: "Faux Flora — Barnacle", artist: "Justina Alexandroff" },
+        },
+        {
+          url: `${baseURL}art/FauxFlora_JustinaAlexandrof/Coral_lowres.glb`,
+          position: [6.15, 22.0, 16.7],
+          rotation: [0, -135, 0],
+          normalizeTo: 0.4,
           artworkInfo: { title: "Faux Flora — Coral", artist: "Justina Alexandroff" },
         },
       ],
@@ -1288,7 +1308,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       poster: `${baseURL}art/LustFeelsLikeBadLuck-JuliaPytko/Backwards-Artwork-1_1.jpg`,
       width: 1.5,
       height: 1.5,
-      position: [7.8, 23, 7.0],
+      position: [7.8, 23, 7.6],
       rotation: [0, -90, 0],
       clickable: true,
       offsetClick: 0.5,
@@ -1625,7 +1645,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       if (obj.isMesh && obj.frustumCulled) { wasCulled.push(obj); obj.frustumCulled = false; }
     });
 
-    await this.renderer.compileAsync(this.scene, this.camera);
+    const _compileTimeout = new Promise(r => setTimeout(r, 15000));
+    await Promise.race([this.renderer.compileAsync(this.scene, this.camera), _compileTimeout]);
     this.renderer.render(this.scene, this.camera); // uploads VBOs to GPU
 
     // Restore location-based visibility
@@ -1805,7 +1826,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       if (result?.focusTarget) {
         this.focus.focusOn({ targetObject: result.focusTarget, distance: "fit", duration: 0.6, padding: 1 });
       }
-      if (result?.artworkInfo) this.infoPanel.show(result.artworkInfo);
+      if (result?.artworkInfo) this.infoPanel.updateTitle(result.artworkInfo.title, result.artworkInfo.artist);
     }
   }
 
@@ -1987,7 +2008,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       const result = this._focusedExperience.onNav?.(dir);
       if (result?.consumed) {
         if (result.focusTarget) this.focus.focusOn({ targetObject: result.focusTarget, duration: 0.5 });
-        if (result.artworkInfo) this.infoPanel.show(result.artworkInfo);
+        if (result.artworkInfo) this.infoPanel.updateTitle(result.artworkInfo.title, result.artworkInfo.artist);
         return;
       }
     }
@@ -2108,6 +2129,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     return hitbox?.userData.experienceChildren
       ?? hitbox?.userData.revealTarget?.userData.experienceChildren
       ?? hitbox?.userData.modelRoot?.userData.experienceChildren
+      ?? hitbox?.userData.experience?.hitbox?.userData.experienceChildren
       ?? focusTarget?.userData.experienceChildren
       ?? null;
   }

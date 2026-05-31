@@ -196,14 +196,6 @@ export class ModelGalleryWalk {
     const m = this._models[this.activeIndex];
     if (m?.mixer) m.mixer.timeScale = 1;
 
-    // Show arrows and register them as clickable targets
-    this._arrowPrev.visible = true;
-    this._arrowNext.visible = true;
-    if (this._clickables) {
-      if (!this._clickables.includes(this._arrowPrev)) this._clickables.push(this._arrowPrev);
-      if (!this._clickables.includes(this._arrowNext)) this._clickables.push(this._arrowNext);
-    }
-
     this._updateArrows();
   }
 

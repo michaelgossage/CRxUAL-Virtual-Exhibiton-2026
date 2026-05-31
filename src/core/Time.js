@@ -24,7 +24,11 @@ export class Time extends EventBus {
     const dt = Math.min((now - this._last) / 1000, 0.05);
     this._last = now;
 
-    this.emit("tick", dt);
+    try {
+      this.emit("tick", dt);
+    } catch (e) {
+      console.error("[Time] tick error — loop continues:", e);
+    }
     this._raf = requestAnimationFrame(this._tick);
   }
 }

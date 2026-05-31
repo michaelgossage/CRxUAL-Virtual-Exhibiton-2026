@@ -134,6 +134,16 @@ export class InfoPanel {
     requestAnimationFrame(() => this._updateMask());
   }
 
+  updateTitle(title = "", artist = "") {
+    this.titleEl.textContent = title;
+    this.artistEl.textContent = artist;
+    this.artistEl.style.display = artist ? "" : "none";
+    if (this._mobileHeader && window.innerWidth < 640) {
+      this._mobileHeaderTitle.textContent  = title  ?? "";
+      this._mobileHeaderArtist.textContent = artist ?? "";
+    }
+  }
+
   hide() {
     this.el.classList.remove("info-panel--visible");
     this._mobileHeader?.classList.remove("mobile-artwork-header--visible");
@@ -279,11 +289,14 @@ export class InfoPanel {
 
   _tickAudio() {
     const a = this._activeAudio;
-    if (!a || isNaN(a.duration)) return;
+    if (!a) return;
+
+    this.audioPlayPauseBtn.innerHTML = a.paused ? "&#9654;" : "&#9646;&#9646;";
+
+    if (isNaN(a.duration)) return;
 
     this.audioScrubberEl.value = a.currentTime / a.duration;
     this.audioTimeEl.textContent = this._formatTime(a.currentTime);
-    this.audioPlayPauseBtn.innerHTML = a.paused ? "&#9654;" : "&#9646;&#9646;";
 
     if (this._activeCues) {
       const t = a.currentTime;
@@ -303,11 +316,14 @@ export class InfoPanel {
 
   _tickVideo() {
     const v = this._activeVideo;
-    if (!v || isNaN(v.duration)) return;
+    if (!v) return;
+
+    this.playPauseBtn.innerHTML = v.paused ? "&#9654;" : "&#9646;&#9646;";
+
+    if (isNaN(v.duration)) return;
 
     this.scrubberEl.value = v.currentTime / v.duration;
     this.timeEl.textContent = this._formatTime(v.currentTime);
-    this.playPauseBtn.innerHTML = v.paused ? "&#9654;" : "&#9646;&#9646;";
   }
 
   _formatTime(s) {
