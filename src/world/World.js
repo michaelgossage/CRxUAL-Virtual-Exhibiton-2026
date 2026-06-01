@@ -697,7 +697,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       debugOn: this._debug,
       plinthVisible: true,
       plinthSize: [0.8, 1.2, 0.8],
-      plinthOffset: [0, -1.0, 0],
+      plinthOffset: [0, -1.2, 0],
       artworkInfo: {
         title: "3D Works",
         artist: "Genevieve Carr",
