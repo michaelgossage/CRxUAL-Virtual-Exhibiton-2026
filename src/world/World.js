@@ -159,7 +159,10 @@ export class World {
           if (result.focusTarget) {
             this.focus.focusOn({ targetObject: result.focusTarget, distance: "fit", duration: 0.6, padding: 1 });
           }
-          if (result.artworkInfo) this.infoPanel.updateTitle(result.artworkInfo.title, result.artworkInfo.artist);
+          if (result.artworkInfo) {
+            const exp = this._focusedExperience.artworkInfo;
+            this.infoPanel.updateTitle(exp.title, exp.artist, exp.link);
+          }
           return;
         }
       }
@@ -513,6 +516,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       scene: this.scene,
       position: [-7.10, 0.7, 1.55],
       rotation: [0, 315, 0],
+      radius: 4.3,
       panelWidth: 1.4,
       panelHeight: 1.8,
       revealMap: this.screenManager._revealTex,
@@ -589,10 +593,11 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     //right side, right front desk
     const whimsyCarousel = new ImmersiveCarousel({
       scene: this.scene,
-      position: [7.1, 0.7, 1.4],
+      position: [7.1, 0.9, 1.4],
       rotation: [0, 45, 0],
       panelWidth: 1.4,
       panelHeight: 1.8,
+      radius: 4.3,
       revealMap: this.screenManager._revealTex,
       debugOn: this._debug,
       artworkInfo: {
@@ -661,8 +666,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       url: `https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/No%20Longer%20Us_MB.mp4`,
       poster: `${baseURL}art/NoLongerUs_JunShya/Jun-Shya-1-1.jpg`,
       width: 2,
-      height: 2.25,
-      position: [8.4, 1.1, -1.5],
+      height: 2,
+      position: [8.4, 1.1, -1.4],
       rotation: [0, -90, 0],
       clickable: true,
       offsetClick: 0.0,
@@ -694,10 +699,13 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       rotation: [0, 180, 0],
       radius: 1.0,
       normalizeTo: 1.0,
+      cameraPadding: 1.5,
+      cameraHeightOffset: 0.0,
       debugOn: this._debug,
       plinthVisible: true,
       plinthSize: [0.8, 1.2, 0.8],
       plinthOffset: [0, -1.2, 0],
+      materialOverride: { color: 0xFDF5E3, roughness: 0.88, metalness: 0.0, envMapIntensity: 0.4 },
       artworkInfo: {
         title: "3D Works",
         artist: "Genevieve Carr",
@@ -782,9 +790,10 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       scene: this.scene,
       position: [-8.4, 0.8, -1.4],
       rotation: [0, -90, 0],
-      radius: 3.5,
+      radius: 4.3,
       panelWidth: 2.2,
       panelHeight: 1.8,
+      hitboxScale: 1.1,
       revealMap: this.screenManager._revealTex,
       debugOn: this._debug,
       artworkInfo: {
@@ -843,12 +852,17 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       position: [-4.9, 0.5, -5.5],
       rotation: [0, 45, 0],
       radius: 1.5,
+      hitboxSize: [1.5, 1.5, 1.5],
+      hitboxOffset: [0, 0, 0],
+      modelHitboxScale: 1.15,
+      cameraPadding: 1.5,
+      cameraHeightOffset: 0.0,
       normalizeTo: 0.6,
       debugOn: this._debug,
       plinthVisible: true,
       plinthSize: [0.8, 1.3, 0.8],
       plinthOffset: [0, -1.1, 0],
-      materialOverride: { color: 0xC8C8C8, metalness: 1.0, roughness: 0.15, envMapIntensity: 1.5 },
+      materialOverride: { color: 0xC8C8C8, metalness: 1.0, roughness: 0.01, envMapIntensity: 1.0 },
       artworkInfo: {
         title: "EMBODIED",
         artist: "Veepra Mishra",
@@ -882,6 +896,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       rotation: [0, 180, 0],
       panelWidth: 1.5,
       panelHeight: 2.0,
+      radius: 3.5,
       revealMap: this.screenManager._revealTex,
       debugOn: this._debug,
       artworkInfo: {
@@ -951,13 +966,13 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     this._registerArtwork(this.screenManager.addScreen({
       url:"https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/Pseudosynthesis.mp4",
       poster: `${baseURL}art/Pseudosynthesis_LeonLin/Vertical_comp-1.png.avif`,
-      width: 5,
-      height: 2.25,
-      position: [-26.0, 0.8, -23.0],   // e.g. on/near carousel A
+      width: 4,
+      height: 1.8,
+      position: [-25.8, 1.0, -23.5],   // e.g. on/near carousel A
       rotation: [0, -90, 0],
       clickable: true,
       offsetClick: 0.0,
-      clickableSize: [5.2, 2.45], // make click area bigger than screen size to include podium
+      clickableSize: [3.7, 1.8], // make click area bigger than screen size to include podium
       text: "",
       plinthVisible: false,
       location: 'WestPavillion',
@@ -1005,6 +1020,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     },
     entryPosition: [-29.0, 0.0, -19.0],
     entryHitboxSize: [1.4, 2.4, 2.4],
+    modelHitboxScale: 1.05,
     arrowOffset: 1.0,
     arrowHeight: 0.0,
     arrowSize: 0.5,
@@ -1389,8 +1405,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         narration: `${baseURL}audio/MaterialPlaces_Narration.mp3`,
         narrationCues: `${baseURL}audio/MaterialPlaces_Narration.json`
       },
-      entryPosition: [0.0, .1, -4.0],
-      entryHitboxSize: [4.5, 1.5, 2.0],
+      entryPosition: [0.0, -.5, -4.0],
+      entryHitboxSize: [4.0, 1.0, 1.5],
       arrowOffset: 0.2,
       arrowHeight: 0.0,
       arrowSize: 0.35,
@@ -1742,7 +1758,10 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       const { position, quaternion, duration: d = 0.9 } = target.userData.focusPose;
       this.focus.moveTo({ position, quaternion, duration: d });
     } else {
-      this.focus.focusOn({ targetObject: target, distance: "fit", heightOffset: 0.0, duration: 0.7, padding: 1 });
+      const fp = target.userData.focusParams ?? {};
+      const cameraTarget = target.userData.focusCameraTarget ?? target;
+      const normalObject = cameraTarget !== target ? target : null;
+      this.focus.focusOn({ targetObject: cameraTarget, normalObject, distance: "fit", heightOffset: fp.heightOffset ?? 0.0, duration: 0.7, padding: fp.padding ?? 1 });
     }
 
     const info = obj.userData.artworkInfo;
@@ -1826,7 +1845,10 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       if (result?.focusTarget) {
         this.focus.focusOn({ targetObject: result.focusTarget, distance: "fit", duration: 0.6, padding: 1 });
       }
-      if (result?.artworkInfo) this.infoPanel.updateTitle(result.artworkInfo.title, result.artworkInfo.artist);
+      if (result?.artworkInfo) {
+        const exp = this._focusedExperience.artworkInfo;
+        this.infoPanel.updateTitle(exp.title, exp.artist, exp.link);
+      }
     }
   }
 
@@ -1953,7 +1975,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     if (exp.modelHitboxes?.length) {
       for (const hb of exp.modelHitboxes) {
         hb.userData.experience = exp;
-        this.screenManager.clickables.push(hb);
+        // Not pushed here — experience adds/removes them in onFocus/onUnfocus
       }
     }
 
@@ -2008,7 +2030,10 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       const result = this._focusedExperience.onNav?.(dir);
       if (result?.consumed) {
         if (result.focusTarget) this.focus.focusOn({ targetObject: result.focusTarget, duration: 0.5 });
-        if (result.artworkInfo) this.infoPanel.updateTitle(result.artworkInfo.title, result.artworkInfo.artist);
+        if (result.artworkInfo) {
+          const exp = this._focusedExperience.artworkInfo;
+          this.infoPanel.updateTitle(exp.title, exp.artist, exp.link);
+        }
         return;
       }
     }

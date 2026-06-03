@@ -67,6 +67,7 @@ export class CameraFocus {
     heightOffset = 0.2,   // extra Y offset of the camera viewpoint
     duration = 0.75,
     useObjectNormal = true, // if true: approach from object's +Z direction
+    normalObject = null,    // if set: use this object's +Z for approach direction instead of targetObject's
     fallbackDirection = new THREE.Vector3(0, 0, 1), // used if normal is degenerate
     keepHomeWhileFocused = true, // true: don't overwrite home if already focused
   }) {
@@ -88,7 +89,7 @@ export class CameraFocus {
     targetObject.getWorldPosition(targetPos);
 
     const targetQuat = this._tmpQuat;
-    targetObject.getWorldQuaternion(targetQuat);
+    (normalObject ?? targetObject).getWorldQuaternion(targetQuat);
 
     // compute direction to approach from
     let forward = this._tmpForward;

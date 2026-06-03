@@ -134,8 +134,19 @@ export class InfoPanel {
     requestAnimationFrame(() => this._updateMask());
   }
 
-  updateTitle(title = "", artist = "") {
-    this.titleEl.textContent = title;
+  updateTitle(title = "", artist = "", link = "") {
+    if (link) {
+      const a = document.createElement("a");
+      a.href = link;
+      a.textContent = title;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.addEventListener("pointerdown", e => e.stopPropagation());
+      this.titleEl.innerHTML = "";
+      this.titleEl.appendChild(a);
+    } else {
+      this.titleEl.textContent = title;
+    }
     this.artistEl.textContent = artist;
     this.artistEl.style.display = artist ? "" : "none";
     if (this._mobileHeader && window.innerWidth < 640) {

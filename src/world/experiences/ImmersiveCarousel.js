@@ -30,6 +30,7 @@ export class ImmersiveCarousel {
     panelWidth  = 2.5,
     panelHeight = 2.0,
     artworkInfo = {},       // shown on initial entry click
+    hitboxScale = 1.15,    // multiplier applied to panelWidth/Height for entry + panel hitboxes
     revealMap = null,
     debugOn = false,
   }) {
@@ -37,6 +38,7 @@ export class ImmersiveCarousel {
     this._imageDefs   = images;
     this._panelWidth  = panelWidth;
     this._panelHeight = panelHeight;
+    this._hitboxScale = hitboxScale;
     this.artworkInfo  = artworkInfo;
     this._debugOn     = debugOn;
     this._revealMap   = revealMap;
@@ -148,7 +150,7 @@ export class ImmersiveCarousel {
 
       // Per-panel hitbox — child of ring so it auto-rotates; hidden until focused
       const hb = new THREE.Mesh(
-        new THREE.BoxGeometry(W * 1.15, H * 1.15, 0.1),
+        new THREE.BoxGeometry(W * this._hitboxScale, H * this._hitboxScale, 0.1),
         new THREE.MeshBasicMaterial({
           color: 0x00ffff, wireframe: true, visible: this._debugOn,
         })
@@ -168,7 +170,7 @@ export class ImmersiveCarousel {
     // ── Central entry hitbox — front-panel-sized, child of root ─────────────
     // Covers only the visible front image so clicking elsewhere doesn't trigger entry.
     this.hitbox = new THREE.Mesh(
-      new THREE.BoxGeometry(W * 1.15, H * 1.15, 0.3),
+      new THREE.BoxGeometry(W * this._hitboxScale, H * this._hitboxScale, 0.3),
       new THREE.MeshBasicMaterial({
         color: 0xff8800, wireframe: true, visible: this._debugOn,
       })

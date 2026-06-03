@@ -125,6 +125,13 @@ export class ModelCarousel {
     plinthVisible = false,
     plinthSize    = null,      // [w, h, d] — defaults to normalizeTo-based footprint
     plinthOffset  = [0, 0, 0],
+    hitboxSize    = null,      // [w, h, d] — overrides the auto-computed entry hitbox
+    hitboxOffset  = [0, 0, 0], // [x, y, z] offset from carousel position
+    modelHitboxScale = 1.15,   // multiplier on per-model geometry bounds
+    cameraPosition = null,     // [x, y, z] — explicit world-space camera position on focus
+    cameraLookAt   = null,     // [x, y, z] — explicit look target (defaults to ring centre)
+    cameraPadding      = 1.0,  // padding for auto-fit (ignored when cameraPosition is set)
+    cameraHeightOffset = 0.0,  // Y offset for auto-fit (ignored when cameraPosition is set)
   }) {
     this.scene = scene;
     this._modelDefs = models;
@@ -139,6 +146,13 @@ export class ModelCarousel {
     this._plinthSize    = plinthSize;
     this._plinthOffset  = plinthOffset;
     this._plinthMesh    = null;
+    this._hitboxSize    = hitboxSize;
+    this._hitboxOffset  = hitboxOffset;
+    this._modelHitboxScale   = modelHitboxScale;
+    this._cameraPosition     = cameraPosition;
+    this._cameraLookAt       = cameraLookAt;
+    this._cameraPadding      = cameraPadding;
+    this._cameraHeightOffset = cameraHeightOffset;
 
     const deg = Math.PI / 180;
     this._baseAngle = rotation[1] * deg;
@@ -251,11 +265,12 @@ export class ModelCarousel {
       // Convert world centre to root-local space using full inverse transform
       const localCenter = this.root.worldToLocal(worldCenter.clone());
 
+      const s = this._modelHitboxScale;
       const hb = new THREE.Mesh(
         new THREE.BoxGeometry(
-          Math.max(0.4, worldSize.x * 1.15),
-          Math.max(0.4, worldSize.y * 1.15),
-          Math.max(0.4, worldSize.z * 1.15)
+          Math.max(0.4, worldSize.x * s),
+          Math.max(0.4, worldSize.y * s),
+          Math.max(0.4, worldSize.z * s)
         ),
         new THREE.MeshBasicMaterial({
           color: 0x00ffff,
@@ -293,20 +308,45 @@ export class ModelCarousel {
       this.scene.add(this._plinthMesh);
     }
 
+    // Point camera framing at the front model only — avoids the large entry hitbox
+    // bloating the bounding sphere (especially bad on portrait/mobile viewports).
+    if (this._models.length > 0) {
+      this.root.userData.focusCameraTarget = this._models[0].root;
+    }
+
     // Central invisible hitbox in world space — entry point only.
     // focusTarget = model 0's root so first click goes straight to the front model.
     // Hidden while the experience is active so it can't block model hitbox clicks.
     const span = this._radius * 2 + 1.5;
+    const [hw, hh, hd] = this._hitboxSize ?? [span, 2.5, span];
     this.hitbox = new THREE.Mesh(
-      new THREE.BoxGeometry(span, 2.5, span),
+      new THREE.BoxGeometry(hw, hh, hd),
       new THREE.MeshBasicMaterial({ color: 0xff8800, wireframe: true, visible: this._debugOn })
     );
-    this.hitbox.position.set(...this._position);
+    // Local offset only — root already carries position + rotation
+    this.hitbox.position.set(...this._hitboxOffset);
     // Show model 0's artworkInfo on first click; focusTarget = root frames ALL models
     this.hitbox.userData.artworkInfo     = _mergeInfo(this.artworkInfo, this._models[0]?.artworkInfo);
     this.hitbox.userData.focusTarget     = this.root;
     this.hitbox.userData.experienceOwner = this;
-    this.scene.add(this.hitbox);
+    this.root.add(this.hitbox);
+
+    if (this._cameraPosition) {
+      // Explicit pose — build quaternion from lookAt so World.js uses moveTo()
+      const camPos    = new THREE.Vector3(...this._cameraPosition);
+      const lookAt    = this._cameraLookAt
+        ? new THREE.Vector3(...this._cameraLookAt)
+        : new THREE.Vector3(...this._position); // default: face ring centre
+      const mat  = new THREE.Matrix4().lookAt(camPos, lookAt, new THREE.Vector3(0, 1, 0));
+      const quat = new THREE.Quaternion().setFromRotationMatrix(mat);
+      this.root.userData.focusPose = { position: camPos, quaternion: quat, duration: 0.9 };
+    } else {
+      // Auto-fit path — store tuning params for World.js to read
+      this.root.userData.focusParams = {
+        padding:      this._cameraPadding,
+        heightOffset: this._cameraHeightOffset,
+      };
+    }
 
     // Navigation arrows — shown when focused, hidden otherwise
     this._arrowPrev = _makeArrowPlane("‹");
@@ -337,6 +377,14 @@ export class ModelCarousel {
     this._camera    = camera;
     // Hide central hitbox so it can't block clicks on the model hitboxes behind it
     this.hitbox.visible = false;
+
+    // Make per-model hitboxes clickable now that we're focused
+    if (this._clickables) {
+      for (const hb of this.modelHitboxes) {
+        if (!this._clickables.includes(hb)) this._clickables.push(hb);
+      }
+    }
+
     const m = this._models[this.activeIndex];
     if (m?.mixer) m.mixer.timeScale = 1;
     if (this._arrowPrev) {
@@ -373,6 +421,7 @@ export class ModelCarousel {
         _removeFrom(this._clickables, this._arrowPrev);
         _removeFrom(this._clickables, this._arrowNext);
         if (this._showSpinToggle) _removeFrom(this._clickables, this._spinToggle);
+        for (const hb of this.modelHitboxes) _removeFrom(this._clickables, hb);
       }
     }
 

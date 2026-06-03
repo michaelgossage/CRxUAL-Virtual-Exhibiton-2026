@@ -46,17 +46,19 @@ export class ModelGalleryWalk {
     arrowOffset = 1.5,     // lateral world-unit distance from model centre to each arrow
     arrowHeight = 0,       // Y offset of arrows above model centre
     arrowSize = 0.5,       // world-unit size of the arrow plane
+    modelHitboxScale = 1.25, // multiplier on per-model geometry bounds; controls camera distance
     debugOn = false,
   }) {
-    this.scene        = scene;
-    this._modelDefs   = models;
-    this.artworkInfo  = artworkInfo;
-    this._entryPos    = entryPosition;
-    this._entrySize   = entryHitboxSize;
-    this._arrowOffset = arrowOffset;
-    this._arrowHeight = arrowHeight;
-    this._arrowSize   = arrowSize;
-    this._debugOn     = debugOn;
+    this.scene             = scene;
+    this._modelDefs        = models;
+    this.artworkInfo       = artworkInfo;
+    this._entryPos         = entryPosition;
+    this._entrySize        = entryHitboxSize;
+    this._arrowOffset      = arrowOffset;
+    this._arrowHeight      = arrowHeight;
+    this._arrowSize        = arrowSize;
+    this._modelHitboxScale = modelHitboxScale;
+    this._debugOn          = debugOn;
 
     // root is a placeholder Group required by _registerExperience for associatedMeshes
     this.root = new THREE.Group();
@@ -122,10 +124,11 @@ export class ModelGalleryWalk {
       const worldCenter = worldBox.getCenter(new THREE.Vector3());
       const worldSize   = worldBox.getSize(new THREE.Vector3());
 
+      const s = this._modelHitboxScale;
       const [hw, hh, hd] = def.hitboxSize ?? [
-        Math.max(0.3, worldSize.x * 1.25),
-        Math.max(0.3, worldSize.y * 1.25),
-        Math.max(0.3, worldSize.z * 1.25),
+        Math.max(0.3, worldSize.x * s),
+        Math.max(0.3, worldSize.y * s),
+        Math.max(0.3, worldSize.z * s),
       ];
 
       const hitbox = new THREE.Mesh(
