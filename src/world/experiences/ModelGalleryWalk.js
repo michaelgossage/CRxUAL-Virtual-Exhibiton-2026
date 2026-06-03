@@ -99,7 +99,7 @@ export class ModelGalleryWalk {
       modelRoot.userData.baseQuaternion = modelRoot.quaternion.clone();
       modelRoot.userData.isModel        = true;
 
-      this.scene.add(modelRoot);
+      this.root.add(modelRoot);
       modelRoot.updateWorldMatrix(true, true);
 
       // Animation mixer — paused until this model is active and focused
@@ -171,7 +171,7 @@ export class ModelGalleryWalk {
       new THREE.MeshBasicMaterial({ color: 0xff8800, wireframe: true, visible: this._debugOn })
     );
     this.hitbox.position.set(...ep);
-    this.hitbox.userData.artworkInfo     = _mergeInfo(this.artworkInfo, this._models[0]?.artworkInfo);
+    this.hitbox.userData.artworkInfo     = this.artworkInfo;
     this.hitbox.userData.focusTarget     = this._models[0]?.hitbox ?? this.root;
     this.hitbox.userData.experienceOwner = this;
     this.scene.add(this.hitbox);
@@ -181,8 +181,8 @@ export class ModelGalleryWalk {
     this._arrowNext = this._buildArrow("next");
     this._arrowPrev.visible = false;
     this._arrowNext.visible = false;
-    this.scene.add(this._arrowPrev);
-    this.scene.add(this._arrowNext);
+    this.root.add(this._arrowPrev);
+    this.root.add(this._arrowNext);
 
     return this;
   }

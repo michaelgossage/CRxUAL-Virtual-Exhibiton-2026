@@ -303,8 +303,8 @@ export class World {
 {duration: 8.0, distanceWeighted: true}); 
 
 this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 25});
-this.setLocationRevealZone("WestPavillion", { center: [-34,0.8,-22.4],     radius: 18});
-this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
+this.setLocationRevealZone("WestPavillion", { center: [-34,0.8,-22.4],     radius: 22});
+this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
 
     // Arrow key navigation
     document.addEventListener("keydown", (e) => {
@@ -442,6 +442,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     };
 
     const base = import.meta.env.BASE_URL;
+    
     const Lobby          = _loadEnvGLB(base + "art/Building/Chancery Rosewood_LOBBY_BAKE_V4.glb");
     const LobbyFurniture = _loadEnvGLB(base + "art/Building/Chancery Rosewood_LOBBY_FURNITURE_BAKE_V5.glb");
     const WestPavillion  = _loadEnvGLB(base + "art/Building/Chancery Rosewood_Pavilion_BAKE_V4.glb");
@@ -587,7 +588,12 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       plinthSize: [1.0, 0.5, 1.0],
       location: 'EagleBar',
     }).then((modelRoot) => {
-      (noosScreen.userData.hitBox ?? noosScreen).userData.experienceChildren = [modelRoot];
+      const hitBox = noosScreen.userData.hitBox ?? noosScreen;
+      hitBox.userData.experienceChildren = [modelRoot];
+      if (!hitBox.visible) {
+        modelRoot.visible = false;
+        (modelRoot.userData.associatedMeshes ?? []).forEach(m => { m.visible = false; });
+      }
     }).catch(console.error));
 
     //right side, right front desk
@@ -989,10 +995,10 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
 
 
 
-  this._loadingPromises.push(this.screenManager.addModel({
+  const cakeTablePromise = this.screenManager.addModel({
     url: import.meta.env.BASE_URL + "art/LetMeEatCake_SuzannaTeal/CakeTable_NoCake.glb",
-    position: [-29.0, -1.0, -19.0],   // e.g. on/near carousel A
-      rotation: [0, 0, 0],
+    position: [-29.0, -1.0, -19.0],
+    rotation: [0, 0, 0],
     rotationOffset: 90,
     normalizeTo: 2.2,
     clickable: false,
@@ -1004,7 +1010,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     plinthOffset: [0, -0.8, 0],
     playAnimation: "first",
     location: 'WestPavillion',
-  }).catch(console.error));
+  });
 
   // ── Let Me Eat Cake — ModelGalleryWalk ────────────────────────────────────
   const cakeWalk = new ModelGalleryWalk({
@@ -1031,7 +1037,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         rotation: [0, 150, 0],
         normalizeTo: .5,
         artworkInfo: {
-          title: "Let Me Eat Cake — I",
+          title: "Let Me Eat Cake",
           artist: "Suzanna Teal",
           description: "Let Me Eat Cake is a multimedia installation that explores the relationship between food, memory, and identity. Through a combination of sculpture, video, and interactive elements, the work invites viewers to reflect on their own experiences with food and the stories they tell about it.",
           link: "https://ualshowcase.arts.ac.uk/project/616847/cover",
@@ -1075,11 +1081,18 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       },
     ],
   });
-  this._loadingPromises.push(cakeWalk.load().then(() => {
-    cakeWalk.hitbox.userData.location = 'WestPavillion';
-    this._registerExperience(cakeWalk);
-    cakeWalk._clickables = this.screenManager.clickables;
-  }).catch(console.error));
+  this._loadingPromises.push(
+    Promise.all([cakeWalk.load(), cakeTablePromise]).then(([, tableRoot]) => {
+      cakeWalk.hitbox.userData.location = 'WestPavillion';
+      this._registerExperience(cakeWalk);
+      cakeWalk._clickables = this.screenManager.clickables;
+      cakeWalk.hitbox.userData.experienceChildren = [tableRoot];
+      if (!cakeWalk.hitbox.visible) {
+        tableRoot.visible = false;
+        (tableRoot.userData.associatedMeshes ?? []).forEach(m => { m.visible = false; });
+      }
+    }).catch(console.error)
+  );
   // ──────────────────────────────────────────────────────────────────────────
 
     //window corner
@@ -1251,7 +1264,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     });
     fauxFloraChildren.push(fauxFloraScreen);
 
-    this._loadingPromises.push(this.screenManager.addModel({
+    const fauxFloraArrangementPromise = this.screenManager.addModel({
       url: `${baseURL}art/FauxFlora_JustinaAlexandrof/FauxFloraArrangement.glb`,
       position: [7.4, 21.3, 15.5],
       rotation: [0, -135, 0],
@@ -1265,9 +1278,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       plinthOffset: [0, -0.5, 0],
       plinthSize: [1.0, 1.0, 1.0],
       location: 'EagleBar',
-    }).then((m) => {
-      fauxFloraChildren.push(m);
-    }).catch(console.error));
+    });
 
     // ── Faux Flora — ModelGalleryWalk (Barnacle · Flora · Coral) ─────────────
     const fauxFloraWalk = new ModelGalleryWalk({
@@ -1311,12 +1322,14 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
         },
       ],
     });
-    this._loadingPromises.push(fauxFloraWalk.load().then(() => {
-      fauxFloraWalk.hitbox.userData.location = 'EagleBar';
-      fauxFloraWalk.hitbox.userData.experienceChildren = fauxFloraChildren;
-      this._registerExperience(fauxFloraWalk);
-      fauxFloraWalk._clickables = this.screenManager.clickables;
-    }).catch(console.error));
+    this._loadingPromises.push(
+      Promise.all([fauxFloraWalk.load(), fauxFloraArrangementPromise]).then(([, arrangementRoot]) => {
+        fauxFloraWalk.hitbox.userData.location = 'EagleBar';
+        fauxFloraWalk.hitbox.userData.experienceChildren = [fauxFloraScreen, arrangementRoot];
+        this._registerExperience(fauxFloraWalk);
+        fauxFloraWalk._clickables = this.screenManager.clickables;
+      }).catch(console.error)
+    );
 
     //right side of bar
     this._registerArtwork(this.screenManager.addScreen({
@@ -1388,7 +1401,12 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
   }).then((modelRoot) => {
     this.statue = modelRoot;
     //this._registerArtwork(modelRoot);
-    (beNotAfraidScreen.userData.hitBox ?? beNotAfraidScreen).userData.experienceChildren = [modelRoot];
+    const hitBox = beNotAfraidScreen.userData.hitBox ?? beNotAfraidScreen;
+    hitBox.userData.experienceChildren = [modelRoot];
+    if (!hitBox.visible) {
+      modelRoot.visible = false;
+      (modelRoot.userData.associatedMeshes ?? []).forEach(m => { m.visible = false; });
+    }
   }).catch(console.error));
 
   //on the bar
@@ -1401,6 +1419,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       artworkInfo: {
         title: "Material Place",
         artist: "Neve Beill",
+        link: "https://ualshowcase.arts.ac.uk/project/633733/cover",
         description: "This project investigates a sense of place through materiality. Taking an exploratory approach, Neve Beill walked along areas of the River Thames and the coast of the Isle of Wight, collecting various wild clays and other natural materials to create two distinct collections of pots. A key focus of this project is finding innovative ways to use found materials while reducing waste. It replaces conventional commercial materials commonly used in the ceramics industry with a wide variety of waste materials, such as clay from construction sites, broken pieces of glass, and ash from various sources. Honouring her own cultural identity, growing up between London and the Isle of Wight, she draws on the historical significance of ceramics in these areas. The primary forms are inspired by Roman vessels discovered in both locations, while the range of finishes reflects the differing tactile qualities of each place.",
         narration: `${baseURL}audio/MaterialPlaces_Narration.mp3`,
         narrationCues: `${baseURL}audio/MaterialPlaces_Narration.json`
@@ -1417,7 +1436,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
           rotation: [0, 30, 0],
           normalizeTo: 0.25,
           artworkInfo: {
-            title: "Material Place — I",
+            title: "Material Place",
             artist: "Neve Beill"
             
           },
@@ -1528,7 +1547,12 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
   }).then((modelRoot) => {
     this.statue = modelRoot;
     //this._registerArtwork(modelRoot);
-    (symbionScreen.userData.hitBox ?? symbionScreen).userData.experienceChildren = [modelRoot];
+    const hitBox = symbionScreen.userData.hitBox ?? symbionScreen;
+    hitBox.userData.experienceChildren = [modelRoot];
+    if (!hitBox.visible) {
+      modelRoot.visible = false;
+      (modelRoot.userData.associatedMeshes ?? []).forEach(m => { m.visible = false; });
+    }
   }).catch(console.error));
 
     // Belt-and-suspenders: hide sync-registered artworks not in the starting location.
@@ -1651,9 +1675,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
   async waitForReady() {
     await Promise.allSettled(this._loadingPromises);
 
-    // compileAsync and render() both use traverseVisible + frustum culling, so they
-    // skip invisible objects. Temporarily force everything on so ALL geometry is
-    // warmed up before the user enters — canvas is hidden behind the loading overlay.
+    // compileAsync uses traverseVisible + frustum culling, so temporarily force
+    // everything visible so ALL shaders are compiled before the user enters.
     const wasHidden = [];
     const wasCulled = [];
     this.scene.traverse(obj => {
@@ -1663,11 +1686,29 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
 
     const _compileTimeout = new Promise(r => setTimeout(r, 15000));
     await Promise.race([this.renderer.compileAsync(this.scene, this.camera), _compileTimeout]);
-    this.renderer.render(this.scene, this.camera); // uploads VBOs to GPU
 
-    // Restore location-based visibility
+    // Restore correct visibility before the pre-warm loop
+    const wasHiddenSet = new Set(wasHidden);
     for (const obj of wasHidden) obj.visible = false;
     for (const obj of wasCulled) obj.frustumCulled = true;
+
+    // Upload VBOs in small batches spread across rAF frames — keeps the
+    // loading-screen carousel smooth instead of one long synchronous stall.
+    // Button only activates after all batches complete (waitForReady resolves last).
+    const CHUNK = 10;
+    for (let i = 0; i < wasCulled.length; i += CHUNK) {
+      const end = Math.min(i + CHUNK, wasCulled.length);
+      for (let j = i; j < end; j++) {
+        wasCulled[j].visible       = true;
+        wasCulled[j].frustumCulled = false;
+      }
+      this.renderer.render(this.scene, this.camera);
+      for (let j = i; j < end; j++) {
+        wasCulled[j].visible       = !wasHiddenSet.has(wasCulled[j]); // lobby=true, non-lobby=false
+        wasCulled[j].frustumCulled = true;
+      }
+      await new Promise(r => requestAnimationFrame(r));
+    }
   }
 
   onResize() {
@@ -1898,6 +1939,10 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
       if (!visible && entry.obj === this._focusedScreen) continue;
       entry.obj.visible = visible;
       (entry.obj.userData.associatedMeshes ?? []).forEach(m => { m.visible = visible; });
+      (entry.obj.userData.experienceChildren ?? []).forEach(child => {
+        child.visible = visible;
+        (child.userData?.associatedMeshes ?? []).forEach(m => { m.visible = visible; });
+      });
     }
   }
 
@@ -1960,6 +2005,10 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 18});
     if (loc && loc !== this._currentLocation) {
       clickable.visible = false;
       (clickable.userData.associatedMeshes ?? []).forEach(m => { m.visible = false; });
+      (clickable.userData.experienceChildren ?? []).forEach(child => {
+        child.visible = false;
+        (child.userData?.associatedMeshes ?? []).forEach(m => { m.visible = false; });
+      });
     }
 
     this.infoPanel.setRegistry(this._artworkRegistry);

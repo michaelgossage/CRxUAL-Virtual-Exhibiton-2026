@@ -326,7 +326,7 @@ export class ModelCarousel {
     // Local offset only — root already carries position + rotation
     this.hitbox.position.set(...this._hitboxOffset);
     // Show model 0's artworkInfo on first click; focusTarget = root frames ALL models
-    this.hitbox.userData.artworkInfo     = _mergeInfo(this.artworkInfo, this._models[0]?.artworkInfo);
+    this.hitbox.userData.artworkInfo     = this.artworkInfo;
     this.hitbox.userData.focusTarget     = this.root;
     this.hitbox.userData.experienceOwner = this;
     this.root.add(this.hitbox);

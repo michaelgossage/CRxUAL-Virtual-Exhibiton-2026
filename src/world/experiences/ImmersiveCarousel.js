@@ -178,7 +178,7 @@ export class ImmersiveCarousel {
     // Position at front panel location in root-local space and face inward
     this.hitbox.position.set(0, 0, R);
     this.hitbox.lookAt(new THREE.Vector3(0, 0, 0));
-    this.hitbox.userData.artworkInfo     = _mergeInfo(this.artworkInfo, defs[0].artworkInfo);
+    this.hitbox.userData.artworkInfo     = this.artworkInfo;
     this.hitbox.userData.focusTarget     = this.hitbox;
     // No revealTarget — we own the greyscale→colour tween ourselves in onFocus()
     this.hitbox.userData.experienceOwner = this;
@@ -317,7 +317,7 @@ export class ImmersiveCarousel {
     this._targetAngle    = 0;
     this.ring.rotation.y = 0;
 
-    this.hitbox.userData.artworkInfo = _mergeInfo(this.artworkInfo, this._imageDefs[0].artworkInfo);
+    this.hitbox.userData.artworkInfo = this.artworkInfo;
     this.hitbox.visible = true;
   }
 
