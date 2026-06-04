@@ -43,6 +43,7 @@ export async function applyHDRI({ renderer, scene, url, background=false, envInt
     srcTex.colorSpace = THREE.SRGBColorSpace;
     pmrem.compileEquirectangularShader();
   }
+  
 
   const envMap = pmrem.fromEquirectangular(srcTex).texture;
 
