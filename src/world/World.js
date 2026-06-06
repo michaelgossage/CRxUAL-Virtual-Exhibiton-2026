@@ -1677,7 +1677,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
 
   // Resolves after all async loads (models, experiences, env GLBs) complete and a
   // final compileAsync pass ensures no shader is left uncompiled before user entry.
-  async waitForReady() {
+  async waitForReady({ onBatchProgress } = {}) {
     await Promise.allSettled(this._loadingPromises);
 
     // compileAsync uses traverseVisible + frustum culling, so temporarily force
@@ -1712,6 +1712,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
         wasCulled[j].visible       = !wasHiddenSet.has(wasCulled[j]); // lobby=true, non-lobby=false
         wasCulled[j].frustumCulled = true;
       }
+      onBatchProgress?.(end / wasCulled.length);
       await new Promise(r => requestAnimationFrame(r));
     }
   }

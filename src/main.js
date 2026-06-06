@@ -16,7 +16,7 @@ const IMAGE_EXTS    = /\.(jpe?g|png|avif|webp|gif)(\?.*)?$/i;
 const EXCLUDE_PATHS = /\/art\/(textures|hdri)\//i;
 
 DefaultLoadingManager.onProgress = (url, loaded, total) => {
-  titleScreen.setProgress(loaded / total);
+  titleScreen.setProgress((loaded / total) * 0.8); // network loads occupy 0→80%
   if (IMAGE_EXTS.test(url) && !EXCLUDE_PATHS.test(url)) titleScreen.addImage(url);
 };
 
@@ -32,7 +32,9 @@ requestAnimationFrame(() => {
 
   // Signal ready only after all geometry is loaded AND all shaders compiled.
   // Previously used DefaultLoadingManager.onLoad which fires before compileAsync finishes.
-  app.world.waitForReady().then(() => {
+  app.world.waitForReady({
+    onBatchProgress: (p) => titleScreen.setProgress(0.8 + p * 0.2, "Preparing…"),
+  }).then(() => {
     app.time.start(); // resume before enabling the button
     titleScreen.setReady();
   });

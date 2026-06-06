@@ -47,10 +47,10 @@ export class TitleScreen {
 
   // ─── Public API ────────────────────────────────────────────────────────────
 
-  setProgress(p) {
+  setProgress(p, label = "Loading…") {
     const pct = Math.round(p * 100);
     this._barFill.style.width = pct + "%";
-    this._barLabel.textContent = "Loading… " + pct + "%";
+    this._barLabel.textContent = `${label} ${pct}%`;
   }
 
   /**

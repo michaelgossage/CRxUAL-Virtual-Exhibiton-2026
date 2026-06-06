@@ -10,8 +10,8 @@
     <style>
       html, body { margin: 0; height: 100%; overflow: hidden; background: #f5f3ef; }
     </style>
-    <script type="module" crossorigin src="/assets/index-eULcfZx1.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-Ca0z67Vo.css">
+    <script type="module" crossorigin src="/CRxUAL-Virtual-Exhibiton-2026/assets/index-DIsLTUhC.js"></script>
+    <link rel="stylesheet" crossorigin href="/CRxUAL-Virtual-Exhibiton-2026/assets/index-BKZ39Tv4.css">
   </head>
   <body>
     <div id="app"></div>
@@ -72,6 +72,22 @@
 
     <button id="carousel-prev" class="carousel-nav-btn carousel-nav-btn--prev" aria-label="Previous">&#8592;</button>
     <button id="carousel-next" class="carousel-nav-btn carousel-nav-btn--next" aria-label="Next">&#8594;</button>
+
+    <!-- Portrait-only lock: shown on touch devices in landscape via CSS media query -->
+    <div id="rotate-overlay" class="rotate-overlay" aria-live="polite">
+      <div class="rotate-overlay__icon">
+        <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- phone body -->
+          <rect x="18" y="8" width="24" height="40" rx="4" stroke="currentColor" stroke-width="2.5" fill="none"/>
+          <!-- home indicator -->
+          <line x1="26" y1="43" x2="34" y2="43" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- rotation arrow -->
+          <path d="M10 38 A22 22 0 0 1 48 22" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none" stroke-dasharray="4 3"/>
+          <polyline points="44,18 48,22 44,26" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </div>
+      <p class="rotate-overlay__text">Rotate your device to portrait</p>
+    </div>
 
     <!-- Main application script -->
   </body>
