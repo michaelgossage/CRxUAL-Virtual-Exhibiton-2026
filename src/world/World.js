@@ -590,7 +590,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
       plinthSize: [1.0, 0.5, 1.0],
       location: 'EagleBar',
     }).then((modelRoot) => {
-      const hitBox = noosScreen.userData.hitBox ?? noosScreen;
+      const hitBox = noosScreen.userData.focusTarget ?? noosScreen;
       hitBox.userData.experienceChildren = [modelRoot];
       if (!hitBox.visible) {
         modelRoot.visible = false;
@@ -1406,7 +1406,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
   }).then((modelRoot) => {
     this.statue = modelRoot;
     //this._registerArtwork(modelRoot);
-    const hitBox = beNotAfraidScreen.userData.hitBox ?? beNotAfraidScreen;
+    const hitBox = beNotAfraidScreen.userData.focusTarget ?? beNotAfraidScreen;
     hitBox.userData.experienceChildren = [modelRoot];
     if (!hitBox.visible) {
       modelRoot.visible = false;
@@ -1552,7 +1552,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
   }).then((modelRoot) => {
     this.statue = modelRoot;
     //this._registerArtwork(modelRoot);
-    const hitBox = symbionScreen.userData.hitBox ?? symbionScreen;
+    const hitBox = symbionScreen.userData.focusTarget ?? symbionScreen;
     hitBox.userData.experienceChildren = [modelRoot];
     if (!hitBox.visible) {
       modelRoot.visible = false;
