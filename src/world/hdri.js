@@ -29,7 +29,7 @@ export async function applyHDRI({
   return envMap;
 }*/
 
-export async function applyHDRI({ renderer, scene, url, background=false, envIntensity=1.0 }) {
+export async function applyHDRI({ renderer, scene, url, background=false, envIntensity=1.0, bgIntensity=1.0, backgroundUrl=null }) {
   const pmrem = new THREE.PMREMGenerator(renderer);
 
   const isHDR = /\.(hdr|exr)$/i.test(url);
@@ -48,7 +48,17 @@ export async function applyHDRI({ renderer, scene, url, background=false, envInt
   const envMap = pmrem.fromEquirectangular(srcTex).texture;
 
   scene.environment = envMap;
-  if (background) scene.background = envMap;
+  if (background) {
+    if (backgroundUrl) {
+      const bgTex = await new THREE.TextureLoader().loadAsync(backgroundUrl);
+      bgTex.mapping = THREE.EquirectangularReflectionMapping;
+      bgTex.colorSpace = THREE.SRGBColorSpace;
+      scene.background = bgTex;
+    } else {
+      scene.background = envMap;
+    }
+    scene.backgroundIntensity = bgIntensity;
+  }
 
   srcTex.dispose();
   pmrem.dispose();

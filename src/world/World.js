@@ -443,9 +443,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
 
     const base = import.meta.env.BASE_URL;
     
-    const Lobby          = _loadEnvGLB(base + "art/Building/Chancery Rosewood_LOBBY_BAKE_V4.glb");
+    const Lobby          = _loadEnvGLB(base + "art/Building/Chancery Rosewood_LOBBY and pav_BAKE_V4.glb");
     const LobbyFurniture = _loadEnvGLB(base + "art/Building/Chancery Rosewood_LOBBY_FURNITURE_BAKE_V5.glb");
-    const WestPavillion  = _loadEnvGLB(base + "art/Building/Chancery Rosewood_Pavilion_BAKE_V4.glb");
+    //const WestPavillion  = _loadEnvGLB(base + "art/Building/Chancery Rosewood_Pavilion_BAKE_V4.glb");
     const EagleBar       = _loadEnvGLB(base + "art/Building/Chancery Rosewood_EagleBar_V1.glb");
     const PavillionFurniture = _loadEnvGLB(base + "art/Building/Chancery Rosewood_Pavillion_FURNITURE_BAKE_V4.glb");
     const EagleBarFurniture = _loadEnvGLB(base + "art/Building/Chancery Rosewood_Bar_FURNITURE_BAKE_V4.glb");
@@ -455,7 +455,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
     // Trigger one shadow-map render pass after all static geometry is in the scene.
     // autoUpdate is disabled in Renderer so this is the only pass for static content.
     this._loadingPromises.push(
-      Promise.allSettled([Lobby, LobbyFurniture, WestPavillion, EagleBar, PavillionFurniture, EagleBarFurniture, EagleBarOutsideFurniture]).then(() => {
+      Promise.allSettled([Lobby, LobbyFurniture/*, WestPavillion*/, EagleBar, PavillionFurniture, EagleBarFurniture, EagleBarOutsideFurniture]).then(() => {
         this.renderer.shadowMap.needsUpdate = true;
       })
     );
@@ -465,8 +465,10 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
       renderer: this.renderer,
       scene: this.scene,
       url: import.meta.env.BASE_URL + "art/hdri/qwantani_dusk_2_puresky_4k Medium.jpeg",
-      background: true,   // keep your room/fog background
-      envIntensity: 1.0
+      background: true,
+      envIntensity: 1.0,
+      bgIntensity: 1.2,
+      backgroundUrl: import.meta.env.BASE_URL + "art/hdri/hilly_terrain_01_puresky_8k_02.jpg"
     });
 
 
@@ -699,6 +701,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
 
     // ── Dummy ModelCarousel ──────────────────────────────────────────────────
     //west pavillion
+    let nailedScreen; // assigned below at addScreen — referenced in carousel .then()
     const dummyCarousel = new ModelCarousel({
       scene: this.scene,
       position: [-34.2, .5, -15.8],
@@ -788,6 +791,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
       dummyCarousel.hitbox.userData.location = 'WestPavillion';
       this._registerExperience(dummyCarousel);
       dummyCarousel._clickables = this.screenManager.clickables;
+      if (nailedScreen) dummyCarousel.hitbox.userData.experienceChildren = [nailedScreen];
     }).catch(console.error));
     // ────────────────────────────────────────────────────────────────────────
 
@@ -1157,7 +1161,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
   //Be Not Afraid, Lust Feels Like Bad Luck, 
 
   //left of bar wall
-    this._registerArtwork(this.screenManager.addScreen({
+    nailedScreen = this.screenManager.addScreen({
       url: `${baseURL}art/Nailed_Genevieve Carr/nailed.webp`,
       width: 1.5,
       height: 2.0,
@@ -1179,7 +1183,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
       onClick: (obj) => {
         console.log("Clicked screen/podium", obj);
       }
-    }));
+    });
+    this._registerArtwork(nailedScreen);
 
     
 

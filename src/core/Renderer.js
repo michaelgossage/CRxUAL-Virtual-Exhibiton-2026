@@ -1,7 +1,11 @@
 import { WebGLRenderer, ACESFilmicToneMapping } from "three";
+import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass }     from "three/examples/jsm/postprocessing/RenderPass.js";
+import { ShaderPass }     from "three/examples/jsm/postprocessing/ShaderPass.js";
+import { ColorGradeShader } from "../shaders/colorGradeShader.js";
 
 export class Renderer {
-  constructor({ mount, sizes }) {
+  constructor({ mount, sizes, scene, camera }) {
     this.mount = mount;
     this.sizes = sizes;
 
@@ -27,15 +31,21 @@ export class Renderer {
     this.gl.outputColorSpace = "srgb";
     this.gl.toneMapping = ACESFilmicToneMapping;
     this.gl.toneMappingExposure = 1.0;
+
+    // post-processing
+    this._composer = new EffectComposer(this.gl);
+    this._composer.addPass(new RenderPass(scene, camera));
+    this._composer.addPass(new ShaderPass(ColorGradeShader));
   }
 
   onResize(sizes) {
     this.gl.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     this.gl.setSize(sizes.width, sizes.height, false);
+    this._composer.setSize(sizes.width, sizes.height);
   }
 
-  render(scene, camera) {
-    this.gl.render(scene, camera);
+  render() {
+    this._composer.render();
   }
 
   destroy() {

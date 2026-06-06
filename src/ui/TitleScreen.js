@@ -1,7 +1,7 @@
 // ─── CONFIGURE THESE ─────────────────────────────────────────────────────────
 const LOGO_SRC   = "/CRxUAL-Virtual-Exhibiton-2026/art/images/logo.png";
-const TITLE      = "The Chancery Rosewood Award for Creative Transformation";
-const SUBTITLE   = "Virtual Exhibition 2026";
+const TITLE      = "Creative Transformation Award 2026";
+const SUBTITLE   = "Virtual Exhibition";
 const DISCLAIMER = "By entering this exhibition you agree to our terms of use. All artworks are the property of their respective artists. Unauthorised reproduction is prohibited.";
 const INSTRUCTIONS = "Click on artworks to focus. Drag to look around. Use the menu to move between spaces.";
 

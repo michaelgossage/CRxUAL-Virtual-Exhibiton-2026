@@ -18,7 +18,7 @@ export class App {
     this.scene = new Scene();
 
     this.cameraRig = new CameraRig(this.sizes);
-    this.renderer = new Renderer({ mount: this.mount, sizes: this.sizes });
+    this.renderer = new Renderer({ mount: this.mount, sizes: this.sizes, scene: this.scene, camera: this.cameraRig.camera });
     this.sceneManager = new SceneManager(this.scene);
 
     this.isMobile = /iphone|ipad|ipod|android/i.test(navigator.userAgent);
@@ -59,7 +59,7 @@ export class App {
     this.time.on("tick", (dt) => {
       this.world.update(dt);
       this.cameraRig.update(dt);
-      this.renderer.render(this.scene, this.cameraRig.camera);
+      this.renderer.render();
       this._tickFPS(dt);
     });
   }
