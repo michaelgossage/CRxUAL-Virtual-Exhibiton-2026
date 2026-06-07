@@ -8,9 +8,10 @@ A Three.js-based interactive 3D virtual art exhibition. Visitors walk through a 
 
 ```bash
 npm install
-npm run dev       # dev server at http://localhost:5173 (also accessible on LAN)
-npm run build     # production build → /dist
-npm run deploy    # build + push to gh-pages
+npm run dev        # dev server at https://localhost:8457 (HTTPS, LAN-accessible)
+npm run build      # production build → /dist (base path /)
+npm run build:gh   # production build → /dist with GitHub Pages base path
+npm run deploy:gh  # build:gh + push to gh-pages branch
 ```
 
 ---
@@ -101,22 +102,26 @@ artworkInfo: {
 }
 ```
 
-The cues file is a JSON array with one entry per sentence, in the same order as the sentences in `description`. Each entry has `start` and `end` in seconds:
+The cues file is a JSON object with a `segments` array. Each segment has `start_time` and `end_time` in seconds. Sentences are matched to `description` by position (first segment → first sentence, etc.):
 
 ```json
-[
-  { "start": 0.0,  "end": 4.2  },
-  { "start": 4.2,  "end": 9.8  },
-  { "start": 9.8,  "end": 15.1 }
-]
+{
+  "segments": [
+    { "start_time": 0.0,  "end_time": 4.2,  "text": "First sentence." },
+    { "start_time": 4.2,  "end_time": 9.8,  "text": "Second sentence." },
+    { "start_time": 9.8,  "end_time": 15.1, "text": "Third sentence." }
+  ]
+}
 ```
+
+The `text` field is optional — only `start_time` and `end_time` are used by the player.
 
 Place the file next to the audio:
 
 ```
 public/art/audio/
   work-title.m4a
-  work-title.cues.json
+  work-title.json
 ```
 
 #### Generating narration audio
@@ -217,7 +222,7 @@ Add a button to `index.html`:
 
 As visitors walk through the gallery, the environment geometry reveals its colour in a persistent trail behind the camera. Moving the mouse over the environment paints temporary circles that fade out after a few seconds. Clicking or tapping also paints a temporary reveal at that point. Focusing an artwork triggers a permanent reveal at that location, with a brief gold burst on the surrounding geometry.
 
-The GPU cost is a fixed **3 texture samples per fragment** regardless of how many reveals exist — safe on mobile and Safari.
+The GPU cost is a fixed **2 texture samples per fragment** regardless of how many reveals exist — safe on mobile and Safari.
 
 ### Applying to environment GLBs
 
@@ -287,13 +292,16 @@ Good sources: ambientCG, Poly Haven (greyscale noise / Perlin / Voronoi packs).
 ```
 public/
   art/
-    images/     *.jpg / *.png / *.webp   — image artworks
-    film/       *.mp4 / *.webm           — video artworks
-    audio/      *.m4a / *.mp3            — narrations
-    models/     *.glb                    — 3D models + environment geometry
-    hdri/       *.hdr                    — environment lighting
-    textures/   radial-512px.jpg         — artwork reveal mask (required, do not remove)
-                noise.png               — optional tileable noise for proximity reveal edges
+    ArtistName_WorkTitle/   — per-artist folder (structure inside is flexible)
+      image.jpg
+      3D/
+        model.glb
+    hdri/                   — HDRI and background equirect images
+    textures/
+      radial-512px.jpg      — artwork reveal mask (required, do not remove)
+      noise.png             — optional tileable noise for proximity reveal edges
+    audio/                  — narration audio files + cue JSON files
+  Building/                 — environment GLBs (lobby, bar, pavilion geometry)
 ```
 
 For images or audio hosted on a CDN, pass the full URL directly — e.g. `"https://cdn.example.com/art/work.jpg"`.
@@ -303,7 +311,7 @@ For images or audio hosted on a CDN, pass the full URL directly — e.g. `"https
 ## Deployment
 
 ```bash
-npm run deploy   # builds and pushes to the gh-pages branch
+npm run deploy:gh   # builds with GitHub Pages base path and pushes to the gh-pages branch
 ```
 
 The site is served from the path `/CRxUAL-Virtual-Exhibiton-2026/`. All `import.meta.env.BASE_URL` references resolve correctly after build.
