@@ -407,25 +407,23 @@ canvas { width: 100%; height: 100%; display:block; }
     left: 50%; right: auto;
     transform: translateX(-50%);
     width: min(360px, calc(100% - 24px));
-    display: flex; flex-direction: column; gap: 8px;
-    padding: 8px 8px;
+    display: flex; flex-direction: row; align-items: stretch; gap: 6px;
+    padding: 5px 5px;
     font-size: 15px;
-    bottom: max(12px, calc(12px + env(safe-area-inset-bottom)));
+    bottom: max(6px, calc(6px + env(safe-area-inset-bottom)));
   }
-  .menu-row { gap: 8px; }
+  .menu-row { display: contents; }
+  .menu .btn { flex: 1; }
   .btn {
-    min-height: 40px; min-width: 0;
+    min-height: 36px; min-width: 0;
     display: flex; align-items: center; justify-content: center;
-    padding: 8px 10px;
+    padding: 5px 6px;
   }
 
   /* Hide artwork prev/next arrows — must come after .btn to win specificity */
   .artwork-nav__prev,
   .artwork-nav__next { display: none; }
   .menu-divider { display: none; }
-
-  /* All works button spans full width when prev/next are hidden */
-  .artwork-nav__list-btn { grid-column: 1 / -1; }
 
   /* Info panel: full-width, compact padding, font matches menu */
   .info-panel {
@@ -435,7 +433,7 @@ canvas { width: 100%; height: 100%; display:block; }
   }
   .info-panel__header { display: none; }
   .info-panel__artist { display: none; }
-  .info-panel__description { max-height: 7em; font-size: 1.8em; }
+  .info-panel__description { max-height: 5.0em; font-size: 1.4em; }
 
   /* Artwork list full-width */
   .artwork-list { right: 0; border-top-right-radius: 0; }

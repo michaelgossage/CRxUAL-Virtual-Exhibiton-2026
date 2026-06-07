@@ -18,10 +18,15 @@ export class App {
     this.scene = new Scene();
 
     this.cameraRig = new CameraRig(this.sizes);
-    this.renderer = new Renderer({ mount: this.mount, sizes: this.sizes, scene: this.scene, camera: this.cameraRig.camera });
-    this.sceneManager = new SceneManager(this.scene);
 
     this.isMobile = /iphone|ipad|ipod|android/i.test(navigator.userAgent);
+    const cores  = navigator.hardwareConcurrency ?? 4;
+    const lowRAM = (navigator.deviceMemory ?? 8) <= 4;
+    const touch  = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+    this.isLowPower = this.isMobile || (touch && cores <= 4) || lowRAM;
+
+    this.renderer = new Renderer({ mount: this.mount, sizes: this.sizes, scene: this.scene, camera: this.cameraRig.camera, isLowPower: this.isLowPower });
+    this.sceneManager = new SceneManager(this.scene);
 
     this.world = new World({
       scene: this.scene,
@@ -30,6 +35,7 @@ export class App {
       sizes: this.sizes,
       debugOn: false,  // enable debug logging for location reveal system
       isMobile: this.isMobile,
+      isLowPower: this.isLowPower,
     });
 
     this._fpsEl = null;

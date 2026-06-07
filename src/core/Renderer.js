@@ -5,7 +5,7 @@ import { ShaderPass }     from "three/examples/jsm/postprocessing/ShaderPass.js"
 import { ColorGradeShader } from "../shaders/colorGradeShader.js";
 
 export class Renderer {
-  constructor({ mount, sizes, scene, camera }) {
+  constructor({ mount, sizes, scene, camera, isLowPower = false }) {
     this.mount = mount;
     this.sizes = sizes;
 
@@ -14,12 +14,13 @@ export class Renderer {
 
     this.gl = new WebGLRenderer({
       canvas: this.canvas,
-      antialias: true,
+      antialias: !isLowPower,
       alpha: true,
-      powerPreference: "high-performance"
+      powerPreference: isLowPower ? "default" : "high-performance"
     });
 
-    this.gl.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    this._dprCap = isLowPower ? 1.0 : 2.0;
+    this.gl.setPixelRatio(Math.min(window.devicePixelRatio || 1, this._dprCap));
     this.gl.setSize(this.sizes.width, this.sizes.height, false);
 
     //shadows
@@ -39,13 +40,16 @@ export class Renderer {
   }
 
   onResize(sizes) {
-    this.gl.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    this.gl.setPixelRatio(Math.min(window.devicePixelRatio || 1, this._dprCap));
     this.gl.setSize(sizes.width, sizes.height, false);
     this._composer.setSize(sizes.width, sizes.height);
   }
 
   render() {
+    this.gl.info.autoReset = false;
+    this.gl.info.reset();
     this._composer.render();
+    this.gl.info.autoReset = true;
   }
 
   destroy() {

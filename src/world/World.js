@@ -22,13 +22,14 @@ import { ModelGalleryWalk } from "./experiences/ModelGalleryWalk.js";
 
 
 export class World {
-  constructor({ scene, camera, renderer, sizes, debugOn = false, isMobile = false }) {
+  constructor({ scene, camera, renderer, sizes, debugOn = false, isMobile = false, isLowPower = false }) {
     this.scene = scene;
     this.camera = camera;
     this.renderer = renderer;
     this.sizes = sizes;
     this._debug = debugOn;
     this.isMobile = isMobile;
+    this.isLowPower = isLowPower;
     this.controls = new ControlsFPS({ camera: this.camera, domElement: this.renderer.domElement, autoRotate: true, autoRotateSpeed: -0.05 });
     // focus helper for smoothly moving camera to screens
     this.focus = new CameraFocus({ camera: this.camera });
@@ -69,6 +70,10 @@ export class World {
 
     // proximity reveal system for environment geometry
     this.proximityReveal = new ProximityRevealSystem();
+    if (isLowPower) {
+      this.proximityReveal.features.mouseTrail = false;
+      this.proximityReveal.features.goldRing   = false;
+    }
 
     // Tracks all async loading promises (models, experiences, env GLBs).
     // waitForReady() resolves only after all of these complete + final compileAsync.
@@ -188,7 +193,7 @@ export class World {
       }
 
       if (this._focusCooldown > 0) return;
-      if (this.focus.isMoving) return;
+      if (this.focus.isMoving && !this._focusedExperience) return;
       if (this._focusState === "idle") return;
 
       // Let the active experience intercept — e.g. carousel returning to overview
@@ -1678,7 +1683,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
   // Resolves after all async loads (models, experiences, env GLBs) complete and a
   // final compileAsync pass ensures no shader is left uncompiled before user entry.
   async waitForReady({ onBatchProgress } = {}) {
-    await Promise.allSettled(this._loadingPromises);
+    // 3-minute absolute cap — catches non-GLTF hangs (texture loaders, experience load methods)
+    const loadingCap = new Promise(r => setTimeout(r, 180_000));
+    await Promise.race([Promise.allSettled(this._loadingPromises), loadingCap]);
 
     // compileAsync uses traverseVisible + frustum culling, so temporarily force
     // everything visible so ALL shaders are compiled before the user enters.
