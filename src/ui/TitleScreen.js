@@ -1,6 +1,6 @@
 // ─── CONFIGURE THESE ─────────────────────────────────────────────────────────
 const LOGO_SRC   = "/CRxUAL-Virtual-Exhibiton-2026/art/images/logo.png";
-const TITLE      = "Creative Transformation Award 2026";
+const TITLE      = "The Creative Transformation Awards 2026";
 const SUBTITLE   = "Virtual Exhibition";
 const DISCLAIMER = "By entering this exhibition you agree to our terms of use. All artworks are the property of their respective artists. Unauthorised reproduction is prohibited.";
 const INSTRUCTIONS = "Click on artworks to focus. Drag to look around. Use the menu to move between spaces.";
@@ -242,16 +242,16 @@ export class TitleScreen {
     body.className = "ts-terms-body";
     body.innerHTML = `
       <p><strong>1. Use of this Site</strong><br>
-      These Terms govern your access to The Chancery Rosewood Award for Creative Transformation Virtual Exhibition. By entering this exhibition you agree to be bound by these Terms. If you do not agree, please do not proceed.</p>
+      These Terms govern your access to the Creative Transformation Awards 2026 Virtual Exhibition, presented by The Chancery Rosewood. By entering this exhibition, you agree to be bound by these Terms. If you do not agree, please do not proceed.</p>
 
       <p><strong>2. Permitted Use</strong><br>
       You may access this exhibition for personal, non-commercial viewing only. No part of this exhibition may be reproduced, distributed, publicly displayed, or commercially exploited without prior written consent from the relevant rights holder.</p>
 
       <p><strong>3. Artist Copyright</strong><br>
-      All artworks displayed in this exhibition remain the exclusive copyright and intellectual property of the individual artist, in accordance with the Copyright, Designs and Patents Act 1988. The Chancery Rosewood Award claims no ownership or reproduction rights in any exhibited artwork. Any citation or reproduction of artwork must include clear attribution to the artist.</p>
+      All artworks displayed in this exhibition remain the exclusive copyright and intellectual property of the individual artist, in accordance with the Copyright, Designs and Patents Act 1988. 30 GS LP trading as The Chancery Rosewood, the Creative Transformation Awards and their organisers claim no ownership or reproduction rights in any exhibited artwork. Any citation or reproduction of artwork must include clear attribution to the artist.</p>
 
       <p><strong>4. Exhibition Content</strong><br>
-      All content in this exhibition — including artworks, 3D environments, and media — is the property of its respective rights holder and is used with permission. You may not reproduce, extract, or distribute any content without consent of the relevant rights holder. You may not reverse-engineer, decompile, or extract source code or 3D assets from this application, nor use automated tools to scrape or harvest content.</p>
+      All content featured in this exhibition, including artworks, 3D environments and media, remains the property of its respective rights holders and is used with permission. You may not reproduce, extract, distribute or otherwise exploit any content without the prior consent of the relevant rights holder. You may not reverse-engineer, decompile or extract source code or 3D assets from this exhibition, nor use automated tools to scrape, harvest or otherwise collect content.</p>
 
       <p><strong>5. Privacy</strong><br>
       This exhibition does not collect, store, or process any personal data. No cookies or tracking tools are used. All content is rendered locally in your browser.</p>
@@ -260,7 +260,7 @@ export class TitleScreen {
       This exhibition is provided &ldquo;as is&rdquo; without warranties of any kind. We do not guarantee uninterrupted availability or that content is free from errors.</p>
 
       <p><strong>7. Limitation of Liability</strong><br>
-      To the fullest extent permitted by law, the organisers accept no liability for any loss or damage arising directly or indirectly from use of this exhibition.</p>
+      To the fullest extent permitted by law, 30 GS LP trading as The Chancery Rosewood and the organisers of the Creative Transformation Awards 2026 accept no liability for any loss or damage arising directly or indirectly from the use of, or inability to access, this exhibition. Nothing in these Terms excludes or limits liability for death or personal injury caused by negligence, fraud, fraudulent misrepresentation, or any liability that cannot lawfully be excluded or limited under applicable law.</p>
 
       <p><strong>8. Governing Law</strong><br>
       These Terms are governed by the laws of England and Wales. You agree to submit to the exclusive jurisdiction of the courts of England and Wales in respect of any dispute arising from these Terms.</p>
