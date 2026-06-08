@@ -92,6 +92,7 @@ export class LocationManager {
   goTo(id, { duration = 0.8 } = {}) {
     const loc = this.locations[id];
     if (!loc) return;
+    if (this.isMoving) return false;
 
     if (this.activeId && this.activeId !== id) {
       this.locations[this.activeId]?.onExit?.();

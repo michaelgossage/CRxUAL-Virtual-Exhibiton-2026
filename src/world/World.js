@@ -294,18 +294,18 @@ export class World {
 {duration: 5.0, distanceWeighted: true}); 
       // make a path between 2 lodcations
   this.locations.setPathBidirectional("WestPavillion", "EagleBar", [
-    { pos: [-28, 0.8, -18], lookAt: [-15, 0.8, -15] },
-    { pos: [-12, 0.8, -18], lookAt: [-28, 0.8, -18] },
-    { pos: [-10, 0.8, -15], lookAt: [-12, 0.8, -18] },
-    { pos: [3, 0.8, -8], lookAt: [-10, 0.8,-15] },
-    { pos: [0, 10, 0], lookAt: [0, 23, 0] },                                                                                                                                                      
+    { pos: [-28, 0.8, -18], lookAt: [-12, 0.8, -18] },
+    { pos: [-12, 0.8, -18], lookAt: [-10, 0.8, -15] },
+    { pos: [-10, 0.8, -15], lookAt: [3, 0.8, -8] },
+    { pos: [3, 0.8, -8], lookAt: [0, 5,0] },
+    { pos: [0, 5, 0], lookAt: [0, 23, 0] },                                                                                                                                                      
     { pos: [0, 23, 0], lookAt: [10, 23, 0] },
     { pos: [10, 23, 0], lookAt: [10, 23, 3.2] },
     { pos: [10, 23, 3.2], lookAt: [1,23,12.8] },
     { pos: [7, 23, 4], lookAt: [ 1,23,12.8] }
 
   ],
-{duration: 8.0, distanceWeighted: true}); 
+{duration: 12.0, distanceWeighted: true}); 
 
 this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 25});
 this.setLocationRevealZone("WestPavillion", { center: [-34,0.8,-22.4],     radius: 22});
@@ -1357,6 +1357,13 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
         fauxFloraWalk.hitbox.userData.experienceChildren = [fauxFloraScreen, arrangementRoot];
         this._registerExperience(fauxFloraWalk);
         fauxFloraWalk._clickables = this.screenManager.clickables;
+        const shineMat = new MeshStandardMaterial({ color: 0xd0d0d0, metalness: 1.0, roughness: 0.05, envMapIntensity: 2.0 });
+        for (const { root } of fauxFloraWalk._models) {
+          root.traverse(child => {
+            if (!child.isMesh) return;
+            child.material = shineMat;
+          });
+        }
       }).catch(console.error)
     );
 
@@ -2204,7 +2211,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
       this.focus.isFocused = false;
       this.focus._hasHome = false;
     }
-    this.locations.goTo(id, options);
+    return this.locations.goTo(id, options);
   }
 
   _setReveal(mesh, v) {

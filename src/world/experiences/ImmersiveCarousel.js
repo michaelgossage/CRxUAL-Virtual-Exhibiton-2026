@@ -32,16 +32,20 @@ export class ImmersiveCarousel {
     artworkInfo = {},       // shown on initial entry click
     hitboxScale = 1.15,    // multiplier applied to panelWidth/Height for entry + panel hitboxes
     revealMap = null,
+    frameThickness = 0.08,
+    frameDepth     = 0.06,
     debugOn = false,
   }) {
-    this.scene        = scene;
-    this._imageDefs   = images;
-    this._panelWidth  = panelWidth;
-    this._panelHeight = panelHeight;
-    this._hitboxScale = hitboxScale;
-    this.artworkInfo  = artworkInfo;
-    this._debugOn     = debugOn;
-    this._revealMap   = revealMap;
+    this.scene              = scene;
+    this._imageDefs         = images;
+    this._panelWidth        = panelWidth;
+    this._panelHeight       = panelHeight;
+    this._hitboxScale       = hitboxScale;
+    this.artworkInfo        = artworkInfo;
+    this._debugOn           = debugOn;
+    this._revealMap         = revealMap;
+    this._frameThickness    = frameThickness;
+    this._frameDepth        = frameDepth;
 
     const deg = Math.PI / 180;
     this._baseYDeg = rotation[1];
@@ -146,7 +150,28 @@ export class ImmersiveCarousel {
       mesh.position.set(Math.sin(angle) * R, 0, Math.cos(angle) * R);
       mesh.lookAt(0, 0, 0); // front face toward ring centre = camera when focused
       this.ring.add(mesh);
-      this._panels.push({ mesh, material });
+
+      // Box frame — peeks around all 4 edges, front face just behind the panel surface
+      const fd = this._frameDepth;
+      const frameMat = new THREE.MeshBasicMaterial({
+        color: 0x111111,
+        transparent: i > 0,
+        opacity: i === 0 ? 1 : 0,
+        depthWrite: i === 0,
+      });
+      const frameMesh = new THREE.Mesh(
+        new THREE.BoxGeometry(
+          W + this._frameThickness * 2,
+          H + this._frameThickness * 2,
+          fd
+        ),
+        frameMat
+      );
+      frameMesh.position.set(0, 0, -(0.01 + fd / 2));
+      if (i > 0) frameMesh.visible = false;
+      mesh.add(frameMesh);
+
+      this._panels.push({ mesh, material, frameMesh, frameMat });
 
       // Per-panel hitbox — child of ring so it auto-rotates; hidden until focused
       const hb = new THREE.Mesh(
@@ -243,9 +268,10 @@ export class ImmersiveCarousel {
     this._revealTweens = [];
     for (let i = 1; i < this._panels.length; i++) {
       this._revealTweens.push({
-        mesh: this._panels[i].mesh,
-        elapsed: -(i * 0.1),
-        duration: 0.45,
+        mesh:      this._panels[i].mesh,
+        frameMesh: this._panels[i].frameMesh,
+        elapsed:  -(i * 0.1),
+        duration:  0.45,
       });
     }
   }
@@ -271,13 +297,14 @@ export class ImmersiveCarousel {
     // Fade out all currently-visible side panels
     this._exitFadeTweens = [];
     for (let i = 1; i < this._panels.length; i++) {
-      const { mesh, material } = this._panels[i];
+      const { mesh, material, frameMesh, frameMat } = this._panels[i];
       if (!mesh.visible || material.opacity <= 0) {
         material.opacity = 0;
         mesh.visible     = false;
+        if (frameMesh) { frameMat.opacity = 0; frameMesh.visible = false; }
         continue;
       }
-      this._exitFadeTweens.push({ mesh, material, elapsed: 0, duration: 0.4, startOpacity: material.opacity });
+      this._exitFadeTweens.push({ mesh, material, frameMesh, frameMat, elapsed: 0, duration: 0.4, startOpacity: material.opacity });
     }
 
     // Spin ring back to the nearest whole revolution (i.e. back to image 0)
@@ -306,9 +333,10 @@ export class ImmersiveCarousel {
 
     // Ensure all side panels are fully hidden
     for (let i = 1; i < this._panels.length; i++) {
-      const { mesh, material } = this._panels[i];
+      const { mesh, material, frameMesh, frameMat } = this._panels[i];
       material.opacity = 0;
       mesh.visible     = false;
+      if (frameMesh) { frameMat.opacity = 0; frameMesh.visible = false; }
     }
 
     // Snap ring cleanly to index 0
@@ -376,10 +404,13 @@ export class ImmersiveCarousel {
       t.elapsed += dt;
       if (t.elapsed < 0) continue; // still in delay window
       if (!t.mesh.visible) t.mesh.visible = true;
+      if (t.frameMesh && !t.frameMesh.visible) t.frameMesh.visible = true;
       const a = _easeInOut(_clamp01(t.elapsed / t.duration));
       t.mesh.material.opacity = a;
+      if (t.frameMesh) t.frameMesh.material.opacity = a;
       if (t.elapsed >= t.duration) {
         t.mesh.material.opacity = 1;
+        if (t.frameMesh) t.frameMesh.material.opacity = 1;
         this._revealTweens.splice(i, 1);
       }
     }
@@ -389,10 +420,13 @@ export class ImmersiveCarousel {
       const t = this._exitFadeTweens[i];
       t.elapsed += dt;
       const a = _easeInOut(_clamp01(t.elapsed / t.duration));
-      t.material.opacity = t.startOpacity * (1 - a);
+      const op = t.startOpacity * (1 - a);
+      t.material.opacity = op;
+      if (t.frameMat) t.frameMat.opacity = op;
       if (t.elapsed >= t.duration) {
         t.material.opacity = 0;
         t.mesh.visible     = false;
+        if (t.frameMesh) { t.frameMat.opacity = 0; t.frameMesh.visible = false; }
         this._exitFadeTweens.splice(i, 1);
       }
     }

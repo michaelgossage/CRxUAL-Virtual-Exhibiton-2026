@@ -170,7 +170,8 @@ export class App {
         const id = btn.dataset.loc;
 
         // ✅ correct reference
-        this.world.goToLocation(id, { duration: 3.0 });
+        const moved = this.world.goToLocation(id, { duration: 3.0 });
+        if (moved === false) return;
 
         // update active styling
         menu.querySelectorAll(".btn")
