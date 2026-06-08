@@ -615,7 +615,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
       debugOn: this._debug,
       artworkInfo: {
         title: "Whimsy Through The Window",
-        artist: "Sarah Abdi",
+        artist: "Sarah 'Saz' Abdi",
         description: "My final collection centres around whimsy from nostalgic childhood media. I chose this theme as I believe small forms of escapism is essential, especially when we live in such unstable times; from the rise of fascism to feeling the effects of climate change. Its important maintain a balance to avoid burnout and actually be able to help others. I created woven samples intended as curtains/drapes to block out the grey and dreary London landscape, made from waste and deadstock materials.",
         link: "https://ualshowcase.arts.ac.uk/@sazweaves",
         narration: `${baseURL}audio/Whimsy_Narration.mp3`,
@@ -861,6 +861,24 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
 
   //West Pavilion
 
+  const veepraScreen = this.screenManager.addScreen({
+    url: `${baseURL}art/EMBODIED_VeepraMishra/20251114_Veepra0132-1-1.webp`,
+    width: 1.3,
+    height: 1.8,
+    position: [-5.1, 1.0, -5.7],
+
+    rotation: [0, 45, 0],
+      clickable: false,
+      offsetClick: 0.0,
+      location: 'lobby',
+      
+      plinthVisible: false,
+      onClick: (obj) => {
+        console.log("Clicked screen/podium", obj);
+      }
+    });
+    this._registerArtwork(veepraScreen);
+
   //left of entrance way — EMBODIED ModelCarousel
     const veepraCarousel = new ModelCarousel({
       scene: this.scene,
@@ -902,6 +920,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
       veepraCarousel.hitbox.userData.location = 'lobby';
       this._registerExperience(veepraCarousel);
       veepraCarousel._clickables = this.screenManager.clickables;
+      if (veepraScreen) veepraCarousel.hitbox.userData.experienceChildren = [veepraScreen];
     }).catch(console.error));
 
     // ── Black Swan — ImmersiveCarousel ──────────────────────────────────────
