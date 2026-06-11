@@ -33,7 +33,11 @@ requestAnimationFrame(() => {
   // Signal ready only after all geometry is loaded AND all shaders compiled.
   // Previously used DefaultLoadingManager.onLoad which fires before compileAsync finishes.
   app.world.waitForReady({
-    onBatchProgress: (p) => titleScreen.setProgress(0.8 + p * 0.2, "Preparing…"),
+    onCompileStart: () => titleScreen.setCompiling(true),
+    onBatchProgress: (p) => {
+      titleScreen.setCompiling(false);
+      titleScreen.setProgress(0.8 + p * 0.2, "Preparing…");
+    },
   }).then(() => {
     app.time.start(); // resume before enabling the button
     titleScreen.setReady();

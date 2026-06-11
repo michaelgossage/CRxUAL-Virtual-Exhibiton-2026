@@ -53,6 +53,11 @@ export class TitleScreen {
     this._barLabel.textContent = `${label} ${pct}%`;
   }
 
+  setCompiling(active) {
+    this._barFill.classList.toggle("ts-bar-fill--compiling", active);
+    if (active) this._barLabel.textContent = "Preparing… 80%";
+  }
+
   /**
    * Called when all THREE assets are loaded.
    * Shuffles the collected image pool and rebuilds all strips so that:

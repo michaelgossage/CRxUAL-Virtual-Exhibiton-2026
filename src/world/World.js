@@ -1719,7 +1719,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 24});
 
   // Resolves after all async loads (models, experiences, env GLBs) complete and a
   // final compileAsync pass ensures no shader is left uncompiled before user entry.
-  async waitForReady({ onBatchProgress } = {}) {
+  async waitForReady({ onBatchProgress, onCompileStart } = {}) {
     // 3-minute absolute cap — catches non-GLTF hangs (texture loaders, experience load methods)
     const loadingCap = new Promise(r => setTimeout(r, 180_000));
     await Promise.race([Promise.allSettled(this._loadingPromises), loadingCap]);
@@ -1733,6 +1733,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 24});
       if (obj.isMesh && obj.frustumCulled) { wasCulled.push(obj); obj.frustumCulled = false; }
     });
 
+    onCompileStart?.();
     const _compileTimeout = new Promise(r => setTimeout(r, 15000));
     await Promise.race([this.renderer.compileAsync(this.scene, this.camera), _compileTimeout]);
 
@@ -1744,7 +1745,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 24});
     // Upload VBOs in small batches spread across rAF frames — keeps the
     // loading-screen carousel smooth instead of one long synchronous stall.
     // Button only activates after all batches complete (waitForReady resolves last).
-    const CHUNK = 10;
+    const CHUNK = 20;
     for (let i = 0; i < wasCulled.length; i += CHUNK) {
       const end = Math.min(i + CHUNK, wasCulled.length);
       for (let j = i; j < end; j++) {
