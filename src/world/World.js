@@ -1218,7 +1218,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 24});
         console.log("Clicked screen/podium", obj);
       }
     });
-    this._registerArtwork(nailedScreen);
+    //this._registerArtwork(nailedScreen);
 
     
 
