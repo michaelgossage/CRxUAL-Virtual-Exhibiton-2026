@@ -1,4 +1,4 @@
-import { Mesh, MeshStandardMaterial, MeshPhysicalMaterial, SphereGeometry, Vector3, Raycaster, Vector2 } from "three";
+import { Mesh, MeshStandardMaterial, MeshPhysicalMaterial, SphereGeometry, Vector3, Raycaster, Vector2, TextureLoader, LinearSRGBColorSpace } from "three";
 import { makeProximityRevealMaterial, applyProximityRevealToMaterial, ProximityRevealSystem } from "../shaders/proximityRevealMaterial.js";
 import { addDefaultLights } from "./lights.js";
 import { BoxGeometry } from "three";
@@ -403,8 +403,12 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
     }).catch(console.error);
     */
 
-    const _loadEnvGLB = (url, fogColor = 0x800000) => {
-      return loadGLTFWithAnimations(url).then((gltf) => {
+    const _tLoader = new TextureLoader();
+    const _loadEnvGLB = (url, fogColor = 0x800000, opts = {}) => {
+      const lmPromise = opts.lightMapUrl
+        ? _tLoader.loadAsync(opts.lightMapUrl).then(t => { t.colorSpace = LinearSRGBColorSpace; return t; })
+        : Promise.resolve(null);
+      return Promise.all([loadGLTFWithAnimations(url), lmPromise]).then(([gltf, lmTex]) => {
         const model1 = gltf.scene;
         model1.traverse((child) => {
           if (child.isMesh) {
@@ -433,6 +437,10 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
                 metalness: 0.0,
               });
               prev.dispose();
+            }
+            if (lmTex) {
+              child.material.lightMap = lmTex;
+              child.material.lightMapIntensity = opts.lightMapIntensity ?? 1.0;
             }
             child.material.envMapIntensity = 1.0;
             child.receiveShadow = true;
@@ -1369,11 +1377,11 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
 
     //right side of bar
     this._registerArtwork(this.screenManager.addScreen({
-      url: "https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/PYTKO%20-%20Lust%20Feels%20Like%20Bad%20Luck.mp4",
+      url: "https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/PYTKO%20-%20Lust%20Feels%20Like%20Bad%20Luck_CROP.mp4",
       poster: `${baseURL}art/LustFeelsLikeBadLuck-JuliaPytko/Backwards-Artwork-1_1.jpg`,
-      width: 1.5,
-      height: 1.5,
-      position: [7.8, 23, 7.6],
+      width: 1.3,
+      height: 1.8,
+      position: [7.8, 22.7, 7.6],
       rotation: [0, -90, 0],
       clickable: true,
       offsetClick: 0.5,

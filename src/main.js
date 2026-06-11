@@ -43,14 +43,8 @@ requestAnimationFrame(() => {
     app.world.controls.autoRotate = true;
     app.world.autoplayNarration = titleScreen.autoplayNarration;
 
-    if (!titleScreen.extraInteractions) {
-      const f = app.world.proximityReveal?.features;
-      if (f) {
-        f.tapReveal = false;
-        f.edgeNoise  = false;
-        f.goldRing   = false;
-      }
-    }
+    const f = app.world.proximityReveal?.features;
+    if (f) { f.tapReveal = false; f.edgeNoise = false; f.goldRing = false; }
 
     titleScreen.hide();
   };

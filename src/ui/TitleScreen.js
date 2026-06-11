@@ -88,7 +88,6 @@ export class TitleScreen {
   set onStart(fn) { this._onStart = fn; }
 
   get autoplayNarration() { return this._toggleNarration.checked; }
-  get extraInteractions() { return this._toggleExtras.checked; }
 
   hide() {
     cancelAnimationFrame(this._carouselRaf);
@@ -130,11 +129,6 @@ export class TitleScreen {
               <span class="ts-toggle__track"></span>
               <span class="ts-toggle__label">Autoplay narration</span>
             </label>
-            <label class="ts-toggle">
-              <input type="checkbox" id="ts-toggle-extras">
-              <span class="ts-toggle__track"></span>
-              <span class="ts-toggle__label">Extra interactions</span>
-            </label>
           </div>
 
           <div class="ts-loading">
@@ -159,7 +153,6 @@ export class TitleScreen {
     this._barLabel        = root.querySelector("#ts-bar-label");
     this._startBtn        = root.querySelector("#ts-start-btn");
     this._toggleNarration = root.querySelector("#ts-toggle-narration");
-    this._toggleExtras    = root.querySelector("#ts-toggle-extras");
 
     this._startBtn.addEventListener("click", () => {
       if (!this._ready) return;
