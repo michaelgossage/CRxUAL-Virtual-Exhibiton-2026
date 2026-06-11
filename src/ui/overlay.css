@@ -486,6 +486,13 @@ canvas { width: 100%; height: 100%; display:block; }
 }
 .mobile-artwork-header__title {
   font-size: 1.45em; font-weight: 700; color: #fff; line-height: 1.3;
+  pointer-events: auto;
+}
+.mobile-artwork-header__title a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  touch-action: manipulation;
 }
 .mobile-artwork-header__artist {
   font-size: 1em; color: rgba(255, 255, 255, 0.55);

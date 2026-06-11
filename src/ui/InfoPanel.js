@@ -125,7 +125,18 @@ export class InfoPanel {
 
     // Mobile: show title/artist in top bar instead of bottom panel
     if (this._mobileHeader && window.innerWidth < 640) {
-      this._mobileHeaderTitle.textContent  = title  ?? "";
+      if (link) {
+        const a = document.createElement("a");
+        a.href = link;
+        a.textContent = title ?? "";
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.addEventListener("pointerdown", e => e.stopPropagation());
+        this._mobileHeaderTitle.innerHTML = "";
+        this._mobileHeaderTitle.appendChild(a);
+      } else {
+        this._mobileHeaderTitle.textContent = title ?? "";
+      }
       this._mobileHeaderArtist.textContent = artist ?? "";
       this._mobileHeader.classList.add("mobile-artwork-header--visible");
     }
@@ -150,7 +161,18 @@ export class InfoPanel {
     this.artistEl.textContent = artist;
     this.artistEl.style.display = artist ? "" : "none";
     if (this._mobileHeader && window.innerWidth < 640) {
-      this._mobileHeaderTitle.textContent  = title  ?? "";
+      if (link) {
+        const a = document.createElement("a");
+        a.href = link;
+        a.textContent = title ?? "";
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
+        a.addEventListener("pointerdown", e => e.stopPropagation());
+        this._mobileHeaderTitle.innerHTML = "";
+        this._mobileHeaderTitle.appendChild(a);
+      } else {
+        this._mobileHeaderTitle.textContent = title ?? "";
+      }
       this._mobileHeaderArtist.textContent = artist ?? "";
     }
   }
