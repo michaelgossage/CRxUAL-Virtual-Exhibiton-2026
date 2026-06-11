@@ -109,9 +109,21 @@ export class ScreenManager {
 
     this._texCache = new Map(); // url -> THREE.Texture
 
-    this._revealTex = this.textureLoader.load(import.meta.env.BASE_URL + "art/textures/noise_.png");
+    // 1×1 dark-grey canvas — valid placeholder for any texture while loading or on failure
+    this._fallbackCanvas = document.createElement('canvas');
+    this._fallbackCanvas.width = this._fallbackCanvas.height = 1;
+    this._fallbackCanvas.getContext('2d').fillRect(0, 0, 1, 1);
+
+    // Reveal mask starts as 1×1 white so the shader always has a valid texture,
+    // then the real radial PNG is loaded (with retry).
+    const _revealFallback = document.createElement('canvas');
+    _revealFallback.width = _revealFallback.height = 1;
+    const _rCtx = _revealFallback.getContext('2d');
+    _rCtx.fillStyle = '#ffffff'; _rCtx.fillRect(0, 0, 1, 1);
+    this._revealTex = new THREE.CanvasTexture(_revealFallback);
     this._revealTex.wrapS = this._revealTex.wrapT = THREE.ClampToEdgeWrapping;
     this._revealTex.minFilter = this._revealTex.magFilter = THREE.LinearFilter;
+    this._retryLoad(import.meta.env.BASE_URL + "art/textures/noise_.png", this._revealTex, null);
 
 
 
@@ -327,7 +339,7 @@ export class ScreenManager {
                 img.naturalWidth / img.naturalHeight, screenAspect
               );
             }
-          });
+          }, undefined, () => console.warn('[ScreenManager] Poster failed to load:', poster));
         }
       }
 
@@ -942,11 +954,36 @@ export class ScreenManager {
 
   // -------- internal helpers --------
 
+  // Loads url into texRef with up to MAX_RETRIES retries (2 s between each).
+  // On permanent failure the texture retains whatever was set before (fallback canvas).
+  _retryLoad(url, texRef, onDone, attempt = 0) {
+    const MAX = 2;
+    this.textureLoader.load(
+      url,
+      (loaded) => {
+        texRef.image = loaded.image;
+        texRef.needsUpdate = true;
+        onDone?.(texRef);
+      },
+      undefined,
+      () => {
+        if (attempt < MAX) {
+          console.warn(`[ScreenManager] Image failed, retry ${attempt + 1}/${MAX}: ${url}`);
+          setTimeout(() => this._retryLoad(url, texRef, onDone, attempt + 1), 2000);
+        } else {
+          console.warn(`[ScreenManager] Image permanently failed: ${url}`);
+        }
+      }
+    );
+  }
+
   _makeImageTexture(url, onLoad = null) {
-    const tex = this.textureLoader.load(url, onLoad);
+    // Start with a valid fallback so the shader never receives a null texture.
+    const tex = new THREE.CanvasTexture(this._fallbackCanvas);
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.minFilter = THREE.LinearFilter;
     tex.magFilter = THREE.LinearFilter;
+    this._retryLoad(url, tex, onLoad);
     return { texture: tex, video: null };
   }
 
@@ -1093,9 +1130,12 @@ export class ScreenManager {
   // simple texture cache to avoid reloading the same URL multiple times
   _getCachedTexture(url) {
     if (this._texCache.has(url)) return this._texCache.get(url);
-    const tex = this.textureLoader.load(url, (loadedTex) => {
-      if (this.renderer) this.renderer.initTexture(loadedTex);
-    });
+    const tex = this.textureLoader.load(
+      url,
+      (loadedTex) => { if (this.renderer) this.renderer.initTexture(loadedTex); },
+      undefined,
+      () => console.warn('[ScreenManager] Cached texture failed to load:', url)
+    );
     tex.colorSpace = THREE.SRGBColorSpace;
     tex.minFilter = THREE.LinearFilter;
     tex.magFilter = THREE.LinearFilter;

@@ -406,7 +406,9 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 24});
     const _tLoader = new TextureLoader();
     const _loadEnvGLB = (url, fogColor = 0x800000, opts = {}) => {
       const lmPromise = opts.lightMapUrl
-        ? _tLoader.loadAsync(opts.lightMapUrl).then(t => { t.colorSpace = LinearSRGBColorSpace; return t; })
+        ? _tLoader.loadAsync(opts.lightMapUrl)
+            .then(t => { t.colorSpace = LinearSRGBColorSpace; return t; })
+            .catch(err => { console.warn('[World] Lightmap failed to load:', opts.lightMapUrl, err); return null; })
         : Promise.resolve(null);
       return Promise.all([loadGLTFWithAnimations(url), lmPromise]).then(([gltf, lmTex]) => {
         const model1 = gltf.scene;
@@ -481,7 +483,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 24});
       background: true,
       envIntensity: 1.0,
       bgIntensity: 1.2,
-      backgroundUrl: import.meta.env.BASE_URL + "art/hdri/hilly_terrain_01_puresky_8k_02.jpg"
+      backgroundUrl: import.meta.env.BASE_URL + "art/hdri/hilly_terrain_01_puresky_8k_03.jpg"
     });
 
 
@@ -1414,6 +1416,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 24});
       clickableSize: [2.2, 1.0],
       text: "",
       plinthVisible: false,
+      plinthOffset: [0, -1.2, 0],
       location: 'EagleBar',
       exposure: 1.0,
       artworkInfo: {
@@ -1439,6 +1442,8 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 24});
     hitboxSize: [0.6, 1.4, 0.6],
     offsetClick: -0.0,
     plinthVisible: true,
+    plinthOffset: [0, -0.3, 0],
+    plinthSize: [0.35, 1.0, 0.35],
     playAnimation: "first",
     location: 'EagleBar',
   }).then((modelRoot) => {

@@ -30,51 +30,55 @@ export async function applyHDRI({
 }*/
 
 export async function applyHDRI({ renderer, scene, url, background=false, envIntensity=1.0, bgIntensity=1.0, backgroundUrl=null }) {
-  const pmrem = new THREE.PMREMGenerator(renderer);
+  try {
+    const pmrem = new THREE.PMREMGenerator(renderer);
 
-  const isHDR = /\.(hdr|exr)$/i.test(url);
-  let srcTex;
-  if (isHDR) {
-    srcTex = await new RGBELoader().loadAsync(url);
-  } else {
-    // JPEG / PNG equirectangular
-    srcTex = await new THREE.TextureLoader().loadAsync(url);
-    srcTex.mapping = THREE.EquirectangularReflectionMapping;
-    srcTex.colorSpace = THREE.SRGBColorSpace;
-    pmrem.compileEquirectangularShader();
-  }
-  
-
-  const envMap = pmrem.fromEquirectangular(srcTex).texture;
-
-  scene.environment = envMap;
-  if (background) {
-    if (backgroundUrl) {
-      const bgTex = await new THREE.TextureLoader().loadAsync(backgroundUrl);
-      bgTex.mapping = THREE.EquirectangularReflectionMapping;
-      bgTex.colorSpace = THREE.SRGBColorSpace;
-      scene.background = bgTex;
+    const isHDR = /\.(hdr|exr)$/i.test(url);
+    let srcTex;
+    if (isHDR) {
+      srcTex = await new RGBELoader().loadAsync(url);
     } else {
-      scene.background = envMap;
+      // JPEG / PNG equirectangular
+      srcTex = await new THREE.TextureLoader().loadAsync(url);
+      srcTex.mapping = THREE.EquirectangularReflectionMapping;
+      srcTex.colorSpace = THREE.SRGBColorSpace;
+      pmrem.compileEquirectangularShader();
     }
-    scene.backgroundIntensity = bgIntensity;
-  }
 
-  srcTex.dispose();
-  pmrem.dispose();
+    const envMap = pmrem.fromEquirectangular(srcTex).texture;
 
-  // r160-safe "intensity":
-  scene.traverse((o) => {
-    if (!o.isMesh) return;
-    const mats = Array.isArray(o.material) ? o.material : [o.material];
-    for (const m of mats) {
-      if (m && "envMapIntensity" in m) {
-        m.envMapIntensity = envIntensity;
-        m.needsUpdate = true;
+    scene.environment = envMap;
+    if (background) {
+      if (backgroundUrl) {
+        const bgTex = await new THREE.TextureLoader().loadAsync(backgroundUrl);
+        bgTex.mapping = THREE.EquirectangularReflectionMapping;
+        bgTex.colorSpace = THREE.SRGBColorSpace;
+        scene.background = bgTex;
+      } else {
+        scene.background = envMap;
       }
+      scene.backgroundIntensity = bgIntensity;
     }
-  });
 
-  return envMap;
+    srcTex.dispose();
+    pmrem.dispose();
+
+    // r160-safe "intensity":
+    scene.traverse((o) => {
+      if (!o.isMesh) return;
+      const mats = Array.isArray(o.material) ? o.material : [o.material];
+      for (const m of mats) {
+        if (m && "envMapIntensity" in m) {
+          m.envMapIntensity = envIntensity;
+          m.needsUpdate = true;
+        }
+      }
+    });
+
+    return envMap;
+  } catch (err) {
+    console.warn('[HDRI] Failed to load environment map:', url, err);
+    return null;
+  }
 }
 

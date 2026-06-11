@@ -280,11 +280,19 @@ export class ProximityRevealSystem {
     img.onerror = () => console.warn('[ProximityReveal] noiseTest.png not found — using hash fallback');
 
     // GPU noise — THREE.Texture sampled per-fragment in the shader (used only in 'gpu' mode)
-    this.noiseTexture = new THREE.TextureLoader().load(import.meta.env.BASE_URL + 'art/textures/noise.png');
+    this.noiseTexture = new THREE.TextureLoader().load(
+      import.meta.env.BASE_URL + 'art/textures/noise.png',
+      undefined, undefined,
+      () => console.warn('[ProximityReveal] noise.png failed to load')
+    );
     this.noiseTexture.wrapS = this.noiseTexture.wrapT = THREE.RepeatWrapping;
 
     // Gold ring normal map — world-space XZ, perturbs normals in gold areas
-    this.goldNormalTexture = new THREE.TextureLoader().load(import.meta.env.BASE_URL + 'art/textures/noisev2_nrml.png');
+    this.goldNormalTexture = new THREE.TextureLoader().load(
+      import.meta.env.BASE_URL + 'art/textures/noisev2_nrml.png',
+      undefined, undefined,
+      () => console.warn('[ProximityReveal] noisev2_nrml.png failed to load')
+    );
     this.goldNormalTexture.wrapS = this.goldNormalTexture.wrapT = THREE.RepeatWrapping;
 
     // Data3DTexture — true trilinear interpolation, no slice boundary artefacts.
