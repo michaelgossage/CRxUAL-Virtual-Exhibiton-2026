@@ -109,7 +109,7 @@ export class ScreenManager {
 
     this._texCache = new Map(); // url -> THREE.Texture
 
-    this._revealTex = this.textureLoader.load(import.meta.env.BASE_URL + "art/textures/noisev2.png");
+    this._revealTex = this.textureLoader.load(import.meta.env.BASE_URL + "art/textures/noise_.png");
     this._revealTex.wrapS = this._revealTex.wrapT = THREE.ClampToEdgeWrapping;
     this._revealTex.minFilter = this._revealTex.magFilter = THREE.LinearFilter;
 

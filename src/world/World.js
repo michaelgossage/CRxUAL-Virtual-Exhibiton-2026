@@ -307,9 +307,9 @@ export class World {
   ],
 {duration: 12.0, distanceWeighted: true}); 
 
-this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 25});
-this.setLocationRevealZone("WestPavillion", { center: [-34,0.8,-22.4],     radius: 22});
-this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
+this.setLocationRevealZone("lobby", { center: [0, 4, 0],     radius: 27});
+this.setLocationRevealZone("WestPavillion", { center: [-34,0.8,-22.4],     radius: 24});
+this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 24});
 
     // Arrow key navigation
     document.addEventListener("keydown", (e) => {
@@ -464,11 +464,11 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
     const EagleBarFurniture = _loadEnvGLB(base + "art/Building/Chancery Rosewood_Bar_FURNITURE_BAKE_V4.glb");
     const EagleBarOutsideFurniture = _loadEnvGLB(base + "art/Building/Chancery Rosewood_Bar_OutsideFURNITURE_BAKE_V4.glb");
     const EagleBarBottles = _loadEnvGLB(base + "art/Building/Chancery Rosewood_Bar_bottles_BAKE_V4.glb");
-
+    const Lighting = _loadEnvGLB(base + "art/Building/Chancery Rosewood_Lighting_BAKE_V4.glb");
     // Trigger one shadow-map render pass after all static geometry is in the scene.
     // autoUpdate is disabled in Renderer so this is the only pass for static content.
     this._loadingPromises.push(
-      Promise.allSettled([Lobby, LobbyFurniture/*, WestPavillion*/, EagleBar, PavillionFurniture, EagleBarFurniture, EagleBarOutsideFurniture]).then(() => {
+      Promise.allSettled([Lobby, LobbyFurniture/*, WestPavillion*/, EagleBar, PavillionFurniture, EagleBarFurniture, EagleBarOutsideFurniture, Lighting]).then(() => {
         this.renderer.shadowMap.needsUpdate = true;
       })
     );
@@ -568,12 +568,11 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
       url: "https://pub-866c71617b57495a9adcc2fe87aaff0e.r2.dev/film/Invocation%20of%20the%20Black%20flame_MB.mp4",
       poster: `${baseURL}art/TheNoos-SanneWinderickx/IMG_4879-final-sRGB_Ratio-HQ-landscape-fill-1_1.jpg`,
       width: 2.8,
-      height: 1.8,
+      height: 1.7,
       position: [-4.8, 23.0, 16.0],
     rotation: [0, 110, 0],
       clickable: true,
       offsetClick: 0.0,
-      text: "Video Screen",
       location: 'EagleBar',
       artworkInfo: {
         title: "The Noös-∞",
@@ -590,7 +589,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
 
     this._loadingPromises.push(this.screenManager.addModel({
       url: `${baseURL}art/TheNoos-SanneWinderickx/TheNoos_yellowHand.glb`,
-      position: [-4.3, 22.3, 18.0],
+      position: [-4.2, 22.3, 17.5],
       rotation: [0, 100, 0],
       normalizeTo: 0.8,
       clickable: false,
@@ -727,7 +726,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
       plinthVisible: true,
       plinthSize: [0.8, 1.2, 0.8],
       plinthOffset: [0, -1.2, 0],
-      materialOverride: { color: 0xFDF5E3, roughness: 0.88, metalness: 0.0, envMapIntensity: 0.4 },
+      materialOverride: { color: 0xFAECCD, roughness: 0.88, metalness: 0.0, envMapIntensity: 0.4 },
       artworkInfo: {
         title: "3D Works",
         artist: "Genevieve Carr",
@@ -740,6 +739,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
         {
           url: `${baseURL}art/Nailed_Genevieve Carr/3D/5Hole_Decimate.glb`,
           playAnimation: "first",
+          rotation: [0, 180, 0],
           
           artworkInfo: {
             title: "5 Hole",
@@ -1435,11 +1435,10 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
     rotation: [0, 90, 0],
     normalizeTo: 0.8,
     clickable: false,
-    text: "STATUE_01",
     textOffset: [0, -0.5, 0.9],
     hitboxSize: [0.6, 1.4, 0.6],
     offsetClick: -0.0,
-    plinthVisible: false,
+    plinthVisible: true,
     playAnimation: "first",
     location: 'EagleBar',
   }).then((modelRoot) => {
@@ -1559,7 +1558,7 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
     rotation: [0, -10, 0],
       clickable: true,
       offsetClick: 0.0,
-      clickableSize: [2.7, 1.5],
+      clickableSize: [2.0, 1.2],
       text: "",
       plinthVisible: false,
       location: 'EagleBar',
@@ -1577,11 +1576,10 @@ this.setLocationRevealZone("EagleBar", { center: [1,23,12.8],     radius: 22});
 
      this._loadingPromises.push(this.screenManager.addModel({
     url: `${baseURL}art/Symbion/symbionHand.glb`,
-    position: [0.8, 22.6, 5.0],
-    rotation: [0, -90, 0],
+    position: [0.85, 22.6, 5.1],
+    rotation: [0, 90, 0],
     normalizeTo: 0.8,
     clickable: false,
-    text: "",
     textOffset: [0, -0.5, 0.9],
     hitboxSize: [0.6, 1.4, 0.6],
     offsetClick: -0.0,
